@@ -50,4 +50,152 @@ class Audit
      * @Gedmo\Timestampable(on="create")
      */
     protected $createdAt;
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set auditForm
+     *
+     * @param string $auditForm
+     * @return Audit
+     */
+    public function setAuditForm($auditForm)
+    {
+        $this->auditForm = $auditForm;
+    
+        return $this;
+    }
+
+    /**
+     * Get auditForm
+     *
+     * @return string 
+     */
+    public function getAuditForm()
+    {
+        return $this->auditForm;
+    }
+
+    /**
+     * Set auditReference
+     *
+     * @param integer $auditReference
+     * @return Audit
+     */
+    public function setAuditReference($auditReference)
+    {
+        $this->auditReference = $auditReference;
+    
+        return $this;
+    }
+
+    /**
+     * Get auditReference
+     *
+     * @return integer 
+     */
+    public function getAuditReference()
+    {
+        return $this->auditReference;
+    }
+
+    /**
+     * Set auditingUser
+     *
+     * @param integer $auditingUser
+     * @return Audit
+     */
+    public function setAuditingUser($auditingUser)
+    {
+        $this->auditingUser = $auditingUser;
+    
+        return $this;
+    }
+
+    /**
+     * Get auditingUser
+     *
+     * @return integer 
+     */
+    public function getAuditingUser()
+    {
+        return $this->auditingUser;
+    }
+
+    /**
+     * Set controlUser
+     *
+     * @param integer $controlUser
+     * @return Audit
+     */
+    public function setControlUser($controlUser)
+    {
+        $this->controlUser = $controlUser;
+    
+        return $this;
+    }
+
+    /**
+     * Get controlUser
+     *
+     * @return integer 
+     */
+    public function getControlUser()
+    {
+        return $this->controlUser;
+    }
+
+    /**
+     * Set failed
+     *
+     * @param boolean $failed
+     * @return Audit
+     */
+    public function setFailed($failed)
+    {
+        $this->failed = $failed;
+    
+        return $this;
+    }
+
+    /**
+     * Get failed
+     *
+     * @return boolean 
+     */
+    public function getFailed()
+    {
+        return $this->failed;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     * @return Audit
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+    
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime 
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
 }

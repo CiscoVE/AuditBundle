@@ -14,7 +14,7 @@ class AuditFormSectionType extends AbstractType
             'mapped' => false
         ));
         $builder->add( 'title' );
-        $builder->add( 'organisation', null, array(
+        $builder->add( 'auditform', null, array(
             'empty_value' => '---',
             'required' => true,
         ));

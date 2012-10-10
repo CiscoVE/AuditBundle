@@ -28,7 +28,7 @@ class AuditScore
     protected $audit;
 
     /**
-     * @ORM\ManyToOne(targetEntity="WG\AuditBundle\Entity\AuditField")
+     * @ORM\ManyToOne(targetEntity="WG\AuditBundle\Entity\AuditFormField")
      */
     protected $field;
 
@@ -41,4 +41,106 @@ class AuditScore
      * @ORM\Column(type="string",nullable=true)
      */    
     protected $comment;
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set score
+     *
+     * @param string $score
+     * @return AuditScore
+     */
+    public function setScore($score)
+    {
+        $this->score = $score;
+    
+        return $this;
+    }
+
+    /**
+     * Get score
+     *
+     * @return string 
+     */
+    public function getScore()
+    {
+        return $this->score;
+    }
+
+    /**
+     * Set comment
+     *
+     * @param string $comment
+     * @return AuditScore
+     */
+    public function setComment($comment)
+    {
+        $this->comment = $comment;
+    
+        return $this;
+    }
+
+    /**
+     * Get comment
+     *
+     * @return string 
+     */
+    public function getComment()
+    {
+        return $this->comment;
+    }
+
+    /**
+     * Set audit
+     *
+     * @param WG\AuditBundle\Entity\Audit $audit
+     * @return AuditScore
+     */
+    public function setAudit(\WG\AuditBundle\Entity\Audit $audit = null)
+    {
+        $this->audit = $audit;
+    
+        return $this;
+    }
+
+    /**
+     * Get audit
+     *
+     * @return WG\AuditBundle\Entity\Audit 
+     */
+    public function getAudit()
+    {
+        return $this->audit;
+    }
+
+    /**
+     * Set field
+     *
+     * @param WG\AuditBundle\Entity\AuditFormField $field
+     * @return AuditScore
+     */
+    public function setField(\WG\AuditBundle\Entity\AuditFormField $field = null)
+    {
+        $this->field = $field;
+    
+        return $this;
+    }
+
+    /**
+     * Get field
+     *
+     * @return WG\AuditBundle\Entity\AuditFormField 
+     */
+    public function getField()
+    {
+        return $this->field;
+    }
 }
