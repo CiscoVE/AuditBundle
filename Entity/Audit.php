@@ -20,7 +20,8 @@ class Audit
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="WG\AuditBundle\Entity\AuditForm", name="audit_form_id")
+     * @ORM\ManyToOne(targetEntity="WG\AuditBundle\Entity\AuditForm")
+     * @ORM\Column(name="audit_form_id")
      */
     protected $auditForm;
 
