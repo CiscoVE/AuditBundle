@@ -4,9 +4,9 @@ namespace WG\AuditBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use WG\AuditBundle\Entity\AuditField;
-use WG\AuditBundle\Entity\AuditFieldScore;
-use WG\AuditBundle\Form\Type\AuditFieldType;
+use WG\AuditBundle\Entity\AuditFormField;
+use WG\AuditBundle\Entity\AuditScore;
+use WG\AuditBundle\Form\Type\AuditFormFieldType;
 
 class AuditFormFieldController extends Controller
 {
@@ -15,8 +15,8 @@ class AuditFormFieldController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
         $repo = $em->getRepository( 'WGAuditBundle:AuditFormField' );
         $fields = $repo->findAll();
-        $field = new AuditField();
-        $form = $this->createForm( new AuditFieldType(), $field );
+        $field = new AuditFormField();
+        $form = $this->createForm( new AuditFormFieldType(), $field );
         if ( null !== $values = $request->get( $form->getName() ))
         {
             $form->bind( $request );

@@ -4,8 +4,8 @@ namespace WG\AuditBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use WG\AuditBundle\Entity\AuditSection;
-use WG\AuditBundle\Form\Type\AuditSectionType;
+use WG\AuditBundle\Entity\AuditFormSection;
+use WG\AuditBundle\Form\Type\AuditFormSectionType;
 
 class AuditFormSectionController extends Controller
 {
@@ -14,8 +14,8 @@ class AuditFormSectionController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
         $repo = $em->getRepository( 'WGAuditBundle:AuditFormSection' );
         $sections = $repo->findAll();
-        $section = new AuditSection();
-        $form = $this->createForm( new AuditSectionType(), $section );
+        $section = new AuditFormSection();
+        $form = $this->createForm( new AuditFormSectionType(), $section );
         if ( null !== $request->get( $form->getName() ) )
         {
             $form->bind( $request );
