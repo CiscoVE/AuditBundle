@@ -1,4 +1,4 @@
-{% extends '::base.html.twig' %}
+{% extends 'WGAuditBundle::base.html.twig' %}
 
 {% block body %}
 
@@ -35,9 +35,9 @@
             {{ form_widget(form.title) }}
             {{ form_errors(form.title) }}
 
-            {{ form_label(form.organisation) }}
-            {{ form_widget(form.organisation) }}
-            {{ form_errors(form.organisation) }}
+            {{ form_label(form.auditform) }}
+            {{ form_widget(form.auditform) }}
+            {{ form_errors(form.auditform) }}
 
             {{ form_rest(form) }}
 

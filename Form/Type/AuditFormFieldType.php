@@ -12,7 +12,7 @@ class AuditFormFieldType extends AbstractType
     {
         $builder->add( 'id', 'hidden' );
         $builder->add( 'section', null, array(
-            'empty_value' => '---',
+            'empty_data' => '---',
             'required' => true,
         ));
         $builder->add( 'title' );

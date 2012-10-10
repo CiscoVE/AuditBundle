@@ -15,7 +15,7 @@ class AuditFormSectionType extends AbstractType
         ));
         $builder->add( 'title' );
         $builder->add( 'auditform', null, array(
-            'empty_value' => '---',
+            'empty_data' => '---',
             'required' => true,
         ));
     }
