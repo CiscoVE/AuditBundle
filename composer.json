@@ -1,0 +1,22 @@
+{
+    "name": "writtengames/audit-bundle",
+    "type": "symfony-bundle",
+    "description": "Symfony 2 bundle for auditing",
+    "keywords": ["audit", "audits", "auditing"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Moritz Kraft",
+            "email": "mo@writtengames.com",
+            "homepage": "www.writtengames.com"
+        },
+        {
+            "name": "Thomas Roche",
+            "email": "touristtam@gmail.com",
+        }
+    ],
+    "autoload": {
+        "psr-0": { "WG\\AuditBundle": "" }
+    },
+    "target-dir": "WG/AuditBundle"
+}
