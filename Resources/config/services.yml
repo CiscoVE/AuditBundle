@@ -1,0 +1,7 @@
+parameters:
+#    wg.audit.example.class: WG\AuditBundle\Example
+
+services:
+#    wg.audit.example:
+#        class: %wg.audit.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

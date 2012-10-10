@@ -1,0 +1,49 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+
+    <h2>Existing Sections:</h2>
+
+    <table class="data">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>organisation</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for section in sections %}
+                <tr>
+                    <td>{{ section.title }}</td>
+                    <td>{{ section.organisation }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">no sections yet</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>        
+        
+        
+    <form method="POST" action="">
+
+        Add new section:
+
+        <div class="row input">
+            {{ form_label(form.title) }}
+            {{ form_widget(form.title) }}
+            {{ form_errors(form.title) }}
+
+            {{ form_label(form.organisation) }}
+            {{ form_widget(form.organisation) }}
+            {{ form_errors(form.organisation) }}
+
+            {{ form_rest(form) }}
+
+            <input type="submit" value="save" class="formbutton save" />
+        </div>
+    
+    </form>
+
+{% endblock %}

@@ -3,7 +3,7 @@
     "type": "symfony-bundle",
     "description": "Symfony 2 bundle for auditing",
     "keywords": ["audit", "audits", "auditing"],
-    "license": "MIT",
+    "license": "WTFPL",
     "authors": [
         {
             "name": "Moritz Kraft",
@@ -15,6 +15,9 @@
             "email": "touristtam@gmail.com"
         }
     ],
+    "require": {
+        "stof/doctrine-extensions-bundle": "dev-master"
+    },
     "autoload": {
         "psr-0": { "WG\\AuditBundle": "" }
     },

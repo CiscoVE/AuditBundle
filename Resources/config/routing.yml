@@ -1,0 +1,8 @@
+
+auditformsections:
+    pattern:  /sections
+    defaults: {_controller: WGAuditBundle:AuditFormSection:index}
+
+auditformfields:
+    pattern:  /fields
+    defaults: {_controller: WGAuditBundle:AuditFormField:index}

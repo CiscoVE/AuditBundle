@@ -1,0 +1,87 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+
+    <h2>Existing Fields:</h2>
+
+    <table class="data">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Section</th>
+                <th>Weight</th>
+                <th>description</th>
+                <th>Scores</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for field in fields %}
+                <tr>
+                    <td>{{ field.title }}</td>
+                    <td>{{ field.section }}</td>
+                    <td>{{ field.weight }}</td>
+                    <td>{{ field.description }}
+                        {% for score, label in field.labels %}
+                            <div>
+                                {{ score }}: {{ label }}
+                            </div>
+                        {% else %}
+                            <div>No scores defined</div>
+                        {% endfor %}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">no sections yet</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+        
+    <form method="POST" action="">
+
+        <h2>Add new section:</h2>
+
+        <div class="row input">
+            {{ form_label(form.title) }}
+            {{ form_widget(form.title) }}
+            {{ form_errors(form.title) }}
+
+            {{ form_label(form.section) }}
+            {{ form_widget(form.section) }}
+            {{ form_errors(form.section) }}
+
+            {{ form_label(form.weight) }}
+            {{ form_widget(form.weight) }}
+            {{ form_errors(form.weight) }}
+        </div>
+        <div class="row input">
+            {{ form_label(form.description) }}
+            {{ form_widget(form.description) }}
+            {{ form_errors(form.description) }}
+        </div>
+        <div class="row input">
+            {{ form_label(form.answer_yes) }}
+            {{ form_widget(form.answer_yes) }}
+            {{ form_errors(form.answer_yes) }}
+
+            {{ form_label(form.answer_no) }}
+            {{ form_widget(form.answer_no) }}
+            {{ form_errors(form.answer_no) }}
+
+            {{ form_label(form.answer_acceptable, 'Acceptable') }}
+            {{ form_widget(form.answer_acceptable) }}
+            {{ form_errors(form.answer_acceptable) }}
+
+            {{ form_label(form.answer_not_applicable, 'N/A') }}
+            {{ form_widget(form.answer_not_applicable) }}
+            {{ form_errors(form.answer_not_applicable) }}
+        </div>
+        <div class="row submit">
+            {{ form_rest(form) }}
+            <input type="submit" value="save" class="formbutton save" />
+        </div>
+    
+    </form>
+
+{% endblock %}

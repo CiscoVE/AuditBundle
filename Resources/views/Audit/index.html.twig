@@ -1,0 +1,40 @@
+
+{% extends '::base.html.twig' %}
+
+{% block body %}
+
+    <p> Case #: {{ audit.salesForceCase }}</p>
+    <p> Engineer: {{ audit.auditor }}</p>
+
+    <table>
+        <tr></tr>
+    </table>
+
+    <table>
+        <tr>
+            <th>Id</th>
+            <th>Question</th>
+            <th>Category</th>
+            <th></th>
+            <th></th>
+            <th>Answer</th>
+        </tr>
+        {% for question in questions %}
+        <tr>
+            <td>{{ question.id }}</td>
+            <td>{{ question.question }}</td>
+            <td>{{ question.category }}</td>
+            <td>[ <a href="{{ path( 'question_delete', { 'id': question.id } ) }}">delete</a> ]</td>
+            <td>[ <a href="{{ path( 'question_edit', { 'id': question.id } ) }}">edit</a> ]</td>
+            <td>[ <a href="{{ path( 'question_view', { 'id': question.id } ) }}">view</a> ]</td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="6">
+                <p>Nothin yet dude</p>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}
