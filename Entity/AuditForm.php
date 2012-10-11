@@ -39,6 +39,11 @@ class AuditForm
      */
     protected $createdAt;
 
+    public function __construct()
+    {
+        $this->active = true;
+    }
+    
     /**
      * Get id
      *

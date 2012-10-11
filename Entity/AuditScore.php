@@ -23,12 +23,12 @@ class AuditScore
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="WG\AuditBundle\Entity\Audit")
+     * @ORM\ManyToOne(targetEntity="Audit")
      */
     protected $audit;
 
     /**
-     * @ORM\ManyToOne(targetEntity="WG\AuditBundle\Entity\AuditFormField")
+     * @ORM\ManyToOne(targetEntity="AuditFormField")
      */
     protected $field;
 

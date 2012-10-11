@@ -37,7 +37,7 @@ class AuditFormFieldController extends Controller
                 }
                 $em->persist( $field );
                 $em->flush();
-                return $this->redirect( $this->generateUrl( 'auditfields' ) );
+                return $this->redirect( $this->generateUrl( 'auditformfields' ) );
             }
         }
         return $this->render( 'WGAuditBundle:AuditFormField:index.html.twig', array(

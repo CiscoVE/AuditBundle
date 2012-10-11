@@ -20,9 +20,9 @@ class AuditFormSection
 
     /**
      * @ORM\ManyToOne(targetEntity="WG\AuditBundle\Entity\AuditForm")
-     * @ORM\Column(name="audit_form_id")
+     * @ORM\JoinColumn(name="audit_form_id",referencedColumnName="id")
      */
-    protected $auditForm;
+    protected $auditform;
 
     /**
      * @ORM\Column(type="string")
@@ -51,26 +51,26 @@ class AuditFormSection
     }
 
     /**
-     * Set auditForm
+     * Set auditform
      *
-     * @param string $auditForm
+     * @param string $auditform
      * @return AuditFormSection
      */
-    public function setAuditForm($auditForm)
+    public function setAuditform($auditform)
     {
-        $this->auditForm = $auditForm;
+        $this->auditform = $auditform;
     
         return $this;
     }
 
     /**
-     * Get auditForm
+     * Get auditform
      *
      * @return string 
      */
-    public function getAuditForm()
+    public function getAuditform()
     {
-        return $this->auditForm;
+        return $this->auditform;
     }
 
     /**

@@ -19,7 +19,7 @@ class AuditFormField
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="WG\AuditBundle\Entity\AuditFormSection")
+     * @ORM\ManyToOne(targetEntity="AuditFormSection")
      */
     protected $section;
 

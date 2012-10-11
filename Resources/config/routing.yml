@@ -6,3 +6,7 @@ auditformsections:
 auditformfields:
     pattern:  /fields
     defaults: {_controller: WGAuditBundle:AuditFormField:index}
+    
+auditforms:
+    pattern:  /forms
+    defaults: {_controller: WGAuditBundle:AuditForm:index}

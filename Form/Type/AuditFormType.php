@@ -6,30 +6,32 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class AuditFormSectionType extends AbstractType
+class AuditFormType extends AbstractType
 {
+
+    public function getName()
+    {
+        return 'form';
+    }
+
     public function buildForm( FormBuilderInterface $builder, array $options )
     {
         $builder->add( 'id', 'hidden', array(
             'mapped' => false
-        ));
+        ) );
         $builder->add( 'title' );
-        $builder->add( 'auditform', null, array(
-            'empty_data' => '---',
-            'required' => true,
-            'label' => 'Audit',
-        ));        
-    }
-
-    public function getName()
-    {
-        return 'section';
+        $builder->add( 'description', 'textarea' );
+        $builder->add( 'active', 'checkbox', array(
+            'label' => 'Is the form active?',
+            'required' => false,
+        ) );
     }
 
     public function setDefaultOptions( OptionsResolverInterface $resolver )
     {
         $resolver->setDefaults( array(
-            'data_class' => 'WG\AuditBundle\Entity\AuditFormSection',
-        ));
+            'data_class' => 'WG\AuditBundle\Entity\AuditForm',
+        ) );
     }
+
 }

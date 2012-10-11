@@ -11,4 +11,3 @@ class AuditController extends Controller
     {
     }
 }
-
