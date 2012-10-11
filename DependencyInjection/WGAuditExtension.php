@@ -18,19 +18,11 @@ class WGAuditExtension extends Extension
         $fileLocator = new FileLocator( __DIR__ . '/../Resources/config' );
         $loader = new Loader\YamlFileLoader( $container, $fileLocator );
         $loader->load( 'services.yml' );
-        /*
         // Set parameters
-        $defDir = $config['default_directory'];
-        if ( !isset( $config['directories'][$defDir] ) )
-        {
-            throw new \InvalidArgumentException( 'WGLdapBundle says "Configured default directory is not defined."' );
-        }
-        if ( count( $config['directories'][$defDir]['servers'] ) < 1 )
-        {
-            throw new \InvalidArgumentException( 'WGLdapBundle says "At least one directory server must be defined."' );
-        }
-        $container->setParameter( 'wg.ldap.default_directory', $config['default_directory'] );
-        $container->setParameter( 'wg.ldap.directories', $config['directories'] );
-        */
+        $container->setParameter( 'wg.audit.control_user', $config['control_user'] );
+        $container->setParameter( 'wg.audit.user.class', $config['user']['class'] );
+        $container->setParameter( 'wg.audit.user.property', $config['user']['property'] );
+        $container->setParameter( 'wg.audit.audit_reference.class', $config['audit_reference']['class'] );
+        $container->setParameter( 'wg.audit.audit_reference.property', $config['audit_reference']['property'] );
     }
 }
