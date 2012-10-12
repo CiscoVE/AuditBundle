@@ -25,7 +25,6 @@ class AuditFormFieldController extends Controller
 
     public function editAction( Request $request )
     {
-        $request->getSession()->getFlashBag()->add( 'fieldId', $request->get( 'id' ) );
         $em = $this->getDoctrine()->getEntityManager();
         $repo = $em->getRepository( 'WGAuditBundle:AuditFormField' );
 
@@ -75,7 +74,6 @@ class AuditFormFieldController extends Controller
 
     public function viewAction( Request $request )
     {
-        $request->getSession()->getFlashBag()->add( 'fieldId', $request->get( 'id' ) );
         $em = $this->getDoctrine()->getEntityManager();
         $repo = $em->getRepository( 'WGAuditBundle:AuditFormField' );
         $field = $repo->find( $request->get( 'id' ) );

@@ -10,6 +10,7 @@ class AuditFormFieldType extends AbstractType
 {
     public function buildForm( FormBuilderInterface $builder, array $options )
     {
+        $scores = $options['data']->getScores();
         $builder->add( 'id', 'hidden', array( 'mapped' => false ));
         $builder->add( 'section', null, array(
             'empty_data' => '---',
@@ -21,18 +22,22 @@ class AuditFormFieldType extends AbstractType
         $builder->add( 'answer_yes', 'textarea', array(
             'mapped' => false,
             'required' => false,
+            'data' => $scores['Y'],
         ));
         $builder->add( 'answer_no', 'textarea', array(
             'mapped' => false,
             'required' => false,
+            'data' => $scores['N'],
         ));
         $builder->add( 'answer_acceptable', 'textarea', array(
             'mapped' => false,
             'required' => false,
+            'data' => $scores['A'],
         ));
         $builder->add( 'answer_not_applicable', 'textarea', array(
             'mapped' => false,
             'required' => false,
+            'data' => $scores['N/A'],
         ));
         $builder->add( 'fatal', 'checkbox', array(
             'label' => 'Is the error fatal?',
