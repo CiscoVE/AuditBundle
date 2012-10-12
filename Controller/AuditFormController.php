@@ -23,7 +23,7 @@ class AuditFormController extends Controller
             {
                 $em->persist( $newform );
                 $em->flush();
-                return $this->redirect( $this->generateUrl( 'auditforms' ));
+                return $this->redirect( $this->generateUrl( 'wgauditforms' ));
             }
         }
         return $this->render( 'WGAuditBundle:AuditForm:index.html.twig', array(

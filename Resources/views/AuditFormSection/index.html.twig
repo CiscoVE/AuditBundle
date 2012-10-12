@@ -8,14 +8,16 @@
         <thead>
             <tr>
                 <th>Title</th>
-                <th>organisation</th>
+                <th>AuditForm</th>
+                <td>Description</td>
             </tr>
         </thead>
         <tbody>
             {% for section in sections %}
                 <tr>
                     <td>{{ section.title }}</td>
-                    <td>{{ section.organisation }}</td>
+                    <td>{{ section.auditform }}</td>
+                    <td>{{ section.description }}</td>
                 </tr>
             {% else %}
                 <tr>
@@ -39,6 +41,10 @@
             {{ form_widget(form.auditform) }}
             {{ form_errors(form.auditform) }}
 
+            {{ form_label(form.description) }}
+            {{ form_widget(form.description) }}
+            {{ form_errors(form.description) }}    
+                
             {{ form_rest(form) }}
 
             <input type="submit" value="save" class="formbutton save" />

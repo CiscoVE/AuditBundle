@@ -141,4 +141,9 @@ class AuditFormSection
     {
         return $this->position;
     }
+    
+    public function __toString()
+    {
+        return $this->title;
+    }
 }

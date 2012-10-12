@@ -1,0 +1,28 @@
+{% extends 'WGAuditBundle::base.html.twig' %}
+
+{% block body %}
+
+    <p> Case #: {{ audit.auditReference }}</p>
+    <p> Engineer: {{ audit.auditingUser }}</p>
+    <p> Manager: {{ audit.controlUser }}</p>
+
+
+    <table>
+        <tr>
+            <th>Field number</th>
+            <th>Section Name</th>
+            <th>Score</th>
+            <th>Weight</th>
+            <th>Reviewer's Comment</th>
+        </tr>
+    </table>
+
+    <table>
+        <tr>
+            <td colspan="6">
+                <p>Nothin yet dude</p>
+            </td>
+        </tr>
+    </table>
+
+{% endblock %}

@@ -10,13 +10,14 @@ class AuditFormFieldType extends AbstractType
 {
     public function buildForm( FormBuilderInterface $builder, array $options )
     {
-        $builder->add( 'id', 'hidden' );
+        $builder->add( 'id', 'hidden', array( 'mapped' => false ));
         $builder->add( 'section', null, array(
             'empty_data' => '---',
             'required' => true,
         ));
         $builder->add( 'title' );
-        $builder->add( 'description' );
+        $builder->add( 'description', 'textarea' );
+        $builder->add( 'weight', 'integer' );
         $builder->add( 'answer_yes', 'textarea', array(
             'mapped' => false,
             'required' => false,
@@ -33,7 +34,10 @@ class AuditFormFieldType extends AbstractType
             'mapped' => false,
             'required' => false,
         ));
-        $builder->add( 'weight', 'integer' );
+        $builder->add( 'fatal', 'checkbox', array(
+            'label' => 'Is the error fatal?',
+            'required' => false,
+        ));
     }
 
     public function getName()

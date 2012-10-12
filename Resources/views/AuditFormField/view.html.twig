@@ -1,0 +1,44 @@
+{% extends 'WGAuditBundle::base.html.twig' %}
+
+{% block body %}
+
+    <h2>Existing Fields:</h2>
+
+    <table class="data">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Section</th>
+                <th>Weight</th>
+                <th>description</th>
+                <th>Scores</th>
+                <th>What's in the scores ???</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ field.title }}</td>
+                <td>{{ field.section }}</td>
+                <td>{{ field.weight }}</td>
+                <td>{{ field.description }}</td>
+                <td>{% for score, label in field.scores %}
+                        <div>
+                            {{ score }}: {{ label }}
+                        </div>
+                    {% else %}
+                        <div>No scores defined</div>
+                    {% endfor %}
+                </td>
+                <td>
+                        {% if field.scores == null %}
+                            you suck bawls
+                        {%else%}
+                            {{field.scores}}
+                        {%endif%}
+                
+                </td>
+            </tr>
+        </tbody>
+    </table>
+        
+{% endblock %}

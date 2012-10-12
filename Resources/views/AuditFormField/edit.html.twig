@@ -1,0 +1,53 @@
+{% extends 'WGAuditBundle::base.html.twig' %}
+
+{% block body %}
+
+    <h2>Editing Field:</h2>
+
+    <form method="POST" action="">
+
+        <h2>Add new section:</h2>
+
+        <div class="row input">
+            {{ form_label(form.title) }}
+            {{ form_widget(form.title) }}
+            {{ form_errors(form.title) }}
+
+            {{ form_label(form.section) }}
+            {{ form_widget(form.section) }}
+            {{ form_errors(form.section) }}
+
+            {{ form_label(form.weight) }}
+            {{ form_widget(form.weight) }}
+            {{ form_errors(form.weight) }}
+        </div>
+        <div class="row input">
+            {{ form_label(form.description) }}
+            {{ form_widget(form.description) }}
+            {{ form_errors(form.description) }}
+        </div>
+        <div class="row input">
+            {{ form_label(form.answer_yes) }}
+            {{ form_widget(form.answer_yes) }}
+            {{ form_errors(form.answer_yes) }}
+
+            {{ form_label(form.answer_no) }}
+            {{ form_widget(form.answer_no) }}
+            {{ form_errors(form.answer_no) }}
+
+            {{ form_label(form.answer_acceptable, 'Acceptable') }}
+            {{ form_widget(form.answer_acceptable) }}
+            {{ form_errors(form.answer_acceptable) }}
+
+            {{ form_label(form.answer_not_applicable, 'N/A') }}
+            {{ form_widget(form.answer_not_applicable) }}
+            {{ form_errors(form.answer_not_applicable) }}
+        </div>
+        <div class="row submit">
+            {{ form_rest(form) }}
+            <input type="submit" value="save" class="formbutton save" />
+        </div>
+    
+    </form>
+
+{% endblock %}

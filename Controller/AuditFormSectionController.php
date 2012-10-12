@@ -23,7 +23,7 @@ class AuditFormSectionController extends Controller
             {
                 $em->persist( $section );
                 $em->flush();
-                return $this->redirect( $this->generateUrl( 'auditformsections' ));
+                return $this->redirect( $this->generateUrl( 'wgauditformsections' ));
             }
         }
         return $this->render( 'WGAuditBundle:AuditFormSection:index.html.twig', array(

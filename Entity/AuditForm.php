@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class AuditForm
 {
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -43,7 +44,7 @@ class AuditForm
     {
         $this->active = true;
     }
-    
+
     /**
      * Get id
      *
@@ -60,10 +61,10 @@ class AuditForm
      * @param string $title
      * @return AuditForm
      */
-    public function setTitle($title)
+    public function setTitle( $title )
     {
         $this->title = $title;
-    
+
         return $this;
     }
 
@@ -83,10 +84,10 @@ class AuditForm
      * @param string $description
      * @return AuditForm
      */
-    public function setDescription($description)
+    public function setDescription( $description )
     {
         $this->description = $description;
-    
+
         return $this;
     }
 
@@ -106,10 +107,10 @@ class AuditForm
      * @param boolean $active
      * @return AuditForm
      */
-    public function setActive($active)
+    public function setActive( $active )
     {
         $this->active = $active;
-    
+
         return $this;
     }
 
@@ -129,10 +130,10 @@ class AuditForm
      * @param \DateTime $createdAt
      * @return AuditForm
      */
-    public function setCreatedAt($createdAt)
+    public function setCreatedAt( $createdAt )
     {
         $this->createdAt = $createdAt;
-    
+
         return $this;
     }
 
@@ -144,5 +145,10 @@ class AuditForm
     public function getCreatedAt()
     {
         return $this->createdAt;
+    }
+
+    public function __toString()
+    {
+        return $this->title;
     }
 }

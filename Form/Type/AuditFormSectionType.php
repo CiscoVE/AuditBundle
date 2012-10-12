@@ -18,7 +18,8 @@ class AuditFormSectionType extends AbstractType
             'empty_data' => '---',
             'required' => true,
             'label' => 'Audit',
-        ));        
+        ));      
+        $builder->add('description');
     }
 
     public function getName()

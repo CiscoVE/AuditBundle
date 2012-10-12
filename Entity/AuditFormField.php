@@ -122,7 +122,21 @@ class AuditFormField
     
         return $this;
     }
+    
+    /**
+     * Add score and its label
+     *
+     * @param string $score
+     * @param string $label
+     * @return AuditField
+     */
+    public function addScore( $score, $label )
+    {
+        $this->scores[$score] = $label;
 
+        return $this;
+    }
+    
     /**
      * Get scores
      *
