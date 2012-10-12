@@ -4,6 +4,7 @@ namespace WG\AuditBundle\Entity;
 
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="WG\AuditBundle\Entity\Repository\AuditFormSectionRepository")
@@ -30,7 +31,7 @@ class AuditFormSection
     protected $title;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $description;
 
@@ -39,6 +40,16 @@ class AuditFormSection
      * @ORM\Column(name="position",type="integer")
      */
     protected $position;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="WG\AuditBundle\Entity\AuditFormField", mappedBy="section")
+     */
+    protected $fields;
+    
+    public function __construct()
+    {
+        $this->fields = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -142,8 +153,37 @@ class AuditFormSection
         return $this->position;
     }
     
+    public function getFields()
+    {
+        return $this->fields;
+    }
+
+    /**
+     * Add a field
+     *
+     * @param WG\AuditBundle\Entity\AuditFormField $field
+     * @return AuditFormSection
+     */
+    public function addField(AuditFormField $field)
+    {
+        $field->setSection( $this );
+        $this->fields[] = $field;
+    
+        return $this;
+    }
+
+    /**
+     * Remove fields
+     *
+     * @param WG\AuditBundle\Entity\AuditFormField $fields
+     */
+    public function removeField(AuditFormField $fields)
+    {
+        $this->fields->removeElement($fields);
+    }
+
     public function __toString()
     {
         return $this->title;
-    }
+    }    
 }

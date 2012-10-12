@@ -14,9 +14,7 @@ class AuditFormFieldController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
         $repo = $em->getRepository( 'WGAuditBundle:AuditFormField' );
         $fields = $repo->findAll();
-        $field = new AuditFormField();
         return $this->render( 'WGAuditBundle:AuditFormField:index.html.twig', array(
-            'field' => $field,
             'fields' => $fields,
         ));
     }

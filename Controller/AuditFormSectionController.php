@@ -14,9 +14,7 @@ class AuditFormSectionController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
         $repo = $em->getRepository( 'WGAuditBundle:AuditFormSection' );
         $sections = $repo->findAll();
-        $section = new AuditFormSection();
         return $this->render( 'WGAuditBundle:AuditFormSection:index.html.twig', array(
-            'section' => $section,
             'sections' => $sections,
         ));
     }
@@ -52,8 +50,8 @@ class AuditFormSectionController extends Controller
     public function viewAction( Request $request )
     {
         $em = $this->getDoctrine()->getEntityManager();
-        $repo = $em->getRepository( 'WGAuditBundle:AuditFormSection' );
-        if ( null === $section = $repo->find( $request->get( 'id' ) ))
+        $sectionRepo = $em->getRepository( 'WGAuditBundle:AuditFormSection' );
+        if ( null === $section = $sectionRepo->find( $request->get( 'id' ) ))
         {
             throw $this->createNotFoundException( 'Field does not exist' );
         }

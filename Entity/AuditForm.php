@@ -4,6 +4,7 @@ namespace WG\AuditBundle\Entity;
 
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity
@@ -40,9 +41,16 @@ class AuditForm
      */
     protected $createdAt;
 
+    /**
+     *
+     * @ORM\OneToMany(targetEntity="WG\AuditBundle\Entity\AuditFormSection", mappedBy="auditform")
+     */
+    protected $sections;
+
     public function __construct()
     {
         $this->active = true;
+        $this->sections = new ArrayCollection();
     }
 
     /**
@@ -150,5 +158,39 @@ class AuditForm
     public function __toString()
     {
         return $this->title;
+    }
+
+    /**
+     * Add a section
+     *
+     * @param WG\AuditBundle\Entity\AuditFormSection $section
+     * @return AuditForm
+     */
+    public function addSection(AuditFormSection $section)
+    {
+        $section->setAuditform( $this );
+        $this->sections[] = $section;
+    
+        return $this;
+    }
+
+    /**
+     * Remove sections
+     *
+     * @param WG\AuditBundle\Entity\AuditFormSection $sections
+     */
+    public function removeSection(AuditFormSection $sections)
+    {
+        $this->sections->removeElement($sections);
+    }
+
+    /**
+     * Get sections
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getSections()
+    {
+        return $this->sections;
     }
 }

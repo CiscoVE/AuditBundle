@@ -2,23 +2,47 @@
 
 {% block body %}
 
-    <h2>Section:</h2>
+    <h2>Section: {{ section.title }}</h2>
+    <div>Form: {{ section.auditform }}</div>
+    <div>Description: {{ section.description }}</div>
 
-    <table class="data">
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Form</th>
-                <th>description</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>{{ section.title }}</td>
-                <td>{{ section.auditform }}</td>
-                <td>{{ section.description }}</td>
-            </tr>
-        </tbody>
-    </table>
-        
+        <table class="data">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Section</th>
+                    <th>Weight</th>
+                    <th>description</th>
+                    <th>Scores</th>
+                    <th>Fatal</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for field in section.fields %}
+                <tr>
+                    <td>{{ field.title }}</td>
+                    <td>{{ field.section }}</td>
+                    <td>{{ field.weight }}</td>
+                    <td>{{ field.description }}</td>
+                    <td>{% for score, label in field.scores %}
+                            <div>
+                                {{ score }}: {{ label }}
+                            </div>
+                        {% else %}
+                            <div>No scores defined</div>
+                        {% endfor %}
+                    </td>
+                    <td>{% if field.fatal == 1 %}
+                            <div>Yes</div>
+                        {% else %}
+                            <div>No</div>                        
+                        {% endif %}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>no fields assigned yet</tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
 {% endblock %}
