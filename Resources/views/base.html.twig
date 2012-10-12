@@ -7,6 +7,12 @@
     <title>{% block title %}Audit Bundle{% endblock %}</title>
     {% block favicon %}
     {% endblock %}
+    {% block subnavigation %}
+    <a href="{{ path( 'wgaudits' ) }}">view audit list</a>
+    <a href="{{ path( 'wgauditforms' ) }}">view form list</a>
+    <a href="{{ path( 'wgauditformsections' ) }}">view section list</a>
+    <a href="{{ path( 'wgauditformfields' ) }}">view field list</a>
+    {% endblock %}
     {% block stylesheets %}
     {% endblock %}
     {% block conditionals %}

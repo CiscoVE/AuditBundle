@@ -9,7 +9,6 @@ use WG\AuditBundle\Form\Type\AuditFormFieldType;
 
 class AuditFormFieldController extends Controller
 {
-
     public function indexAction()
     {
         $em = $this->getDoctrine()->getEntityManager();
@@ -24,22 +23,29 @@ class AuditFormFieldController extends Controller
 
     public function editAction( Request $request )
     {
+        $edit = false;
         $em = $this->getDoctrine()->getEntityManager();
         $repo = $em->getRepository( 'WGAuditBundle:AuditFormField' );
-        $field = $repo->find( $request->get( 'id' )) ?: new AuditFormField();
-        $form = $this->createForm( new AuditFormFieldType(), $field );
+        $field = new AuditFormField();
+        if ( $request->get( 'id' ) )
+        {
+            $edit = true;
+            $field = $repo->find( $request->get( 'id' ));
+        }
+        $form = $this->createForm( new AuditFormFieldType(), $field);
         if ( null !== $values = $request->get( $form->getName() ))
         {
             $form->bind( $request );
             if ( $form->isValid() )
             {
-                AuditFormFieldType::mapScores($field, $values );
+                AuditFormFieldType::mapScores( $field, $values );
                 $em->persist( $field );
                 $em->flush();
                 return $this->redirect( $this->generateUrl( 'wgauditformfields' ));
             }
         }
         return $this->render( 'WGAuditBundle:AuditFormField:edit.html.twig', array(
+            'edit' => $edit,
             'form' => $form->createView(),
         ));
     }
@@ -48,7 +54,7 @@ class AuditFormFieldController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
         $repo = $em->getRepository( 'WGAuditBundle:AuditFormField' );
-        if ( null === $field = $repo->find( $request->get( 'id' )))
+        if ( null === $field = $repo->find( $request->get( 'id' ) ))
         {
             throw $this->createNotFoundException( 'Field does not exist' );
         }
@@ -61,14 +67,13 @@ class AuditFormFieldController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
         $repo = $em->getRepository( 'WGAuditBundle:AuditFormField' );
-        if ( null !== $field = $repo->find( $request->get( 'id' )))
+        if ( null !== $field = $repo->find( $request->get( 'id' ) ))
         {
             $em->remove( $field );
             $em->flush();
             return $this->redirect( $this->generateUrl( 'wgauditformfields' ));
         }
         throw $this->createNotFoundException( 'Field does not exist' );
-        
     }
 
 }

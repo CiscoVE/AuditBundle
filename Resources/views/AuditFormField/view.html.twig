@@ -2,7 +2,7 @@
 
 {% block body %}
 
-    <h2>Existing Fields:</h2>
+    <h2>Field:</h2>
 
     <table class="data">
         <thead>
@@ -12,7 +12,6 @@
                 <th>Weight</th>
                 <th>description</th>
                 <th>Scores</th>
-                <th>What's in the scores ???</th>
             </tr>
         </thead>
         <tbody>
@@ -28,14 +27,6 @@
                     {% else %}
                         <div>No scores defined</div>
                     {% endfor %}
-                </td>
-                <td>
-                        {% if field.scores == null %}
-                            you suck bawls
-                        {%else%}
-                            {{field.scores}}
-                        {%endif%}
-                
                 </td>
             </tr>
         </tbody>

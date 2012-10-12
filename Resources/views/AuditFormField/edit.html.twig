@@ -6,8 +6,11 @@
 
     <form method="POST" action="">
 
-        <h2>Add new section:</h2>
-
+        {% if edit == true %}
+            <h2>Edit existing field:</h2>
+        {% else %}
+            <h2>Add new field:</h2>
+        {% endif %}
         <div class="row input">
             {{ form_label(form.title) }}
             {{ form_widget(form.title) }}

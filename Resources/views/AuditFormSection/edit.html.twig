@@ -1,0 +1,31 @@
+{% extends 'WGAuditBundle::base.html.twig' %}
+
+{% block body %}
+
+    <h2>Existing Sections:</h2>
+
+    <form method="POST" action="">
+
+        Add new section:
+
+        <div class="row input">
+            {{ form_label(form.title) }}
+            {{ form_widget(form.title) }}
+            {{ form_errors(form.title) }}
+
+            {{ form_label(form.auditform) }}
+            {{ form_widget(form.auditform) }}
+            {{ form_errors(form.auditform) }}
+
+            {{ form_label(form.description) }}
+            {{ form_widget(form.description) }}
+            {{ form_errors(form.description) }}    
+                
+            {{ form_rest(form) }}
+
+            <input type="submit" value="save" class="formbutton save" />
+        </div>
+    
+    </form>
+
+{% endblock %}

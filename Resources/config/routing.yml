@@ -1,7 +1,39 @@
+# audit path
+wgaudit:
+    pattern:  /audit/$id
+    defaults: {_controller: WGAuditBundle:Audit:view}
+    
+wgaudits:
+    pattern:  /audits
+    defaults: {_controller: WGAuditBundle:Audit:index}
+    
+# audit forms path    
+wgauditforms:
+    pattern:  /forms
+    defaults: {_controller: WGAuditBundle:AuditForm:index}
+    
+# audit form sections path    
+wgauditformsection_edit:
+    pattern:  /section/{id}/edit
+    defaults: {_controller: WGAuditBundle:AuditFormSection:edit}
+    
+wgauditformsection_remove:
+    pattern:  /section/{id}/remove
+    defaults: {_controller: WGAuditBundle:AuditFormSection:remove}    
 
+wgauditformsection_view:
+    pattern:  /section/{id}
+    defaults: {_controller: WGAuditBundle:AuditFormSection:view}
+    
+wgauditformsection_add:
+    pattern:  /section
+    defaults: {_controller: WGAuditBundle:AuditFormSection:edit}   
+    
 wgauditformsections:
     pattern:  /sections
     defaults: {_controller: WGAuditBundle:AuditFormSection:index}
+
+# audit form fields path
 
 wgauditformfield_edit:
     pattern:  /field/{id}/edit
@@ -23,14 +55,5 @@ wgauditformfields:
     pattern:  /fields
     defaults: {_controller: WGAuditBundle:AuditFormField:index}
 
-wgauditforms:
-    pattern:  /forms
-    defaults: {_controller: WGAuditBundle:AuditForm:index}
+
     
-wgauditlist:
-    pattern:  /audits
-    defaults: {_controller: WGAuditBundle:Audit:index}
-    
-wgaudit:
-    pattern:  /audit/$id
-    defaults: {_controller: WGAuditBundle:Audit:view}

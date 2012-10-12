@@ -10,6 +10,9 @@
                 <th>Title</th>
                 <th>AuditForm</th>
                 <td>Description</td>
+                <th>View</th>
+                <th>Edit</th>
+                <th>Delete</th>
             </tr>
         </thead>
         <tbody>
@@ -18,38 +21,20 @@
                     <td>{{ section.title }}</td>
                     <td>{{ section.auditform }}</td>
                     <td>{{ section.description }}</td>
+                    <td>[ <a href="{{ path( 'wgauditformsection_view', { 'id': section.id } ) }}">view</a> ]</td>  
+                    <td>[ <a href="{{ path( 'wgauditformsection_edit', { 'id': section.id } ) }}">edit</a> ]</td>
+                    <td>[ <a href="{{ path( 'wgauditformsection_remove', { 'id': section.id } ) }}">delete</a> ]</td>
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="4">no sections yet</td>
+                    <td colspan="3">no sections yet</td>
                 </tr>
             {% endfor %}
+                <tr>
+                    <td colspan="3" align="center">
+                        <a href="{{ path( 'wgauditformsection_add' ) }}">Add a new section</a>
+                    </td>
+                </tr>
         </tbody>
     </table>        
-        
-        
-    <form method="POST" action="">
-
-        Add new section:
-
-        <div class="row input">
-            {{ form_label(form.title) }}
-            {{ form_widget(form.title) }}
-            {{ form_errors(form.title) }}
-
-            {{ form_label(form.auditform) }}
-            {{ form_widget(form.auditform) }}
-            {{ form_errors(form.auditform) }}
-
-            {{ form_label(form.description) }}
-            {{ form_widget(form.description) }}
-            {{ form_errors(form.description) }}    
-                
-            {{ form_rest(form) }}
-
-            <input type="submit" value="save" class="formbutton save" />
-        </div>
-    
-    </form>
-
 {% endblock %}
