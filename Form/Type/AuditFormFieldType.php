@@ -29,25 +29,25 @@ class AuditFormFieldType extends AbstractType
         $builder->add( self::SCORE_YES, 'textarea', array(
             'mapped' => false,
             'required' => false,
-            'data' => isset( $scores['Y'] ) ? $scores['Y'] : '',
+            'data' => isset( $scores[AuditScore::YES] ) ? $scores[AuditScore::YES] : '',
         ));
         $builder->add( self::SCORE_NO, 'textarea', array(
             'mapped' => false,
             'required' => false,
-            'data' => isset( $scores['N'] ) ? $scores['N'] : '',
+            'data' => isset( $scores[AuditScore::NO] ) ? $scores[AuditScore::NO] : '',
         ));
         $builder->add( self::SCORE_ACCEPTABLE, 'textarea', array(
             'mapped' => false,
             'required' => false,
-            'data' => isset( $scores['A'] ) ? $scores['A'] : '',
+            'data' => isset( $scores[AuditScore::ACCEPTABLE] ) ? $scores[AuditScore::ACCEPTABLE] : '',
         ));
         $builder->add( self::SCORE_NOT_APPLICABLE, 'textarea', array(
             'mapped' => false,
             'required' => false,
-            'data' => isset( $scores['N/A'] ) ? $scores['N/A'] : '',
+            'data' => isset( $scores[AuditScore::NOT_APPLICABLE] ) ? $scores[AuditScore::NOT_APPLICABLE] : '',
         ));
         $builder->add( 'fatal', 'checkbox', array(
-            'label' => 'Is the error fatal?',
+            'label' => 'Is an error for this field fatal?',
             'required' => false,
         ));
     }
