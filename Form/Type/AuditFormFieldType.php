@@ -5,9 +5,16 @@ namespace WG\AuditBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use WG\AuditBundle\Entity\AuditScore;
+use WG\AuditBundle\Entity\AuditFormField;
 
 class AuditFormFieldType extends AbstractType
 {
+    const SCORE_YES = 'answer_yes';
+    const SCORE_NO = 'answer_no';
+    const SCORE_ACCEPTABLE = 'answer_acceptable';
+    const SCORE_NOT_APPLICABLE = 'answer_not_applicable';
+    
     public function buildForm( FormBuilderInterface $builder, array $options )
     {
         $scores = $options['data']->getScores();
@@ -19,22 +26,22 @@ class AuditFormFieldType extends AbstractType
         $builder->add( 'title' );
         $builder->add( 'description', 'textarea' );
         $builder->add( 'weight', 'integer' );
-        $builder->add( 'answer_yes', 'textarea', array(
+        $builder->add( self::SCORE_YES, 'textarea', array(
             'mapped' => false,
             'required' => false,
             'data' => $scores['Y'],
         ));
-        $builder->add( 'answer_no', 'textarea', array(
+        $builder->add( self::SCORE_NO, 'textarea', array(
             'mapped' => false,
             'required' => false,
             'data' => $scores['N'],
         ));
-        $builder->add( 'answer_acceptable', 'textarea', array(
+        $builder->add( self::SCORE_ACCEPTABLE, 'textarea', array(
             'mapped' => false,
             'required' => false,
             'data' => $scores['A'],
         ));
-        $builder->add( 'answer_not_applicable', 'textarea', array(
+        $builder->add( self::SCORE_NOT_APPLICABLE, 'textarea', array(
             'mapped' => false,
             'required' => false,
             'data' => $scores['N/A'],
@@ -55,5 +62,28 @@ class AuditFormFieldType extends AbstractType
         $resolver->setDefaults( array(
             'data_class' => 'WG\AuditBundle\Entity\AuditFormField',
         ));
+    }
+    
+    /**
+     * Convenience method for setting a non-mapped field from the form data
+     * 
+     * @param WG\AuditBundle\Entity\AuditFormField $entity
+     * @param array $values
+     */
+    static public function mapScores( AuditFormField $entity, $values )
+    {
+        $extraFields = array(
+            AuditScore::YES => self::SCORE_YES,
+            AuditScore::NO => self::SCORE_NO,
+            AuditScore::ACCEPTABLE => self::SCORE_ACCEPTABLE,
+            AuditScore::NOT_APPLICABLE => self::SCORE_NOT_APPLICABLE,
+        );
+        foreach ( $extraFields as $key => $extraField )
+        {
+            if ( isset( $values[ $extraField ] ) && $values[ $extraField ] )
+            {
+                $entity->addScore( $key, $values[ $extraField ] );
+            }
+        }
     }
 }
