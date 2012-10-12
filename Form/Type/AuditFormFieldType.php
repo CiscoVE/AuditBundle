@@ -29,22 +29,22 @@ class AuditFormFieldType extends AbstractType
         $builder->add( self::SCORE_YES, 'textarea', array(
             'mapped' => false,
             'required' => false,
-            'data' => $scores['Y'],
+            'data' => isset( $scores['Y'] ) ? $scores['Y'] : '',
         ));
         $builder->add( self::SCORE_NO, 'textarea', array(
             'mapped' => false,
             'required' => false,
-            'data' => $scores['N'],
+            'data' => isset( $scores['N'] ) ? $scores['N'] : '',
         ));
         $builder->add( self::SCORE_ACCEPTABLE, 'textarea', array(
             'mapped' => false,
             'required' => false,
-            'data' => $scores['A'],
+            'data' => isset( $scores['A'] ) ? $scores['A'] : '',
         ));
         $builder->add( self::SCORE_NOT_APPLICABLE, 'textarea', array(
             'mapped' => false,
             'required' => false,
-            'data' => $scores['N/A'],
+            'data' => isset( $scores['N/A'] ) ? $scores['N/A'] : '',
         ));
         $builder->add( 'fatal', 'checkbox', array(
             'label' => 'Is the error fatal?',
