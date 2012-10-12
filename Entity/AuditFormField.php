@@ -53,6 +53,12 @@ class AuditFormField
      * @ORM\Column(name="position",type="integer")
      */
     protected $position;
+    
+    /**
+     * @Gedmo\Slug(fields={"title"})
+     * @ORM\Column(length=127, unique=true)
+     */
+    protected $slug;
 
     /**
      * Get id
@@ -237,5 +243,28 @@ class AuditFormField
     public function getSection()
     {
         return $this->section;
+    }
+
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     * @return AuditFormField
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+    
+        return $this;
+    }
+
+    /**
+     * Get slug
+     *
+     * @return string 
+     */
+    public function getSlug()
+    {
+        return $this->slug;
     }
 }

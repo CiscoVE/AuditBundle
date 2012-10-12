@@ -1,0 +1,27 @@
+{% extends 'WGAuditBundle::base.html.twig' %}
+
+{% block body %}
+
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Is the form Active?</th>
+            </tr>        
+        </thead>
+        <tbody>
+            {% for form in forms %}
+                <tr>
+                    <td>{{ form.title }}</td>
+                    <td>{{ form.description }}</td>
+                    <td>[ <a href="{{ path( 'wgaudit_add', { 'id' : form.id } ) }}">pick</a> ]</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">no forms yet</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

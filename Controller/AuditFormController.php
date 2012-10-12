@@ -9,6 +9,7 @@ use WG\AuditBundle\Form\Type\AuditFormType;
 
 class AuditFormController extends Controller
 {
+
     public function indexAction( Request $request )
     {
         $em = $this->getDoctrine()->getEntityManager();
@@ -23,14 +24,23 @@ class AuditFormController extends Controller
             {
                 $em->persist( $newform );
                 $em->flush();
-                return $this->redirect( $this->generateUrl( 'wgauditforms' ));
+                return $this->redirect( $this->generateUrl( 'wgauditforms' ) );
             }
         }
         return $this->render( 'WGAuditBundle:AuditForm:index.html.twig', array(
-            'forms' => $formlist,
-            'form' => $form->createView(),
-        ));
+                    'forms' => $formlist,
+                    'form' => $form->createView(),
+                ));
+    }
+
+    public function listAction()
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $repo = $em->getRepository( 'WGAuditBundle:AuditForm' );
+        $formlist = $repo->findAll();
+        return $this->render( 'WGAuditBundle:AuditForm:list.html.twig', array(
+                    'forms' => $formlist,
+                ));
     }
 
 }
-

@@ -1,0 +1,42 @@
+{% extends 'WGAuditBundle::base.html.twig' %}
+
+{% block body %}
+
+    <h2>Create new audit</h2>
+
+    <form method="POST" action="">
+
+        {% for section in auditform.sections %}
+        <h3>Section {{ loop.index }}: {{ section.title }}</h3>
+        <div class="section">
+            {% for field in section.fields %}
+                <div class="field">
+                    <span title="{{ field.description }}">
+                        {{ field.title }}
+                    </span>
+                    {# AuditScore form cloning #}
+                    {% set form = craue_cloneForm(scoreform) %}
+                    {{ form_label(form.score) }}
+                        <select name="score[{{ field.id }}][value]">
+                            {% for score, label in field.scores %}
+                                <option value="{{ score }}" title="{{ label }}">
+                                    {{ score }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    {{ form_errors(form.score) }}
+                    {{ form_label(form.comment) }}
+                    <textarea name="score[{{ field.id }}][comment]"></textarea>
+                    {{ form_errors(form.comment) }}
+                </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+
+        <div>
+            <input type="submit" value="save" />
+        </div>
+    
+    </form>
+
+{% endblock %}

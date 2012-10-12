@@ -10,9 +10,8 @@ class AuditScoreType extends AbstractType
 {
     public function buildForm( FormBuilderInterface $builder, array $options )
     {
-        $builder->add( 'id', 'integer' );
-        $builder->add( 'audit', 'textarea' );
-        $builder->add( 'field', 'integer' );
+        $builder->add( 'audit', 'hidden' );
+        $builder->add( 'field', 'hidden' );
         $builder->add( 'score', 'text' );
         $builder->add( 'comment', 'textarea' );
     }

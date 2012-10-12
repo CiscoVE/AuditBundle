@@ -1,28 +1,25 @@
 {% extends 'WGAuditBundle::base.html.twig' %}
 
 {% block body %}
-
-    <p> Case #: {{ audit.auditReference }}</p>
-    <p> Engineer: {{ audit.auditingUser }}</p>
-    <p> Manager: {{ audit.controlUser }}</p>
-
-
+<a href="{{ path( 'wgauditform_list' ) }}">Create new Audit</a>
     <table>
         <tr>
-            <th>Field number</th>
-            <th>Section Name</th>
-            <th>Score</th>
-            <th>Weight</th>
-            <th>Reviewer's Comment</th>
+            <th>Case #</th>
+            <th>Engineer</th>
+            <th>Manager</th>
+        </tr>        
+    {% for audit in audits %}
+        <tr>
+            <td>{{ audit.auditReference }}</td>
+            <td>{{ audit.auditingUser }}</td>
+            <td>{{ audit.controlUser }}</td>
         </tr>
-    </table>
-
-    <table>
+    {% else %}
         <tr>
             <td colspan="6">
                 <p>Nothin yet dude</p>
             </td>
         </tr>
+    {% endfor %}    
     </table>
-
 {% endblock %}

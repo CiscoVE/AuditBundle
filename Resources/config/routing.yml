@@ -1,6 +1,10 @@
 # audit path
+wgaudit_add:
+    pattern:  /audits/{id}/new
+    defaults: {_controller: WGAuditBundle:Audit:add}  
+
 wgaudit:
-    pattern:  /audit/$id
+    pattern:  /audits/{id}
     defaults: {_controller: WGAuditBundle:Audit:view}
     
 wgaudits:
@@ -10,7 +14,11 @@ wgaudits:
 # audit forms path    
 wgauditforms:
     pattern:  /forms
-    defaults: {_controller: WGAuditBundle:AuditForm:index}
+    defaults: {_controller: WGAuditBundle:AuditForm:index}    
+    
+wgauditform_list:
+    pattern:  /forms/viewall
+    defaults: {_controller: WGAuditBundle:AuditForm:list}
     
 # audit form sections path    
 wgauditformsection_edit:
