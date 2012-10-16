@@ -47,9 +47,19 @@ class AuditController extends Controller
             $fieldRepo = $em->getRepository( 'WGAuditBundle:AuditFormField' );
             $audit = new Audit();
             $audit->setAuditForm( $auditform );
-            // TODO: we may want to set a user, depending on configuration
+            // depending on configuration, set a user ID:
+            if ( $this->container->getParameter( 'wg.audit.user.class' ) )
+            {
+                $user = $this->container->get( 'security.context' )->getToken()->getUser();
+                $prop = $this->container->getParameter( 'wg.audit.user.property' );
+                if ( $user && $prop )
+                {
+                    $method = 'get' . ucfirst( $prop );
+                    $audit->setAuditingUser( $user->$method() );
+                }
+            }
+            // TODO: add input field to form in order to set a reference
             // $audit->setAuditReference( null );
-            // $audit->setAuditingUser( null );
             // ...
             //
             $em->persist( $audit );
