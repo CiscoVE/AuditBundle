@@ -4,12 +4,12 @@
 
     <h2>Listing existing Sections:</h2>
 
-    <table class="data">
+    <table id="audit">
         <thead>
             <tr>
                 <th>Title</th>
                 <th>AuditForm</th>
-                <td>Description</td>
+                <th>Description</th>
                 <th>View</th>
                 <th>Edit</th>
                 <th>Delete</th>
@@ -27,11 +27,11 @@
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="3">no sections yet</td>
+                    <td colspan="6">no sections yet</td>
                 </tr>
             {% endfor %}
                 <tr>
-                    <td colspan="3" align="center">
+                    <td colspan="6" align="center">
                         <a href="{{ path( 'wgauditformsection_add' ) }}">Add a new section</a>
                     </td>
                 </tr>

@@ -4,13 +4,13 @@
 
     <h2>Listing Existing Fields:</h2>
 
-    <table class="data">
+    <table id="audit">
         <thead>
             <tr>
                 <th>Title</th>
                 <th>Section</th>
                 <th>Weight</th>
-                <th>description</th>
+                <th>Description</th>
                 <th>Scores</th>
                 <th>Fatal</th>
                 <th>View</th>
@@ -45,11 +45,11 @@
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="8" align="center">no fields yet</td>
+                    <td colspan="9" align="center">no fields yet</td>
                 </tr>
             {% endfor %}
                 <tr>
-                    <td colspan="8" align="center">
+                    <td colspan="9" align="center">
                         <a href="{{ path( 'wgauditformfield_add' ) }}">Add a new field</a>
                     </td>
                 </tr>

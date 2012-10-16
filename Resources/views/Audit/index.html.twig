@@ -2,21 +2,25 @@
 
 {% block body %}
 <a href="{{ path( 'wgauditform_list' ) }}">Create new Audit</a>
-    <table>
+    <table id="audit">
         <tr>
             <th>Case #</th>
             <th>Engineer</th>
             <th>Manager</th>
+            <th>Form</th>
+            <th>Failed ?</th>
         </tr>        
     {% for audit in audits %}
         <tr>
             <td>{{ audit.auditReference }}</td>
             <td>{{ audit.auditingUser }}</td>
             <td>{{ audit.controlUser }}</td>
+            <td>{{ audit.auditForm }}</td>
+            <td>{{ audit.failed }}</td>
         </tr>
     {% else %}
         <tr>
-            <td colspan="6">
+            <td colspan="5">
                 <p>Nothin yet dude</p>
             </td>
         </tr>

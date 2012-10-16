@@ -4,7 +4,7 @@
 
     <h2>Field:</h2>
 
-    <table class="data">
+    <table id="audit">
         <thead>
             <tr>
                 <th>Title</th>
@@ -31,5 +31,33 @@
             </tr>
         </tbody>
     </table>
+    
+    <div class="row-header">
+        <span>Title</span>
+        <span>Section</span>
+        <span>Weight</span>
+    </div>
+    <div class="row-data">
+        <span>{{ field.title }}</span>
+        <span>{{ field.section }}</span>
+        <span>{{ field.weight }}</span>
+    </div>
+        <span class="row-header">Description</span>  
+    </div>
+    <div class="row-data">
+        <span>{{ field.description }}</span>  
+    </div>
+    </div>
+        <span class="row-header">Scores</span>  
+    </div>
+    <div class="row-data">      
+        {% for score, label in field.scores %}
+        <span>
+            {{ score }}: {{ label }}
+        </span>
+        {% else %}
+        <span>No scores defined</span>
+        {% endfor %}
+    </div>
         
 {% endblock %}
