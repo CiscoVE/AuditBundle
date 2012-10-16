@@ -3,26 +3,24 @@
 {% block body %}
 
     <form method="POST" action="">
-
         {% if edit == true %}
-            <h2>Edit existing section:</h2>
+            <h2>Edit existing form:</h2>
         {% else %}
-            <h2>Add new section:</h2>
+            <h2>Add new form:</h2>
         {% endif %}
-
         <div class="row input">
             {{ form_label(form.title) }}
             {{ form_widget(form.title) }}
             {{ form_errors(form.title) }}
-
-            {{ form_label(form.auditform) }}
-            {{ form_widget(form.auditform) }}
-            {{ form_errors(form.auditform) }}
+                
+            {{ form_label(form.active) }}
+            {{ form_widget(form.active) }}
+            {{ form_errors(form.active) }}
         </div>
         <div class="row input">
             {{ form_label(form.description) }}
             {{ form_widget(form.description) }}
-            {{ form_errors(form.description) }}    
+            {{ form_errors(form.description) }}
         </div>
         <div class="row submit">
             {{ form_rest(form) }}

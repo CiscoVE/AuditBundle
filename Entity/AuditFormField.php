@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="wgauditformfield")
  */
 class AuditFormField
-{
+{  
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")

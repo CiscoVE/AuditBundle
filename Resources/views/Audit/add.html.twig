@@ -1,3 +1,5 @@
+{# Audit::add.html.twig #}
+
 {% extends 'WGAuditBundle::base.html.twig' %}
 
 {% block body %}
@@ -19,7 +21,7 @@
                     {{ form_label(form.score) }}
                         <select name="score[{{ field.id }}][value]">
                             {% for score, label in field.scores %}
-                                <option value="{{ score }}" title="{{ label }}">
+                                <option value="{{ score }}" data-tooltip="{{ label }}" class="tooltip">
                                     {{ score }}
                                 </option>
                             {% endfor %}

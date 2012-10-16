@@ -2,12 +2,17 @@
 
 {% block body %}
 
-    <table>
+    <h2>Listing Existing Forms:</h2>
+
+    <table class="data">
         <thead>
             <tr>
                 <th>Title</th>
                 <th>Description</th>
                 <th>Is the form Active?</th>
+                <th>View</th>
+                <th>Edit</th>
+                <th>Delete</th>                
             </tr>        
         </thead>
         <tbody>
@@ -20,37 +25,21 @@
                         {% else %}
                             <div>No</div>
                         {% endif %}
+                    <td>[ <a href="{{ path( 'wgauditform_view', { 'id': form.id } ) }}">view</a> ]</td>  
+                    <td>[ <a href="{{ path( 'wgauditform_edit', { 'id': form.id } ) }}">edit</a> ]</td>
+                    <td>[ <a href="{{ path( 'wgauditform_remove', { 'id': form.id } ) }}">delete</a> ]</td>
                 </tr>
             {% else %}
                 <tr>
                     <td colspan="4">no forms yet</td>
                 </tr>
             {% endfor %}
+                <tr>
+                    <td colspan="8" align="center">
+                        <a href="{{ path( 'wgauditform_add' ) }}">Add a new form</a>
+                    </td>
+                </tr>                
         </tbody>
     </table>
-
-    <form method="POST" action="">
-
-        <h2>Add new form:</h2>
-
-        <div class="row input">
-            {{ form_label(form.title) }}
-            {{ form_widget(form.title) }}
-            {{ form_errors(form.title) }}
-
-            {{ form_label(form.description) }}
-            {{ form_widget(form.description) }}
-            {{ form_errors(form.description) }}
-                
-            {{ form_label(form.active) }}
-            {{ form_widget(form.active) }}
-            {{ form_errors(form.active) }}
-        </div>
-        <div class="row submit">
-            {{ form_rest(form) }}
-            <input type="submit" value="save" class="formbutton save" />
-        </div>
-    
-    </form>
 
 {% endblock %}

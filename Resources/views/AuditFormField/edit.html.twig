@@ -2,8 +2,6 @@
 
 {% block body %}
 
-    <h2>Editing Field:</h2>
-
     <form method="POST" action="">
 
         {% if edit == true %}
@@ -23,27 +21,31 @@
             {{ form_label(form.weight) }}
             {{ form_widget(form.weight) }}
             {{ form_errors(form.weight) }}
+
+            {{ form_label(form.fatal) }}
+            {{ form_widget(form.fatal) }}
+            {{ form_errors(form.fatal) }}
         </div>
         <div class="row input">
             {{ form_label(form.description) }}
-            {{ form_widget(form.description) }}
+            {{ form_widget(form.description) }} 
             {{ form_errors(form.description) }}
         </div>
         <div class="row input">
             {{ form_label(form.answer_yes) }}
-            {{ form_widget(form.answer_yes) }}
+            {{ form_widget(form.answer_yes) }} 
             {{ form_errors(form.answer_yes) }}
 
             {{ form_label(form.answer_no) }}
-            {{ form_widget(form.answer_no) }}
+            {{ form_widget(form.answer_no) }} 
             {{ form_errors(form.answer_no) }}
 
-            {{ form_label(form.answer_acceptable, 'Acceptable') }}
-            {{ form_widget(form.answer_acceptable) }}
+            {{ form_label(form.answer_acceptable) }}
+            {{ form_widget(form.answer_acceptable) }} 
             {{ form_errors(form.answer_acceptable) }}
 
-            {{ form_label(form.answer_not_applicable, 'N/A') }}
-            {{ form_widget(form.answer_not_applicable) }}
+            {{ form_label(form.answer_not_applicable) }}
+            {{ form_widget(form.answer_not_applicable) }} 
             {{ form_errors(form.answer_not_applicable) }}
         </div>
         <div class="row submit">

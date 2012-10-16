@@ -23,28 +23,39 @@ class AuditFormFieldType extends AbstractType
             'empty_data' => '---',
             'required' => true,
         ));
-        $builder->add( 'title' );
-        $builder->add( 'description', 'textarea' );
+        $builder->add( 'title', null, array(
+            'attr'=> array( 'placeholder'=> 'Title for this field'),
+            'required' => true,
+        ));
+        $builder->add( 'description', 'textarea', array(
+            'attr' => array( 'placeholder' => 'Description for the field. This should be as clear as possible' ),
+        ));
         $builder->add( 'weight', 'integer' );
         $builder->add( self::SCORE_YES, 'textarea', array(
             'mapped' => false,
             'required' => false,
             'data' => isset( $scores[AuditScore::YES] ) ? $scores[AuditScore::YES] : '',
+            'attr' => array( 'placeholder' => 'Correct answer definition' ), 
         ));
         $builder->add( self::SCORE_NO, 'textarea', array(
             'mapped' => false,
             'required' => false,
             'data' => isset( $scores[AuditScore::NO] ) ? $scores[AuditScore::NO] : '',
+            'attr' => array( 'placeholder'=> 'Incorrect answer definition' ),
         ));
         $builder->add( self::SCORE_ACCEPTABLE, 'textarea', array(
             'mapped' => false,
             'required' => false,
             'data' => isset( $scores[AuditScore::ACCEPTABLE] ) ? $scores[AuditScore::ACCEPTABLE] : '',
+            'attr' => array( 'placeholder'=> 'Partially correct answer definition' ),
+            'label' => 'Acceptable',
         ));
         $builder->add( self::SCORE_NOT_APPLICABLE, 'textarea', array(
             'mapped' => false,
             'required' => false,
             'data' => isset( $scores[AuditScore::NOT_APPLICABLE] ) ? $scores[AuditScore::NOT_APPLICABLE] : '',
+            'attr' => array( 'placeholder'=> 'Answer not applicable'),
+            'label' => 'N/A',
         ));
         $builder->add( 'fatal', 'checkbox', array(
             'label' => 'Is an error for this field fatal?',

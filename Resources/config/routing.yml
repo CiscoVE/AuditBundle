@@ -3,7 +3,7 @@ wgaudit_add:
     pattern:  /audits/{id}/new
     defaults: {_controller: WGAuditBundle:Audit:add}  
 
-wgaudit:
+wgaudit_view:
     pattern:  /audits/{id}
     defaults: {_controller: WGAuditBundle:Audit:view}
     
@@ -11,30 +11,46 @@ wgaudits:
     pattern:  /audits
     defaults: {_controller: WGAuditBundle:Audit:index}
     
-# audit forms path    
+# audit forms path  
+wgauditform_edit:
+    pattern:  /forms/{id}/edit
+    defaults: {_controller: WGAuditBundle:AuditForm:edit}
+   
+wgauditform_remove:
+    pattern:  /forms/{id}/remove
+    defaults: {_controller: WGAuditBundle:AuditForm:remove}    
+
+wgauditform_list:
+    pattern:  /forms/list
+    defaults: {_controller: WGAuditBundle:AuditForm:list}   
+
+wgauditform_view:
+    pattern:  /forms/{id}
+    defaults: {_controller: WGAuditBundle:AuditForm:view}
+
+wgauditform_add:
+    pattern:  /forms/add
+    defaults: {_controller: WGAuditBundle:AuditForm:edit} 
+
 wgauditforms:
     pattern:  /forms
     defaults: {_controller: WGAuditBundle:AuditForm:index}    
-    
-wgauditform_list:
-    pattern:  /forms/viewall
-    defaults: {_controller: WGAuditBundle:AuditForm:list}
-    
+
 # audit form sections path    
 wgauditformsection_edit:
-    pattern:  /section/{id}/edit
+    pattern:  /sections/{id}/edit
     defaults: {_controller: WGAuditBundle:AuditFormSection:edit}
     
 wgauditformsection_remove:
-    pattern:  /section/{id}/remove
+    pattern:  /sections/{id}/remove
     defaults: {_controller: WGAuditBundle:AuditFormSection:remove}    
 
 wgauditformsection_view:
-    pattern:  /section/{id}
+    pattern:  /sections/{id}
     defaults: {_controller: WGAuditBundle:AuditFormSection:view}
     
 wgauditformsection_add:
-    pattern:  /section
+    pattern:  /sections/add
     defaults: {_controller: WGAuditBundle:AuditFormSection:edit}   
     
 wgauditformsections:
@@ -42,21 +58,20 @@ wgauditformsections:
     defaults: {_controller: WGAuditBundle:AuditFormSection:index}
 
 # audit form fields path
-
 wgauditformfield_edit:
-    pattern:  /field/{id}/edit
+    pattern:  /fields/{id}/edit
     defaults: {_controller: WGAuditBundle:AuditFormField:edit}    
 
 wgauditformfield_remove:
-    pattern:  /field/{id}/remove
+    pattern:  /fields/{id}/remove
     defaults: {_controller: WGAuditBundle:AuditFormField:remove} 
     
 wgauditformfield_view:
-    pattern:  /field/{id}
+    pattern:  /fields/{id}
     defaults: {_controller: WGAuditBundle:AuditFormField:view}
     
 wgauditformfield_add:
-    pattern:  /field
+    pattern:  /fields/add
     defaults: {_controller: WGAuditBundle:AuditFormField:edit}    
 
 wgauditformfields:

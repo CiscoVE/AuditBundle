@@ -1,0 +1,3 @@
+/*.tooltip:hover:after { content: attr(data-tooltip); }*/
+
+h2 {font-size: 20pt; color: red}

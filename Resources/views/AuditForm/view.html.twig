@@ -1,0 +1,31 @@
+{# Auditform::view.html.twig #}
+
+{% extends 'WGAuditBundle::base.html.twig' %}
+
+{% block body %}
+
+    <h2>Form: {{ form.title }}</h2>
+    <div>Is the form active: {% if  form.active == 1 %}yes{% else %}No{% endif %}</div>
+    <div>Description: {{ form.description }}</div>
+
+    <table class="data">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+            </tr>        
+        </thead>
+        <tbody>
+            {% for section in form.sections %}
+                <tr>
+                    <td>Section {{section.id}}: </td>
+                    <td>{{ section.title }}</td>
+                    <td>{{ section.description }}</td>
+                </tr>
+            {% else %}
+                <tr>no fields assigned yet</tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

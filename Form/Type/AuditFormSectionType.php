@@ -13,13 +13,17 @@ class AuditFormSectionType extends AbstractType
         $builder->add( 'id', 'hidden', array(
             'mapped' => false
         ));
-        $builder->add( 'title' );
+        $builder->add( 'title', null, array(
+            'attr' => array( 'placeholder' => 'title of the section' ),
+        ));
         $builder->add( 'auditform', null, array(
             'empty_data' => '---',
             'required' => true,
             'label' => 'Audit',
         ));      
-        $builder->add('description');
+        $builder->add( 'description', 'textarea', array(
+            'attr' => array( 'placeholder' => 'description for the section. This should be as clear as possible' ),
+        ));
     }
 
     public function getName()

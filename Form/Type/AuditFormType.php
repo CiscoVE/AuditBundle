@@ -19,8 +19,12 @@ class AuditFormType extends AbstractType
         $builder->add( 'id', 'hidden', array(
             'mapped' => false
         ) );
-        $builder->add( 'title' );
-        $builder->add( 'description', 'textarea' );
+        $builder->add( 'title', null, array(
+            'attr' => array( 'placeholder' => 'Title for this form' ),            
+        ));
+        $builder->add( 'description', 'textarea', array(
+            'attr' => array( 'placeholder' => 'Description for the field. This should be as clear as possible' ),
+        ));
         $builder->add( 'active', 'checkbox', array(
             'label' => 'Is the form active?',
             'required' => false,
