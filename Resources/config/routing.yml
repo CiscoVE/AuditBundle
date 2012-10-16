@@ -58,6 +58,10 @@ wgauditformsections:
     defaults: {_controller: WGAuditBundle:AuditFormSection:index}
 
 # audit form fields path
+wgauditformfield_add:
+    pattern:  /fields/add
+    defaults: {_controller: WGAuditBundle:AuditFormField:edit}  
+
 wgauditformfield_edit:
     pattern:  /fields/{id}/edit
     defaults: {_controller: WGAuditBundle:AuditFormField:edit}    
@@ -70,10 +74,6 @@ wgauditformfield_view:
     pattern:  /fields/{id}
     defaults: {_controller: WGAuditBundle:AuditFormField:view}
     
-wgauditformfield_add:
-    pattern:  /fields/add
-    defaults: {_controller: WGAuditBundle:AuditFormField:edit}    
-
 wgauditformfields:
     pattern:  /fields
     defaults: {_controller: WGAuditBundle:AuditFormField:index}

@@ -15,7 +15,7 @@ h2
 {
     font-size:1em;
     border:1px solid #008209;
-    padding:3px 7px 2px 7px;
+    padding:5px 2px 2px 5px;
     text-align:center;
 }
 #audit th 
@@ -26,12 +26,12 @@ h2
     background-color:#26972D;
     color:#ffffff;
 }
-#audit tr.section div.section
+#audit tr.section, td.label
 {
     color:#000000;
     background-color:#00C90D;
 }
-#audit td.field div.field
+#audit td.field
 {
     text-align:left;
 }

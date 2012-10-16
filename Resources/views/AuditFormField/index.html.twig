@@ -1,38 +1,23 @@
 {% extends 'WGAuditBundle::base.html.twig' %}
 
 {% block body %}
-
-    <h2>Listing Existing Fields:</h2>
-
+<a href="{{ path( 'wgauditformfield_add' ) }}">Add a new field</a>
     <table id="audit">
         <thead>
             <tr>
-                <th>Title</th>
-                <th>Section</th>
-                <th>Weight</th>
-                <th>Description</th>
-                <th>Scores</th>
-                <th>Fatal</th>
-                <th>View</th>
-                <th>Edit</th>
-                <th>Delete</th>
+                <th colspan="11">Listing of existing Fields</th>
             </tr>
         </thead>
         <tbody>
             {% for field in fields %}
                 <tr>
-                    <td>{{ field.title }}</td>
-                    <td>{{ field.section }}</td>
+                    <td class="label">Title: </td>
+                    <td class="field">{{ field.title }}</td>
+                    <td class="label">Section: </td>
+                    <td class="field">{{ field.section }}</td>
+                    <td class="label">Weight: </td>
                     <td>{{ field.weight }}</td>
-                    <td>{{ field.description }}</td>
-                    <td>{% for score, label in field.scores %}
-                            <div>
-                                {{ score }}: {{ label }}
-                            </div>
-                        {% else %}
-                            <div>No scores defined</div>
-                        {% endfor %}
-                    </td>
+                    <td class="label">Fatal: </td>
                     <td>{% if field.fatal == 1 %}
                             <div>Yes</div>
                         {% else %}
@@ -43,16 +28,26 @@
                     <td>[ <a href="{{ path( 'wgauditformfield_edit', { 'id': field.id } ) }}">edit</a> ]</td>
                     <td>[ <a href="{{ path( 'wgauditformfield_remove', { 'id': field.id } ) }}">delete</a> ]</td>
                 </tr>
+                <tr>
+                    <td class="label">Description: </td>
+                    <td colspan="10" class="field">{{ field.description }}</td>
+                </tr>
+                <tr>
+                    <td class="label">Scores: </td>
+                    <td colspan="10" class="field">{% for score, label in field.scores %}
+                            <div>
+                                {{ score }}: {{ label }}
+                            </div>
+                        {% else %}
+                            <div>No scores defined</div>
+                        {% endfor %}
+                    </td>
+                </tr>
             {% else %}
                 <tr>
                     <td colspan="9" align="center">no fields yet</td>
                 </tr>
             {% endfor %}
-                <tr>
-                    <td colspan="9" align="center">
-                        <a href="{{ path( 'wgauditformfield_add' ) }}">Add a new field</a>
-                    </td>
-                </tr>
         </tbody>
     </table>
         
