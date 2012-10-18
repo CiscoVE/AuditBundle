@@ -5,53 +5,100 @@ h2
     font-size: 20pt; 
     color: red
 }
+
 #audit
 {
     font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
     width:100%;
     border-collapse:collapse;
 }
+
 #audit td, #audit th 
 {
     font-size:1em;
-    border:1px solid #008209;
+    border:1px solid #006064;
     padding:5px 2px 2px 5px;
     text-align:center;
 }
+
 #audit th 
 {
     font-size:1.1em;
     padding-top:5px;
     padding-bottom:4px;
-    background-color:#26972D;
+    background-color:#01939A;
     color:#ffffff;
 }
+
 #audit tr.section, td.label
 {
     color:#000000;
-    background-color:#00C90D;
+    background-color:#34C6CD;
 }
+
 #audit td.field
 {
     text-align:left;
 }
+
 #audit td.final
 {
     text-align:right;
 }
 
-div.row-header
-{
-    font-size:1.1em;
-    padding-top:5px;
-    padding-bottom:4px;
-    background-color:#26972D;
-    color:#ffffff;    
-    float: left;
+.auditform-table{
+    display: table;
+    width:100%;
 }
-div.row-data
+
+.auditform-section
 {
-    
+    text-align:left;
+    background-color: #34C6CD;
+    border: 1px solid black;
+    height: 40px;
 }
+
+.auditform-field
+{
+    display: table-row;
+    padding:5px 2px 2px 5px;
+    text-align: left;
+    background-color:white;
+    color:black;
+    width: 100%;
+}
+
+.auditform-label
+{
+    display: table-cell;
+    text-align:left;
+    width: 40%;
+    border: 1px solid black;
+    padding-left: 5px;
+    max-width:180px;
+}
+
+.auditform-score
+{
+    display: table-cell;
+    width: 10%;
+    border: 1px solid black;
+}
+
+.auditform-comment
+{
+    display: table-cell;
+    width: 100%;
+    border: 1px solid black;
+    padding: 0 0 0 5px;
+}
+.auditform-comment textarea
+{
+    width: 100%;
+    padding: 0 0 0 5px;
+}
+
+​
 
 /* something has changed */

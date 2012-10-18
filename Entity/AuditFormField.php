@@ -59,7 +59,7 @@ class AuditFormField
      * @ORM\Column(length=127, unique=true)
      */
     protected $slug;
-
+    
     /**
      * Get id
      *

@@ -37,11 +37,33 @@ class AuditScore
      */
     protected $score;
     
+    protected $value;
+    
     /**
      * @ORM\Column(type="string",nullable=true)
      */    
     protected $comment;
 
+    public function getValue()
+    {
+        switch($this->score)
+        {
+            case AuditScore::YES;
+                $this->value = 100;
+                break;
+            case AuditScore::NOT_APPLICABLE;
+                $this->value = 100;
+                break;
+            case AuditScore::ACCEPTABLE;
+                $this->value = 50;
+                break;
+            case AuditScore::NO;
+                $this->value = 0;
+                break;
+        }
+        return $this->value;
+    }
+    
     /**
      * Get id
      *

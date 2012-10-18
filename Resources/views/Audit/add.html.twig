@@ -3,42 +3,87 @@
 {% extends 'WGAuditBundle::base.html.twig' %}
 
 {% block body %}
+<h2>Create new audit</h2>
 
-    <h2>Create new audit</h2>
 
-    <form id="audit" method="POST" action="">
+<form id="audit" method="POST" action="">
 
+    <table>
+        <tr>
+            <th>S.No.</th>
+            <th>Field</th>
+            <th>Score</th>
+            <th>Weight</th>
+            <th>Reviewer's Comment</th>
+        </tr>
         {% for section in auditform.sections %}
+        <tr>
+            <td colspan="2">Section {{ loop.index }}: {{ section.title }}</td>
+            <td>{#{ section.score }#}</td>
+            <td>{#{ section.weight }#}</td>
+        </tr>
+        {% for field in section.fields %}
+        <tr>
+            <td>{{ field.id }}</td>
+            <td>{{ field.title }}</td>
+            <td>
+                {% set form = craue_cloneForm(scoreform) %}
+                <select name="score[{{ field.id }}][value]">
+                {% for score, label in field.scores %}
+                    <option value="{{ score }}" data-tooltip="{{ label }}" class="tooltip">
+                    {{ score }}
+                    </option>
+                {% endfor %}
+            </td>
+            <td>{{ field.weight }}</td>
+            <td><textarea name="score[{{ field.id }}][comment]"></textarea></td>
+        </tr>
+
+        {% endfor %}
+        {% endfor %}
+    </table>
+
+
+
+{#
+    {% for section in auditform.sections %}
+    <div class="auditform-section">
         <h3>Section {{ loop.index }}: {{ section.title }}</h3>
-        <div class="section">
-            {% for field in section.fields %}
-                <div class="field">
-                    <span title="{{ field.description }}">
-                        {{ field.title }}
-                    </span>
-                    {# AuditScore form cloning #}
+    </div>
+    <div class="auditform-table">
+        <div class="auditform-field">
+        {% for field in section.fields %}
+            <div class="field">
+                <span class="auditform-label" title="{{ field.description }}">
+                    {{ field.title }}
+                </span>
+                <div class="auditform-score">
+                    {# AuditScore form cloning 
                     {% set form = craue_cloneForm(scoreform) %}
                     {{ form_label(form.score) }}
-                        <select name="score[{{ field.id }}][value]">
-                            {% for score, label in field.scores %}
-                                <option value="{{ score }}" data-tooltip="{{ label }}" class="tooltip">
-                                    {{ score }}
-                                </option>
-                            {% endfor %}
-                        </select>
+                    <select name="score[{{ field.id }}][value]">
+                    {% for score, label in field.scores %}
+                        <option value="{{ score }}" data-tooltip="{{ label }}" class="tooltip">
+                        {{ score }}
+                        </option>
+                    {% endfor %}
+                    </select>
                     {{ form_errors(form.score) }}
+                </div>
+                <div class="auditform-comment">
                     {{ form_label(form.comment) }}
-                    <textarea name="score[{{ field.id }}][comment]"></textarea>
+                        <textarea name="score[{{ field.id }}][comment]"></textarea>
                     {{ form_errors(form.comment) }}
                 </div>
-            {% endfor %}
-        </div>
+            </div>
         {% endfor %}
-
-        <div>
-            <input type="submit" value="save" />
         </div>
-    
-    </form>
+    </div>
+    {% endfor %}
+#}
+    <div>
+        <input type="submit" value="save" />
+    </div>
+</form>
 
 {% endblock %}

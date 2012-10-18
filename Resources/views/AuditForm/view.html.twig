@@ -12,16 +12,33 @@
         <thead>
             <tr>
                 <th>Title</th>
+                <th>Weight</th>
                 <th>Description</th>
+                <th>score</th>
             </tr>        
         </thead>
         <tbody>
             {% for section in form.sections %}
-                <tr>
-                    <td>Section {{section.id}}: </td>
-                    <td>{{ section.title }}</td>
-                    <td>{{ section.description }}</td>
+                <tr class="section">
+                    <td colspan=2>Section {{section.id}}: {{ section.title }}</td>
+                    <td colspan=2>{{ section.description }}</td>
                 </tr>
+                {% for field in section.fields %}
+                <tr>
+                    <td>{{ field.title }}</td>
+                    <td>{{ field.weight }}</td>
+                    <td>{{ field.description }}</td>
+                    <td>{% for score, label in field.scores %}
+                            <div>
+                                {{ score }}: {{ label }}
+                            </div>
+                        {% else %}
+                            <div>No scores defined</div>
+                        {% endfor %}
+                    </td>
+                </tr>
+                {% else %}
+                {% endfor %}
             {% else %}
                 <tr>no fields assigned yet</tr>
             {% endfor %}
