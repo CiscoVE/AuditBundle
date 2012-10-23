@@ -37,12 +37,26 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function shouldSetNullAsDefaultControlUser()
+    public function shouldSetFalseAsDefaultControlUser()
     {
         $config = array( 'wg_audit' => array() );
         $processedConfig = $this->processConfiguration( $config );
         $this->assertArrayHasKey( 'control_user', $processedConfig );
-        $this->assertNull( $processedConfig['control_user'] );
+        $this->assertFalse( $processedConfig['control_user'] );
+    }
+
+    /**
+     * @test
+     *
+     * @expectedException Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
+     * @expectedExceptionMessage Invalid value "foo" for option `control_user`.
+     */
+    public function throwIfControlUserSettingNotBoolean()
+    {
+        $config = array( 'wg_audit' => array(
+            'control_user' => 'foo'
+        ));
+        $this->processConfiguration( $config );
     }
 
     /**
