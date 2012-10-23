@@ -38,6 +38,8 @@ class AuditFormField
      */
     protected $scores;
 
+    protected $score;
+
     /**
      * @ORM\Column(type="integer")
      */

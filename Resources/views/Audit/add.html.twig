@@ -16,16 +16,18 @@
             <th>Weight</th>
             <th>Reviewer's Comment</th>
         </tr>
+        {% set counter = 1 %} 
         {% for section in auditform.sections %}
-        <tr>
-            <td colspan="2">Section {{ loop.index }}: {{ section.title }}</td>
+        <tr class="section">
+            <td  class="field" colspan="2">Section {{ loop.index }}: {{ section.title }}</td>
             <td>{#{ section.score }#}</td>
             <td>{#{ section.weight }#}</td>
+            <td>
         </tr>
         {% for field in section.fields %}
         <tr>
-            <td>{{ field.id }}</td>
-            <td>{{ field.title }}</td>
+            <td>{{ counter }}</td>
+            <td class="field">{{ field.title }}</td>
             <td>
                 {% set form = craue_cloneForm(scoreform) %}
                 <select name="score[{{ field.id }}][value]">
@@ -36,9 +38,9 @@
                 {% endfor %}
             </td>
             <td>{{ field.weight }}</td>
-            <td><textarea name="score[{{ field.id }}][comment]"></textarea></td>
+            <td class="field"><textarea name="score[{{ field.id }}][comment]"></textarea></td>
         </tr>
-
+        {% set counter = counter + 1 %}
         {% endfor %}
         {% endfor %}
     </table>

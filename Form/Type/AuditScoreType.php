@@ -8,6 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class AuditScoreType extends AbstractType
 {
+
     public function buildForm( FormBuilderInterface $builder, array $options )
     {
         $builder->add( 'audit', 'hidden' );
@@ -25,6 +26,7 @@ class AuditScoreType extends AbstractType
     {
         $resolver->setDefaults( array(
             'data_class' => 'WG\AuditBundle\Entity\AuditScore',
-        ));
+        ) );
     }
+
 }

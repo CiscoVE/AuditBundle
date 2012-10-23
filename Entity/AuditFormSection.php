@@ -46,9 +46,35 @@ class AuditFormSection
      */
     protected $fields;
     
+    protected $weightPercentage;
+    
+    protected $weight;
+
+    public function getWeightPercentage()
+    {
+        return $this->weightPercentage;
+    }
+
+    public function setWeightPercentage( $weightPercentage )
+    {
+        $this->weightPercentage = $weightPercentage;
+    }
+
+    public function getWeight()
+    {
+        return $this->weight;
+    }
+
+    public function setWeight( $weight )
+    {
+        $this->weight = $weight;
+    }
+    
     public function __construct()
     {
         $this->fields = new ArrayCollection();
+        $this->weight = 0;
+        $this->weightpercentage = 0;
     }
 
     /**

@@ -9,6 +9,7 @@
             <th>Manager</th>
             <th>Form</th>
             <th>Failed ?</th>
+            <th></th>
         </tr>        
     {% for audit in audits %}
         <tr>
@@ -17,10 +18,11 @@
             <td>{{ audit.controlUser }}</td>
             <td>{{ audit.auditForm }}</td>
             <td>{{ audit.failed }}</td>
+            <td>[ <a href="{{ path( 'wgaudit_view', { 'id': audit.id } ) }}">view</a> ]</td>             
         </tr>
     {% else %}
         <tr>
-            <td colspan="5">
+            <td colspan="6">
                 <p>Nothin yet dude</p>
             </td>
         </tr>
