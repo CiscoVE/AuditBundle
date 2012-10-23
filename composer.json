@@ -3,7 +3,7 @@
     "type": "symfony-bundle",
     "description": "Symfony 2 bundle for auditing",
     "keywords": ["audit", "audits", "auditing"],
-    "license": "WTFPL",
+    "license": "BSD",
     "authors": [
         {
             "name": "Moritz Kraft",
