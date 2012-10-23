@@ -11,10 +11,12 @@
          syntaxCheck="false"
          bootstrap="./Tests/bootstrap.php"
 >
-
+    <php>
+        <!-- <server name="SYMFONY" value="/path/to/symfony/src" /> -->
+    </php>
     <testsuites>
         <testsuite name="WGAuditBundle Test Suite">
-            <directory>./Tests</directory>
+            <directory suffix="Test.php">./Tests</directory>
         </testsuite>
     </testsuites>
 </phpunit>
