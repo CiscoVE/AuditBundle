@@ -49,14 +49,18 @@ class AuditController extends Controller
             $audit = new Audit();
             $audit->setAuditForm( $auditform );
             // depending on configuration, set a user ID:
-            if ( $this->container->getParameter( 'wg.audit.user.class' ) )
+            $userClass = $this->container->getParameter( 'wg.audit.user.class' );
+            if ( $userClass )
             {
-                $user = $this->container->get( 'security.context' )->getToken()->getUser();
                 $prop = $this->container->getParameter( 'wg.audit.user.property' );
-                if ( $user && $prop )
+                $user = $this->container->get( 'security.context' )->getToken()->getUser();
+                if ( $user instanceof $userClass && $prop )
                 {
                     $method = 'get' . ucfirst( $prop );
-                    $audit->setAuditingUser( $user->$method() );
+                    if ( method_exists( $user, $method ) )
+                    {
+                        $audit->setAuditingUser( $user->$method() );
+                    }
                 }
             }
             // TODO: add input field to form in order to set a reference
