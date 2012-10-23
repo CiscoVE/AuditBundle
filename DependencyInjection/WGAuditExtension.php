@@ -20,9 +20,53 @@ class WGAuditExtension extends Extension
         $loader->load( 'services.yml' );
         // Set parameters
         $container->setParameter( 'wg.audit.control_user', $config['control_user'] );
-        $container->setParameter( 'wg.audit.user.class', $config['user']['class'] );
+        $userClass = $config['user']['class'];
+        if ( $userClass )
+        {
+            if ( false == class_exists( $userClass, true ))
+            {
+                throw new \InvalidArgumentException( sprintf(
+                    'The option `%s` contains %s but it is not a valid class name.',
+                    'user.class',
+                    $userClass
+                ));
+            }
+            $method = 'get' . ucfirst( $config['user']['property'] );
+            if ( !method_exists( $userClass, $method ))
+            {
+                throw new \InvalidArgumentException( sprintf(
+                    'The option `%s` contains %s but the class %s does not have a getter method for that property.',
+                    'user.property',
+                    $config['user']['property'],
+                    $userClass
+                ));
+            }
+        }
+        $container->setParameter( 'wg.audit.user.class', $userClass );
         $container->setParameter( 'wg.audit.user.property', $config['user']['property'] );
-        $container->setParameter( 'wg.audit.audit_reference.class', $config['audit_reference']['class'] );
+        $auditReferenceClass = $config['audit_reference']['class'];
+        if ( $auditReferenceClass )
+        {
+            if ( false == class_exists( $auditReferenceClass, true ))
+            {
+                throw new \InvalidArgumentException( sprintf(
+                    'The option `%s` contains %s but it is not a valid class name.',
+                    'audit_reference.class',
+                    $auditReferenceClass
+                ));
+            }
+            $method = 'get' . ucfirst( $config['audit_reference']['property'] );
+            if ( !method_exists( $auditReferenceClass, $method ))
+            {
+                throw new \InvalidArgumentException( sprintf(
+                    'The option `%s` contains %s but the class %s does not have a getter method for that property.',
+                    'audit_reference.property',
+                    $config['audit_reference']['property'],
+                    $auditReferenceClass
+                ));
+            }
+        }
+        $container->setParameter( 'wg.audit.audit_reference.class', $auditReferenceClass );
         $container->setParameter( 'wg.audit.audit_reference.property', $config['audit_reference']['property'] );
     }
 }

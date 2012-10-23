@@ -1,29 +1,90 @@
 <?php
-/*
-namespace WG\AuditBundle\DependencyInjection;
 
+namespace WG\AuditBundle\Tests\DependencyInjection;
+
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\Config\FileLocator;
-use Symfony\Component\HttpKernel\DependencyInjection\Extension;
-use Symfony\Component\DependencyInjection\Loader;
 
-class WGAuditExtension extends Extension
+use WG\AuditBundle\DependencyInjection\WGAuditExtension;
+
+class WGAuditExtensionTest extends \PHPUnit_Framework_TestCase
 {
-    public function load( array $configs, ContainerBuilder $container )
+    /**
+     * @test
+     */
+    public function shouldLoadExtensionWithEmptyConfig()
     {
-        // Configuration
-        $configuration = new Configuration();
-        $config = $this->processConfiguration( $configuration, $configs );
-        // Services
-        $fileLocator = new FileLocator( __DIR__ . '/../Resources/config' );
-        $loader = new Loader\YamlFileLoader( $container, $fileLocator );
-        $loader->load( 'services.yml' );
-        // Set parameters
-        $container->setParameter( 'wg.audit.control_user', $config['control_user'] );
-        $container->setParameter( 'wg.audit.user.class', $config['user']['class'] );
-        $container->setParameter( 'wg.audit.user.property', $config['user']['property'] );
-        $container->setParameter( 'wg.audit.audit_reference.class', $config['audit_reference']['class'] );
-        $container->setParameter( 'wg.audit.audit_reference.property', $config['audit_reference']['property'] );
+        $configs = array();
+        $containerBuilder = new ContainerBuilder( new ParameterBag );
+        $extension = new WGAuditExtension();
+        $extension->load( $configs, $containerBuilder );
+    }
+
+    /**
+     * @test
+     *
+     * @expectedException InvalidArgumentException
+     * @expectedExceptionMessage  The option `user.class` contains IsNotValidUserClass but it is not a valid class name.
+     */
+    public function throwIfUserClassIsNotValidClass()
+    {
+        $config = array(
+            'user' => array( 'class' => 'IsNotValidUserClass' )
+        );
+        $configs = array( $config );
+        $containerBuilder = new ContainerBuilder( new ParameterBag );
+        $extension = new WGAuditExtension();
+        $extension->load( $configs, $containerBuilder );
+    }
+
+    /**
+     * @test
+     *
+     * @expectedException InvalidArgumentException
+     * @expectedExceptionMessage  The option `user.property` contains foo but the class Symfony\Component\Security\Core\User\User does not have a getter method for that property.
+     */
+    public function throwIfUserPropertyDoesNotHaveGetter()
+    {
+        $config = array(
+            'user' => array( 'class' => 'Symfony\Component\Security\Core\User\User', 'property' => 'foo' )
+        );
+        $configs = array( $config );
+        $containerBuilder = new ContainerBuilder( new ParameterBag );
+        $extension = new WGAuditExtension();
+        $extension->load( $configs, $containerBuilder );
+    }
+
+    /**
+     * @test
+     *
+     * @expectedException InvalidArgumentException
+     * @expectedExceptionMessage  The option `audit_reference.class` contains IsNotValidAuditReferenceClass but it is not a valid class name.
+     */
+    public function throwIfAuditReferenceClassIsNotValidClass()
+    {
+        $config = array(
+            'audit_reference' => array( 'class' => 'IsNotValidAuditReferenceClass' )
+        );
+        $configs = array( $config );
+        $containerBuilder = new ContainerBuilder( new ParameterBag );
+        $extension = new WGAuditExtension();
+        $extension->load( $configs, $containerBuilder );
+    }
+
+    /**
+     * @test
+     *
+     * @expectedException InvalidArgumentException
+     * @expectedExceptionMessage  The option `audit_reference.property` contains foo but the class Symfony\Component\Security\Core\User\User does not have a getter method for that property.
+     */
+    public function throwIfAuditReferencePropertyDoesNotHaveGetter()
+    {
+        $config = array(
+            'audit_reference' => array( 'class' => 'Symfony\Component\Security\Core\User\User', 'property' => 'foo' )
+        );
+        $configs = array( $config );
+        $containerBuilder = new ContainerBuilder( new ParameterBag );
+        $extension = new WGAuditExtension();
+        $extension->load( $configs, $containerBuilder );
     }
 }
-*/

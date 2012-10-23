@@ -13,7 +13,13 @@ class Configuration implements ConfigurationInterface
         $node = $treeBuilder->root( 'wg_audit' );
         $node
             ->children()
-                ->scalarNode( 'control_user' )->defaultNull()->end()
+                ->scalarNode( 'control_user' )
+                    ->defaultFalse()
+                    ->validate()
+                        ->ifNotInArray( array( false, true ))
+                        ->thenInvalid( 'Invalid value %s for option `control_user`.' )
+                    ->end()
+                ->end()
                 ->arrayNode( 'user' )
                     ->addDefaultsIfNotSet()
                     ->children()
