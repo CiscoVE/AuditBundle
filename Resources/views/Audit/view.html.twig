@@ -2,27 +2,52 @@
 
 {% block body %}
 
-    <p> Case #: {{ audit.auditReference }}</p>
-    <p> Engineer: {{ audit.auditingUser }}</p>
-    <p> Manager: {{ audit.controlUser }}</p>
-    <p> Audit Form: {{ audit.auditForm }}</p>
+    <p> Case #: {{ audit.auditReference }} - Engineer: {{ audit.auditingUser }}</p>
+    <p> Manager: {{ audit.controlUser }} - Audit Form: {{ audit.auditForm }}</p>
 
 
     <table id="audit">
         <tr>
-            <th>Field number</th>
-            <th>Section Name</th>
+            <th>S.No.</th>
+            <th>Field</th>
             <th>Score</th>
             <th>Weight</th>
             <th>Reviewer's Comment</th>
         </tr>
-    </table>
+        {% set counter = 1 %}        
+        {% for section in audit.auditform.sections %}
 
-    <table>
-        <tr>
-            <td colspan="6">
-                <p>Nothin yet dude</p>
-            </td>
+        <tr class="section">
+            <td  class="field" colspan="2">Section {{ loop.index }}: {{ section.title }}</td>
+            <td>{{ section.weightPercentage }}</td>
+            <td>{{ section.weight }}</td>
+            <td></td>
+        </tr>
+            {% for field in section.fields %}
+                
+                {% for score in scores %}
+
+                    {% if score.field == field %}
+
+                    <tr>
+                        <td>{{ counter }}</td>
+                        <td class="field">{{ field.title }}</td>
+                        <td>{{ score.score }} - {{ score.weightPercentage }}</td>
+                        <td>{{ field.weight }}</td>
+                        <td class="field">{{ score.comment }}</td>
+                    </tr>
+
+                    {% endif %}
+                
+                {% endfor %}
+            {% set counter = counter +1 %}
+            {% endfor %}
+        {% endfor %}
+        <tr class="section">
+            <td class="final" colspan="2">Final Score</td>
+            <td>{{ audit.weightPercentage }}</td>
+            <td></td>
+            <td></td>          
         </tr>
     </table>
 

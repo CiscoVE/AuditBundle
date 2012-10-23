@@ -37,31 +37,31 @@ class AuditScore
      */
     protected $score;
     
-    protected $value;
+    protected $weightPercentage;
     
     /**
      * @ORM\Column(type="string",nullable=true)
      */    
     protected $comment;
 
-    public function getValue()
+    public function getWeightPercentage()
     {
         switch($this->score)
         {
             case AuditScore::YES;
-                $this->value = 100;
+                $this->weightPercentage = 100;
                 break;
             case AuditScore::NOT_APPLICABLE;
-                $this->value = 100;
+                $this->weightPercentage = 100;
                 break;
             case AuditScore::ACCEPTABLE;
-                $this->value = 50;
+                $this->weightPercentage = 50;
                 break;
             case AuditScore::NO;
-                $this->value = 0;
+                $this->weightPercentage = 0;
                 break;
         }
-        return $this->value;
+        return $this->weightPercentage;
     }
     
     /**
