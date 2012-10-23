@@ -108,44 +108,20 @@ class AuditController extends Controller
         {
             $scorerepo = $em->getRepository( 'WGAuditBundle:AuditScore' );
             $scores = $scorerepo->findBy( array( 'audit' => $audit ) );
-            $audit->setWeightPercentage($this->getWeightPercentage($scores));
-            $auditweight = 0;
-            
-            foreach($audit->getAuditForm()->getSections() as $section)
+
+            foreach ( $audit->getAuditForm()->getSections() as $section )
             {
-                $sectionWeight = 0;
-                $sectionWeightPercentage = 0;
-
-                foreach ($section->getFields() as $field)
+                foreach ( $section->getFields() as $field )
                 {
-                    $sectionWeight += $field->getWeight();
-                    
-                    $singleScore = $scorerepo->findOneBy(array('field' => $field));
-                    $sectionWeightPercentage += ($singleScore->getWeightPercentage()/count($section->getFields()));
+                    $singleScore = $scorerepo->findOneBy( array( 'field' => $field ) );
+                    $section->addScore( $field->getWeight(), $singleScore->getWeightPercentage() );
                 }
-                $section->setWeight($sectionWeight);
-                $section->setWeightPercentage($sectionWeightPercentage);
-                $auditweight += $section->getWeight();
+                $audit->addScore( $section->getWeight(), $section->getWeightPercentage() );
             }
-            
-            $audit->setWeight($auditweight);
         }
-
         return $this->render( 'WGAuditBundle:Audit:view.html.twig', array(
             'audit' => $audit,
             'scores' => $scores,
         ));
-    }
-    
-    public function getWeightPercentage( $scores )
-    {
-        $weightPercentage = 0;
-        
-        foreach ( $scores as $score )
-        {
-            $weightPercentage += $score->getWeightPercentage();
-        }
-       
-        return $weightPercentage / count($scores);
     }
 }
