@@ -1,4 +1,5 @@
 phpunit.xml
 *~
 composer.lock
+Tests/autoload.php
 vendor/
