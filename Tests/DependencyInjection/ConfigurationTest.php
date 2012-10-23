@@ -44,4 +44,15 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey( 'control_user', $processedConfig );
         $this->assertNull( $processedConfig['control_user'] );
     }
+
+    /**
+     * @test
+     */
+    public function shouldAllowToSetUserClass()
+    {
+        $config = array( 'wg_audit' => array(
+            'user' => array( 'class' => 'Symfony\Component\Security\Core\User\User' )
+        ));
+        $this->processConfiguration( $config );
+    }
 }
