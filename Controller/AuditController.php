@@ -65,10 +65,6 @@ class AuditController extends Controller
             }
             // TODO: add input field to form in order to set a reference
             // $audit->setAuditReference( null );
-            // ...
-            //
-            //$globalScore = 0;
-
             $em->persist( $audit );
             foreach ( $scores as $fieldId => $scoreData )
             {
@@ -78,11 +74,8 @@ class AuditController extends Controller
                 $score->setField( $field );
                 $score->setScore( $scoreData[ 'value' ] );
                 $score->setComment( $scoreData[ 'comment' ] );
-                $globalScore += $score->getWeightPercentage();
                 $em->persist( $score );
             }
-            $audit->setWeightPercentage( $globalScore );
-
             // TODO: calculate result and display / send emails / whatever, depending on configuration
             $audit->setFailed( false ); // replace with result of calculation
             $em->flush();
@@ -115,28 +108,21 @@ class AuditController extends Controller
         {
             $scorerepo = $em->getRepository( 'WGAuditBundle:AuditScore' );
             $scores = $scorerepo->findBy( array( 'audit' => $audit ) );
-            // audit weight percentage
             $audit->setWeightPercentage($this->getWeightPercentage($scores));
             $auditweight = 0;
             
-            // section weight percentage + weight
-            $sections = $audit->getAuditForm()->getSections();
-            foreach($sections as $section)
+            foreach($audit->getAuditForm()->getSections() as $section)
             {
                 $sectionWeight = 0;
                 $sectionWeightPercentage = 0;
-                $fields = $section->getFields();
 
-                foreach ($fields as $field)
+                foreach ($section->getFields() as $field)
                 {
-                    $fieldScores = $scorerepo->findBy(array('field' => $field));
-                    
                     $sectionWeight += $field->getWeight();
-                    $sectionWeightPercentage += $this->getWeightPercentage( $fieldScores);      
-//                    $section->addWeightPercentage($this->getWeightPercentage( $fieldScores));
-//                    $section->addWeight($field->getWeight());
+                    
+                    $singleScore = $scorerepo->findOneBy(array('field' => $field));
+                    $sectionWeightPercentage += ($singleScore->getWeightPercentage()/count($section->getFields()));
                 }
-                
                 $section->setWeight($sectionWeight);
                 $section->setWeightPercentage($sectionWeightPercentage);
                 $auditweight += $section->getWeight();
@@ -159,7 +145,7 @@ class AuditController extends Controller
         {
             $weightPercentage += $score->getWeightPercentage();
         }
-        
-        return $weightPercentage;
+       
+        return $weightPercentage / count($scores);
     }
 }
