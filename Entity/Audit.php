@@ -41,12 +41,18 @@ class Audit
     protected $controlUser;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @var boolean
      */
     protected $failed;
 
+    /**
+     * @var integer
+     */
     protected $weightPercentage;
     
+    /**
+     * @var integer
+     */
     protected $weight;
 
     /**

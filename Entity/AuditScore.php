@@ -37,6 +37,9 @@ class AuditScore
      */
     protected $score;
     
+    /**
+     * @var interger 
+     */
     protected $weightPercentage;
     
     /**

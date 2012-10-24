@@ -82,13 +82,7 @@ class AuditController extends Controller
                 $score->setScore( $scoreData[ 'value' ] );
                 $score->setComment( $scoreData[ 'comment' ] );
                 $em->persist( $score );
-                
-                if($field->getFatal() == true && $score->getScore($scoreData[ 'value' ]) == "N")
-                {
-                    $audit->setFailed(true);
-                }
             }
-            
             // $this->PopulateAuditScore($scorerepo, $audit);
             // TODO: calculate result and display / send emails / whatever, depending on configuration
             // replace with result of calculation
@@ -144,7 +138,16 @@ class AuditController extends Controller
             foreach ( $section->getFields() as $field )
             {
                 $singleScore = $scorerepo->findOneBy( array( 'field' => $field, 'audit' => $audit ));
-                $section->addScore( $field->getWeight(), $singleScore->getWeightPercentage() );
+                
+                if($field->getFatal() == true)
+                {
+                    if($singleScore->getScore() == "N")
+                    {
+                        $audit->setFailed(true);
+                    }
+                }
+                else
+                    $section->addScore( $field->getWeight(), $singleScore->getWeightPercentage() );
             }
 
             if($audit->getFailed() == true)
