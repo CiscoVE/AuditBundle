@@ -110,7 +110,8 @@ class Audit
      */
     public function addScore( $weight, $weightPercentage )
     {
-        $this->weightPercentage = $this->weightPercentage * $this->weight / ($this->weight + $weight) + $weightPercentage * $weight / ($this->weight + $weight);
+        $divisor = $this->weight + $weight;
+        $this->weightPercentage = $this->weightPercentage * $this->weight / $divisor + $weightPercentage * $weight / $divisor;
         $this->weight += $weight;
     }
 

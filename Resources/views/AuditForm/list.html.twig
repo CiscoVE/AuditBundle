@@ -2,12 +2,13 @@
 
 {% block body %}
 
-    <table>
+    <table id="audit">
         <thead>
             <tr>
                 <th>Title</th>
                 <th>Description</th>
                 <th>Is the form Active?</th>
+                <th></th>
             </tr>        
         </thead>
         <tbody>
@@ -15,6 +16,12 @@
                 <tr>
                     <td>{{ form.title }}</td>
                     <td>{{ form.description }}</td>
+                    <td>{%if form.active == true %}
+                            YES
+                        {% else %}
+                            NO
+                        {% endif %}
+                    </td>
                     <td>[ <a href="{{ path( 'wgaudit_add', { 'id' : form.id } ) }}">pick</a> ]</td>
                 </tr>
             {% else %}

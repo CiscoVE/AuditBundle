@@ -22,6 +22,13 @@ class AuditController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
         $repo = $em->getRepository( 'WGAuditBundle:Audit' );
         $auditlist = $repo->findAll();
+        
+        foreach ($auditlist as $audit)
+        {
+            $scorerepo = $em->getRepository( 'WGAuditBundle:AuditScore' );
+            $this->PopulateAuditScore( $scorerepo, $audit);
+        }
+        
         return $this->render( 'WGAuditBundle:Audit:index.html.twig', array(
             'audits' => $auditlist,
         ));
@@ -76,11 +83,13 @@ class AuditController extends Controller
                 $score->setComment( $scoreData[ 'comment' ] );
                 $em->persist( $score );
                 
-                if($field->getFatal() == true)
+                if($field->getFatal() == true && $score->getScore($scoreData[ 'value' ]) == "N")
                 {
                     $audit->setFailed(true);
                 }
             }
+            
+            // $this->PopulateAuditScore($scorerepo, $audit);
             // TODO: calculate result and display / send emails / whatever, depending on configuration
             // replace with result of calculation
             $em->flush();
@@ -114,26 +123,37 @@ class AuditController extends Controller
             $scorerepo = $em->getRepository( 'WGAuditBundle:AuditScore' );
             $scores = $scorerepo->findBy( array( 'audit' => $audit ));
 
-            foreach ( $audit->getAuditForm()->getSections() as $section )
-            {
-                foreach ( $section->getFields() as $field )
-                {
-                    $singleScore = $scorerepo->findOneBy( array( 'field' => $field, 'audit' => $audit ));
-                    $section->addScore( $field->getWeight(), $singleScore->getWeightPercentage() );
-                }
-                
-                if($audit->getFailed() == true)
-                {
-                    $audit->setWeight(0);
-                    $audit->setWeightPercentage(0);
-                }
-                else
-                    $audit->addScore( $section->getWeight(), $section->getWeightPercentage() );
-            }
+            $this->PopulateAuditScore( $scorerepo, $audit);
         }
         return $this->render( 'WGAuditBundle:Audit:view.html.twig', array(
             'audit' => $audit,
             'scores' => $scores,
         ));
+    }
+    
+    /**
+     * Populate scores for specified Audit, Score Repository
+     * 
+     * @param repository $scorerepo
+     * @param repository $audit
+     */
+    public function PopulateAuditScore( $scorerepo, $audit )
+    {
+        foreach ( $audit->getAuditForm()->getSections() as $section )
+        {
+            foreach ( $section->getFields() as $field )
+            {
+                $singleScore = $scorerepo->findOneBy( array( 'field' => $field, 'audit' => $audit ));
+                $section->addScore( $field->getWeight(), $singleScore->getWeightPercentage() );
+            }
+
+            if($audit->getFailed() == true)
+            {
+                $audit->setWeight(0);
+                $audit->setWeightPercentage(0);
+            }
+            else
+                $audit->addScore( $section->getWeight(), $section->getWeightPercentage() );
+        }
     }
 }

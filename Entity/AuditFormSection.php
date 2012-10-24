@@ -55,10 +55,22 @@ class AuditFormSection
      * @var integer
      */
     protected $weight;
+    
+    protected $isMgrInvolved;
 
     public function __construct()
     {
         $this->fields = new ArrayCollection();
+    }
+
+    public function getIsMgrInvolved()
+    {
+        return $this->isMgrInvolved;
+    }
+
+    public function setIsMgrInvolved( $isMgrInvolved )
+    {
+        $this->isMgrInvolved = $isMgrInvolved;
     }
 
     /**
@@ -110,7 +122,8 @@ class AuditFormSection
      */
     public function addScore( $weight, $weightPercentage )
     {
-        $this->weightPercentage = $this->weightPercentage * $this->weight / ($this->weight + $weight) + $weightPercentage * $weight / ($this->weight + $weight);
+        $divisor = $this->weight + $weight;
+        $this->weightPercentage = $this->weightPercentage * $this->weight / $divisor + $weightPercentage * $weight / $divisor;
         $this->weight += $weight;
     }
 

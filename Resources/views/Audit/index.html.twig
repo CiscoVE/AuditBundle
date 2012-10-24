@@ -8,7 +8,7 @@
             <th>Engineer</th>
             <th>Manager</th>
             <th>Form</th>
-            <th>Failed ?</th>
+            <th>Score</th>
             <th></th>
         </tr>        
     {% for audit in audits %}
@@ -17,7 +17,12 @@
             <td>{{ audit.auditingUser }}</td>
             <td>{{ audit.controlUser }}</td>
             <td>{{ audit.auditForm }}</td>
-            <td>{{ audit.failed }}</td>
+            <td>{% if audit.failed == true %}
+                    FAILED
+                {% else %}
+                    {{ audit.weightPercentage }}
+                {% endif %}
+            </td>
             <td>[ <a href="{{ path( 'wgaudit_view', { 'id': audit.id } ) }}">view</a> ]</td>             
         </tr>
     {% else %}
