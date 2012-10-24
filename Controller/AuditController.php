@@ -23,8 +23,8 @@ class AuditController extends Controller
         $repo = $em->getRepository( 'WGAuditBundle:Audit' );
         $auditlist = $repo->findAll();
         return $this->render( 'WGAuditBundle:Audit:index.html.twig', array(
-                    'audits' => $auditlist,
-                ) );
+            'audits' => $auditlist,
+        ));
     }
 
     /**
@@ -38,12 +38,12 @@ class AuditController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
         $repo = $em->getRepository( 'WGAuditBundle:AuditForm' );
-        $auditform = $repo->find( $request->get( 'id' ) );
+        $auditform = $repo->find( $request->get( 'id' ));
         if ( null === $auditform )
         {
             throw $this->createNotFoundException( 'Audit form not found' );
         }
-        if ( null !== $scores = $request->get( 'score' ) )
+        if ( null !== $scores = $request->get( 'score' ))
         {
             $fieldRepo = $em->getRepository( 'WGAuditBundle:AuditFormField' );
             $audit = new Audit();
@@ -57,7 +57,7 @@ class AuditController extends Controller
                 if ( $user instanceof $userClass && $prop )
                 {
                     $method = 'get' . ucfirst( $prop );
-                    if ( method_exists( $user, $method ) )
+                    if ( method_exists( $user, $method ))
                     {
                         $audit->setAuditingUser( $user->$method() );
                     }
@@ -75,17 +75,22 @@ class AuditController extends Controller
                 $score->setScore( $scoreData[ 'value' ] );
                 $score->setComment( $scoreData[ 'comment' ] );
                 $em->persist( $score );
+                
+                if($field->getFatal() == true)
+                {
+                    $audit->setFailed(true);
+                }
             }
             // TODO: calculate result and display / send emails / whatever, depending on configuration
-            $audit->setFailed( false ); // replace with result of calculation
+            // replace with result of calculation
             $em->flush();
-            return $this->redirect( $this->generateUrl( 'wgaudits' ) );
+            return $this->redirect( $this->generateUrl( 'wgaudits' ));
         }
         $scoreform = $this->createForm( new AuditScoreType() );
         return $this->render( 'WGAuditBundle:Audit:add.html.twig', array(
-                    'auditform' => $auditform,
-                    'scoreform' => $scoreform->createView(),
-                ) );
+            'auditform' => $auditform,
+            'scoreform' => $scoreform->createView(),
+        ));
     }
 
     /**
@@ -99,7 +104,7 @@ class AuditController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
         $auditrepo = $em->getRepository( 'WGAuditBundle:Audit' );
-        $audit = $auditrepo->find( $request->get( 'id' ) );
+        $audit = $auditrepo->find( $request->get( 'id' ));
         if ( null === $audit )
         {
             throw $this->createNotFoundException( 'Audit not found' );
@@ -107,16 +112,23 @@ class AuditController extends Controller
         else
         {
             $scorerepo = $em->getRepository( 'WGAuditBundle:AuditScore' );
-            $scores = $scorerepo->findBy( array( 'audit' => $audit ) );
+            $scores = $scorerepo->findBy( array( 'audit' => $audit ));
 
             foreach ( $audit->getAuditForm()->getSections() as $section )
             {
                 foreach ( $section->getFields() as $field )
                 {
-                    $singleScore = $scorerepo->findOneBy( array( 'field' => $field ) );
+                    $singleScore = $scorerepo->findOneBy( array( 'field' => $field, 'audit' => $audit ));
                     $section->addScore( $field->getWeight(), $singleScore->getWeightPercentage() );
                 }
-                $audit->addScore( $section->getWeight(), $section->getWeightPercentage() );
+                
+                if($audit->getFailed() == true)
+                {
+                    $audit->setWeight(0);
+                    $audit->setWeightPercentage(0);
+                }
+                else
+                    $audit->addScore( $section->getWeight(), $section->getWeightPercentage() );
             }
         }
         return $this->render( 'WGAuditBundle:Audit:view.html.twig', array(
