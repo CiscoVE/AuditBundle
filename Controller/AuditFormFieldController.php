@@ -92,16 +92,22 @@ class AuditFormFieldController extends Controller
             throw $this->createNotFoundException( 'Field does not exist' );
         }
         
-//        $sectionRepo = $em->getRepository( 'WGAuditBundle:AuditFormSection' );
-//        $section = $sectionRepo->find( $field->getSection());
+        $value = $request->get('scoreData');
+        
+        $sectionRepo = $em->getRepository( 'WGAuditBundle:AuditFormSection' );
+        $section = $sectionRepo->find( $field->getSection()->getId());
+        $section->setWeightPercentage(100);
+//        $section->addScore($field->getWeight(), $value);
 //        $formRepo = $em->getRepositoty( 'WGAuditBundle:AuditForm' );
 //        $auditForm = $formRepo->find( $section->getAuditform());
         
-        $value = 'whatever';
+//        $ret = 'whatever';
+        $ret = $section->getWeightPercentage();
+
         //
         // Do your calculation here
         //
-        return new Response( $value );
+        return new Response( $ret );
     }
 
 }

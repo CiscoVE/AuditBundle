@@ -14,48 +14,48 @@
             <th>Weight</th>
             <th>Reviewer's Comment</th>
         </tr>
-        {% set counter = 1 %}        
+        {% set counter = 1 %}
         {% for section in audit.auditform.sections %}
 
         <tr class="wgaudit-section">
             <td  class="wgaudit-field" colspan="5">Section {{ loop.index }}: {{ section.title }}</td>
         </tr>
-            {% for field in section.fields %}
-                
-                {% for score in scores %}
+        {% for field in section.fields %}
 
-                    {% if score.field == field %}
+            {% for score in scores %}
 
-                    <tr>
-                        <td>{{ counter }}</td>
-                        <td class="wgaudit-field">{{ field.title }}</td>
-                        <td>{{ score.score }} - {{ score.weightPercentage }}</td>
-                        <td>{% if field.fatal == true %}
-                                Involve Mgr
-                            {% else %}
-                                {{ field.weight }}
-                            {% endif %}
-                        </td>
-                        <td class="wgaudit-field">{{ score.comment }}</td>
-                    </tr>
+                {% if score.field == field %}
 
-                    {% endif %}
-                
-                {% endfor %}
-            {% set counter = counter +1 %}
+                <tr>
+                    <td>{{ counter }}</td>
+                    <td class="wgaudit-field">{{ field.title }}</td>
+                    <td>{{ score.score }} - {{ score.weightPercentage }}</td>
+                    <td>{% if field.fatal == true %}
+                            Involve Mgr
+                        {% else %}
+                            {{ field.weight }}
+                        {% endif %}
+                    </td>
+                    <td class="wgaudit-field">{{ score.comment }}</td>
+                </tr>
+
+                {% endif %}
+
             {% endfor %}
+            {% set counter = counter +1 %}
+        {% endfor %}
         <tr>
             <td class="wgaudit-score-final" colspan="2">Section's Score</td>
-            <td>{{ section.weightPercentage }}</td>
+            <td>{{ attribute( audit, 'resultForSection', [ section ] ) }}</td>
             <td>{{ section.weight }}</td>
             <td></td>
         </tr>
         {% endfor %}
         <tr class="wgaudit-section">
             <td class="wgaudit-score-final" colspan="2">Final Score</td>
-            <td>{{ audit.weightPercentage }}</td>
-            <td>{{ audit.weight }}</td>
-            <td></td>          
+            <td>{{ audit.totalResult }}</td>
+            <td>{{ audit.auditForm.weight }}</td>
+            <td></td>
         </tr>
     </table>
 

@@ -4,7 +4,10 @@ namespace WG\AuditBundle\Entity;
 
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 use WG\AuditBundle\Entity\AuditForm;
+use WG\AuditBundle\Entity\AuditFormField;
+use WG\AuditBundle\Entity\AuditScore;
 
 /**
  * @ORM\Entity
@@ -46,85 +49,59 @@ class Audit
     protected $failed;
 
     /**
-     * @var integer
+     * @ORM\OneToMany(targetEntity="WG\AuditBundle\Entity\AuditScore", mappedBy="audit")
      */
-    protected $weightPercentage;
-    
-    /**
-     * @var integer
-     */
-    protected $weight;
+    protected $scores;
 
     /**
      * @ORM\Column(name="created_at",type="datetime")
      * @Gedmo\Timestampable(on="create")
      */
     protected $createdAt;
-    
+
     function __construct()
     {
-        $this->weightPercentage = 0;
-        $this->weight = 0;
-    }    
-    
-    /**
-     * Get weight
-     * 
-     * @return integer
-     */
-    public function getWeight()
-    {
-        return $this->weight;
+        $this->scores = new ArrayCollection();
     }
 
     /**
-     * Set weight
-     * 
-     * @param integer $weight
+     * Get scores
+     *
+     * @return type
      */
-    public function setWeight( $weight )
+    public function getScores()
     {
-        $this->weight = $weight;
+        return $this->scores;
     }
 
     /**
-     * Get weightPercentage
-     * 
-     * @return integer
+     * Add a score
+     *
+     * @param \WG\AuditBundle\Entity\AuditScore $score
+     * @return Audit
      */
-    public function getWeightPercentage()
+    public function addScore( AuditScore $score )
     {
-        return $this->weightPercentage;
+        $score->setAudit( $this );
+        $this->scores[ ] = $score;
+
+        return $this;
     }
 
     /**
-     * Set weightPercentage
-     * 
-     * @param integer $weightPercentage
+     * Remove score
+     *
+     * @param \WG\AuditBundle\Entity\AuditScore $score
      */
-    public function setWeightPercentage( $weightPercentage )
+    public function removeScore( AuditScore $score )
     {
-        $this->weightPercentage = $weightPercentage;
-    }
-
-    /**
-     * add weight and weight's percentage to current variable 
-     * $weight and $weightpercentage
-     * 
-     * @param integer $weight
-     * @param integer $weightPercentage
-     */
-    public function addScore( $weight, $weightPercentage )
-    {
-        $divisor = $this->weight + $weight;
-        $this->weightPercentage = $this->weightPercentage * $this->weight / $divisor + $weightPercentage * $weight / $divisor;
-        $this->weight += $weight;
+        $this->scores->removeElement( $score );
     }
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -140,14 +117,14 @@ class Audit
     public function setAuditForm($auditForm)
     {
         $this->auditForm = $auditForm;
-    
+
         return $this;
     }
 
     /**
      * Get auditForm
      *
-     * @return string 
+     * @return string
      */
     public function getAuditForm()
     {
@@ -163,14 +140,14 @@ class Audit
     public function setAuditReference($auditReference)
     {
         $this->auditReference = $auditReference;
-    
+
         return $this;
     }
 
     /**
      * Get auditReference
      *
-     * @return integer 
+     * @return integer
      */
     public function getAuditReference()
     {
@@ -186,14 +163,14 @@ class Audit
     public function setAuditingUser($auditingUser)
     {
         $this->auditingUser = $auditingUser;
-    
+
         return $this;
     }
 
     /**
      * Get auditingUser
      *
-     * @return integer 
+     * @return integer
      */
     public function getAuditingUser()
     {
@@ -209,14 +186,14 @@ class Audit
     public function setControlUser($controlUser)
     {
         $this->controlUser = $controlUser;
-    
+
         return $this;
     }
 
     /**
      * Get controlUser
      *
-     * @return integer 
+     * @return integer
      */
     public function getControlUser()
     {
@@ -232,14 +209,14 @@ class Audit
     public function setFailed($failed)
     {
         $this->failed = $failed;
-    
+
         return $this;
     }
 
     /**
      * Get failed
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getFailed()
     {
@@ -255,17 +232,69 @@ class Audit
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
-    
+
         return $this;
     }
 
     /**
      * Get createdAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
         return $this->createdAt;
+    }
+
+    public function getScoreForField( AuditFormField $field )
+    {
+        $scores = $this->getScores();
+        foreach ( $scores as $score )
+        {
+            if ( $field->getId() == $score->getField()->getId() )
+            {
+                return $score;
+            }
+        }
+        return false;
+    }
+
+    public function getResultForSection( $section )
+    {
+        $fields = $section->getFields();
+        $fieldCount = count( $fields );
+        if ( 0 == $fieldCount ) return 100;
+        $achievedPercentages = 0;
+        foreach ( $fields as $field )
+        {
+            $score = $this->getScoreForField( $field );
+            if ( !$score ) continue;
+            if ( $field->getFatal() == true )
+            {
+                if ( $score->getScore() == AuditScore::NO )
+                {
+                    $this->setFailed( true );
+                    continue;
+                }
+            }
+            $achievedPercentages += $score->getWeightPercentage();
+        }
+        return $achievedPercentages / $fieldCount;
+    }
+
+    public function getTotalResult()
+    {
+        $sections = $this->getAuditForm()->getSections();
+        if ( 0 == count( $sections ) ) return 100;
+        $totalPercent = 0;
+        $divisor = 0;
+        foreach ( $sections as $section )
+        {
+            $percent = $this->getResultForSection( $section );
+            $weight  = $section->getWeight();
+            $divisor += $weight;
+            $totalPercent = $totalPercent * ( $divisor - $weight ) / $divisor + $percent * $weight / $divisor;
+        }
+        return $totalPercent;
     }
 }

@@ -51,39 +51,27 @@ class AuditFormSection
      */
     protected $weightPercentage;
 
-    /**
-     * @var integer
-     */
-    protected $weight;
-    
     public function __construct()
     {
         $this->fields = new ArrayCollection();
+        $this->weightPercentage = 0;
     }
 
     /**
      * Get weight
-     * 
+     *
      * @return integer
      */
     public function getWeight()
     {
-        return $this->weight;
-    }
-
-    /**
-     * Set weight
-     * 
-     * @param integer $weight
-     */
-    public function setWeight( $weight )
-    {
-        $this->weight = $weight;
+        $weight = 0;
+        foreach ( $this->fields as $field ) $weight += $field->getWeight();
+        return $weight;
     }
 
     /**
      * Get weightPercentage
-     * 
+     *
      * @return integer
      */
     public function getWeightPercentage()
@@ -93,7 +81,7 @@ class AuditFormSection
 
     /**
      * Set weightPercentage
-     * 
+     *
      * @param integer $weightPercentage
      */
     public function setWeightPercentage( $weightPercentage )
@@ -102,13 +90,13 @@ class AuditFormSection
     }
 
     /**
-     * add weight and weight's percentage to current variable 
+     * add weight and weight's percentage to current variable
      * $weight and $weightpercentage
-     * 
+     *
      * @param integer $weight
      * @param integer $weightPercentage
      */
-    public function addScore( $weight, $weightPercentage )
+    public function addScore( $weight, $weightPercentage )  // deprecated
     {
         $divisor = $this->weight + $weight;
         $this->weightPercentage = $this->weightPercentage * $this->weight / $divisor + $weightPercentage * $weight / $divisor;
@@ -118,7 +106,7 @@ class AuditFormSection
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -141,7 +129,7 @@ class AuditFormSection
     /**
      * Get auditform
      *
-     * @return string 
+     * @return string
      */
     public function getAuditform()
     {
@@ -164,7 +152,7 @@ class AuditFormSection
     /**
      * Get title
      *
-     * @return string 
+     * @return string
      */
     public function getTitle()
     {
@@ -187,7 +175,7 @@ class AuditFormSection
     /**
      * Get description
      *
-     * @return string 
+     * @return string
      */
     public function getDescription()
     {
@@ -210,13 +198,18 @@ class AuditFormSection
     /**
      * Get position
      *
-     * @return integer 
+     * @return integer
      */
     public function getPosition()
     {
         return $this->position;
     }
 
+    /**
+     * Get fields
+     *
+     * @return WG\AuditBundle\Entity\AuditFormField $fields
+     */
     public function getFields()
     {
         return $this->fields;

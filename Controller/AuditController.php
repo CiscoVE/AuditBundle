@@ -4,6 +4,7 @@ namespace WG\AuditBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use WG\AuditBundle\Form\Type\AuditScoreType;
 use WG\AuditBundle\Entity\Audit;
 use WG\AuditBundle\Entity\AuditScore;
@@ -13,7 +14,7 @@ class AuditController extends Controller
 
     /**
      * View created audits
-     * 
+     *
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -21,22 +22,15 @@ class AuditController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
         $repo = $em->getRepository( 'WGAuditBundle:Audit' );
-        $auditlist = $repo->findAll();
-        
-        foreach ($auditlist as $audit)
-        {
-            $scorerepo = $em->getRepository( 'WGAuditBundle:AuditScore' );
-            $this->populateAuditScore( $scorerepo, $audit);
-        }
-        
+        $audits = $repo->findAll();
         return $this->render( 'WGAuditBundle:Audit:index.html.twig', array(
-            'audits' => $auditlist,
+            'audits' => $audits,
         ));
     }
 
     /**
      * Create new audit
-     * 
+     *
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws NotFoundException
@@ -50,40 +44,16 @@ class AuditController extends Controller
         {
             throw $this->createNotFoundException( 'Audit form not found' );
         }
-        if ( null !== $scores = $request->get( 'score' ))
+        if ( null !== $scoreArray = $request->get( 'score' ))
         {
-            $fieldRepo = $em->getRepository( 'WGAuditBundle:AuditFormField' );
             $audit = new Audit();
             $audit->setAuditForm( $auditform );
             // depending on configuration, set a user ID:
-            $userClass = $this->container->getParameter( 'wg.audit.user.class' );
-            if ( $userClass )
-            {
-                $prop = $this->container->getParameter( 'wg.audit.user.property' );
-                $user = $this->container->get( 'security.context' )->getToken()->getUser();
-                if ( $user instanceof $userClass && $prop )
-                {
-                    $method = 'get' . ucfirst( $prop );
-                    if ( method_exists( $user, $method ))
-                    {
-                        $audit->setAuditingUser( $user->$method() );
-                    }
-                }
-            }
+            $this->setUserID( $audit );
             // TODO: add input field to form in order to set a reference
             // $audit->setAuditReference( null );
+            $this->setAuditScores( $em, $audit, $scoreArray );
             $em->persist( $audit );
-            foreach ( $scores as $fieldId => $scoreData )
-            {
-                $field = $fieldRepo->find( $fieldId );
-                $score = new AuditScore();
-                $score->setAudit( $audit );
-                $score->setField( $field );
-                $score->setScore( $scoreData[ 'value' ] );
-                $score->setComment( $scoreData[ 'comment' ] );
-                $em->persist( $score );
-            }
-            // $this->PopulateAuditScore($scorerepo, $audit);
             // TODO: calculate result and display / send emails / whatever, depending on configuration
             // replace with result of calculation
             $em->flush();
@@ -98,9 +68,42 @@ class AuditController extends Controller
         ));
     }
 
+    private function setUserID( $audit )
+    {
+        $userClass = $this->container->getParameter( 'wg.audit.user.class' );
+        if ( $userClass )
+        {
+            $prop = $this->container->getParameter( 'wg.audit.user.property' );
+            $user = $this->container->get( 'security.context' )->getToken()->getUser();
+            if ( $user instanceof $userClass && $prop )
+            {
+                $method = 'get' . ucfirst( $prop );
+                if ( method_exists( $user, $method ))
+                {
+                    $audit->setAuditingUser( $user->$method() );
+                }
+            }
+        }
+    }
+
+    private function setAuditScores( $entityMrg, $audit, $scores )
+    {
+        $fieldRepo = $entityMrg->getRepository( 'WGAuditBundle:AuditFormField' );
+        foreach ( $scores as $fieldId => $scoreData )
+        {
+            $field = $fieldRepo->find( $fieldId );
+            $score = new AuditScore();
+            $score->setAudit( $audit );
+            $score->setField( $field );
+            $score->setScore( $scoreData[ 'value' ] );
+            $score->setComment( $scoreData[ 'comment' ] );
+            $entityMrg->persist( $score );
+        }
+    }
+
     /**
      * view a single Audit
-     * 
+     *
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws NotFoundException
@@ -119,46 +122,11 @@ class AuditController extends Controller
             $scorerepo = $em->getRepository( 'WGAuditBundle:AuditScore' );
             $scores = $scorerepo->findBy( array( 'audit' => $audit ));
 
-            $this->PopulateAuditScore( $scorerepo, $audit);
+            //$audit->populateAuditForm();
         }
         return $this->render( 'WGAuditBundle:Audit:view.html.twig', array(
             'audit' => $audit,
             'scores' => $scores,
         ));
-    }
-    
-    /**
-     * Populate scores for specified Audit, Score Repository
-     * 
-     * @param repository $scorerepo
-     * @param repository $audit
-     */
-    public function populateAuditScore( $scorerepo, $audit )
-    {
-        foreach ( $audit->getAuditForm()->getSections() as $section )
-        {
-            foreach ( $section->getFields() as $field )
-            {
-                $singleScore = $scorerepo->findOneBy( array( 'field' => $field, 'audit' => $audit ));
-                
-                if($field->getFatal() == true)
-                {
-                    if($singleScore->getScore() == "N")
-                    {
-                        $audit->setFailed(true);
-                    }
-                }
-                else
-                    $section->addScore( $field->getWeight(), $singleScore->getWeightPercentage() );
-            }
-
-            if($audit->getFailed() == true)
-            {
-                $audit->setWeight(0);
-                $audit->setWeightPercentage(0);
-            }
-            else
-                $audit->addScore( $section->getWeight(), $section->getWeightPercentage() );
-        }
     }
 }

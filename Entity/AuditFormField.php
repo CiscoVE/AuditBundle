@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="wgauditformfield")
  */
 class AuditFormField
-{  
+{
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -34,6 +34,7 @@ class AuditFormField
     protected $description;
 
     /**
+     * array of string values: settable scores
      * @ORM\Column(type="array")
      */
     protected $scores;
@@ -53,17 +54,17 @@ class AuditFormField
      * @ORM\Column(name="position",type="integer")
      */
     protected $position;
-    
+
     /**
      * @Gedmo\Slug(fields={"title"})
      * @ORM\Column(length=127, unique=true)
      */
     protected $slug;
-    
+
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -79,14 +80,14 @@ class AuditFormField
     public function setTitle($title)
     {
         $this->title = $title;
-    
+
         return $this;
     }
 
     /**
      * Get title
      *
-     * @return string 
+     * @return string
      */
     public function getTitle()
     {
@@ -102,14 +103,14 @@ class AuditFormField
     public function setDescription($description)
     {
         $this->description = $description;
-    
+
         return $this;
     }
 
     /**
      * Get description
      *
-     * @return string 
+     * @return string
      */
     public function getDescription()
     {
@@ -125,10 +126,10 @@ class AuditFormField
     public function setScores($scores)
     {
         $this->scores = $scores;
-    
+
         return $this;
     }
-    
+
     /**
      * Add score and its label
      *
@@ -142,11 +143,11 @@ class AuditFormField
 
         return $this;
     }
-    
+
     /**
      * Get scores
      *
-     * @return array 
+     * @return array
      */
     public function getScores()
     {
@@ -162,14 +163,14 @@ class AuditFormField
     public function setWeight($weight)
     {
         $this->weight = $weight;
-    
+
         return $this;
     }
 
     /**
      * Get weight
      *
-     * @return integer 
+     * @return integer
      */
     public function getWeight()
     {
@@ -185,14 +186,14 @@ class AuditFormField
     public function setFatal($fatal)
     {
         $this->fatal = $fatal;
-    
+
         return $this;
     }
 
     /**
      * Get fatal
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getFatal()
     {
@@ -208,14 +209,14 @@ class AuditFormField
     public function setPosition($position)
     {
         $this->position = $position;
-    
+
         return $this;
     }
 
     /**
      * Get position
      *
-     * @return integer 
+     * @return integer
      */
     public function getPosition()
     {
@@ -231,14 +232,14 @@ class AuditFormField
     public function setSection(\WG\AuditBundle\Entity\AuditFormSection $section = null)
     {
         $this->section = $section;
-    
+
         return $this;
     }
 
     /**
      * Get section
      *
-     * @return WG\AuditBundle\Entity\AuditFormSection 
+     * @return WG\AuditBundle\Entity\AuditFormSection
      */
     public function getSection()
     {
@@ -254,14 +255,14 @@ class AuditFormField
     public function setSlug($slug)
     {
         $this->slug = $slug;
-    
+
         return $this;
     }
 
     /**
      * Get slug
      *
-     * @return string 
+     * @return string
      */
     public function getSlug()
     {

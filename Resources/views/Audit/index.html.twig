@@ -10,8 +10,9 @@
             <th>Form</th>
             <th>Score</th>
             <th></th>
-        </tr>        
+        </tr>
     {% for audit in audits %}
+        {% set result = audit.totalResult %}
         <tr>
             <td>{{ audit.auditReference }}</td>
             <td>{{ audit.auditingUser }}</td>
@@ -20,10 +21,10 @@
             <td>{% if audit.failed == true %}
                     FAILED
                 {% else %}
-                    {{ audit.weightPercentage }}
+                    {{ result }}
                 {% endif %}
             </td>
-            <td>[ <a href="{{ path( 'wgaudit_view', { 'id': audit.id } ) }}">view</a> ]</td>             
+            <td>[ <a href="{{ path( 'wgaudit_view', { 'id': audit.id } ) }}">view</a> ]</td>
         </tr>
     {% else %}
         <tr>
@@ -31,6 +32,6 @@
                 <p>Nothin yet dude</p>
             </td>
         </tr>
-    {% endfor %}    
+    {% endfor %}
     </table>
 {% endblock %}

@@ -47,16 +47,28 @@ class AuditForm
      */
     protected $sections;
 
+    /**
+     * @var integer
+     */
+    protected $weightPercentage;
+
+    /**
+     * @var integer
+     */
+    protected $weight;
+
     public function __construct()
     {
         $this->active = true;
         $this->sections = new ArrayCollection();
+        $this->weight = 0;
+        $this->weightPercentage = 0;
     }
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -79,7 +91,7 @@ class AuditForm
     /**
      * Get title
      *
-     * @return string 
+     * @return string
      */
     public function getTitle()
     {
@@ -102,7 +114,7 @@ class AuditForm
     /**
      * Get description
      *
-     * @return string 
+     * @return string
      */
     public function getDescription()
     {
@@ -125,7 +137,7 @@ class AuditForm
     /**
      * Get active
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getActive()
     {
@@ -148,7 +160,7 @@ class AuditForm
     /**
      * Get createdAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -170,7 +182,7 @@ class AuditForm
     {
         $section->setAuditform( $this );
         $this->sections[] = $section;
-    
+
         return $this;
     }
 
@@ -187,10 +199,64 @@ class AuditForm
     /**
      * Get sections
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return Doctrine\Common\Collections\Collection
      */
     public function getSections()
     {
         return $this->sections;
+    }
+
+        /**
+     * Get weight
+     *
+     * @return integer
+     */
+    public function getWeight()
+    {
+        return $this->weight;
+    }
+
+    /**
+     * Set weight
+     *
+     * @param integer $weight
+     */
+    public function setWeight( $weight )
+    {
+        $this->weight = $weight;
+    }
+
+    /**
+     * Get weightPercentage
+     *
+     * @return integer
+     */
+    public function getWeightPercentage()
+    {
+        return $this->weightPercentage;
+    }
+
+    /**
+     * Set weightPercentage
+     *
+     * @param integer $weightPercentage
+     */
+    public function setWeightPercentage( $weightPercentage )
+    {
+        $this->weightPercentage = $weightPercentage;
+    }
+
+    /**
+     * add weight and weight's percentage to current variable
+     * $weight and $weightpercentage
+     *
+     * @param integer $weight
+     * @param integer $weightPercentage
+     */
+    public function addScore( $weight, $weightPercentage )
+    {
+        $divisor = $this->weight + $weight;
+        $this->weightPercentage = $this->weightPercentage * $this->weight / $divisor + $weightPercentage * $weight / $divisor;
+        $this->weight += $weight;
     }
 }

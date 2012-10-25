@@ -36,41 +36,53 @@ class AuditScore
      * @ORM\Column(type="string")
      */
     protected $score;
-    
+
     /**
-     * @var interger 
+     * @var interger
      */
     protected $weightPercentage;
-    
+
     /**
      * @ORM\Column(type="string",nullable=true)
-     */    
+     */
     protected $comment;
 
     public function getWeightPercentage()
     {
         switch($this->score)
         {
-            case AuditScore::YES;
+            case AuditScore::YES:
                 $this->weightPercentage = 100;
                 break;
-            case AuditScore::NOT_APPLICABLE;
+            case AuditScore::NOT_APPLICABLE:
                 $this->weightPercentage = 100;
                 break;
-            case AuditScore::ACCEPTABLE;
+            case AuditScore::ACCEPTABLE:
                 $this->weightPercentage = 50;
                 break;
-            case AuditScore::NO;
+            case AuditScore::NO:
                 $this->weightPercentage = 0;
                 break;
         }
         return $this->weightPercentage;
     }
-    
-    /**
+
+    public function calculateWeight()
+    {
+        $weight = $this->field->getWeight();
+        switch( $this->score )
+        {
+            case AuditScore::YES:
+            case AuditScore::NOT_APPLICABLE: return $weight;
+            case AuditScore::ACCEPTABLE: return $weight / 2;
+            case AuditScore::NO: return 0;
+        }
+    }
+
+        /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -86,14 +98,14 @@ class AuditScore
     public function setScore($score)
     {
         $this->score = $score;
-    
+
         return $this;
     }
 
     /**
      * Get score
      *
-     * @return string 
+     * @return string
      */
     public function getScore()
     {
@@ -109,14 +121,14 @@ class AuditScore
     public function setComment($comment)
     {
         $this->comment = $comment;
-    
+
         return $this;
     }
 
     /**
      * Get comment
      *
-     * @return string 
+     * @return string
      */
     public function getComment()
     {
@@ -132,14 +144,14 @@ class AuditScore
     public function setAudit(\WG\AuditBundle\Entity\Audit $audit = null)
     {
         $this->audit = $audit;
-    
+
         return $this;
     }
 
     /**
      * Get audit
      *
-     * @return WG\AuditBundle\Entity\Audit 
+     * @return WG\AuditBundle\Entity\Audit
      */
     public function getAudit()
     {
@@ -155,14 +167,14 @@ class AuditScore
     public function setField(\WG\AuditBundle\Entity\AuditFormField $field = null)
     {
         $this->field = $field;
-    
+
         return $this;
     }
 
     /**
      * Get field
      *
-     * @return WG\AuditBundle\Entity\AuditFormField 
+     * @return WG\AuditBundle\Entity\AuditFormField
      */
     public function getField()
     {

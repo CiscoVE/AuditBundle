@@ -44,14 +44,14 @@
         <tr>
             <td class="wgaudit-score-final" colspan="2">Section's Score</td>
             <td class="wgaudit-section-score"></td>
-            <td class="wgaudit-section-weight"></td>
+            <td class="wgaudit-section-weight">{{ section.weight }}</td>
             <td id="my-element"></td>
         </tr>
         {% endfor %}
         <tr class="wgaudit-section">
             <td class="wgaudit-score-final" colspan="2">Final Score</td>
             <td class="wgaudit-form-score"></td>
-            <td class="wgaudit-form-weight"></td>
+            <td class="wgaudit-form-weight">{#{ audit.weight }#}</td>
             <td></td>          
         </tr>
     </table>
@@ -68,11 +68,14 @@
         $( '.wgaudit-score-selector' ).change(function()
         {
             var id = $( this ).attr( 'data-field-id' );
+            var val = $( this ).val();
             var url = routePatternCalculateScore.replace( '{id}', id );
             $.ajax(
             {
                 url: url,
                 dataType: 'text',
+                data: { scoreData: val },
+                type: 'post',
                 error: function( response )
                 {
                     console.log( 'error: ' + response );
