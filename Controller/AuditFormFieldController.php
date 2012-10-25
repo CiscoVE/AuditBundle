@@ -4,6 +4,7 @@ namespace WG\AuditBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use WG\AuditBundle\Entity\AuditFormField;
 use WG\AuditBundle\Form\Type\AuditFormFieldType;
 
@@ -72,6 +73,35 @@ class AuditFormFieldController extends Controller
             return $this->redirect( $this->generateUrl( 'wgauditformfields' ));
         }
         throw $this->createNotFoundException( 'Field does not exist' );
+    }
+    
+    /**
+     * Get weight percentage from $request
+     * 
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws type
+     */
+    public function calculateScoreAction( Request $request )
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $repo = $em->getRepository( 'WGAuditBundle:AuditFormField' );
+        $field = $repo->find( $request->get( 'id' ));
+        if ( null === $field )
+        {
+            throw $this->createNotFoundException( 'Field does not exist' );
+        }
+        
+//        $sectionRepo = $em->getRepository( 'WGAuditBundle:AuditFormSection' );
+//        $section = $sectionRepo->find( $field->getSection());
+//        $formRepo = $em->getRepositoty( 'WGAuditBundle:AuditForm' );
+//        $auditForm = $formRepo->find( $section->getAuditform());
+        
+        $value = 'whatever';
+        //
+        // Do your calculation here
+        //
+        return new Response( $value );
     }
 
 }

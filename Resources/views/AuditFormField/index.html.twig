@@ -11,13 +11,13 @@
         <tbody>
             {% for field in fields %}
                 <tr>
-                    <td class="label">Title: </td>
-                    <td class="field">{{ field.title }}</td>
-                    <td class="label">Section: </td>
-                    <td class="field">{{ field.section }}</td>
-                    <td class="label">Weight: </td>
+                    <td class="wgaudit-label">Title: </td>
+                    <td class="wgaudit-field">{{ field.title }}</td>
+                    <td class="wgaudit-label">Section: </td>
+                    <td class="wgaudit-field">{{ field.section }}</td>
+                    <td class="wgaudit-label">Weight: </td>
                     <td>{{ field.weight }}</td>
-                    <td class="label">Fatal: </td>
+                    <td class="wgaudit-label">Fatal: </td>
                     <td>{% if field.fatal == 1 %}
                             <div>Yes</div>
                         {% else %}
@@ -29,12 +29,12 @@
                     <td>[ <a href="{{ path( 'wgauditformfield_remove', { 'id': field.id } ) }}">delete</a> ]</td>
                 </tr>
                 <tr>
-                    <td class="label">Description: </td>
-                    <td colspan="10" class="field">{{ field.description }}</td>
+                    <td class="wgaudit-label">Description: </td>
+                    <td colspan="10" class="wgaudit-field">{{ field.description }}</td>
                 </tr>
                 <tr>
-                    <td class="label">Scores: </td>
-                    <td colspan="10" class="field">{% for score, label in field.scores %}
+                    <td class="wgaudit-label">Scores: </td>
+                    <td colspan="10" class="wgaudit-field">{% for score, label in field.scores %}
                             <div>
                                 {{ score }}: {{ label }}
                             </div>

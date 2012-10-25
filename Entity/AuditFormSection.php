@@ -56,21 +56,9 @@ class AuditFormSection
      */
     protected $weight;
     
-    protected $isMgrInvolved;
-
     public function __construct()
     {
         $this->fields = new ArrayCollection();
-    }
-
-    public function getIsMgrInvolved()
-    {
-        return $this->isMgrInvolved;
-    }
-
-    public function setIsMgrInvolved( $isMgrInvolved )
-    {
-        $this->isMgrInvolved = $isMgrInvolved;
     }
 
     /**

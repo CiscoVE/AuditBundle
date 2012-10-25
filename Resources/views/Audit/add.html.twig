@@ -5,7 +5,6 @@
 {% block body %}
 <h2>Create new audit</h2>
 
-
 <form id="audit" method="POST" action="">
 
     <table>
@@ -18,8 +17,8 @@
         </tr>
         {% set counter = 1 %} 
         {% for section in auditform.sections %}
-        <tr class="section">
-            <td  class="field" colspan="2">Section {{ loop.index }}: {{ section.title }}</td>
+        <tr class="wgaudit-section">
+            <td  class="wgaudit-field" colspan="2">Section {{ loop.index }}: {{ section.title }}</td>
             <td>{#{ section.score }#}</td>
             <td>{#{ section.weight }#}</td>
             <td>
@@ -27,10 +26,10 @@
         {% for field in section.fields %}
         <tr>
             <td>{{ counter }}</td>
-            <td class="field">{{ field.title }}</td>
+            <td class="wgaudit-field">{{ field.title }}</td>
             <td>
                 {% set form = craue_cloneForm(scoreform) %}
-                <select name="score[{{ field.id }}][value]">
+                <select name="score[{{ field.id }}][value]" class="wgaudit-score-selector" data-field-id="{{ field.id }}">
                 {% for score, label in field.scores %}
                     <option value="{{ score }}" data-tooltip="{{ label }}" class="tooltip">
                     {{ score }}
@@ -38,54 +37,55 @@
                 {% endfor %}
             </td>
             <td>{{ field.weight }}</td>
-            <td class="field"><textarea name="score[{{ field.id }}][comment]"></textarea></td>
+            <td class="wgaudit-field"><textarea name="score[{{ field.id }}][comment]"></textarea></td>
         </tr>
         {% set counter = counter + 1 %}
         {% endfor %}
+        <tr>
+            <td class="wgaudit-score-final" colspan="2">Section's Score</td>
+            <td class="wgaudit-section-score"></td>
+            <td class="wgaudit-section-weight"></td>
+            <td id="my-element"></td>
+        </tr>
         {% endfor %}
+        <tr class="wgaudit-section">
+            <td class="wgaudit-score-final" colspan="2">Final Score</td>
+            <td class="wgaudit-form-score"></td>
+            <td class="wgaudit-form-weight"></td>
+            <td></td>          
+        </tr>
     </table>
 
-
-
-{#
-    {% for section in auditform.sections %}
-    <div class="auditform-section">
-        <h3>Section {{ loop.index }}: {{ section.title }}</h3>
-    </div>
-    <div class="auditform-table">
-        <div class="auditform-field">
-        {% for field in section.fields %}
-            <div class="field">
-                <span class="auditform-label" title="{{ field.description }}">
-                    {{ field.title }}
-                </span>
-                <div class="auditform-score">
-                    {# AuditScore form cloning 
-                    {% set form = craue_cloneForm(scoreform) %}
-                    {{ form_label(form.score) }}
-                    <select name="score[{{ field.id }}][value]">
-                    {% for score, label in field.scores %}
-                        <option value="{{ score }}" data-tooltip="{{ label }}" class="tooltip">
-                        {{ score }}
-                        </option>
-                    {% endfor %}
-                    </select>
-                    {{ form_errors(form.score) }}
-                </div>
-                <div class="auditform-comment">
-                    {{ form_label(form.comment) }}
-                        <textarea name="score[{{ field.id }}][comment]"></textarea>
-                    {{ form_errors(form.comment) }}
-                </div>
-            </div>
-        {% endfor %}
-        </div>
-    </div>
-    {% endfor %}
-#}
     <div>
         <input type="submit" value="save" />
     </div>
 </form>
+
+<script type="text/javascript">
+    var routePatternCalculateScore = '{{ routePatternCalculateScore }}';
+    $(function()
+    {
+        $( '.wgaudit-score-selector' ).change(function()
+        {
+            var id = $( this ).attr( 'data-field-id' );
+            var url = routePatternCalculateScore.replace( '{id}', id );
+            $.ajax(
+            {
+                url: url,
+                dataType: 'text',
+                error: function( response )
+                {
+                    console.log( 'error: ' + response );
+                },
+                success: function( response )
+                {
+                    console.log( 'success: ' + response );
+                    // do something sensible instead
+                    $( '#my-element' ).html( response );
+                }
+            });
+        });
+    });
+</script>
 
 {% endblock %}

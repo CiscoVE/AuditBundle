@@ -78,5 +78,9 @@ wgauditformfields:
     pattern:  /fields
     defaults: {_controller: WGAuditBundle:AuditFormField:index}
 
+wgauditformfield_calculate_score:
+    pattern:  /fields/{id}/calculate-score
+    defaults: {_controller: WGAuditBundle:AuditFormField:calculateScore}
+
 
     

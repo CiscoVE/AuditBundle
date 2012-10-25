@@ -17,8 +17,8 @@
         {% set counter = 1 %}        
         {% for section in audit.auditform.sections %}
 
-        <tr class="section">
-            <td  class="field" colspan="5">Section {{ loop.index }}: {{ section.title }}</td>
+        <tr class="wgaudit-section">
+            <td  class="wgaudit-field" colspan="5">Section {{ loop.index }}: {{ section.title }}</td>
         </tr>
             {% for field in section.fields %}
                 
@@ -28,7 +28,7 @@
 
                     <tr>
                         <td>{{ counter }}</td>
-                        <td class="field">{{ field.title }}</td>
+                        <td class="wgaudit-field">{{ field.title }}</td>
                         <td>{{ score.score }} - {{ score.weightPercentage }}</td>
                         <td>{% if field.fatal == true %}
                                 Involve Mgr
@@ -36,7 +36,7 @@
                                 {{ field.weight }}
                             {% endif %}
                         </td>
-                        <td class="field">{{ score.comment }}</td>
+                        <td class="wgaudit-field">{{ score.comment }}</td>
                     </tr>
 
                     {% endif %}
@@ -45,14 +45,14 @@
             {% set counter = counter +1 %}
             {% endfor %}
         <tr>
-            <td class="final" colspan="2">Section's Score</td>
+            <td class="wgaudit-score-final" colspan="2">Section's Score</td>
             <td>{{ section.weightPercentage }}</td>
             <td>{{ section.weight }}</td>
             <td></td>
         </tr>
         {% endfor %}
-        <tr class="section">
-            <td class="final" colspan="2">Final Score</td>
+        <tr class="wgaudit-section">
+            <td class="wgaudit-score-final" colspan="2">Final Score</td>
             <td>{{ audit.weightPercentage }}</td>
             <td>{{ audit.weight }}</td>
             <td></td>          

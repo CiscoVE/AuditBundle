@@ -5,20 +5,18 @@
       <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     {% endblock %}
     <title>{% block title %}Audit Bundle{% endblock %}</title>
-    {% block favicon %}
-    {% endblock %}
+    {% block favicon %}{% endblock %}
     {% block subnavigation %}
-    <a href="{{ path( 'wgaudits' ) }}">view audit list</a>
-    <a href="{{ path( 'wgauditforms' ) }}">view form list</a>
-    <a href="{{ path( 'wgauditformsections' ) }}">view section list</a>
-    <a href="{{ path( 'wgauditformfields' ) }}">view field list</a>
+        <a href="{{ path( 'wgaudits' ) }}">view audit list</a>
+        <a href="{{ path( 'wgauditforms' ) }}">view form list</a>
+        <a href="{{ path( 'wgauditformsections' ) }}">view section list</a>
+        <a href="{{ path( 'wgauditformfields' ) }}">view field list</a>
     {% endblock %}
     {% block stylesheets %}
         <link href="{{ asset('bundles/wgaudit/css/audit.css') }}" type="text/css" rel="stylesheet" />
     {% endblock %}
-    {% block conditionals %}
-    {% endblock %}
     {% block javascripts %}
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
     {% endblock %}
   </head>
   <body>

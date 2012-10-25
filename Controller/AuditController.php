@@ -26,7 +26,7 @@ class AuditController extends Controller
         foreach ($auditlist as $audit)
         {
             $scorerepo = $em->getRepository( 'WGAuditBundle:AuditScore' );
-            $this->PopulateAuditScore( $scorerepo, $audit);
+            $this->populateAuditScore( $scorerepo, $audit);
         }
         
         return $this->render( 'WGAuditBundle:Audit:index.html.twig', array(
@@ -90,9 +90,11 @@ class AuditController extends Controller
             return $this->redirect( $this->generateUrl( 'wgaudits' ));
         }
         $scoreform = $this->createForm( new AuditScoreType() );
+        $routes = $this->get( 'router' )->getRouteCollection();
         return $this->render( 'WGAuditBundle:Audit:add.html.twig', array(
             'auditform' => $auditform,
             'scoreform' => $scoreform->createView(),
+            'routePatternCalculateScore' => $routes->get( 'wgauditformfield_calculate_score' )->getPattern(),
         ));
     }
 
@@ -131,7 +133,7 @@ class AuditController extends Controller
      * @param repository $scorerepo
      * @param repository $audit
      */
-    public function PopulateAuditScore( $scorerepo, $audit )
+    public function populateAuditScore( $scorerepo, $audit )
     {
         foreach ( $audit->getAuditForm()->getSections() as $section )
         {

@@ -30,19 +30,19 @@ h2
     color:#ffffff;
 }
 
-#audit tr.section, td.label
+#audit tr.wgaudit-section, td.wgaudit-label
 {
     color:#000000;
     background-color:#66A3D2;
     text-align: left;
 }
 
-#audit td.field
+#audit td.wgaudit-field
 {
     text-align:left;
 }
 
-#audit td.final
+#audit td.wgaudit-score-final
 {
     text-align:right;
 }
@@ -100,6 +100,4 @@ h2
     padding: 0 0 0 5px;
 }
 
-​
-
-/* something has changed */
+​/* something has changed */
