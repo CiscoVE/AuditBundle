@@ -74,10 +74,10 @@ class AuditFormFieldController extends Controller
         }
         throw $this->createNotFoundException( 'Field does not exist' );
     }
-    
+
     /**
      * Get weight percentage from $request
-     * 
+     *
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws type
@@ -91,19 +91,17 @@ class AuditFormFieldController extends Controller
         {
             throw $this->createNotFoundException( 'Field does not exist' );
         }
-        
+
         $value = $request->get('scoreData');
-        
+
         $sectionRepo = $em->getRepository( 'WGAuditBundle:AuditFormSection' );
         $section = $sectionRepo->find( $field->getSection()->getId());
-        $section->setWeightPercentage(100);
+        $ret = 100;
 //        $section->addScore($field->getWeight(), $value);
 //        $formRepo = $em->getRepositoty( 'WGAuditBundle:AuditForm' );
 //        $auditForm = $formRepo->find( $section->getAuditform());
-        
-//        $ret = 'whatever';
-        $ret = $section->getWeightPercentage();
 
+//        $ret = 'whatever';
         //
         // Do your calculation here
         //

@@ -121,8 +121,6 @@ class AuditController extends Controller
         {
             $scorerepo = $em->getRepository( 'WGAuditBundle:AuditScore' );
             $scores = $scorerepo->findBy( array( 'audit' => $audit ));
-
-            //$audit->populateAuditForm();
         }
         return $this->render( 'WGAuditBundle:Audit:view.html.twig', array(
             'audit' => $audit,

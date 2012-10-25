@@ -47,22 +47,10 @@ class AuditForm
      */
     protected $sections;
 
-    /**
-     * @var integer
-     */
-    protected $weightPercentage;
-
-    /**
-     * @var integer
-     */
-    protected $weight;
-
     public function __construct()
     {
         $this->active = true;
         $this->sections = new ArrayCollection();
-        $this->weight = 0;
-        $this->weightPercentage = 0;
     }
 
     /**
@@ -204,59 +192,5 @@ class AuditForm
     public function getSections()
     {
         return $this->sections;
-    }
-
-        /**
-     * Get weight
-     *
-     * @return integer
-     */
-    public function getWeight()
-    {
-        return $this->weight;
-    }
-
-    /**
-     * Set weight
-     *
-     * @param integer $weight
-     */
-    public function setWeight( $weight )
-    {
-        $this->weight = $weight;
-    }
-
-    /**
-     * Get weightPercentage
-     *
-     * @return integer
-     */
-    public function getWeightPercentage()
-    {
-        return $this->weightPercentage;
-    }
-
-    /**
-     * Set weightPercentage
-     *
-     * @param integer $weightPercentage
-     */
-    public function setWeightPercentage( $weightPercentage )
-    {
-        $this->weightPercentage = $weightPercentage;
-    }
-
-    /**
-     * add weight and weight's percentage to current variable
-     * $weight and $weightpercentage
-     *
-     * @param integer $weight
-     * @param integer $weightPercentage
-     */
-    public function addScore( $weight, $weightPercentage )
-    {
-        $divisor = $this->weight + $weight;
-        $this->weightPercentage = $this->weightPercentage * $this->weight / $divisor + $weightPercentage * $weight / $divisor;
-        $this->weight += $weight;
     }
 }

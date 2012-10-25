@@ -277,11 +277,13 @@ class Audit
                     continue;
                 }
             }
-            $achievedPercentages += $score->getWeightPercentage();
+            else
+                $achievedPercentages += $score->getWeightPercentage();
         }
         return $achievedPercentages / $fieldCount;
     }
 
+    // TODO: take into account the weight of 1 for fields where getFatal() == true
     public function getTotalResult()
     {
         $sections = $this->getAuditForm()->getSections();
@@ -296,5 +298,16 @@ class Audit
             $totalPercent = $totalPercent * ( $divisor - $weight ) / $divisor + $percent * $weight / $divisor;
         }
         return $totalPercent;
+    }
+
+    public function getTotalWeight()
+    {
+        $weight = 0;
+        $sections = $this->getAuditForm()->getSections();
+        foreach( $sections as $section )
+        {
+              $weight += $section->getWeight();
+        }
+        return $weight;
     }
 }

@@ -53,8 +53,12 @@
         {% endfor %}
         <tr class="wgaudit-section">
             <td class="wgaudit-score-final" colspan="2">Final Score</td>
-            <td>{{ audit.totalResult }}</td>
-            <td>{{ audit.auditForm.weight }}</td>
+            <td>{% if audit.failed == true %}
+                    FAILED
+                {% else %}
+                    {{ audit.totalResult }}
+                {% endif %}</td>
+            <td>{{ audit.totalWeight }}</td>
             <td></td>
         </tr>
     </table>

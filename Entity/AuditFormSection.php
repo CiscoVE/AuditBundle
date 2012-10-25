@@ -46,11 +46,6 @@ class AuditFormSection
      */
     protected $fields;
 
-    /**
-     * @var integer
-     */
-    protected $weightPercentage;
-
     public function __construct()
     {
         $this->fields = new ArrayCollection();
@@ -65,42 +60,14 @@ class AuditFormSection
     public function getWeight()
     {
         $weight = 0;
-        foreach ( $this->fields as $field ) $weight += $field->getWeight();
+        foreach ( $this->fields as $field )
+        {
+            if(!$field->getFatal() == true)
+                {
+                    $weight += $field->getWeight();
+                }
+        }
         return $weight;
-    }
-
-    /**
-     * Get weightPercentage
-     *
-     * @return integer
-     */
-    public function getWeightPercentage()
-    {
-        return $this->weightPercentage;
-    }
-
-    /**
-     * Set weightPercentage
-     *
-     * @param integer $weightPercentage
-     */
-    public function setWeightPercentage( $weightPercentage )
-    {
-        $this->weightPercentage = $weightPercentage;
-    }
-
-    /**
-     * add weight and weight's percentage to current variable
-     * $weight and $weightpercentage
-     *
-     * @param integer $weight
-     * @param integer $weightPercentage
-     */
-    public function addScore( $weight, $weightPercentage )  // deprecated
-    {
-        $divisor = $this->weight + $weight;
-        $this->weightPercentage = $this->weightPercentage * $this->weight / $divisor + $weightPercentage * $weight / $divisor;
-        $this->weight += $weight;
     }
 
     /**
