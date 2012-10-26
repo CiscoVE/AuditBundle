@@ -49,22 +49,20 @@ class AuditScore
 
     public function getWeightPercentage()
     {
-        switch($this->score)
+        $this->weightPercentage = self::getWeightPercentageForScore( $this->score );
+        return $this->weightPercentage;
+    }
+
+    static public function getWeightPercentageForScore( $score )
+    {
+        switch($score)
         {
             case AuditScore::YES:
-                $this->weightPercentage = 100;
-                break;
-            case AuditScore::NOT_APPLICABLE:
-                $this->weightPercentage = 100;
-                break;
-            case AuditScore::ACCEPTABLE:
-                $this->weightPercentage = 50;
-                break;
-            case AuditScore::NO:
-                $this->weightPercentage = 0;
-                break;
+            case AuditScore::NOT_APPLICABLE: return 100;
+            case AuditScore::ACCEPTABLE: return 50;
+            case AuditScore::NO: break;
         }
-        return $this->weightPercentage;
+        return 0;
     }
 
     public function calculateWeight()

@@ -1,7 +1,6 @@
 {% extends 'WGAuditBundle::base.html.twig' %}
 
 {% block body %}
-<a href="{{ path( 'wgauditformfield_add' ) }}">Add a new field</a>
     <table id="audit">
         <thead>
             <tr>
@@ -21,10 +20,10 @@
                     <td>{% if field.fatal == 1 %}
                             <div>Yes</div>
                         {% else %}
-                            <div>No</div>                        
+                            <div>No</div>
                         {% endif %}
                     </td>
-                    <td>[ <a href="{{ path( 'wgauditformfield_view', { 'id': field.id } ) }}">view</a> ]</td>  
+                    <td>[ <a href="{{ path( 'wgauditformfield_view', { 'id': field.id } ) }}">view</a> ]</td>
                     <td>[ <a href="{{ path( 'wgauditformfield_edit', { 'id': field.id } ) }}">edit</a> ]</td>
                     <td>[ <a href="{{ path( 'wgauditformfield_remove', { 'id': field.id } ) }}">delete</a> ]</td>
                 </tr>
@@ -43,12 +42,16 @@
                         {% endfor %}
                     </td>
                 </tr>
+
             {% else %}
                 <tr>
                     <td colspan="9" align="center">no fields yet</td>
                 </tr>
             {% endfor %}
+            <tr>
+                <td colspan="11" align="center"><a href="{{ path( 'wgauditformfield_add' ) }}">Add a new field</a></td>
+            </tr>
         </tbody>
     </table>
-        
+
 {% endblock %}

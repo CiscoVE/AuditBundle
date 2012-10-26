@@ -1,7 +1,9 @@
 {% extends 'WGAuditBundle::base.html.twig' %}
 
 {% block body %}
-<a href="{{ path( 'wgauditform_list' ) }}">Create new Audit</a>
+
+    <h2>Listing existing Audits:</h2>
+
     <table id="audit">
         <tr>
             <th>Case #</th>
@@ -33,5 +35,8 @@
             </td>
         </tr>
     {% endfor %}
+        <tr>
+            <td colspan="6"><a href="{{ path( 'wgauditform_list' ) }}">Create new Audit</a></td>
+        </tr>
     </table>
 {% endblock %}

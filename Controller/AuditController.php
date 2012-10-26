@@ -44,7 +44,7 @@ class AuditController extends Controller
         {
             throw $this->createNotFoundException( 'Audit form not found' );
         }
-        if ( null !== $scoreArray = $request->get( 'score' ))
+        if ( null !== $scores = $request->get( 'score' ))
         {
             $audit = new Audit();
             $audit->setAuditForm( $auditform );
@@ -52,7 +52,7 @@ class AuditController extends Controller
             $this->setUserID( $audit );
             // TODO: add input field to form in order to set a reference
             // $audit->setAuditReference( null );
-            $this->setAuditScores( $em, $audit, $scoreArray );
+            $this->setAuditScores( $em, $audit, $scores );
             $em->persist( $audit );
             // TODO: calculate result and display / send emails / whatever, depending on configuration
             // replace with result of calculation

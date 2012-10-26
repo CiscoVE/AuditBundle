@@ -15,44 +15,41 @@
             <th>Weight</th>
             <th>Reviewer's Comment</th>
         </tr>
-        {% set counter = 1 %} 
+        {% set counter = 1 %}
         {% for section in auditform.sections %}
-        <tr class="wgaudit-section">
-            <td  class="wgaudit-field" colspan="2">Section {{ loop.index }}: {{ section.title }}</td>
-            <td>{#{ section.score }#}</td>
-            <td>{#{ section.weight }#}</td>
-            <td>
-        </tr>
-        {% for field in section.fields %}
-        <tr>
-            <td>{{ counter }}</td>
-            <td class="wgaudit-field">{{ field.title }}</td>
-            <td>
-                {% set form = craue_cloneForm(scoreform) %}
-                <select name="score[{{ field.id }}][value]" class="wgaudit-score-selector" data-field-id="{{ field.id }}">
-                {% for score, label in field.scores %}
-                    <option value="{{ score }}" data-tooltip="{{ label }}" class="tooltip">
-                    {{ score }}
-                    </option>
-                {% endfor %}
-            </td>
-            <td>{{ field.weight }}</td>
-            <td class="wgaudit-field"><textarea name="score[{{ field.id }}][comment]"></textarea></td>
-        </tr>
-        {% set counter = counter + 1 %}
-        {% endfor %}
-        <tr>
-            <td class="wgaudit-score-final" colspan="2">Section's Score</td>
-            <td class="wgaudit-section-score"></td>
-            <td class="wgaudit-section-weight">{{ section.weight }}</td>
-            <td id="my-element"></td>
-        </tr>
+            <tr class="wgaudit-section">
+                <td  class="wgaudit-field" colspan="5">Section {{ loop.index }}: {{ section.title }}</td>
+            </tr>
+            {% for field in section.fields %}
+                <tr>
+                    <td>{{ counter }}</td>
+                    <td class="wgaudit-field">{{ field.title }}</td>
+                    <td>
+                        {% set form = craue_cloneForm(scoreform) %}
+                        <select name="score[{{ field.id }}][value]" class="wgaudit-score-selector" data-field-id="{{ field.id }}">
+                        {% for score, label in field.scores %}
+                            <option value="{{ score }}" data-tooltip="{{ label }}" class="tooltip">
+                            {{ score }}
+                            </option>
+                        {% endfor %}
+                    </td>
+                    <td class="wgaudit-field-weight">{{ field.weight }}</td>
+                    <td class="wgaudit-field"><textarea name="score[{{ field.id }}][comment]"></textarea></td>
+                </tr>
+                {% set counter = counter + 1 %}
+            {% endfor %}
+                <tr class="foo">
+                <td class="wgaudit-score-final" colspan="2">Section's Score</td>
+                <td class="wgaudit-section-score"></td>
+                <td class="wgaudit-section-weight"></td>
+                <td></td>
+            </tr>
         {% endfor %}
         <tr class="wgaudit-section">
             <td class="wgaudit-score-final" colspan="2">Final Score</td>
             <td class="wgaudit-form-score"></td>
-            <td class="wgaudit-form-weight">{#{ audit.weight }#}</td>
-            <td></td>          
+            <td class="wgaudit-form-weight"></td>
+            <td></td>
         </tr>
     </table>
 
@@ -68,13 +65,36 @@
         $( '.wgaudit-score-selector' ).change(function()
         {
             var id = $( this ).attr( 'data-field-id' );
-            var val = $( this ).val();
+            var value = $( this ).val();
+            var row = $( this ).closest( 'tr' );
+            var weight = $( row ).find( '.wgaudit-field-weight' ).html();
+            var sectionScore;
+            var sectionWeight;
+            var resultRow = false;
+            var allSiblings = $( row ).nextAll( 'tr' );
+            for ( var it in allSiblings )
+            {
+                if ( $( allSiblings[it] ).hasClass( 'foo' ) )
+                {
+                    resultRow = allSiblings[it];
+                    break;
+                }
+            }
+            if ( resultRow )
+            {
+                var sectionScore = $( resultRow ).find( 'wgaudit-section-score' ).html();
+                var sectionWeight = $( resultRow ).find( 'wgaudit-section-weight' ).html();
+            }
+
             var url = routePatternCalculateScore.replace( '{id}', id );
             $.ajax(
             {
                 url: url,
-                dataType: 'text',
-                data: { scoreData: val },
+                dataType: 'json',
+                data: { scoreData: value,
+                        scoreWeight: weight,
+                        sectionScore: sectionScore,
+                        sectionWeight: sectionWeight },
                 type: 'post',
                 error: function( response )
                 {
@@ -83,8 +103,9 @@
                 success: function( response )
                 {
                     console.log( 'success: ' + response );
-                    // do something sensible instead
-                    $( '#my-element' ).html( response );
+
+                    $( '.wgaudit-section-score' ).html( response.score );
+                    $( '.wgaudit-section-weight' ).html( response.weight );
                 }
             });
         });
