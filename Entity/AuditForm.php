@@ -155,11 +155,6 @@ class AuditForm
         return $this->createdAt;
     }
 
-    public function __toString()
-    {
-        return $this->title;
-    }
-
     /**
      * Add a section
      *
@@ -192,5 +187,10 @@ class AuditForm
     public function getSections()
     {
         return $this->sections;
+    }
+
+    public function __toString()
+    {
+        return $this->title;
     }
 }

@@ -63,9 +63,9 @@ class AuditFormSection
         foreach ( $this->fields as $field )
         {
             if(!$field->getFatal() == true)
-                {
-                    $weight += $field->getWeight();
-                }
+            {
+                $weight += $field->getWeight();
+            }
         }
         return $weight;
     }

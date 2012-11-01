@@ -37,17 +37,19 @@ class AuditController extends Controller
      */
     public function addAction( Request $request )
     {
+        $audit = new Audit();
+
         $em = $this->getDoctrine()->getEntityManager();
         $repo = $em->getRepository( 'WGAuditBundle:AuditForm' );
         $auditform = $repo->find( $request->get( 'id' ));
+        $audit->setAuditForm( $auditform );
+
         if ( null === $auditform )
         {
             throw $this->createNotFoundException( 'Audit form not found' );
         }
         if ( null !== $scores = $request->get( 'score' ))
         {
-            $audit = new Audit();
-            $audit->setAuditForm( $auditform );
             // depending on configuration, set a user ID:
             $this->setUserID( $audit );
             // TODO: add input field to form in order to set a reference
@@ -62,7 +64,7 @@ class AuditController extends Controller
         $scoreform = $this->createForm( new AuditScoreType() );
         $routes = $this->get( 'router' )->getRouteCollection();
         return $this->render( 'WGAuditBundle:Audit:add.html.twig', array(
-            'auditform' => $auditform,
+            'audit' => $audit,
             'scoreform' => $scoreform->createView(),
             'routePatternCalculateScore' => $routes->get( 'wgauditformfield_calculate_score' )->getPattern(),
         ));

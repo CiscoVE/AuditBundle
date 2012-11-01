@@ -29,10 +29,10 @@ class AuditFormController extends Controller
         }
         return $this->render( 'WGAuditBundle:AuditForm:index.html.twig', array(
             'forms' => $formlist,
-            'form' => $form->createView(),
+            'form'  => $form->createView(),
         ));
     }
-    
+
     public function viewAction( Request $request )
     {
         $em = $this->getDoctrine()->getEntityManager();
@@ -45,7 +45,7 @@ class AuditFormController extends Controller
             'form' => $form,
         ));
     }
-    
+
     public function listAction()
     {
         $em = $this->getDoctrine()->getEntityManager();
@@ -61,29 +61,30 @@ class AuditFormController extends Controller
         $edit = false;
         $em = $this->getDoctrine()->getEntityManager();
         $repo = $em->getRepository( 'WGAuditBundle:AuditForm' );
-        $newform = new AuditForm();        
+        $auditform = new AuditForm();
         if ( $request->get( 'id' ) )
         {
             $edit = true;
-            $newform = $repo->find( $request->get( 'id' ));
+            $auditform = $repo->find( $request->get( 'id' ));
         }
-        $form = $this->createForm( new AuditFormType(), $newform);
+        $form = $this->createForm( new AuditFormType(), $auditform);
         if ( null !== $request->get( $form->getName() ))
         {
             $form->bind( $request );
             if ( $form->isValid() )
             {
-                $em->persist( $newform );
+                $em->persist( $auditform );
                 $em->flush();
                 return $this->redirect( $this->generateUrl( 'wgauditforms' ));
             }
         }
         return $this->render( 'WGAuditBundle:AuditForm:edit.html.twig', array(
-            'edit' => $edit,
-            'form' => $form->createView(),
+            'edit'      => $edit,
+            'auditform' => $auditform,
+            'form'      => $form->createView(),
         ));
     }
-    
+
     public function removeAction( Request $request )
     {
         $em = $this->getDoctrine()->getEntityManager();

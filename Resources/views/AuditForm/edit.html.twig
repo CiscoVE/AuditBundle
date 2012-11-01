@@ -8,25 +8,50 @@
         {% else %}
             <h2>Add new form:</h2>
         {% endif %}
-        <div class="row input">
-            {{ form_label(form.title) }}
-            {{ form_widget(form.title) }}
-            {{ form_errors(form.title) }}
-                
-            {{ form_label(form.active) }}
-            {{ form_widget(form.active) }}
-            {{ form_errors(form.active) }}
-        </div>
-        <div class="row input">
-            {{ form_label(form.description) }}
-            {{ form_widget(form.description) }}
-            {{ form_errors(form.description) }}
-        </div>
-        <div class="row submit">
-            {{ form_rest(form) }}
-            <input type="submit" value="save" class="formbutton save" />
-        </div>
-    
     </form>
-
+    <div>Title: {{ form_widget(form.title) }}</div>
+    <div>Is the form active: {{ form_widget(form.active) }}</div>
+    <div>Description: {{ form_widget(form.description) }}</div>
+    <div class="row submit">
+        <input type="submit" value="save" class="formbutton save" />
+    </div>
+    <table id="audit">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Weight</th>
+                <th>Remove</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if auditform.sections != null %}
+                {% for section in auditform.sections %}
+                    <tr class="wgaudit-section">
+                        <td colspan=2>Section {{ section.id }}: {{ section.title }}</td>
+                        <td colspan=2>{{ section.description }}</td>
+                    </tr>
+                    {% for field in section.fields %}
+                        <tr class="wgaudit-field">
+                            <td>{{ field.title }}</td>
+                            <td>{{ field.description }}</td>
+                            <td>{{ field.weight }}</td>
+                            <td><a href="#" id="wgaudit-remove-field">[ X ]</a></td>
+                        </tr>
+                    {% else %}
+                    <tr>no fields assigned yet</tr>
+                    {% endfor %}
+                    <tr>
+                        <td colspan="4"><a href="#" id="wgaudit-add-field">[ Add Field ]</a></td>
+                    </tr>
+                {% else %}
+                    <tr>no sections assigned yet</tr>
+                {% endfor %}
+                    <tr>
+                        <td colspan="4"><a href="#" id="wgaudit-add-section">[ Add Section ]</a></td>
+                    </tr>
+            {% endif %}
+        </tbody>
+    </table>
 {% endblock %}
+

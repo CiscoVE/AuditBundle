@@ -268,7 +268,11 @@ class Audit
         foreach ( $fields as $field )
         {
             $score = $this->getScoreForField( $field );
-            if ( !$score ) continue;
+            if ( !$score )
+            {
+                $score = new AuditScore();
+                $score->setScore( AuditScore::YES );
+            }
             if ( $field->getFatal() == true )
             {
                 if ( $score->getScore() == AuditScore::NO )

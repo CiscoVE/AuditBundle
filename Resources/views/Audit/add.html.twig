@@ -16,7 +16,7 @@
             <th>Reviewer's Comment</th>
         </tr>
         {% set counter = 1 %}
-        {% for section in auditform.sections %}
+        {% for section in audit.auditform.sections %}
             <tr class="wgaudit-section">
                 <td  class="wgaudit-field" colspan="5">Section {{ loop.index }}: {{ section.title }}</td>
             </tr>
@@ -33,22 +33,27 @@
                             </option>
                         {% endfor %}
                     </td>
-                    <td class="wgaudit-field-weight">{{ field.weight }}</td>
+                    <td class="wgaudit-field-weight">{% if field.fatal == true %}
+                            Involve Mgr
+                        {% else %}
+                            {{ field.weight }}
+                        {% endif %}
+                    </td>
                     <td class="wgaudit-field"><textarea name="score[{{ field.id }}][comment]"></textarea></td>
                 </tr>
                 {% set counter = counter + 1 %}
             {% endfor %}
-                <tr class="foo">
+                <tr class="wgaudit-section-row">
                 <td class="wgaudit-score-final" colspan="2">Section's Score</td>
-                <td class="wgaudit-section-score"></td>
-                <td class="wgaudit-section-weight"></td>
-                <td></td>
+                <td class="wgaudit-section-score">{{ attribute( audit, 'resultForSection', [ section ] ) }}</td>
+                <td class="wgaudit-section-weight">{{ section.weight }}</td>
+                <td class="bar"></td>
             </tr>
         {% endfor %}
         <tr class="wgaudit-section">
             <td class="wgaudit-score-final" colspan="2">Final Score</td>
             <td class="wgaudit-form-score"></td>
-            <td class="wgaudit-form-weight"></td>
+            <td class="wgaudit-form-weight">{{ audit.totalWeight }}</td>
             <td></td>
         </tr>
     </table>
@@ -74,7 +79,7 @@
             var allSiblings = $( row ).nextAll( 'tr' );
             for ( var it in allSiblings )
             {
-                if ( $( allSiblings[it] ).hasClass( 'foo' ) )
+                if ( $( allSiblings[it] ).hasClass( 'wgaudit-section-row' ) )
                 {
                     resultRow = allSiblings[it];
                     break;
@@ -82,8 +87,8 @@
             }
             if ( resultRow )
             {
-                var sectionScore = $( resultRow ).find( 'wgaudit-section-score' ).html();
-                var sectionWeight = $( resultRow ).find( 'wgaudit-section-weight' ).html();
+                var sectionScore = $( resultRow ).find( '.wgaudit-section-score' ).html();
+                var sectionWeight = $( resultRow ).find( '.wgaudit-section-weight' ).html();
             }
 
             var url = routePatternCalculateScore.replace( '{id}', id );
@@ -95,7 +100,7 @@
                         scoreWeight: weight,
                         sectionScore: sectionScore,
                         sectionWeight: sectionWeight },
-                type: 'post',
+                type: 'POST',
                 error: function( response )
                 {
                     console.log( 'error: ' + response );
@@ -105,7 +110,7 @@
                     console.log( 'success: ' + response );
 
                     $( '.wgaudit-section-score' ).html( response.score );
-                    $( '.wgaudit-section-weight' ).html( response.weight );
+                    $( '.bar' ).html( response.scoreData + "(" + response.fieldScore + ")- FW:" + response.fieldWeight + "- GW: " + response.sectionWeight );
                 }
             });
         });

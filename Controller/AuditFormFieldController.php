@@ -28,7 +28,7 @@ class AuditFormFieldController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
         $repo = $em->getRepository( 'WGAuditBundle:AuditFormField' );
         $field = new AuditFormField();
-        if ( $request->get( 'id' ) )
+        if ( $request->get( 'id' ))
         {
             $edit = true;
             $field = $repo->find( $request->get( 'id' ));
@@ -93,42 +93,24 @@ class AuditFormFieldController extends Controller
         {
             throw $this->createNotFoundException( 'Field does not exist' );
         }
-        $data = json_decode($request->getContent(), true);
-        $request->request->replace(is_array($data) ? $data : array());
-
-//        $array = json_decode($request);
-
-        // get value for key,  from POST
-//        $scoreData = $array['scoreData']; //Y, N, A, N/A
-//        $fieldScore = AuditScore::getWeightPercentageForScore( $scoreData );
-//        $fieldWeight = $array['scoreWeight'];
-//        $sectionScore = $array['sectionScore'];
-//        $scoreWeight = $array['sectionWeight'];
-        $scoreData = $request->get( 'scoreData' ); //Y, N, A, N/A
+        $scoreData = $request->request->get( 'scoreData' ); //Y, N, A, N/A
         $fieldScore = AuditScore::getWeightPercentageForScore( $scoreData );
-        $fieldWeight = $request->get( 'scoreWeight' );
-        $sectionScore = $request->get( 'sectionScore' );
-        $scoreWeight = $request->get( 'sectionWeight' );
+        $fieldWeight = $request->request->get( 'scoreWeight' );
+        $sectionScore = $request->request->get( 'sectionScore' );
+        $sectionWeight = $request->request->get( 'sectionWeight' );
 
-//        echo $request;
-//        echo '</br>';
-        //echo 'Request: ' + $request;
-//        echo 'Score Data: ' + $scoreData + '</br>';
-//        echo 'Field Score: ' + $fieldScore + '</br>';
-//        echo 'Field Weight:' + $fieldWeight + '</br>';
-//        echo 'Section Score: ' + $sectionScore + '</br>';
-//        echo 'Section Weight: ' + $scoreWeight + '</br>';
-
-        $returnedWeight = $fieldWeight + $scoreWeight;
-        $returnedScore = $sectionScore * $scoreWeight / $returnedWeight + $fieldScore * $fieldWeight / $returnedWeight;
+        $returnedWeight = $fieldWeight + $sectionWeight;
+        $returnedScore = $sectionScore * $sectionWeight / $returnedWeight + $fieldScore * $fieldWeight / $returnedWeight;
 
         $ret = array();
-        $ret['score'] = 100;
-//        $ret['score'] = $returnedScore;
-        $ret['weight'] = 15;
-//        $ret['weight'] = $returnedWeight;
+
+        $ret['score'] = $returnedScore;
+
+        $ret['scoreData'] = $scoreData;
+        $ret['fieldScore'] = $fieldScore;
+        $ret['fieldWeight'] = $fieldWeight;
+        $ret['sectionWeight'] = $sectionWeight;
 
         return new Response( json_encode($ret));
     }
-
 }
