@@ -12,8 +12,8 @@
                 <th>Is the form Active?</th>
                 <th>View</th>
                 <th>Edit</th>
-                <th>Delete</th>                
-            </tr>        
+                <th>Delete</th>
+            </tr>
         </thead>
         <tbody>
             {% for form in forms %}
@@ -25,9 +25,9 @@
                         {% else %}
                             <div>No</div>
                         {% endif %}
-                    <td>[ <a href="{{ path( 'wgauditform_view', { 'id': form.id } ) }}">view</a> ]</td>  
+                    <td>[ <a href="{{ path( 'wgauditform_view', { 'id': form.id } ) }}">view</a> ]</td>
                     <td>[ <a href="{{ path( 'wgauditform_edit', { 'id': form.id } ) }}">edit</a> ]</td>
-                    <td>[ <a href="{{ path( 'wgauditform_remove', { 'id': form.id } ) }}">delete</a> ]</td>
+                    <td>[ <a href="{{ path( 'wgauditform_delete', { 'id': form.id } ) }}">delete</a> ]</td>
                 </tr>
             {% else %}
                 <tr>
@@ -38,7 +38,7 @@
                     <td colspan="8" align="center">
                         <a href="{{ path( 'wgauditform_add' ) }}">Add a new form</a>
                     </td>
-                </tr>                
+                </tr>
         </tbody>
     </table>
 

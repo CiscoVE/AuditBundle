@@ -28,15 +28,16 @@
             {% if auditform.sections != null %}
                 {% for section in auditform.sections %}
                     <tr class="wgaudit-section">
-                        <td colspan=2>Section {{ section.id }}: {{ section.title }}</td>
+                        <td>Section {{ section.id }}: {{ section.title }}</td>
                         <td colspan=2>{{ section.description }}</td>
+                        <td>[ <a href="{{ path( 'wgauditform_remove', { 'id' : auditform.id ,'section_id': section.id } ) }}">X</a> ]</td>
                     </tr>
                     {% for field in section.fields %}
                         <tr class="wgaudit-field">
                             <td>{{ field.title }}</td>
                             <td>{{ field.description }}</td>
                             <td>{{ field.weight }}</td>
-                            <td><a href="#" id="wgaudit-remove-field">[ X ]</a></td>
+                            <td>[ <a href="{{ path( 'wgauditformsection_remove', { 'id' : section.id ,'field_id': field.id } ) }}">X</a> ]</td>
                         </tr>
                     {% else %}
                     <tr>no fields assigned yet</tr>

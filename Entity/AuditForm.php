@@ -172,11 +172,18 @@ class AuditForm
     /**
      * Remove sections
      *
-     * @param WG\AuditBundle\Entity\AuditFormSection $sections
+     * @param WG\AuditBundle\Entity\AuditFormSection $section
      */
-    public function removeSection(AuditFormSection $sections)
+    public function removeSection(AuditFormSection $section)
     {
-        $this->sections->removeElement($sections);
+        if($this->sections->contains( $section ))
+        {
+            $index = $this->sections->indexOf( $section );
+            $rem = $this->sections->get( $index );
+            $rem->setAuditForm( null );
+        }
+
+        $this->sections->removeElement($section);
     }
 
     /**

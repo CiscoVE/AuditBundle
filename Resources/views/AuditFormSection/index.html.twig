@@ -21,9 +21,9 @@
                     <td>{{ section.title }}</td>
                     <td>{{ section.auditform }}</td>
                     <td>{{ section.description }}</td>
-                    <td>[ <a href="{{ path( 'wgauditformsection_view', { 'id': section.id } ) }}">view</a> ]</td>  
+                    <td>[ <a href="{{ path( 'wgauditformsection_view', { 'id': section.id } ) }}">view</a> ]</td>
                     <td>[ <a href="{{ path( 'wgauditformsection_edit', { 'id': section.id } ) }}">edit</a> ]</td>
-                    <td>[ <a href="{{ path( 'wgauditformsection_remove', { 'id': section.id } ) }}">delete</a> ]</td>
+                    <td>[ <a href="{{ path( 'wgauditformsection_delete', { 'id': section.id } ) }}">delete</a> ]</td>
                 </tr>
             {% else %}
                 <tr>
@@ -36,5 +36,5 @@
                     </td>
                 </tr>
         </tbody>
-    </table>        
+    </table>
 {% endblock %}

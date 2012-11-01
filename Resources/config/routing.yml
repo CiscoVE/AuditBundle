@@ -24,8 +24,12 @@ wgauditform_edit:
     pattern:  /forms/{id}/edit
     defaults: {_controller: WGAuditBundle:AuditForm:edit}
 
+wgauditform_delete:
+    pattern:  /forms/{id}/delete
+    defaults: {_controller: WGAuditBundle:AuditForm:delete}
+
 wgauditform_remove:
-    pattern:  /forms/{id}/remove
+    pattern:  /forms/{id}/section/{section_id}/remove
     defaults: {_controller: WGAuditBundle:AuditForm:remove}
 
 wgauditform_view:
@@ -45,8 +49,12 @@ wgauditformsection_edit:
     pattern:  /sections/{id}/edit
     defaults: {_controller: WGAuditBundle:AuditFormSection:edit}
 
+wgauditformsection_delete:
+    pattern:  /sections/{id}/delete
+    defaults: {_controller: WGAuditBundle:AuditFormSection:delete}
+
 wgauditformsection_remove:
-    pattern:  /sections/{id}/remove
+    pattern:  /section/{id}/field/{field_id}/remove
     defaults: {_controller: WGAuditBundle:AuditFormSection:remove}
 
 wgauditformsection_view:
@@ -66,9 +74,9 @@ wgauditformfield_edit:
     pattern:  /fields/{id}/edit
     defaults: {_controller: WGAuditBundle:AuditFormField:edit}
 
-wgauditformfield_remove:
-    pattern:  /fields/{id}/remove
-    defaults: {_controller: WGAuditBundle:AuditFormField:remove}
+wgauditformfield_delete:
+    pattern:  /fields/{id}/delete
+    defaults: {_controller: WGAuditBundle:AuditFormField:delete}
 
 wgauditformfield_view:
     pattern:  /fields/{id}

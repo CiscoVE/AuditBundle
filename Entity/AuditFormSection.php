@@ -199,11 +199,18 @@ class AuditFormSection
     /**
      * Remove fields
      *
-     * @param WG\AuditBundle\Entity\AuditFormField $fields
+     * @param WG\AuditBundle\Entity\AuditFormField $field
      */
-    public function removeField( AuditFormField $fields )
+    public function removeField( AuditFormField $field )
     {
-        $this->fields->removeElement( $fields );
+        if($this->fields->contains( $field ))
+        {
+            $index = $this->fields->indexOf( $field );
+            $rem = $this->fields->get( $index );
+            $rem->setSection( null );
+        }
+
+        $this->fields->removeElement( $field );
     }
 
     public function __toString()

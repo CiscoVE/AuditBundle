@@ -60,7 +60,7 @@ class AuditFormSectionController extends Controller
         ));
     }
 
-    public function removeAction( Request $request )
+    public function deleteAction( Request $request )
     {
         $em = $this->getDoctrine()->getEntityManager();
         $repo = $em->getRepository( 'WGAuditBundle:AuditFormSection' );
@@ -71,5 +71,26 @@ class AuditFormSectionController extends Controller
             return $this->redirect( $this->generateUrl( 'wgauditformsections' ));
         }
         throw $this->createNotFoundException( 'Field does not exist' );
+    }
+
+    public function removeAction( Request $request )
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $repo = $em->getRepository( 'WGAuditBundle:AuditFormSection' );
+        $section = $repo->find( $request->get( 'id' ));
+        if ( null !== $section )
+        {
+            $fieldRep = $em->getRepository( 'WGAuditBundle:AuditFormField' );
+            $field = $fieldRep->find( $request->get( 'field_id' ));
+            if ( null !== $field )
+            {
+                $section->removeField( $field );
+                $em->persist( $section );
+                $em->flush();
+                return $this->redirect( $this->generateUrl( 'wgauditforms' ));
+            }
+            throw $this->createNotFoundException( 'Field does not exist' );
+        }
+        throw $this->createNotFoundException( 'Section   does not exist' );
     }
 }

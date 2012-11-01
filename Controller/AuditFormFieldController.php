@@ -64,7 +64,7 @@ class AuditFormFieldController extends Controller
         ));
     }
 
-    public function removeAction( Request $request )
+    public function deleteAction( Request $request )
     {
         $em = $this->getDoctrine()->getEntityManager();
         $repo = $em->getRepository( 'WGAuditBundle:AuditFormField' );
