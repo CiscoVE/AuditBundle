@@ -1,61 +1,112 @@
 {% extends 'WGAuditBundle::base.html.twig' %}
 
 {% block body %}
-
-    <form method="POST" action="">
-
-        {% if edit == true %}
-            <h2>Edit existing field:</h2>
-        {% else %}
-            <h2>Add new field:</h2>
-        {% endif %}
-        <div class="row input">
-            {{ form_label(form.title) }}
-            {{ form_widget(form.title) }}
-            {{ form_errors(form.title) }}
-
-            {{ form_label(form.section) }}
-            {{ form_widget(form.section) }}
-            {{ form_errors(form.section) }}
-
-            {{ form_label(form.weight) }}
-            {{ form_widget(form.weight) }}
-            {{ form_errors(form.weight) }}
-
-            {{ form_label(form.fatal) }}
-            {{ form_widget(form.fatal) }}
-            {{ form_errors(form.fatal) }}
+<div class="container">
+    <form class="form-horizontal" method="POST" action="">
+    {% if edit == true %}
+        <h3>Edit existing field: </h3>
+    {% else %}
+        <h3>Add new field:</h3>
+    {% endif %}
+        <div class="controls controls-row">
+            <div class="control-group">
+                <div class="control-label">
+                    {{ form_label(form.title) }}
+                </div>
+                <div class="controls">
+                    {{ form_widget(form.title) }}
+                    {{ form_errors(form.title) }}
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    {{ form_label(form.section) }}
+                </div>
+                <div class="controls">
+                    {{ form_widget(form.section) }}
+                    {{ form_errors(form.section) }}
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    {{ form_label(form.weight) }}
+                </div>
+                <div class="controls">
+                    {{ form_widget(form.weight) }}
+                    {{ form_errors(form.weight) }}
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    {{ form_label(form.fatal) }}
+                </div>
+                <div class="controls">
+                    {{ form_widget(form.fatal, { 'attr': { 'class': 'ez-checkbox' }}) }}
+                    {{ form_errors(form.fatal) }}
+                </div>
+            </div>
         </div>
-        <div class="row input">
-            {{ form_label(form.description) }}
-            {{ form_widget(form.description) }} 
-            {{ form_errors(form.description) }}
+        <div class="controls controls-row">
+            <div class="control-group">
+                <div class="control-label">
+                    {{ form_label(form.description) }}
+                </div>
+                <div class="controls">
+                    {{ form_widget(form.description, { 'attr': { 'class': 'input-xxlarge' }}) }}
+                    {{ form_errors(form.description) }}
+                </div>
+            </div>
         </div>
-        <div class="row input">
-            {{ form_label(form.answer_yes) }}
-            {{ form_widget(form.answer_yes) }} 
-            {{ form_errors(form.answer_yes) }}
+        <div class="controls controls-row">
+            <div class="control-group">
+                <div class="control-label">
+                    {{ form_label(form.answer_yes) }}
+                </div>
+                <div class="controls">
+                    {{ form_widget(form.answer_yes, { 'attr': {'class': 'input-xxlarge' }}) }}
+                    {{ form_errors(form.answer_yes) }}
+                </div>
+            </div>
         </div>
-        <div class="row submit">
-            {{ form_label(form.answer_no) }}
-            {{ form_widget(form.answer_no) }} 
-            {{ form_errors(form.answer_no) }}
+        <div class="controls controls-row">
+            <div class="control-group">
+                <div class="control-label">
+                    {{ form_label(form.answer_no) }}
+                </div>
+                <div class="controls">
+                    {{ form_widget(form.answer_no, { 'attr': { 'class': 'input-xxlarge' }}) }}
+                    {{ form_errors(form.answer_no) }}
+                </div>
+            </div>
         </div>
-        <div class="row submit">
-            {{ form_label(form.answer_acceptable) }}
-            {{ form_widget(form.answer_acceptable) }} 
-            {{ form_errors(form.answer_acceptable) }}
+        <div class="controls controls-row">
+            <div class="control-group">
+                <div class="control-label">
+                    {{ form_label(form.answer_acceptable) }}
+                </div>
+                <div class="controls">
+                    {{ form_widget(form.answer_acceptable, { 'attr': {  'class': 'input-xxlarge' }}) }}
+                    {{ form_errors(form.answer_acceptable) }}
+                </div>
+            </div>
         </div>
-        <div class="row submit">
-            {{ form_label(form.answer_not_applicable) }}
-            {{ form_widget(form.answer_not_applicable) }} 
-            {{ form_errors(form.answer_not_applicable) }}
+        <div class="controls controls-row">
+            <div class="control-group">
+                <div class="control-label">
+                    {{ form_label(form.answer_not_applicable) }}
+                </div>
+                <div class="controls">
+                    {{ form_widget(form.answer_not_applicable, { 'attr': {'class': 'input-xxlarge' }}) }}
+                    {{ form_errors(form.answer_not_applicable) }}
+                </div>
+            </div>
         </div>
-        <div class="row submit">
-            {{ form_rest(form) }}
-            <input type="submit" value="save" class="formbutton save" />
+        <div class="controls controls-row">
+            <div class="control-group">
+                {{ form_rest(form) }}
+                <input type="submit" value="save" class="btn btn-small" />
+            </div>
         </div>
-    
     </form>
-
+</div>
 {% endblock %}

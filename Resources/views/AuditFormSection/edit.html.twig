@@ -1,34 +1,49 @@
 {% extends 'WGAuditBundle::base.html.twig' %}
 
 {% block body %}
-
-    <form method="POST" action="">
-
+<div class="container">
+    <form class="form-horizontal" method="POST" action="">
         {% if edit == true %}
-            <h2>Edit existing section:</h2>
+            <h3>Edit existing section:</h3>
         {% else %}
-            <h2>Add new section:</h2>
+            <h3>Add new section:</h3>
         {% endif %}
 
-        <div class="row input">
-            {{ form_label(form.title) }}
-            {{ form_widget(form.title) }}
-            {{ form_errors(form.title) }}
-
-            {{ form_label(form.auditform) }}
-            {{ form_widget(form.auditform) }}
-            {{ form_errors(form.auditform) }}
+        <div class="controls controls-row">
+            <div class="control-group">
+                <div class="control-label">
+                    {{ form_label(form.title) }}
+                </div>
+                <div class="controls">
+                    {{ form_widget(form.title) }}
+                    {{ form_errors(form.title) }}
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    {{ form_label(form.auditform) }}
+                </div>
+                <div class="controls">
+                    {{ form_widget(form.auditform) }}
+                    {{ form_errors(form.auditform) }}
+                </div>
+            </div>
         </div>
-        <div class="row input">
-            {{ form_label(form.description) }}
-            {{ form_widget(form.description) }}
-            {{ form_errors(form.description) }}    
+        <div class="controls controls-row">
+            <div class="control-group">
+                <div class="control-label">
+                    {{ form_label(form.description) }}
+                </div>
+                <div class="controls">
+                    {{ form_widget(form.description, { 'attr': { 'class': 'input-xxlarge' }}) }}
+                    {{ form_errors(form.description) }}
+                </div>
+            </div>
+            <div class="controls">
+                {{ form_rest(form) }}
+                <input type="submit" value="save" class="btn" />
+            </div>
         </div>
-        <div class="row submit">
-            {{ form_rest(form) }}
-            <input type="submit" value="save" class="formbutton save" />
-        </div>
-    
     </form>
-
+</div>
 {% endblock %}

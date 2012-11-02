@@ -1,42 +1,47 @@
 {% extends 'WGAuditBundle::base.html.twig' %}
 
 {% block body %}
+{{ parent() }}
+<div class="container">
+    <h3>Listing existing Audits:</h3>
 
-    <h2>Listing existing Audits:</h2>
-
-    <table id="audit">
-        <tr>
+    <table class="table table-hover">
+        <caption>List of completed Audits</caption>
+        <thead>
             <th>Case #</th>
             <th>Engineer</th>
             <th>Manager</th>
             <th>Form</th>
             <th>Score</th>
             <th></th>
-        </tr>
+        </thead>
     {% for audit in audits %}
         {% set result = audit.totalResult %}
-        <tr>
-            <td>{{ audit.auditReference }}</td>
-            <td>{{ audit.auditingUser }}</td>
-            <td>{{ audit.controlUser }}</td>
-            <td>{{ audit.auditForm }}</td>
-            <td>{% if audit.failed == true %}
-                    FAILED
-                {% else %}
-                    {{ result }}
-                {% endif %}
-            </td>
-            <td>[ <a href="{{ path( 'wgaudit_view', { 'id': audit.id } ) }}">view</a> ]</td>
-        </tr>
+        <tbody>
+            <tr>
+                <td>{{ audit.auditReference }}</td>
+                <td>{{ audit.auditingUser }}</td>
+                <td>{{ audit.controlUser }}</td>
+                <td>{{ audit.auditForm }}</td>
+                <td>{% if audit.failed == true %}
+                        FAILED
+                    {% else %}
+                        {{ result }}
+                    {% endif %}
+                </td>
+                <td><a href="{{ path( 'wgaudit_view', { 'id': audit.id } ) }}" class="btn btn-mini"><i class="icon-eye-open"/></a></td>
+            </tr>
     {% else %}
-        <tr>
-            <td colspan="6">
-                <p>Nothin yet dude</p>
-            </td>
-        </tr>
+            <tr>
+                <td colspan="6">
+                    <p>Nothin yet dude</p>
+                </td>
+            </tr>
     {% endfor %}
-        <tr>
-            <td colspan="6"><a href="{{ path( 'wgauditform_list' ) }}">Create new Audit</a></td>
-        </tr>
+            <tr>
+                <td colspan="6"><a href="{{ path( 'wgauditform_list' ) }}" class="btn btn-small">Create new Audit</a></td>
+            </tr>
+        </tbody>
     </table>
+</div>
 {% endblock %}

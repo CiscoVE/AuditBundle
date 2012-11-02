@@ -1,58 +1,82 @@
 {% extends 'WGAuditBundle::base.html.twig' %}
 
 {% block body %}
-
-    <form method="POST" action="">
+<div class="container">
+    <form class="form-horizontal" method="POST" action="">
         {% if edit == true %}
-            <h2>Edit existing form:</h2>
+            <h3>Edit existing form:</h3>
         {% else %}
-            <h2>Add new form:</h2>
+            <h3>Add new form:</h3>
         {% endif %}
-    </form>
-    <div>Title: {{ form_widget(form.title) }}</div>
-    <div>Is the form active: {{ form_widget(form.active) }}</div>
-    <div>Description: {{ form_widget(form.description) }}</div>
-    <div class="row submit">
-        <input type="submit" value="save" class="formbutton save" />
-    </div>
-    <table id="audit">
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Weight</th>
-                <th>Remove</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% if auditform.sections != null %}
-                {% for section in auditform.sections %}
-                    <tr class="wgaudit-section">
-                        <td>Section {{ section.id }}: {{ section.title }}</td>
-                        <td colspan=2>{{ section.description }}</td>
-                        <td>[ <a href="{{ path( 'wgauditform_remove', { 'id' : auditform.id ,'section_id': section.id } ) }}">X</a> ]</td>
-                    </tr>
-                    {% for field in section.fields %}
+        <div class="controls controls-row">
+            <div class="control-group">
+                <div class="control-label">
+                    {{ form_label(form.title) }}
+                </div>
+                <div class="controls">
+                    {{ form_widget(form.title) }}
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    {{ form_label(form.active) }}
+                </div>
+                <div class="controls">
+                    {{ form_widget(form.active) }}
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="control-label">
+                    {{ form_label(form.description) }}
+                </div>
+                <div class="controls">
+                    {{ form_widget(form.description, { 'attr': { 'class': 'input-xxlarge' }}) }}
+                </div>
+            </div>
+            <div class="control-group">
+                <input type="submit" value="save" class="btn btn-small" />
+            </div>
+        </div>
+        <table class="table table-condensed table-hover">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Weight</th>
+                    <th>Remove</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if auditform.sections != null %}
+                    {% for section in auditform.sections %}
+                        <tr class="wgaudit-section">
+                            <td>Section {{ section.id }}: {{ section.title }}</td>
+                            <td colspan=2>{{ section.description }}</td>
+                            <td><a href="{{ path( 'wgauditform_remove', { 'id' : auditform.id ,'section_id': section.id } ) }}" class="btn btn-mini"><i class="icon-minus"/></a></td>
+                        </tr>
+                        {% for field in section.fields %}
                         <tr class="wgaudit-field">
                             <td>{{ field.title }}</td>
                             <td>{{ field.description }}</td>
                             <td>{{ field.weight }}</td>
-                            <td>[ <a href="{{ path( 'wgauditformsection_remove', { 'id' : section.id ,'field_id': field.id } ) }}">X</a> ]</td>
+                            <td><a href="{{ path( 'wgauditformsection_remove', { 'id' : section.id ,'field_id': field.id } ) }}" class="btn btn-mini"><i class="icon-minus"/></a></td>
+                        </tr>
+                        {% else %}
+                        <tr>no fields assigned yet</tr>
+                        {% endfor %}
+                        <tr>
+                            <td colspan="4" style="text-align: right"><a href="#" class="btn btn-small">Add Field</a></td>
                         </tr>
                     {% else %}
-                    <tr>no fields assigned yet</tr>
+                        <tr>no sections assigned yet</tr>
                     {% endfor %}
-                    <tr>
-                        <td colspan="4"><a href="#" id="wgaudit-add-field">[ Add Field ]</a></td>
-                    </tr>
-                {% else %}
-                    <tr>no sections assigned yet</tr>
-                {% endfor %}
-                    <tr>
-                        <td colspan="4"><a href="#" id="wgaudit-add-section">[ Add Section ]</a></td>
-                    </tr>
-            {% endif %}
-        </tbody>
-    </table>
+                        <tr>
+                            <td colspan="4" style="text-align: right"><a href="#" class="btn btn-small">Add Section</a></td>
+                        </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </form>
+</div>
 {% endblock %}
 

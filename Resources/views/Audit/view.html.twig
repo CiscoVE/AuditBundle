@@ -1,24 +1,39 @@
 {% extends 'WGAuditBundle::base.html.twig' %}
 
 {% block body %}
+<div class="container">
+    <table class="table table-condensed">
+        <thead>
+            <tr>
+                <th>Case #</th>
+                <th>Engineer</th>
+                <th>Manager</th>
+                <th>Audit Form</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ audit.auditReference }}</td>
+                <td>{{ audit.auditingUser }}</td>
+                <td>{{ audit.controlUser }}</td>
+                <td>{{ audit.auditForm }}</td>
+            </tr>
+        </tbody>
+    </table>
 
-    <p> Case #: {{ audit.auditReference }} - Engineer: {{ audit.auditingUser }}</p>
-    <p> Manager: {{ audit.controlUser }} - Audit Form: {{ audit.auditForm }}</p>
-
-
-    <table id="audit">
-        <tr>
+    <table class="table table-condensed table-hover">
+        <thead>
             <th>S.No.</th>
             <th>Field</th>
             <th>Score</th>
             <th>Weight</th>
             <th>Reviewer's Comment</th>
-        </tr>
+        </thead>
         {% set counter = 1 %}
         {% for section in audit.auditform.sections %}
 
-        <tr class="wgaudit-section">
-            <td  class="wgaudit-field" colspan="5">Section {{ loop.index }}: {{ section.title }}</td>
+        <tr>
+            <td colspan="5">Section {{ loop.index }}: {{ section.title }}</td>
         </tr>
         {% for field in section.fields %}
 
@@ -28,7 +43,7 @@
 
                 <tr>
                     <td>{{ counter }}</td>
-                    <td class="wgaudit-field">{{ field.title }}</td>
+                    <td>{{ field.title }}</td>
                     <td>{{ score.score }}</td>
                     <td>{% if field.fatal == true %}
                             Involve Mgr
@@ -36,7 +51,7 @@
                             {{ field.weight }}
                         {% endif %}
                     </td>
-                    <td class="wgaudit-field">{{ score.comment }}</td>
+                    <td>{{ score.comment }}</td>
                 </tr>
 
                 {% endif %}
@@ -45,14 +60,14 @@
             {% set counter = counter +1 %}
         {% endfor %}
         <tr>
-            <td class="wgaudit-score-final" colspan="2">Section's Score</td>
+            <td colspan="2" style="text-align: right">Section's Score</td>
             <td>{{ attribute( audit, 'resultForSection', [ section ] ) }}</td>
             <td>{{ section.weight }}</td>
             <td></td>
         </tr>
         {% endfor %}
-        <tr class="wgaudit-section">
-            <td class="wgaudit-score-final" colspan="2">Final Score</td>
+        <tr>
+            <td colspan="2" style="text-align: right">Final Score</td>
             <td>{% if audit.failed == true %}
                     FAILED
                 {% else %}
@@ -62,5 +77,5 @@
             <td></td>
         </tr>
     </table>
-
+</div>
 {% endblock %}

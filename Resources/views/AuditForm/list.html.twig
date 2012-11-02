@@ -1,16 +1,16 @@
 {% extends 'WGAuditBundle::base.html.twig' %}
 
 {% block body %}
+<div class="container">
+    <h3>Listing Existing Forms:</h3>
 
-    <h2>Listing Existing Forms:</h2>
-
-    <table id="audit">
+    <table class="table table-condensed table-hover">
         <thead>
             <tr>
                 <th>Title</th>
                 <th>Description</th>
                 <th>Is the form Active?</th>
-                <th></th>
+                <th>Edit</th>
             </tr>
         </thead>
         <tbody>
@@ -24,7 +24,7 @@
                             NO
                         {% endif %}
                     </td>
-                    <td>[ <a href="{{ path( 'wgaudit_add', { 'id' : form.id } ) }}">pick</a> ]</td>
+                    <td><a href="{{ path( 'wgaudit_add', { 'id' : form.id } ) }}" class="btn"><i class="icon-edit"/></a></td>
                 </tr>
             {% else %}
                 <tr>
@@ -33,4 +33,5 @@
             {% endfor %}
         </tbody>
     </table>
+</div>
 {% endblock %}

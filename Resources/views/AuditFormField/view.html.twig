@@ -1,26 +1,33 @@
 {% extends 'WGAuditBundle::base.html.twig' %}
 
 {% block body %}
-
-    <h2>Field:</h2>
-
-    <table id="audit">
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Section</th>
-                <th>Weight</th>
-                <th>description</th>
-                <th>Scores</th>
-            </tr>
-        </thead>
+<div class="container">
+    <h3>Field view</h3>
+    <table class="table table-condensed table-hover">
+        <caption>Field ID number: {{ field.id }}</caption>
         <tbody>
             <tr>
+                <td>Title</td>
                 <td>{{ field.title }}</td>
+                <td>Section</td>
                 <td>{{ field.section }}</td>
+                <td>Weight</td>
                 <td>{{ field.weight }}</td>
-                <td>{{ field.description }}</td>
-                <td>{% for score, label in field.scores %}
+                <td>Fatal</td>
+                <td>{% if field.fatal == 1 %}
+                        <div>Yes</div>
+                    {% else %}
+                        <div>No</div>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td>Description</td>
+                <td colspan="7">{{ field.description }}</td>
+            </tr>
+            <tr>
+                <td>Scores: </td>
+                <td colspan="7">{% for score, label in field.scores %}
                         <div>
                             {{ score }}: {{ label }}
                         </div>
@@ -31,5 +38,5 @@
             </tr>
         </tbody>
     </table>
-       
+</div>
 {% endblock %}

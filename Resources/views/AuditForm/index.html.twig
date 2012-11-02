@@ -1,10 +1,10 @@
 {% extends 'WGAuditBundle::base.html.twig' %}
 
 {% block body %}
+<div class="container">
+    <h3>Listing Existing Forms:</h3>
 
-    <h2>Listing Existing Forms:</h2>
-
-    <table id="audit">
+    <table class="table table-condensed table-hover">
         <thead>
             <tr>
                 <th>Title</th>
@@ -25,9 +25,9 @@
                         {% else %}
                             <div>No</div>
                         {% endif %}
-                    <td>[ <a href="{{ path( 'wgauditform_view', { 'id': form.id } ) }}">view</a> ]</td>
-                    <td>[ <a href="{{ path( 'wgauditform_edit', { 'id': form.id } ) }}">edit</a> ]</td>
-                    <td>[ <a href="{{ path( 'wgauditform_delete', { 'id': form.id } ) }}">delete</a> ]</td>
+                    <td><a href="{{ path( 'wgauditform_view', { 'id': form.id } ) }}" class="btn btn-mini"><i class="icon-eye-open"/></a></td>
+                    <td><a href="{{ path( 'wgauditform_edit', { 'id': form.id } ) }}" class="btn btn-mini"><i class="icon-edit"/></a></td>
+                    <td><a href="{{ path( 'wgauditform_delete', { 'id': form.id } ) }}" class="btn btn-mini"><i class="icon-remove"/></a></td>
                 </tr>
             {% else %}
                 <tr>
@@ -36,10 +36,10 @@
             {% endfor %}
                 <tr>
                     <td colspan="8" align="center">
-                        <a href="{{ path( 'wgauditform_add' ) }}">Add a new form</a>
+                        <a class="btn btn-small" href="{{ path( 'wgauditform_add' ) }}">Add a new form</a>
                     </td>
                 </tr>
         </tbody>
     </table>
-
+</div>
 {% endblock %}
