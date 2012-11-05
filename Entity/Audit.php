@@ -284,7 +284,7 @@ class Audit
             else
                 $achievedPercentages += $score->getWeightPercentage();
         }
-        return $achievedPercentages / $fieldCount;
+        return number_format($achievedPercentages / $fieldCount, 2, '.', '');
     }
 
     // TODO: take into account the weight of 1 for fields where getFatal() == true
@@ -301,7 +301,7 @@ class Audit
             $divisor += $weight;
             $totalPercent = $totalPercent * ( $divisor - $weight ) / $divisor + $percent * $weight / $divisor;
         }
-        return $totalPercent;
+        return number_format($totalPercent, 2, '.', '');
     }
 
     public function getTotalWeight()

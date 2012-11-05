@@ -2,15 +2,15 @@
 
 {% block body %}
 <div class="container">
-    <h3>Listing Existing Forms:</h3>
-
+    <h3>Forms:</h3>
     <table class="table table-condensed table-hover">
+        <caption>List of existing Forms</caption>
         <thead>
             <tr>
                 <th>Title</th>
                 <th>Description</th>
                 <th>Is the form Active?</th>
-                <th>Edit</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -24,7 +24,7 @@
                             NO
                         {% endif %}
                     </td>
-                    <td><a href="{{ path( 'wgaudit_add', { 'id' : form.id } ) }}" class="btn"><i class="icon-edit"/></a></td>
+                    <td><a href="{{ path( 'wgaudit_add', { 'id' : form.id } ) }}" class="btn btn-mini"><i class="icon-edit"></i> Pick</a></td>
                 </tr>
             {% else %}
                 <tr>

@@ -129,4 +129,9 @@ class AuditController extends Controller
             'scores' => $scores,
         ));
     }
+
+    public function showIconSetAction()
+    {
+        return $this->render( 'WGAuditBundle:Audit:iconset.html.twig' );
+    }
 }

@@ -2,17 +2,16 @@
 
 {% block body %}
 <div class="container">
-    <h3>Listing existing Sections:</h3>
-
+    <h3>Sections</h3>
+    <a href="{{ path( 'wgauditformsection_add' ) }}" class="btn btn-small">Add a new section</a>
     <table class="table table-condensed">
+        <caption>List of existing Section</caption>
         <thead>
             <tr>
                 <th>Title</th>
                 <th>Name</th>
                 <th>Description</th>
-                <th>View</th>
-                <th>Edit</th>
-                <th>Delete</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -21,20 +20,22 @@
                     <td>{{ section.title }}</td>
                     <td>{{ section.auditform }}</td>
                     <td>{{ section.description }}</td>
-                    <td><a href="{{ path( 'wgauditformsection_view', { 'id': section.id } ) }}" class="btn btn-mini"><i class="icon-eye-open"/></a></td>
-                    <td><a href="{{ path( 'wgauditformsection_edit', { 'id': section.id } ) }}" class="btn btn-mini"><i class="icon-edit"/></a></td>
-                    <td><a href="{{ path( 'wgauditformsection_delete', { 'id': section.id } ) }}" class="btn btn-mini"><i class="icon-remove"/></a></td>
+                    <td width="10%">
+                        <div class="btn-group">
+                            <a class="btn btn-mini" href="{{ path( 'wgauditformsection_view', { 'id': section.id } ) }}"><i class="icon-eye-open"></i> View</a>
+                            <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ path( 'wgauditformsection_edit', { 'id': section.id } ) }}"><i class="icon-pencil"></i> Edit</a></li>
+                                <li><a href="{{ path( 'wgauditformsection_delete', { 'id': section.id } ) }}"><i class="icon-trash"></i> Delete</a></li>
+                            </ul>
+                        </div>
+                    </td>
                 </tr>
             {% else %}
                 <tr>
                     <td colspan="6">no sections yet</td>
                 </tr>
             {% endfor %}
-                <tr>
-                    <td colspan="6" align="center">
-                        <a href="{{ path( 'wgauditformsection_add' ) }}" class="btn btn-small">Add a new section</a>
-                    </td>
-                </tr>
         </tbody>
     </table>
 </div>

@@ -90,5 +90,9 @@ wgauditformfield_calculate_score:
     pattern:  /fields/{id}/calculate-score
     defaults: {_controller: WGAuditBundle:AuditFormField:calculateScore}
 
+# temp
+wgaudit_iconset:
+    pattern: /iconset
+    defaults: {_controller: WGAuditBundle:Audit:showIconSet}
 
 

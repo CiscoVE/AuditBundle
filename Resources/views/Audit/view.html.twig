@@ -6,6 +6,7 @@
         <thead>
             <tr>
                 <th>Case #</th>
+                <th>Audit Score</th>
                 <th>Engineer</th>
                 <th>Manager</th>
                 <th>Audit Form</th>
@@ -14,6 +15,12 @@
         <tbody>
             <tr>
                 <td>{{ audit.auditReference }}</td>
+                <td>{% if audit.failed == true %}
+                    <div class="text-warning">FAILED</div>
+                    {% else %}
+                        {{ audit.totalResult }}
+                    {% endif %}
+                </td>
                 <td>{{ audit.auditingUser }}</td>
                 <td>{{ audit.controlUser }}</td>
                 <td>{{ audit.auditForm }}</td>
@@ -31,16 +38,12 @@
         </thead>
         {% set counter = 1 %}
         {% for section in audit.auditform.sections %}
-
         <tr>
             <td colspan="5">Section {{ loop.index }}: {{ section.title }}</td>
         </tr>
         {% for field in section.fields %}
-
             {% for score in scores %}
-
                 {% if score.field == field %}
-
                 <tr>
                     <td>{{ counter }}</td>
                     <td>{{ field.title }}</td>
@@ -53,9 +56,7 @@
                     </td>
                     <td>{{ score.comment }}</td>
                 </tr>
-
                 {% endif %}
-
             {% endfor %}
             {% set counter = counter +1 %}
         {% endfor %}
@@ -69,7 +70,7 @@
         <tr>
             <td colspan="2" style="text-align: right">Final Score</td>
             <td>{% if audit.failed == true %}
-                    FAILED
+                <div class="text-warning">FAILED</div>
                 {% else %}
                     {{ audit.totalResult }}
                 {% endif %}</td>

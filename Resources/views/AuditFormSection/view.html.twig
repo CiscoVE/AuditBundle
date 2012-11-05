@@ -4,19 +4,28 @@
 
 {% block body %}
 <div class="container">
-    <h2>Section: {{ section.title }}</h2>
-
+    <h3>Section: {{ section.title }}</h3>
     <table class="table table-condensed">
         <thead>
             <tr>
                 <th>Title</th>
                 <th>Description</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
             <tr>
                 <td>{{ section.auditform }}</td>
                 <td>{{ section.description }}</td>
+                <td>
+                    <div class="btn-group">
+                        <a class="btn btn-mini" href="{{ path( 'wgauditformsection_edit', { 'id': section.id } ) }}"><i class="icon-pencil"></i> Edit</a>
+                        <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ path( 'wgauditformsection_delete', { 'id': section.id } ) }}"><i class="icon-trash"></i> Delete</a></li>
+                        </ul>
+                    </div>
+                </td>
             </tr>
         </tbody>
     </table>
@@ -29,7 +38,6 @@
                 <th>Section</th>
                 <th>description</th>
                 <th>Weight</th>
-                <th>Scores</th>
                 <th>Fatal</th>
             </tr>
         </thead>
@@ -40,14 +48,6 @@
                 <td>{{ field.section }}</td>
                 <td>{{ field.description }}</td>
                 <td>{{ field.weight }}</td>
-                <td>{% for score, label in field.scores %}
-                        <div>
-                            {{ score }}: {{ label }}
-                        </div>
-                    {% else %}
-                        <div>No scores defined</div>
-                    {% endfor %}
-                </td>
                 <td>{% if field.fatal == 1 %}
                         <i class="icon-check"/>
                     {% else %}

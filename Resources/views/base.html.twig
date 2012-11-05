@@ -8,7 +8,7 @@
     {% block favicon %}{% endblock %}
     {% block stylesheets %}
         <link href='http://fonts.googleapis.com/css?family=Orienta' rel='stylesheet' type='text/css' />
-        <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet" />
         <style type="text/css">
             body * {
                 font-family: 'Orienta', sans-serif;
@@ -21,6 +21,19 @@
     {% block javascripts %}
             <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
             <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+            <script>
+            $('#modal').modal({
+                    backdrop: true,
+                    keyboard: true
+                }).css({
+                   'width': function () {
+                       return ($(document).width() * .9) + 'px';
+                   },
+                   'margin-left': function () {
+                       return -($(this).width() / 2);
+                   }
+            });
+            </script>
     {% endblock %}
   </head>
   <body>
@@ -40,6 +53,7 @@
               <li><a href="{{ path( 'wgauditforms' ) }}">view form list</a></li>
               <li><a href="{{ path( 'wgauditformsections' ) }}">view section list</a></li>
               <li><a href="{{ path( 'wgauditformfields' ) }}">view field list</a></li>
+              <li><a href="{{ path( 'wgaudit_iconset' )}}">view iconset</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
@@ -48,6 +62,15 @@
     {% endblock %}
     {% block body %}{% endblock %}
   </body>
+    <div id="modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icon-remove"></i> </button>
+            <h3 id="myModalLabel">Modal header</h3>
+        </div>
+        <div class="modal-body">
+            <p>One fine body…</p>
+        </div>
+    </div>
 </html>
 
 

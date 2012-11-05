@@ -3,7 +3,7 @@
 {% block body %}
 {{ parent() }}
 <div class="container">
-    <h3>Listing existing Audits:</h3>
+    <h3>Audits</h3>
 
     <table class="table table-hover">
         <caption>List of completed Audits</caption>
@@ -24,12 +24,12 @@
                 <td>{{ audit.controlUser }}</td>
                 <td>{{ audit.auditForm }}</td>
                 <td>{% if audit.failed == true %}
-                        FAILED
+                    <div class="text-warning">FAILED</div>
                     {% else %}
                         {{ result }}
                     {% endif %}
                 </td>
-                <td><a href="{{ path( 'wgaudit_view', { 'id': audit.id } ) }}" class="btn btn-mini"><i class="icon-eye-open"/></a></td>
+                <td width="10%"><a href="{{ path( 'wgaudit_view', { 'id': audit.id } ) }}" class="btn btn-mini"><i class="icon-eye-open"></i> View Audit</a></td>
             </tr>
     {% else %}
             <tr>

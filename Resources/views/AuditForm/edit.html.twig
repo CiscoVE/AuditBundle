@@ -40,39 +40,44 @@
         <table class="table table-condensed table-hover">
             <thead>
                 <tr>
-                    <th>Title</th>
+                    <th colspan="2">Title</th>
                     <th>Description</th>
                     <th>Weight</th>
-                    <th>Remove</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
                 {% if auditform.sections != null %}
                     {% for section in auditform.sections %}
                         <tr class="wgaudit-section">
-                            <td>Section {{ section.id }}: {{ section.title }}</td>
+                            <td colspan=2><strong>Section {{ section.id }}: {{ section.title }}</strong></td>
                             <td colspan=2>{{ section.description }}</td>
-                            <td><a href="{{ path( 'wgauditform_remove', { 'id' : auditform.id ,'section_id': section.id } ) }}" class="btn btn-mini"><i class="icon-minus"/></a></td>
+                            <td>
+                                <div class="btn-group">
+                                    <a class="btn btn-mini" data-toggle="modal" data-target="#modal" href="{{ path( 'wgauditformsection_view', { 'id': section.id } ) }}"><i class="icon-eye-open"></i> View</a>
+                                    <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="{{ path( 'wgauditformsection_edit', { 'id': section.id } ) }}"><i class="icon-pencil"></i> Edit</a></li>
+                                        <li><a href="{{ path( 'wgauditform_remove', { 'id' : auditform.id ,'section_id': section.id } ) }}"><i class="icon-minus"></i> Remove</a></li>
+                                        <li><a href="#"><i class="icon-plus"></i> Add Section</a></li>
+                                    </ul>
+                                </div>
+                            </td>
                         </tr>
                         {% for field in section.fields %}
                         <tr class="wgaudit-field">
+                            <td></td>
                             <td>{{ field.title }}</td>
                             <td>{{ field.description }}</td>
                             <td>{{ field.weight }}</td>
-                            <td><a href="{{ path( 'wgauditformsection_remove', { 'id' : section.id ,'field_id': field.id } ) }}" class="btn btn-mini"><i class="icon-minus"/></a></td>
+                            <td></td>
                         </tr>
                         {% else %}
                         <tr>no fields assigned yet</tr>
                         {% endfor %}
-                        <tr>
-                            <td colspan="4" style="text-align: right"><a href="#" class="btn btn-small">Add Field</a></td>
-                        </tr>
                     {% else %}
                         <tr>no sections assigned yet</tr>
                     {% endfor %}
-                        <tr>
-                            <td colspan="4" style="text-align: right"><a href="#" class="btn btn-small">Add Section</a></td>
-                        </tr>
                 {% endif %}
             </tbody>
         </table>

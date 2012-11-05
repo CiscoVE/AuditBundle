@@ -4,7 +4,8 @@
 
 {% block body %}
 <div class="container">
-    <h3>Audit Form</h3>
+    <h3>Audit Form <a href="{{ path( 'wgauditform_edit', { 'id': form.id } ) }}" style="font-size: 10px"><i class="icon-pencil"></i> Edit</a></h3>
+
 
     <table class="table table-condensed">
         <thead>
@@ -29,28 +30,18 @@
                 <th>Title</th>
                 <th>Description</th>
                 <th>Weight</th>
-                <th>score</th>
             </tr>
         </thead>
         <tbody>
         {% for section in form.sections %}
             <tr>
-                <td colspan=2>Section {{section.id}}: {{ section.title }}</td>
-                <td colspan=2>{{ section.description }}</td>
+                <td colspan=4><strong>Section {{section.id}}: {{ section.title }}</strong> - {{ section.description }}</td>
             </tr>
             {% for field in section.fields %}
             <tr>
                 <td>{{ field.title }}</td>
                 <td>{{ field.description }}</td>
                 <td>{{ field.weight }}</td>
-                <td>{% for score, label in field.scores %}
-                        <div>
-                            {{ score }}: {{ label }}
-                        </div>
-                    {% else %}
-                        <div>No scores defined</div>
-                    {% endfor %}
-                </td>
             </tr>
             {% else %}
             {% endfor %}

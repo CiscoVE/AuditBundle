@@ -41,9 +41,12 @@ class AuditFormSectionController extends Controller
                 return $this->redirect( $this->generateUrl( 'wgauditformsections' ));
             }
         }
+        $routes = $this->get( 'router' )->getRouteCollection();
         return $this->render( 'WGAuditBundle:AuditFormSection:edit.html.twig', array(
             'edit' => $edit,
+            'section' => $section,
             'form' => $form->createView(),
+            'routePatternView' => $routes->get( 'wgauditformfield_view' )->getPattern(),
         ));
     }
 
@@ -92,5 +95,15 @@ class AuditFormSectionController extends Controller
             throw $this->createNotFoundException( 'Field does not exist' );
         }
         throw $this->createNotFoundException( 'Section   does not exist' );
+    }
+
+    public function addAction( Request $request )
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $repo = $em->getRepository( 'WGAuditBundle:AuditFormSection' );
+        $section = $repo->find( $request->get( 'id' ));
+
+        $fieldRepo = $em->getRepository( 'WGAuditBundle:AuditFormField' );
+        $fields = $fieldRepo->findBy( array ( 'section' => null ));
     }
 }
