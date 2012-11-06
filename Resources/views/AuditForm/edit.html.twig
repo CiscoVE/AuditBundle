@@ -2,70 +2,87 @@
 
 {% block body %}
 <div class="container">
-    <form class="form-horizontal" method="POST" action="">
-        {% if edit == true %}
-            <h3>Edit existing form:</h3>
-        {% else %}
-            <h3>Add new form:</h3>
-        {% endif %}
-        <div class="controls controls-row">
-            <div class="control-group">
-                <div class="control-label">
-                    {{ form_label(form.title) }}
+    <div class="span10 offset1">
+        <form class="form-horizontal" method="POST" action="">
+            {% if edit == true %}
+            <h3>Edit existing form</h3>
+            {% else %}
+            <h3>Add new form</h3>
+            {% endif %}
+            <div class="controls controls-row">
+                <div class="control-group">
+                    <div class="control-label">
+                        {{ form_label(form.title) }}
+                    </div>
+                    <div class="controls">
+                        {{ form_widget(form.title) }}
+                    </div>
                 </div>
-                <div class="controls">
-                    {{ form_widget(form.title) }}
+                <div class="control-group">
+                    <div class="control-label">
+                        {{ form_label(form.active) }}
+                    </div>
+                    <div class="controls">
+                        {{ form_widget(form.active) }}
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label">
+                        {{ form_label(form.description) }}
+                    </div>
+                    <div class="controls">
+                        {{ form_widget(form.description, { 'attr': { 'class': 'input-xxlarge' }}) }}
+                    </div>
+                </div>
+                <div class="control-group">
+                    <input type="submit" value="save" class="btn btn-small" />
                 </div>
             </div>
-            <div class="control-group">
-                <div class="control-label">
-                    {{ form_label(form.active) }}
-                </div>
-                <div class="controls">
-                    {{ form_widget(form.active) }}
-                </div>
-            </div>
-            <div class="control-group">
-                <div class="control-label">
-                    {{ form_label(form.description) }}
-                </div>
-                <div class="controls">
-                    {{ form_widget(form.description, { 'attr': { 'class': 'input-xxlarge' }}) }}
-                </div>
-            </div>
-            <div class="control-group">
-                <input type="submit" value="save" class="btn btn-small" />
-            </div>
-        </div>
-        <table class="table table-condensed table-hover">
-            <thead>
-                <tr>
-                    <th colspan="2">Title</th>
-                    <th>Description</th>
-                    <th>Weight</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
+            <table class="table table-condensed table-hover">
+                <thead>
+                        <th colspan="2">Title</th>
+                        <th>Description</th>
+                        <th>Weight</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
                 {% if auditform.sections != null %}
                     {% for section in auditform.sections %}
-                        <tr class="wgaudit-section">
-                            <td colspan=2><strong>Section {{ section.id }}: {{ section.title }}</strong></td>
-                            <td colspan=2>{{ section.description }}</td>
-                            <td>
-                                <div class="btn-group">
-                                    <a class="btn btn-mini" data-toggle="modal" data-target="#modal" href="{{ path( 'wgauditformsection_view', { 'id': section.id } ) }}"><i class="icon-eye-open"></i> View</a>
-                                    <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="{{ path( 'wgauditformsection_edit', { 'id': section.id } ) }}"><i class="icon-pencil"></i> Edit</a></li>
-                                        <li><a href="{{ path( 'wgauditform_remove', { 'id' : auditform.id ,'section_id': section.id } ) }}"><i class="icon-minus"></i> Remove</a></li>
-                                        <li><a href="#"><i class="icon-plus"></i> Add Section</a></li>
-                                    </ul>
-                                </div>
-                            </td>
-                        </tr>
+                    <tr class="audit-section-row">
+                        <td colspan=2><strong>Section {{ section.id }}: {{ section.title }}</strong></td>
+                        <td colspan=2>{{ section.description }}</td>
+                        <td>
+                            <div class="btn-group">
+                                <a class="btn btn-mini" data-toggle="modal" data-target="#modal" href="{{ path( 'wgauditformsection_view', { 'id': section.id } ) }}">
+                                    <i class="icon-eye-open"></i> View
+                                </a>
+                                <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="{{ path( 'wgauditformsection_edit', { 'id': section.id } ) }}">
+                                            <i class="icon-pencil"></i> Edit
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="remove-section" data-section-id="{{ section.id }}" data-form-id="{{ auditform.id }}"
+                                           href="{{ path( 'wgauditform_remove', { 'id' : auditform.id ,'section_id': section.id } ) }}">
+                                            <i class="icon-minus"></i> Remove
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="audit-form-add">
+                                            <i class="icon-plus"></i> Add Field
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
                         {% for field in section.fields %}
-                        <tr class="wgaudit-field">
+                        <tr class="audit-form-field">
                             <td></td>
                             <td>{{ field.title }}</td>
                             <td>{{ field.description }}</td>
@@ -76,12 +93,83 @@
                         <tr>no fields assigned yet</tr>
                         {% endfor %}
                     {% else %}
-                        <tr>no sections assigned yet</tr>
+                    <tr>no sections assigned yet</tr>
                     {% endfor %}
                 {% endif %}
-            </tbody>
-        </table>
-    </form>
+                </tbody>
+            </table>
+        </form>
+    </div>
 </div>
+<script language="javascript">
+// find to which section this field belongs to
+// get last row of this section
+// add new row after the last one
+
+
+//$('.audit-section-row').next('.audit-form-field').css('background-color', 'yellow');
+//$('.audit-section-row').next('.audit-section-row').prev().css('background-color', 'red');
+
+var routePatternRemove = '{{ routePatternRemove }}';
+
+$( document ).ready( function()
+{
+    $( '.remove-section' ).click( function()
+    {
+        var url;
+        var sectionId = $( this ).attr( 'data-section-id' );
+        var formId = $( this ).attr( 'data-form-id' );
+
+        $( this ).closest( '.audit-section-row' ).remove();
+        // TODO: remove all the related .audit-field-row
+
+        url = routePatternRemove.replace( '{id}', formId );
+        url = url.replace( '{section_id}', sectionId );
+
+        $.ajax(
+        {
+            url: url,
+            type: "POST"
+        });
+
+        return false;
+    });
+
+    $('.audit-form-add').click(function()
+    {
+        console.log( 'click !' );
+
+        //var current = $(this).closest('.audit-section-row');
+        var nextSection = $(this).closest('.audit-section-row').nextAll('tr.audit-section-row').eq(0);
+        //current.css('background-color', 'yellow');
+        nextSection.prev().after('<tr><td colspan="5">Add New Field</td></tr>')
+        nextSection.prev().css('background-color', 'red');
+        //current.next().css('background-color', 'green');
+        //return false;
+
+        $.ajax(
+        {
+        /**
+            url: url,
+            dataType: 'json',
+            data: { id: id,
+                    field: name },
+            type: 'POST',
+            error: function( response )
+            {
+                console.log( 'error: ' + response );
+            },
+            success: function( response )
+            {
+                console.log( 'success: ' + response );
+
+                $( '.wgaudit-section-score' ).html( response.score );
+                $( '.bar' ).html( response.scoreData + "(" + response.fieldScore + ")- FW:" + response.fieldWeight + "- GW: " + response.sectionWeight );
+            }
+            **/
+        });
+    });
+});
+</script>
 {% endblock %}
 

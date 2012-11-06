@@ -4,6 +4,7 @@ namespace WG\AuditBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use WG\AuditBundle\Entity\AuditFormSection;
 use WG\AuditBundle\Form\Type\AuditFormSectionType;
 
@@ -47,6 +48,7 @@ class AuditFormSectionController extends Controller
             'section' => $section,
             'form' => $form->createView(),
             'routePatternView' => $routes->get( 'wgauditformfield_view' )->getPattern(),
+            'routePatternRemove' => $routes->get( 'wgauditformsection_remove' )->getPattern(),
         ));
     }
 
@@ -90,7 +92,8 @@ class AuditFormSectionController extends Controller
                 $section->removeField( $field );
                 $em->persist( $section );
                 $em->flush();
-                return $this->redirect( $this->generateUrl( 'wgauditforms' ));
+                return new Response();
+                // $this->redirect( $this->generateUrl( 'wgauditforms' ));
             }
             throw $this->createNotFoundException( 'Field does not exist' );
         }

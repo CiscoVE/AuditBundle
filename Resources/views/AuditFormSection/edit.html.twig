@@ -2,146 +2,152 @@
 
 {% block body %}
 <div class="container">
-    <form class="form-horizontal" method="POST" action="">
-        {% if edit == true %}
-            <h3>Edit existing section:</h3>
-        {% else %}
-            <h3>Add new section:</h3>
-        {% endif %}
-            {#
-        <!-- Button to trigger modal -->
-        <a href="#myModal" role="button" class="btn btn-mini" data-toggle="modal">Launch demo modal</a>
-        <!-- Modal -->
-        <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h3 id="myModalLabel">Modal header</h3>
-            </div>
-            <div class="modal-body">
-                <p>One fine body…</p>
-            </div>
-            <div class="modal-footer">
-                <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-                <button class="btn btn-primary">Save changes</button>
-            </div>
-        </div>
-#}
-        <div class="controls controls-row">
-            <div class="control-group">
-                <div class="control-label">
-                    {{ form_label(form.title) }}
+    <div class="span10 offset1">
+        <form class="form-horizontal" method="POST" action="">
+            {% if edit == true %}
+                <h3>Edit existing section:</h3>
+            {% else %}
+                <h3>Add new section:</h3>
+            {% endif %}
+                {#
+            <!-- Button to trigger modal -->
+            <a href="#myModal" role="button" class="btn btn-mini" data-toggle="modal">Launch demo modal</a>
+            <!-- Modal -->
+            <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h3 id="myModalLabel">Modal header</h3>
                 </div>
-                <div class="controls">
-                    {{ form_widget(form.title) }}
-                    {{ form_errors(form.title) }}
+                <div class="modal-body">
+                    <p>One fine body…</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                    <button class="btn btn-primary">Save changes</button>
                 </div>
             </div>
-            <div class="control-group">
-                <div class="control-label">
-                    {{ form_label(form.auditform) }}
-                </div>
-                <div class="controls">
-                    {{ form_widget(form.auditform) }}
-                    {{ form_errors(form.auditform) }}
-                </div>
-            </div>
-        </div>
-        <div class="controls controls-row">
-            <div class="control-group">
-                <div class="control-label">
-                    {{ form_label(form.description) }}
-                </div>
-                <div class="controls">
-                    {{ form_widget(form.description, { 'attr': { 'class': 'input-xxlarge' }}) }}
-                    {{ form_errors(form.description) }}
-                </div>
-            </div>
-            <div class="controls">
-                {{ form_rest(form) }}
-                <input type="submit" value="save" class="btn" />
-            </div>
-        </div>
-    </form>
-
-    <table class="table table-condensed">
-        <caption>List of fields contained in this section</caption>
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>description</th>
-                <th>Weight</th>
-                <th>Fatal</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for field in section.fields %}
-            <tr>
-                <td>{{ field.title }}</td>
-                <td>{{ field.description }}</td>
-                <td>{{ field.weight }}</td>
-                <td>{% if field.fatal == 1 %}
-                        <i class="icon-check"/>
-                    {% else %}
-                        <i class="icon-check-empty"/>
-                    {% endif %}
-                </td>
-                <td>
-                    <div class="btn-group">
-                        {#<a class="view-form-field btn btn-mini"  data-toggle="modal" data-target="#modal" href="{{ path( 'wgauditformfield_view', { 'id': field.id } ) }}"><i class="icon-eye-open"></i> View</a>#}
-                        <a class="btn btn-mini"  data-toggle="modal" data-target="#modal" href="{{ path( 'wgauditformfield_view', { 'id': field.id } ) }}"><i class="icon-eye-open"></i> View</a>
-                        <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="{{ path( 'wgauditformfield_edit', { 'id': field.id } ) }}"><i class="icon-pencil"></i> Edit</a></li>
-                            <li><a href="{{ path( 'wgauditformsection_remove', { 'id' : section.id ,'field_id': field.id } ) }}"><i class="icon-minus"></i> Remove</a></li>
-                            <li><a href="#"><i class="icon-plus"></i> Add Field</a></li>
-                        </ul>
+    #}
+            <div class="controls controls-row">
+                <div class="control-group">
+                    <div class="control-label">
+                        {{ form_label(form.title) }}
                     </div>
+                    <div class="controls">
+                        {{ form_widget(form.title) }}
+                        {{ form_errors(form.title) }}
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label">
+                        {{ form_label(form.auditform) }}
+                    </div>
+                    <div class="controls">
+                        {{ form_widget(form.auditform) }}
+                        {{ form_errors(form.auditform) }}
+                    </div>
+                </div>
+            </div>
+            <div class="controls controls-row">
+                <div class="control-group">
+                    <div class="control-label">
+                        {{ form_label(form.description) }}
+                    </div>
+                    <div class="controls">
+                        {{ form_widget(form.description, { 'attr': { 'class': 'input-xxlarge' }}) }}
+                        {{ form_errors(form.description) }}
+                    </div>
+                </div>
+                <div class="controls">
+                    {{ form_rest(form) }}
+                    <input type="submit" value="save" class="btn" />
+                </div>
+            </div>
+        </form>
 
-                </td>
-            </tr>
-        {% else %}
-            <tr>no fields assigned yet</tr>
-        {% endfor %}
-        </tbody>
-    </table>
+        <table class="table table-condensed">
+            <caption>List of fields contained in this section</caption>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>description</th>
+                    <th>Weight</th>
+                    <th>Fatal</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for field in section.fields %}
+                    <tr class="audit-field-row">
+                    <td>{{ field.title }}</td>
+                    <td>{{ field.description }}</td>
+                    <td>{{ field.weight }}</td>
+                    <td>{% if field.fatal == 1 %}
+                            <i class="icon-check"/>
+                        {% else %}
+                            <i class="icon-check-empty"/>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            <a class="btn btn-mini"  data-toggle="modal" data-target="#modal" href="{{ path( 'wgauditformfield_view', { 'id': field.id } ) }}">
+                                <i class="icon-eye-open"></i> View
+                            </a>
+                            <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="{{ path( 'wgauditformfield_edit', { 'id': field.id } ) }}">
+                                        <i class="icon-pencil"></i> Edit
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="remove-field" data-field-id="{{ field.id }}" data-section-id="{{ section.id }}"
+                                       href="{{ path( 'wgauditformsection_remove', { 'id' : section.id ,'field_id': field.id } ) }}">
+                                        <i class="icon-minus"></i> Remove
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="icon-plus"></i> Add Field
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </td>
+                </tr>
+            {% else %}
+                <tr>no fields assigned yet</tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
 <script type="text/javascript">
-    {#
-    var routePatternView = '{{ routePatternView }}';
-    $(document).ready(function()
+var routePatternRemove = '{{ routePatternRemove }}';
+
+$( document ).ready( function()
+{
+    $( '.remove-field' ).click( function()
     {
-        $( '.view-form-field' ).click(function()
+        var url;
+        var fieldId = $( this ).attr( 'data-field-id' );
+        var sectionId = $( this ).attr( 'data-section-id' );
+
+        $( this ).closest( '.audit-field-row' ).remove();
+
+        url = routePatternRemove.replace( '{id}', sectionId );
+        url = url.replace( '{field_id}', fieldId );
+
+        $.ajax(
         {
-            var fieldId = $( this ).attr( 'data-field-id' );
-            var url = routePatternView.replace( '{id}', fieldId );
-
-             $.ajax(
-            {
-                url: url,
-                dataType: 'json',
-                data: { fieldId: fieldID },
-                type: 'POST',
-                error: function( response )
-                {
-                    console.log( 'error: ' + response );
-                },
-                success: function( response )
-                {
-                    console.log( 'success: ' + response );
-                    $( '#fieldModal' ).modal( 'toggle', 'show' );
-                    $( '#fieldModal' ).modal().css(
-                    {
-                        'margin-top': function () {
-                            return -($(this).height() / 2);
-                        }
-                    });
-                    $( '.modal-body' ).load( response.fieldID );
-
-                    return false;
-                }
-            });
-           return false;
+            url: url,
+            type: "POST"
         });
-    });#}
+
+        return false;
+    });
+});
 </script>
 {% endblock %}

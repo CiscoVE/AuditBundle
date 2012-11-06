@@ -6,49 +6,50 @@
 <div class="container">
     <h3>Audit Form <a href="{{ path( 'wgauditform_edit', { 'id': form.id } ) }}" style="font-size: 10px"><i class="icon-pencil"></i> Edit</a></h3>
 
-
-    <table class="table table-condensed">
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Active</th>
-                <th>Description</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>{{ form.title }}</td>
-                <td>{% if  form.active == 1 %}<i class="icon-check"/>{% else %}<i class="icon-uncheck"/>No{% endif %}</td>
-                <td>{{ form.description }}</td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-condensed table-hover">
-        <caption>List of fields contained in this section</caption>
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Weight</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for section in form.sections %}
-            <tr>
-                <td colspan=4><strong>Section {{section.id}}: {{ section.title }}</strong> - {{ section.description }}</td>
-            </tr>
-            {% for field in section.fields %}
-            <tr>
-                <td>{{ field.title }}</td>
-                <td>{{ field.description }}</td>
-                <td>{{ field.weight }}</td>
-            </tr>
+    <div class="span10 offset1">
+        <table class="table table-condensed">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Active</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ form.title }}</td>
+                    <td>{% if  form.active == 1 %}<i class="icon-check"/>{% else %}<i class="icon-uncheck"/>No{% endif %}</td>
+                    <td>{{ form.description }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-condensed table-hover">
+            <caption>List of fields contained in this section</caption>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Weight</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for section in form.sections %}
+                <tr>
+                    <td colspan=4><strong>Section {{section.id}}: {{ section.title }}</strong> - {{ section.description }}</td>
+                </tr>
+                {% for field in section.fields %}
+                <tr>
+                    <td>{{ field.title }}</td>
+                    <td>{{ field.description }}</td>
+                    <td>{{ field.weight }}</td>
+                </tr>
+                {% else %}
+                {% endfor %}
             {% else %}
+                <tr>no fields assigned yet</tr>
             {% endfor %}
-        {% else %}
-            <tr>no fields assigned yet</tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
 </div>
 {% endblock %}

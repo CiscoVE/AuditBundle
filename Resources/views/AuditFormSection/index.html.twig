@@ -2,41 +2,43 @@
 
 {% block body %}
 <div class="container">
-    <h3>Sections</h3>
-    <a href="{{ path( 'wgauditformsection_add' ) }}" class="btn btn-small">Add a new section</a>
-    <table class="table table-condensed">
-        <caption>List of existing Section</caption>
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for section in sections %}
+    <div class="span10 offset1">
+        <h3>Sections</h3>
+        <a href="{{ path( 'wgauditformsection_add' ) }}" class="btn btn-small">Add a new section</a>
+        <table class="table table-condensed">
+            <caption>List of existing Section</caption>
+            <thead>
                 <tr>
-                    <td>{{ section.title }}</td>
-                    <td>{{ section.auditform }}</td>
-                    <td>{{ section.description }}</td>
-                    <td width="10%">
-                        <div class="btn-group">
-                            <a class="btn btn-mini" href="{{ path( 'wgauditformsection_view', { 'id': section.id } ) }}"><i class="icon-eye-open"></i> View</a>
-                            <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="{{ path( 'wgauditformsection_edit', { 'id': section.id } ) }}"><i class="icon-pencil"></i> Edit</a></li>
-                                <li><a href="{{ path( 'wgauditformsection_delete', { 'id': section.id } ) }}"><i class="icon-trash"></i> Delete</a></li>
-                            </ul>
-                        </div>
-                    </td>
+                    <th>Title</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th></th>
                 </tr>
-            {% else %}
-                <tr>
-                    <td colspan="6">no sections yet</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {% for section in sections %}
+                    <tr>
+                        <td>{{ section.title }}</td>
+                        <td>{{ section.auditform }}</td>
+                        <td>{{ section.description }}</td>
+                        <td width="10%">
+                            <div class="btn-group">
+                                <a class="btn btn-mini" href="{{ path( 'wgauditformsection_view', { 'id': section.id } ) }}"><i class="icon-eye-open"></i> View</a>
+                                <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{ path( 'wgauditformsection_edit', { 'id': section.id } ) }}"><i class="icon-pencil"></i> Edit</a></li>
+                                    <li><a href="{{ path( 'wgauditformsection_delete', { 'id': section.id } ) }}"><i class="icon-trash"></i> Delete</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="6">no sections yet</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
 {% endblock %}

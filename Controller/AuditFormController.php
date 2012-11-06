@@ -4,6 +4,7 @@ namespace WG\AuditBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use WG\AuditBundle\Entity\AuditForm;
 use WG\AuditBundle\Form\Type\AuditFormType;
 
@@ -78,10 +79,12 @@ class AuditFormController extends Controller
                 return $this->redirect( $this->generateUrl( 'wgauditforms' ));
             }
         }
+        $routes = $this->get( 'router' )->getRouteCollection();
         return $this->render( 'WGAuditBundle:AuditForm:edit.html.twig', array(
             'edit'      => $edit,
             'auditform' => $auditform,
             'form'      => $form->createView(),
+            'routePatternRemove' => $routes->get( 'wgauditform_remove' )->getPattern(),
         ));
     }
 
@@ -98,6 +101,7 @@ class AuditFormController extends Controller
         throw $this->createNotFoundException( 'Form does not exist' );
     }
 
+    // TODO: change this to have an ajax request
     public function removeAction( Request $request )
     {
         $em = $this->getDoctrine()->getEntityManager();
@@ -112,15 +116,18 @@ class AuditFormController extends Controller
                 $auditform->removeSection( $section );
                 $em->persist( $auditform );
                 $em->flush();
-                return $this->redirect( $this->generateUrl( 'wgauditforms' ));
+                return new Response();
+                //return $this->redirect( $this->generateUrl( 'wgauditforms' ));
             }
             throw $this->createNotFoundException( 'Section does not exist' );
         }
         throw $this->createNotFoundException( 'Form does not exist' );
     }
 
-    public function removeFieldAction()
+    public function addAction()
     {
-        
+        $em = $this->getDoctrine()->getEntityManager();
+        $repo = $em->getRepository( 'WGAuditBundle:AuditFormSection' );
+        $sections = $repo->findBy( array( 'auditform' => null ));
     }
 }

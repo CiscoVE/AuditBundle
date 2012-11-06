@@ -3,35 +3,37 @@
 {% block body %}
 <div class="container">
     <h3>Forms:</h3>
-    <table class="table table-condensed table-hover">
-        <caption>List of existing Forms</caption>
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Is the form Active?</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for form in forms %}
+    <div class="span10 offset1">
+        <table class="table table-condensed table-hover">
+            <caption>List of existing Forms</caption>
+            <thead>
                 <tr>
-                    <td>{{ form.title }}</td>
-                    <td>{{ form.description }}</td>
-                    <td>{%if form.active == true %}
-                            YES
-                        {% else %}
-                            NO
-                        {% endif %}
-                    </td>
-                    <td><a href="{{ path( 'wgaudit_add', { 'id' : form.id } ) }}" class="btn btn-mini"><i class="icon-edit"></i> Pick</a></td>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Is the form Active?</th>
+                    <th></th>
                 </tr>
-            {% else %}
-                <tr>
-                    <td colspan="4">no forms yet</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {% for form in forms %}
+                    <tr>
+                        <td>{{ form.title }}</td>
+                        <td>{{ form.description }}</td>
+                        <td>{%if form.active == true %}
+                                YES
+                            {% else %}
+                                NO
+                            {% endif %}
+                        </td>
+                        <td><a href="{{ path( 'wgaudit_add', { 'id' : form.id } ) }}" class="btn btn-mini"><i class="icon-edit"></i> Pick</a></td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="4">no forms yet</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
 {% endblock %}

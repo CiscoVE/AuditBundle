@@ -2,59 +2,61 @@
 
 {% block body %}
 <div class="container">
-    <h3>Existing Fields</h3>
-    <a href="{{ path( 'wgauditformfield_add' ) }}" class="btn btn-small">Add a new field</a>
-    <table class="table table-condensed table-hover">
-        <caption>List of existing fields</caption>
-        <tbody>
-            {% for field in fields %}
-                <tr>
-                    <td><strong>Title: </strong></td>
-                    <td>{{ field.title }}</td>
-                    <td><strong>Section: </strong></td>
-                    <td>{{ field.section }}</td>
-                    <td><strong>Weight: </strong></td>
-                    <td>{{ field.weight }}</td>
-                    <td><strong>Fatal: </strong></td>
-                    <td>{% if field.fatal == 1 %}
-                            <div>Yes</div>
-                        {% else %}
-                            <div>No</div>
-                        {% endif %}
-                    </td>
-                    <td>
-                        <div class="btn-group">
-                            <a class="btn btn-mini" href="{{ path( 'wgauditformfield_view', { 'id': field.id } ) }}"><i class="icon-eye-open"></i> View</a></li>
-                            <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="{{ path( 'wgauditformfield_edit', { 'id': field.id } ) }}"><i class="icon-pencil"></i> Edit</a></li>
-                                <li><a href="{{ path( 'wgauditformfield_delete', { 'id': field.id } ) }}"><i class="icon-trash"></i> Delete</a></li>
-                            </ul>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td><strong>Description: </strong></td>
-                    <td colspan="10">{{ field.description }}</td>
-                </tr>
-                <tr>
-                    <td><strong>Scores: </strong></td>
-                    <td colspan="10">{% for score, label in field.scores %}
-                            <div>
-                                {{ score }}: {{ label }}
+    <div class="span10 offest1">
+        <h3>Existing Fields</h3>
+        <a href="{{ path( 'wgauditformfield_add' ) }}" class="btn btn-small">Add a new field</a>
+        <table class="table table-condensed table-hover">
+            <caption>List of existing fields</caption>
+            <tbody>
+                {% for field in fields %}
+                    <tr>
+                        <td><strong>Title: </strong></td>
+                        <td>{{ field.title }}</td>
+                        <td><strong>Section: </strong></td>
+                        <td>{{ field.section }}</td>
+                        <td><strong>Weight: </strong></td>
+                        <td>{{ field.weight }}</td>
+                        <td><strong>Fatal: </strong></td>
+                        <td>{% if field.fatal == 1 %}
+                                <div>Yes</div>
+                            {% else %}
+                                <div>No</div>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div class="btn-group">
+                                <a class="btn btn-mini" href="{{ path( 'wgauditformfield_view', { 'id': field.id } ) }}"><i class="icon-eye-open"></i> View</a></li>
+                                <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{{ path( 'wgauditformfield_edit', { 'id': field.id } ) }}"><i class="icon-pencil"></i> Edit</a></li>
+                                    <li><a href="{{ path( 'wgauditformfield_delete', { 'id': field.id } ) }}"><i class="icon-trash"></i> Delete</a></li>
+                                </ul>
                             </div>
-                        {% else %}
-                            <div>No scores defined</div>
-                        {% endfor %}
-                    </td>
-                </tr>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Description: </strong></td>
+                        <td colspan="10">{{ field.description }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Scores: </strong></td>
+                        <td colspan="10">{% for score, label in field.scores %}
+                                <div>
+                                    {{ score }}: {{ label }}
+                                </div>
+                            {% else %}
+                                <div>No scores defined</div>
+                            {% endfor %}
+                        </td>
+                    </tr>
 
-            {% else %}
-                <tr>
-                    <td colspan="8" align="center">no fields yet</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+                {% else %}
+                    <tr>
+                        <td colspan="8" align="center">no fields yet</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
 {% endblock %}

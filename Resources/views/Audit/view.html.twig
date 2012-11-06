@@ -2,81 +2,85 @@
 
 {% block body %}
 <div class="container">
-    <table class="table table-condensed">
-        <thead>
+    <div class="span10 offset1">
+        <table class="table table-condensed">
+            <thead>
+                <tr>
+                    <th>Case #</th>
+                    <th>Audit Score</th>
+                    <th>Engineer</th>
+                    <th>Manager</th>
+                    <th>Audit Form</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ audit.auditReference }}</td>
+                    <td>{% if audit.failed == true %}
+                        <div class="text-warning">FAILED</div>
+                        {% else %}
+                            {{ audit.totalResult }}
+                        {% endif %}
+                    </td>
+                    <td>{{ audit.auditingUser }}</td>
+                    <td>{{ audit.controlUser }}</td>
+                    <td>{{ audit.auditForm }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table class="table table-condensed table-hover">
+            <thead>
+                <tr>
+                    <th>S.No.</th>
+                    <th>Field</th>
+                    <th>Score</th>
+                    <th>Weight</th>
+                    <th>Reviewer's Comment</th>
+                </tr>
+            </thead>
+            {% set counter = 1 %}
+            {% for section in audit.auditform.sections %}
             <tr>
-                <th>Case #</th>
-                <th>Audit Score</th>
-                <th>Engineer</th>
-                <th>Manager</th>
-                <th>Audit Form</th>
+                <td colspan="5"><strong>Section {{ loop.index }}: {{ section.title }}</strong></td>
             </tr>
-        </thead>
-        <tbody>
+            {% for field in section.fields %}
+                {% for score in scores %}
+                    {% if score.field == field %}
+                    <tr>
+                        <td>{{ counter }}</td>
+                        <td>{{ field.title }}</td>
+                        <td>{{ score.score }}</td>
+                        <td>{% if field.fatal == true %}
+                                Involve Mgr
+                            {% else %}
+                                {{ field.weight }}
+                            {% endif %}
+                        </td>
+                        <td>{{ score.comment }}</td>
+                    </tr>
+                    {% endif %}
+                {% endfor %}
+                {% set counter = counter +1 %}
+            {% endfor %}
             <tr>
-                <td>{{ audit.auditReference }}</td>
+                <td colspan="2" style="text-align: right">Section's Score</td>
+                <td>{{ attribute( audit, 'resultForSection', [ section ] ) }}</td>
+                <td>{{ section.weight }}</td>
+                <td></td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <td colspan="2" style="text-align: right">Final Score</td>
                 <td>{% if audit.failed == true %}
                     <div class="text-warning">FAILED</div>
                     {% else %}
                         {{ audit.totalResult }}
-                    {% endif %}
-                </td>
-                <td>{{ audit.auditingUser }}</td>
-                <td>{{ audit.controlUser }}</td>
-                <td>{{ audit.auditForm }}</td>
+                    {% endif %}</td>
+                <td>{{ audit.totalWeight }}</td>
+                <td></td>
             </tr>
-        </tbody>
-    </table>
-
-    <table class="table table-condensed table-hover">
-        <thead>
-            <th>S.No.</th>
-            <th>Field</th>
-            <th>Score</th>
-            <th>Weight</th>
-            <th>Reviewer's Comment</th>
-        </thead>
-        {% set counter = 1 %}
-        {% for section in audit.auditform.sections %}
-        <tr>
-            <td colspan="5">Section {{ loop.index }}: {{ section.title }}</td>
-        </tr>
-        {% for field in section.fields %}
-            {% for score in scores %}
-                {% if score.field == field %}
-                <tr>
-                    <td>{{ counter }}</td>
-                    <td>{{ field.title }}</td>
-                    <td>{{ score.score }}</td>
-                    <td>{% if field.fatal == true %}
-                            Involve Mgr
-                        {% else %}
-                            {{ field.weight }}
-                        {% endif %}
-                    </td>
-                    <td>{{ score.comment }}</td>
-                </tr>
-                {% endif %}
-            {% endfor %}
-            {% set counter = counter +1 %}
-        {% endfor %}
-        <tr>
-            <td colspan="2" style="text-align: right">Section's Score</td>
-            <td>{{ attribute( audit, 'resultForSection', [ section ] ) }}</td>
-            <td>{{ section.weight }}</td>
-            <td></td>
-        </tr>
-        {% endfor %}
-        <tr>
-            <td colspan="2" style="text-align: right">Final Score</td>
-            <td>{% if audit.failed == true %}
-                <div class="text-warning">FAILED</div>
-                {% else %}
-                    {{ audit.totalResult }}
-                {% endif %}</td>
-            <td>{{ audit.totalWeight }}</td>
-            <td></td>
-        </tr>
-    </table>
+        </table>
+    </div>
 </div>
 {% endblock %}

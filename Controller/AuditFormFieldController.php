@@ -113,4 +113,23 @@ class AuditFormFieldController extends Controller
 
         return new Response( json_encode($ret));
     }
+
+    public function getUnassignedField()
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $repo = $em->getRepository( 'WGAuditBundle:AuditFormField' );
+        $fields = $repo->findBy( array( 'section' => null ));
+
+        foreach ( $fields as $field)
+        {
+            $ret[] = $field;
+        }
+
+        return new Response( json_encode( $ret ));
+    }
+
+
+    // TODO:
+    // add new field (create new field)
+    // add existing field (list all the existing and not associated yet)
 }
