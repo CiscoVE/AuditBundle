@@ -2,13 +2,12 @@
 
 {% block body %}
 <div class="container">
-    <div class="span4 offest1">
-        <h3>Forms</h3>
-    </div>
-    <div class="span3 offset4">
-        <a class="btn btn-small" href="{{ path( 'wgauditform_add' ) }}">Add a new form</a>
-    </div>
     <div class="span10 offset1">
+        <legend>Forms
+            <a class="btn btn-small pull-right" href="{{ path( 'wgauditform_add' ) }}">
+                <i class="icon-plus"></i> Add a new form
+            </a>
+        </legend>
         <table class="table table-condensed table-hover">
             <caption>List of existing Forms</caption>
             <thead>

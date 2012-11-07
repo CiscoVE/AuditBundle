@@ -48,7 +48,6 @@ class AuditFormSectionController extends Controller
             'section' => $section,
             'form' => $form->createView(),
             'routePatternView' => $routes->get( 'wgauditformfield_view' )->getPattern(),
-            'routePatternRemove' => $routes->get( 'wgauditformsection_remove' )->getPattern(),
         ));
     }
 
@@ -92,8 +91,8 @@ class AuditFormSectionController extends Controller
                 $section->removeField( $field );
                 $em->persist( $section );
                 $em->flush();
-                return new Response();
-                // $this->redirect( $this->generateUrl( 'wgauditforms' ));
+                if ( $request->isXmlHttpRequest() ) return new Response();
+                else $this->redirect( $this->generateUrl( 'wgauditforms' ));
             }
             throw $this->createNotFoundException( 'Field does not exist' );
         }

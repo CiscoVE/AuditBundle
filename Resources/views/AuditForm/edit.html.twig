@@ -4,12 +4,38 @@
 <div class="container">
     <div class="span10 offset1">
         <form class="form-horizontal" method="POST" action="">
+            <legend>
             {% if edit == true %}
-            <h3>Edit existing form</h3>
+                Edit existing form
             {% else %}
-            <h3>Add new form</h3>
+                Add new form
             {% endif %}
-            <div class="controls controls-row">
+                <div class="btn-group pull-right">
+                    <button type="submit" class="btn btn-mini">
+                        <i class="icon-ok"></i> Save Section
+                    </button>
+{#                    <a class="btn btn-mini" href="#"><input type="submit" value="save" />
+                        <i class="icon-eye-open"></i> Save
+                    </a>#}
+                    <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a class="audit-section-add" href="#">
+                                <i class="icon-plus"></i> Add Section
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a class="audit-form-delete" href="#">
+                                <i class="icon-remove"></i> Delete Form
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </legend>
+            <div class="form-horizontal">
                 <div class="control-group">
                     <div class="control-label">
                         {{ form_label(form.title) }}
@@ -34,9 +60,6 @@
                         {{ form_widget(form.description, { 'attr': { 'class': 'input-xxlarge' }}) }}
                     </div>
                 </div>
-                <div class="control-group">
-                    <input type="submit" value="save" class="btn btn-small" />
-                </div>
             </div>
             <table class="table table-condensed table-hover">
                 <thead>
@@ -55,7 +78,7 @@
                         <td>
                             <div class="btn-group">
                                 <a class="btn btn-mini" data-toggle="modal" data-target="#modal" href="{{ path( 'wgauditformsection_view', { 'id': section.id } ) }}">
-                                    <i class="icon-eye-open"></i> View
+                                    <i class="icon-eye-open"></i> View Section
                                 </a>
                                 <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">
                                     <span class="caret"></span>
@@ -63,13 +86,12 @@
                                 <ul class="dropdown-menu">
                                     <li>
                                         <a href="{{ path( 'wgauditformsection_edit', { 'id': section.id } ) }}">
-                                            <i class="icon-pencil"></i> Edit
+                                            <i class="icon-pencil"></i> Edit Section
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="remove-section" data-section-id="{{ section.id }}" data-form-id="{{ auditform.id }}"
-                                           href="{{ path( 'wgauditform_remove', { 'id' : auditform.id ,'section_id': section.id } ) }}">
-                                            <i class="icon-minus"></i> Remove
+                                        <a class="audit-section-remove" href="{{ path( 'wgauditform_remove', { 'id' : auditform.id ,'section_id': section.id } ) }}">
+                                            <i class="icon-minus"></i> Remove Section
                                         </a>
                                     </li>
                                     <li>
@@ -93,7 +115,7 @@
                         <tr>no fields assigned yet</tr>
                         {% endfor %}
                     {% else %}
-                    <tr>no sections assigned yet</tr>
+                    {#<tr>no sections assigned yet</tr>#}
                     {% endfor %}
                 {% endif %}
                 </tbody>
@@ -110,40 +132,56 @@
 //$('.audit-section-row').next('.audit-form-field').css('background-color', 'yellow');
 //$('.audit-section-row').next('.audit-section-row').prev().css('background-color', 'red');
 
-var routePatternRemove = '{{ routePatternRemove }}';
-
-$( document ).ready( function()
+$( function()
 {
-    $( '.remove-section' ).click( function()
+    // Remove Section
+    $( '.audit-section-remove' ).click( function()
     {
-        var url;
-        var sectionId = $( this ).attr( 'data-section-id' );
-        var formId = $( this ).attr( 'data-form-id' );
+        var url = $( this ).attr( 'href' );
+        var that = this;
 
-        $( this ).closest( '.audit-section-row' ).remove();
         // TODO: remove all the related .audit-field-row
-
-        url = routePatternRemove.replace( '{id}', formId );
-        url = url.replace( '{section_id}', sectionId );
-
         $.ajax(
         {
             url: url,
-            type: "POST"
-        });
+            type: "POST",
+            success: function( response )
+            {
+                $( that ).closest( '.audit-section-row' ).nextUntil( '.audit-section-row' ).remove();
+                $( that ).closest( '.audit-section-row' ).remove();
+            },
+            error: function( response )
+            {
+                //console.log( 'failure: ' + response );
+            }
 
+        });
         return false;
     });
 
-    $('.audit-form-add').click(function()
+    // Edit Section
+    $( '.audit-section-edit' ).click( function()
+    {
+        // TODO: pop a new row bellow the current one and populate with the EditSectionForm
+        // OR: get current row and replace by value of the EditSectionForm
+        return false;
+    });
+
+    // Add Section
+    $( '.audit-section-add' ).click( function()
+    {
+        $( 'tbody' ).after( '<tr><td colspan="5">Add New Field</td></tr>' ).css( 'background-color', 'red' );
+    });
+
+    // Add Field
+    $( '.audit-form-add' ).click( function()
     {
         console.log( 'click !' );
 
         //var current = $(this).closest('.audit-section-row');
-        var nextSection = $(this).closest('.audit-section-row').nextAll('tr.audit-section-row').eq(0);
+        var nextSection = $( this ).closest( '.audit-section-row' ).nextAll( 'tr.audit-section-row' ).eq(0);
         //current.css('background-color', 'yellow');
-        nextSection.prev().after('<tr><td colspan="5">Add New Field</td></tr>')
-        nextSection.prev().css('background-color', 'red');
+        nextSection.prev().after( '<tr><td colspan="5">Add New Field</td></tr>' ).css( 'background-color', 'red' );
         //current.next().css('background-color', 'green');
         //return false;
 

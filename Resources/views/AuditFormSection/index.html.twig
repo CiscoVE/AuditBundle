@@ -3,14 +3,18 @@
 {% block body %}
 <div class="container">
     <div class="span10 offset1">
-        <h3>Sections</h3>
-        <a href="{{ path( 'wgauditformsection_add' ) }}" class="btn btn-small">Add a new section</a>
+        <legend>
+            Sections
+            <a href="{{ path( 'wgauditformsection_add' ) }}" class="btn btn-small pull-right">
+                <i class="icon-plus"></i> Add a section
+            </a>
+        </legend>
         <table class="table table-condensed">
             <caption>List of existing Section</caption>
             <thead>
                 <tr>
                     <th>Title</th>
-                    <th>Name</th>
+                    <th>Form</th>
                     <th>Description</th>
                     <th></th>
                 </tr>
@@ -23,11 +27,21 @@
                         <td>{{ section.description }}</td>
                         <td width="10%">
                             <div class="btn-group">
-                                <a class="btn btn-mini" href="{{ path( 'wgauditformsection_view', { 'id': section.id } ) }}"><i class="icon-eye-open"></i> View</a>
-                                <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+                                <a class="btn btn-mini" href="{{ path( 'wgauditformsection_view', { 'id': section.id } ) }}">
+                                    <i class="icon-eye-open"></i> View Section
+                                </a>
+                                <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <span class="caret"></span>
+                                </a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="{{ path( 'wgauditformsection_edit', { 'id': section.id } ) }}"><i class="icon-pencil"></i> Edit</a></li>
-                                    <li><a href="{{ path( 'wgauditformsection_delete', { 'id': section.id } ) }}"><i class="icon-trash"></i> Delete</a></li>
+                                    <li><a href="{{ path( 'wgauditformsection_edit', { 'id': section.id } ) }}">
+                                            <i class="icon-pencil"></i> Edit Section
+                                        </a>
+                                    </li>
+                                    <li><a href="{{ path( 'wgauditformsection_delete', { 'id': section.id } ) }}">
+                                            <i class="icon-trash"></i> Delete Section
+                                        </a>
+                                    </li>
                                 </ul>
                             </div>
                         </td>

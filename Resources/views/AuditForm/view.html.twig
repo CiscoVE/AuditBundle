@@ -4,7 +4,12 @@
 
 {% block body %}
 <div class="container">
-    <h3>Audit Form <a href="{{ path( 'wgauditform_edit', { 'id': form.id } ) }}" style="font-size: 10px"><i class="icon-pencil"></i> Edit</a></h3>
+    <legend>
+        Audit Form
+        <a href="{{ path( 'wgauditform_edit', { 'id': form.id } ) }}" style="font-size: 10px">
+            <i class="icon-pencil"></i> Edit
+        </a>
+    </legend>
 
     <div class="span10 offset1">
         <table class="table table-condensed">

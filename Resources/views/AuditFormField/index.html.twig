@@ -3,8 +3,10 @@
 {% block body %}
 <div class="container">
     <div class="span10 offest1">
-        <h3>Existing Fields</h3>
-        <a href="{{ path( 'wgauditformfield_add' ) }}" class="btn btn-small">Add a new field</a>
+        <legend>Existing Fields</legend>
+            <a href="{{ path( 'wgauditformfield_add' ) }}" class="btn btn-small">
+                <i class="icon-plus"></i> Add a new field
+            </a>
         <table class="table table-condensed table-hover">
             <caption>List of existing fields</caption>
             <tbody>

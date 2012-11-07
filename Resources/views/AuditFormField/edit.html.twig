@@ -3,11 +3,32 @@
 {% block body %}
 <div class="container">
     <form class="form-horizontal" method="POST" action="">
-    {% if edit == true %}
-        <h3>Edit existing field: </h3>
-    {% else %}
-        <h3>Add new field:</h3>
-    {% endif %}
+        <legend>
+        {% if edit == true %}
+            Edit existing field
+        {% else %}
+            Add new field
+        {% endif %}
+            <div class="btn-group pull-right">
+                <button type="submit" class="btn btn-mini">
+                    <i class="icon-ok"></i> Save
+                </button>
+{#                    <a class="btn btn-mini" href="#"><input type="submit" value="save" />
+                    <i class="icon-eye-open"></i> Save
+                </a>#}
+                <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a class="audit-form-delete" href="#">
+                            <i class="icon-minus"></i> Delete Field
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </legend>
+
         <div class="controls controls-row">
             <div class="control-group">
                 <div class="control-label">
@@ -99,12 +120,6 @@
                     {{ form_widget(form.answer_not_applicable, { 'attr': {'class': 'input-xxlarge' }}) }}
                     {{ form_errors(form.answer_not_applicable) }}
                 </div>
-            </div>
-        </div>
-        <div class="controls controls-row">
-            <div class="control-group">
-                {{ form_rest(form) }}
-                <input type="submit" value="save" class="btn btn-small" />
             </div>
         </div>
     </form>

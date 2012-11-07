@@ -4,29 +4,36 @@
 <div class="container">
     <div class="span10 offset1">
         <form class="form-horizontal" method="POST" action="">
+            <legend>
             {% if edit == true %}
-                <h3>Edit existing section:</h3>
+                Edit existing section
             {% else %}
-                <h3>Add new section:</h3>
+                Add new section
             {% endif %}
-                {#
-            <!-- Button to trigger modal -->
-            <a href="#myModal" role="button" class="btn btn-mini" data-toggle="modal">Launch demo modal</a>
-            <!-- Modal -->
-            <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h3 id="myModalLabel">Modal header</h3>
+                <div class="btn-group pull-right">
+                    <button type="submit" class="btn btn-mini">
+                        <i class="icon-ok"></i> Save
+                    </button>
+{#                    <a class="btn btn-mini" href="#"><input type="submit" value="save" />
+                        <i class="icon-eye-open"></i> Save
+                    </a>#}
+                    <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a class="audit-section-add" href="#">
+                                <i class="icon-pencil"></i> Add Field
+                            </a>
+                        </li>
+                        <li>
+                            <a class="audit-form-delete" href="#">
+                                <i class="icon-minus"></i> Delete Section
+                            </a>
+                        </li>
+                    </ul>
                 </div>
-                <div class="modal-body">
-                    <p>One fine body…</p>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-                    <button class="btn btn-primary">Save changes</button>
-                </div>
-            </div>
-    #}
+            </legend>
             <div class="controls controls-row">
                 <div class="control-group">
                     <div class="control-label">
@@ -59,7 +66,6 @@
                 </div>
                 <div class="controls">
                     {{ form_rest(form) }}
-                    <input type="submit" value="save" class="btn" />
                 </div>
             </div>
         </form>
@@ -102,8 +108,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="remove-field" data-field-id="{{ field.id }}" data-section-id="{{ section.id }}"
-                                       href="{{ path( 'wgauditformsection_remove', { 'id' : section.id ,'field_id': field.id } ) }}">
+                                    <a class="audit-field-remove" href="{{ path( 'wgauditformsection_remove', { 'id' : section.id ,'field_id': field.id } ) }}">
                                         <i class="icon-minus"></i> Remove
                                     </a>
                                 </li>
@@ -125,27 +130,25 @@
     </div>
 </div>
 <script type="text/javascript">
-var routePatternRemove = '{{ routePatternRemove }}';
-
-$( document ).ready( function()
+$(function()
 {
-    $( '.remove-field' ).click( function()
+    $( '.audit-field-remove' ).click( function()
     {
-        var url;
-        var fieldId = $( this ).attr( 'data-field-id' );
-        var sectionId = $( this ).attr( 'data-section-id' );
-
-        $( this ).closest( '.audit-field-row' ).remove();
-
-        url = routePatternRemove.replace( '{id}', sectionId );
-        url = url.replace( '{field_id}', fieldId );
-
+        var url = $( this ).attr( 'href' );
+        var that = this;
         $.ajax(
         {
             url: url,
-            type: "POST"
+            type: "POST",
+            success: function( response )
+            {
+                $( that ).closest( '.audit-field-row' ).remove();
+            },
+            error: function( response )
+            {
+                //console.log( 'failure: ' + response );
+            }
         });
-
         return false;
     });
 });
