@@ -43,11 +43,15 @@ class AuditFormSectionController extends Controller
             }
         }
         $routes = $this->get( 'router' )->getRouteCollection();
+        $uFieldRepo = $em->getRepository( 'WGAuditBundle:AuditFormField' );
+        $uFields = $uFieldRepo->findBy( array ( 'section' => null ));
+
         return $this->render( 'WGAuditBundle:AuditFormSection:edit.html.twig', array(
             'edit' => $edit,
             'section' => $section,
+            'ufields' => $uFields,
             'form' => $form->createView(),
-            'routePatternView' => $routes->get( 'wgauditformfield_view' )->getPattern(),
+            'routePatternLoad' => $routes->get( 'wgauditformfield_load' )->getPattern(),
         ));
     }
 
@@ -92,7 +96,9 @@ class AuditFormSectionController extends Controller
                 $em->persist( $section );
                 $em->flush();
                 if ( $request->isXmlHttpRequest() ) return new Response();
-                else $this->redirect( $this->generateUrl( 'wgauditforms' ));
+                else return $this->redirect( $this->generateUrl( 'wgauditformsection_edit', array (
+                        'id' => $section->getId() )
+                    ));
             }
             throw $this->createNotFoundException( 'Field does not exist' );
         }
@@ -104,8 +110,22 @@ class AuditFormSectionController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
         $repo = $em->getRepository( 'WGAuditBundle:AuditFormSection' );
         $section = $repo->find( $request->get( 'id' ));
-
-        $fieldRepo = $em->getRepository( 'WGAuditBundle:AuditFormField' );
-        $fields = $fieldRepo->findBy( array ( 'section' => null ));
+        if ( null !== $section )
+        {
+            $fieldRepo = $em->getRepository( 'WGAuditBundle:AuditFormField' );
+            $field = $fieldRepo->find( $request->get( 'field_id' ));
+            if ( null !== $field )
+                {
+                    $section->addField( $field );
+                    $em->persist( $section );
+                    $em->flush();
+                    if ( $request->isXmlHttpRequest() ) return new Response();
+                    else return $this->redirect( $this->generateUrl( 'wgauditformsection_edit', array (
+                        'id' => $section->getId() )
+                    ));
+            }
+            throw $this->createNotFoundException( 'Field does not exist' );
+        }
+        throw $this->createNotFoundException( 'Section   does not exist' );
     }
 }

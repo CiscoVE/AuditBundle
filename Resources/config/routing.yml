@@ -76,8 +76,15 @@ wgauditformsection_remove:
     pattern:  /section/{id}/field/{field_id}/remove
     defaults: { _controller: WGAuditBundle:AuditFormSection:remove }
     requirements:
-        _method:  POST
+        _method:  POST|GET
         _format: json
+        id: \d+
+        field_id: \d+
+
+wgauditformsection_add_field:
+    pattern:  /section/{id}/field/{field_id}/add
+    defaults: { _controller: WGAuditBundle:AuditFormSection:add }
+    requirements:
         id: \d+
         field_id: \d+
 
@@ -108,21 +115,27 @@ wgauditformfield_delete:
     requirements:
         id: \d+
 
+wgauditformfield_calculate_score:
+    pattern:  /fields/{id}/calculate-score
+    defaults: { _controller: WGAuditBundle:AuditFormField:calculateScore }
+    requirements:
+        id: \d+
+
 wgauditformfield_view:
     pattern:  /fields/{id}
     defaults: { _controller: WGAuditBundle:AuditFormField:view }
     requirements:
         id: \d+
 
+wgauditformfield_load:
+    pattern:  /fields/{id}
+    defaults: { _controller: WGAuditBundle:AuditFormField:load }
+    requirements:
+        id: \d+
+
 wgauditformfields:
     pattern:  /fields
     defaults: { _controller: WGAuditBundle:AuditFormField:index }
-
-wgauditformfield_calculate_score:
-    pattern:  /fields/{id}/calculate-score
-    defaults: { _controller: WGAuditBundle:AuditFormField:calculateScore }
-    requirements:
-        id: \d+
 
 # temp
 wgaudit_iconset:

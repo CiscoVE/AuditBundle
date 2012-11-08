@@ -12,22 +12,30 @@
             {% endif %}
                 <div class="btn-group pull-right">
                     <button type="submit" class="btn btn-mini">
-                        <i class="icon-ok"></i> Save
+                        <i class="icon-ok"></i> Save Section
                     </button>
-{#                    <a class="btn btn-mini" href="#"><input type="submit" value="save" />
-                        <i class="icon-eye-open"></i> Save
-                    </a>#}
                     <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a class="audit-section-add" href="#">
+                            <a data-toggle="modal" data-target="#modal" class="audit-section-new" href="#">
                                 <i class="icon-pencil"></i> Add Field
                             </a>
                         </li>
+                        {% if ufields is not empty %}
+                        <li class="divider"></li>
+                            {% for field in ufields %}
+                            <li>
+                                <a data-field-id={{ field.id }} class="audit-field-add" href="{{ path( 'wgauditformsection_add_field', { 'id' : section.id ,'field_id': field.id } ) }}">
+                                    <i class="icon-plus"></i> {{ field.title }}
+                                </a>
+                            </li>
+                            {% endfor %}
+                        {% endif %}
+                        <li class="divider"></li>
                         <li>
-                            <a class="audit-form-delete" href="#">
+                            <a class="audit-section-delete" href="#">
                                 <i class="icon-minus"></i> Delete Section
                             </a>
                         </li>
@@ -96,7 +104,7 @@
                     <td>
                         <div class="btn-group">
                             <a class="btn btn-mini"  data-toggle="modal" data-target="#modal" href="{{ path( 'wgauditformfield_view', { 'id': field.id } ) }}">
-                                <i class="icon-eye-open"></i> View
+                                <i class="icon-eye-open"></i> View Field
                             </a>
                             <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">
                                 <span class="caret"></span>
@@ -104,22 +112,17 @@
                             <ul class="dropdown-menu">
                                 <li>
                                     <a href="{{ path( 'wgauditformfield_edit', { 'id': field.id } ) }}">
-                                        <i class="icon-pencil"></i> Edit
+                                        <i class="icon-pencil"></i> Edit Field
                                     </a>
                                 </li>
+                                <li class="divider"></li>
                                 <li>
                                     <a class="audit-field-remove" href="{{ path( 'wgauditformsection_remove', { 'id' : section.id ,'field_id': field.id } ) }}">
-                                        <i class="icon-minus"></i> Remove
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="icon-plus"></i> Add Field
+                                        <i class="icon-minus"></i> Remove Field
                                     </a>
                                 </li>
                             </ul>
                         </div>
-
                     </td>
                 </tr>
             {% else %}
@@ -130,7 +133,9 @@
     </div>
 </div>
 <script type="text/javascript">
-$(function()
+var routePatternLoad = {{ routePatternLoad }};
+
+$( function()
 {
     $( '.audit-field-remove' ).click( function()
     {
@@ -143,6 +148,29 @@ $(function()
             success: function( response )
             {
                 $( that ).closest( '.audit-field-row' ).remove();
+            },
+            error: function( response )
+            {
+                //console.log( 'failure: ' + response );
+            }
+        });
+        return false;
+    });
+
+    $( '.audit-field-add' ).click( function()
+    {
+        var url = $( this ).attr( 'href' );
+        var fieldId = $( this ).attr( 'data-field-id' );
+
+        loadUrl = routePatternLoad.replace( '{id}', fieldId );
+
+        $.ajax(
+        {
+            url: url,
+            type: "POST",
+            success: function( response )
+            {
+                $( '.audit-field-row' ).last( '.audit-field-row' ).after().load( loadUrl );
             },
             error: function( response )
             {

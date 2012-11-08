@@ -59,7 +59,13 @@ class AuditFormFieldController extends Controller
         {
             throw $this->createNotFoundException( 'Field does not exist' );
         }
-        return $this->render( 'WGAuditBundle:AuditFormField:view.html.twig', array(
+        if ( $request->isXmlHttpRequest())
+        {
+        return $this->render( 'WGAuditBundle:AuditFormField:_view.html.twig', array(
+            'field' => $field,
+        ));
+        }
+        else return $this->render( 'WGAuditBundle:AuditFormField:view.html.twig', array(
             'field' => $field,
         ));
     }
@@ -114,22 +120,21 @@ class AuditFormFieldController extends Controller
         return new Response( json_encode($ret));
     }
 
-    public function getUnassignedField()
+    public function loadAction( Request $request )
     {
         $em = $this->getDoctrine()->getEntityManager();
-        $repo = $em->getRepository( 'WGAuditBundle:AuditFormField' );
-        $fields = $repo->findBy( array( 'section' => null ));
+        $repo = $em->getRepository( 'WGAuditBundle:AuditFormSection' );
+        $fieldRepo = $em->getRepository( 'WGAuditBundle:AuditFormField' );
+        $field = $fieldRepo->find( $request->get( 'id' ));
+        $section = $repo->find( $field-getAudit()->getId() );
 
-        foreach ( $fields as $field)
-        {
-            $ret[] = $field;
-        }
-
-        return new Response( json_encode( $ret ));
+        return $this->render( 'WGAuditBundle:AuditFormField:load.html.twig', array(
+            'field' => $field,
+            'section' => $section,
+        ));
     }
 
 
     // TODO:
     // add new field (create new field)
-    // add existing field (list all the existing and not associated yet)
 }

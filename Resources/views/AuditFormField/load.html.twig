@@ -1,0 +1,35 @@
+{% block body %}
+<tr>
+    <td>{{ field.title }}</td>
+    <td>{{ field.description }}</td>
+    <td>{{ field.weight }}</td>
+    <td>{% if field.fatal == 1 %}
+            <i class="icon-check"/>
+        {% else %}
+            <i class="icon-check-empty"/>
+        {% endif %}
+    </td>
+    <td>
+        <div class="btn-group">
+            <a class="btn btn-mini"  data-toggle="modal" data-target="#modal" href="{{ path( 'wgauditformfield_view', { 'id': field.id } ) }}">
+                <i class="icon-eye-open"></i> View Field
+            </a>
+            <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">
+                <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                    <a href="{{ path( 'wgauditformfield_edit', { 'id': field.id } ) }}">
+                        <i class="icon-pencil"></i> Edit Field
+                    </a>
+                </li>
+                <li>
+                    <a class="audit-field-remove" href="{{ path( 'wgauditformsection_remove', { 'id' : section.id ,'field_id': field.id } ) }}">
+                        <i class="icon-minus"></i> Remove Field
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </td>
+</tr>
+{% endblock %}
