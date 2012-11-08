@@ -15,23 +15,30 @@
                         <i class="icon-ok"></i> Save Section
                     </button>
                     <noscript>
-                    <a href="#" class="btn btn-mini">
+                    <button href="#" class="btn btn-mini">
                         <i class="icon-plus"></i> Add Field
-                    </a>
+                    </button>
+                    {#
+                        TODO: create route for each value in options
+                        FORM need 1 and only 1 action (path) to be rendered (NOT dynamic)
+                    #}
                     {% if ufields is not empty %}
-                    <select>
-                        {% for field in ufields %}
-                        <option value="volvo">
-                            <a href="#" class="btn btn-mini">
-                                <i class="icon-plus"></i> {{ field.title }}
-                            </a>
-                        </option>
-                        {% endfor %}
-                    </select>
+                        <form action="{{ path( 'wgauditformsection_add_field', { 'id' : section.id ,'field_id': field.id } ) }}">
+                            <div class="input-append">
+                                <select name="field_id">
+                                    {% for field in ufields %}
+                                    <option value="{{ field.id }}">{{ field.title }}</option>
+                                    {% endfor %}
+                                </select>
+                                <button type="submit">
+                                    <i class="icon-plus"></i>
+                                </button>
+                            </div>
+                        </form>
                     {% endif %}
-                    <a href="#" class="btn btn-mini">
+                    <button href="#" class="btn btn-mini">
                         <i class="icon-remove"></i> Delete Section
-                    </a>
+                    </button>
                     </noscript>
                     <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">
                         <span class="caret"></span>

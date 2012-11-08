@@ -1,0 +1,15 @@
+wgaudit_add:
+    pattern:  /{id}/new
+    defaults: { _controller: WGAuditBundle:Audit:add }
+    requirements:
+        id: \d+
+
+wgaudit_view:
+    pattern:  /{id}
+    defaults: { _controller: WGAuditBundle:Audit:view }
+    requirements:
+        id: \d+
+
+wgaudits:
+    pattern:  /
+    defaults: { _controller: WGAuditBundle:Audit:index }

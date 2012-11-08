@@ -1,31 +1,18 @@
-WGAuditBundle_form:
-    resource: "@WGAuditBundle/Resources/config/routing/auditform.yml"
+routing_audits:
+    resource: "@WGAuditBundle/Resources/config/routing/audits.yml"
+    prefix:   /audits
+
+routing_forms:
+    resource: "@WGAuditBundle/Resources/config/routing/forms.yml"
     prefix:   /forms
 
-WGAuditBundle_section:
-    resource: "@WGAuditBundle/Resources/config/routing/auditformfield.yml"
+routing_sections:
+    resource: "@WGAuditBundle/Resources/config/routing/sections.yml"
     prefix:   /sections
 
-WGAuditBundle_field:
-    resource: "@WGAuditBundle/Resources/config/routing/auditformsection.yml"
+routing_fields:
+    resource: "@WGAuditBundle/Resources/config/routing/fields.yml"
     prefix:   /fields
-
-# audit path
-wgaudit_add:
-    pattern:  /audits/{id}/new
-    defaults: { _controller: WGAuditBundle:Audit:add }
-    requirements:
-        id: \d+
-
-wgaudit_view:
-    pattern:  /audits/{id}
-    defaults: { _controller: WGAuditBundle:Audit:view }
-    requirements:
-        id: \d+
-
-wgaudits:
-    pattern:  /audits
-    defaults: { _controller: WGAuditBundle:Audit:index }
 
 # temp
 wgaudit_iconset:

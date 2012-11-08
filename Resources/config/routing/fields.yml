@@ -1,4 +1,3 @@
-# audit form fields path
 wgauditformfield_add:
     pattern:  /add
     defaults: { _controller: WGAuditBundle:AuditFormField:edit }

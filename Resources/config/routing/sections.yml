@@ -1,4 +1,3 @@
-# audit form sections path
 wgauditformsection_add:
     pattern:  /add
     defaults: { _controller: WGAuditBundle:AuditFormSection:edit }
@@ -15,19 +14,19 @@ wgauditformsection_delete:
     requirements:
         id: \d+
 
+wgauditformsection_add_field:
+    pattern:  /{id}/field/{field_id}/add
+    defaults: { _controller: WGAuditBundle:AuditFormSection:add }
+    requirements:
+        id: \d+
+        field_id: \d+
+
 wgauditformsection_remove:
     pattern:  /{id}/field/{field_id}/remove
     defaults: { _controller: WGAuditBundle:AuditFormSection:remove }
     requirements:
         _method:  POST|GET
         _format: json
-        id: \d+
-        field_id: \d+
-
-wgauditformsection_add_field:
-    pattern:  /{id}/field/{field_id}/add
-    defaults: { _controller: WGAuditBundle:AuditFormSection:add }
-    requirements:
         id: \d+
         field_id: \d+
 
