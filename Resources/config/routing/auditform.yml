@@ -1,0 +1,40 @@
+# audit forms path
+wgauditform_add:
+    pattern:  /add
+    defaults: { _controller: WGAuditBundle:AuditForm:edit }
+
+wgauditform_list:
+    pattern:  /list
+    defaults: { _controller: WGAuditBundle:AuditForm:list }
+
+wgauditform_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: WGAuditBundle:AuditForm:edit }
+    requirements:
+        id: \d+
+
+wgauditform_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: WGAuditBundle:AuditForm:delete }
+    requirements:
+        id: \d+
+
+wgauditform_remove:
+    pattern:  /{id}/section/{section_id}/remove
+    defaults: { _controller: WGAuditBundle:AuditForm:remove }
+    requirements:
+        _method:  POST
+        _format: json
+        id: \d+
+        section_id: \d+
+
+wgauditform_view:
+    pattern:  /{id}
+    defaults: { _controller: WGAuditBundle:AuditForm:view }
+    requirements:
+        id: \d+
+
+wgauditforms:
+    pattern:  /
+    defaults: { _controller: WGAuditBundle:AuditForm:index }
+

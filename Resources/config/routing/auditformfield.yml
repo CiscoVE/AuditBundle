@@ -1,0 +1,38 @@
+# audit form fields path
+wgauditformfield_add:
+    pattern:  /add
+    defaults: { _controller: WGAuditBundle:AuditFormField:edit }
+
+wgauditformfield_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: WGAuditBundle:AuditFormField:edit }
+    requirements:
+        id: \d+
+
+wgauditformfield_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: WGAuditBundle:AuditFormField:delete }
+    requirements:
+        id: \d+
+
+wgauditformfield_calculate_score:
+    pattern:  /{id}/calculate-score
+    defaults: { _controller: WGAuditBundle:AuditFormField:calculateScore }
+    requirements:
+        id: \d+
+
+wgauditformfield_view:
+    pattern:  /{id}
+    defaults: { _controller: WGAuditBundle:AuditFormField:view }
+    requirements:
+        id: \d+
+
+wgauditformfield_load:
+    pattern:  /{id}
+    defaults: { _controller: WGAuditBundle:AuditFormField:load }
+    requirements:
+        id: \d+
+
+wgauditformfields:
+    pattern:  /
+    defaults: { _controller: WGAuditBundle:AuditFormField:index }

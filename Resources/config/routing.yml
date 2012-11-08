@@ -1,3 +1,15 @@
+WGAuditBundle_form:
+    resource: "@WGAuditBundle/Resources/config/routing/auditform.yml"
+    prefix:   /forms
+
+WGAuditBundle_section:
+    resource: "@WGAuditBundle/Resources/config/routing/auditformfield.yml"
+    prefix:   /sections
+
+WGAuditBundle_field:
+    resource: "@WGAuditBundle/Resources/config/routing/auditformsection.yml"
+    prefix:   /fields
+
 # audit path
 wgaudit_add:
     pattern:  /audits/{id}/new
@@ -14,128 +26,6 @@ wgaudit_view:
 wgaudits:
     pattern:  /audits
     defaults: { _controller: WGAuditBundle:Audit:index }
-
-# audit forms path
-wgauditform_add:
-    pattern:  /forms/add
-    defaults: { _controller: WGAuditBundle:AuditForm:edit }
-
-wgauditform_list:
-    pattern:  /forms/list
-    defaults: { _controller: WGAuditBundle:AuditForm:list }
-
-wgauditform_edit:
-    pattern:  /forms/{id}/edit
-    defaults: { _controller: WGAuditBundle:AuditForm:edit }
-    requirements:
-        id: \d+
-
-wgauditform_delete:
-    pattern:  /forms/{id}/delete
-    defaults: { _controller: WGAuditBundle:AuditForm:delete }
-    requirements:
-        id: \d+
-
-wgauditform_remove:
-    pattern:  /forms/{id}/section/{section_id}/remove
-    defaults: { _controller: WGAuditBundle:AuditForm:remove }
-    requirements:
-        _method:  POST
-        _format: json
-        id: \d+
-        section_id: \d+
-
-wgauditform_view:
-    pattern:  /forms/{id}
-    defaults: { _controller: WGAuditBundle:AuditForm:view }
-    requirements:
-        id: \d+
-
-wgauditforms:
-    pattern:  /forms
-    defaults: { _controller: WGAuditBundle:AuditForm:index }
-
-# audit form sections path
-wgauditformsection_add:
-    pattern:  /sections/add
-    defaults: { _controller: WGAuditBundle:AuditFormSection:edit }
-
-wgauditformsection_edit:
-    pattern:  /sections/{id}/edit
-    defaults: { _controller: WGAuditBundle:AuditFormSection:edit }
-    requirements:
-        id: \d+
-
-wgauditformsection_delete:
-    pattern:  /sections/{id}/delete
-    defaults: { _controller: WGAuditBundle:AuditFormSection:delete }
-    requirements:
-        id: \d+
-
-wgauditformsection_remove:
-    pattern:  /section/{id}/field/{field_id}/remove
-    defaults: { _controller: WGAuditBundle:AuditFormSection:remove }
-    requirements:
-        _method:  POST|GET
-        _format: json
-        id: \d+
-        field_id: \d+
-
-wgauditformsection_add_field:
-    pattern:  /section/{id}/field/{field_id}/add
-    defaults: { _controller: WGAuditBundle:AuditFormSection:add }
-    requirements:
-        id: \d+
-        field_id: \d+
-
-wgauditformsection_view:
-    pattern:  /sections/{id}
-    defaults: { _controller: WGAuditBundle:AuditFormSection:view }
-    requirements:
-        id: \d+
-
-wgauditformsections:
-    pattern:  /sections
-    defaults: { _controller: WGAuditBundle:AuditFormSection:index }
-
-# audit form fields path
-wgauditformfield_add:
-    pattern:  /fields/add
-    defaults: { _controller: WGAuditBundle:AuditFormField:edit }
-
-wgauditformfield_edit:
-    pattern:  /fields/{id}/edit
-    defaults: { _controller: WGAuditBundle:AuditFormField:edit }
-    requirements:
-        id: \d+
-
-wgauditformfield_delete:
-    pattern:  /fields/{id}/delete
-    defaults: { _controller: WGAuditBundle:AuditFormField:delete }
-    requirements:
-        id: \d+
-
-wgauditformfield_calculate_score:
-    pattern:  /fields/{id}/calculate-score
-    defaults: { _controller: WGAuditBundle:AuditFormField:calculateScore }
-    requirements:
-        id: \d+
-
-wgauditformfield_view:
-    pattern:  /fields/{id}
-    defaults: { _controller: WGAuditBundle:AuditFormField:view }
-    requirements:
-        id: \d+
-
-wgauditformfield_load:
-    pattern:  /fields/{id}
-    defaults: { _controller: WGAuditBundle:AuditFormField:load }
-    requirements:
-        id: \d+
-
-wgauditformfields:
-    pattern:  /fields
-    defaults: { _controller: WGAuditBundle:AuditFormField:index }
 
 # temp
 wgaudit_iconset:

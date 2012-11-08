@@ -78,9 +78,17 @@ class AuditFormSectionController extends Controller
             $em->flush();
             return $this->redirect( $this->generateUrl( 'wgauditformsections' ));
         }
-        throw $this->createNotFoundException( 'Field does not exist' );
+        throw $this->createNotFoundException( 'Section does not exist' );
     }
 
+    /**
+     * Remove field from section based on the section.id and field.id passed in
+     * the url.
+     *
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws type
+     */
     public function removeAction( Request $request )
     {
         $em = $this->getDoctrine()->getEntityManager();
@@ -105,6 +113,14 @@ class AuditFormSectionController extends Controller
         throw $this->createNotFoundException( 'Section   does not exist' );
     }
 
+    /**
+     * Add field to section based on the section.id and the field.id passed in
+     * the url.
+     *
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws type
+     */
     public function addAction( Request $request )
     {
         $em = $this->getDoctrine()->getEntityManager();
