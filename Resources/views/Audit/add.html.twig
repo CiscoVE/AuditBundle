@@ -1,74 +1,70 @@
-{# Audit::add.html.twig #}
-
 {% extends 'WGAuditBundle::base.html.twig' %}
 
 {% block body %}
 <div class="container">
-    <legend>Create new audit
-        <button type="submit" class="btn btn-mini">
-            
-        </button>
-    </legend>
-    <form id="audit" method="POST" action="">
-        <table class="table table-condensed table-hover">
-            <thead>
-                <tr>
-                    <th>S.No.</th>
-                    <th>Field</th>
-                    <th>Score</th>
-                    <th>Weight</th>
-                    <th>Reviewer's Comment</th>
-                </tr>
-            </thead>
-            <tbody>
-            {% set counter = 1 %}
-            {% for section in audit.auditform.sections %}
-                <tr>
-                    <td colspan="5">Section {{ loop.index }}: {{ section.title }}</td>
-                </tr>
-                {% for field in section.fields %}
+    <div class="span10 offset1">
+        <form id="audit" method="POST" action="">
+            <legend>Create new audit
+                <button type="submit" class="btn btn-mini pull-right">
+                    <i class="icon-ok"></i> Save
+                </button>
+            </legend>
+            <table class="table table-condensed table-hover">
+                <thead>
                     <tr>
-                        <td>{{ counter }}</td>
-                        <td>{{ field.title }}</td>
-                        <td>
-                            {% set form = craue_cloneForm(scoreform) %}
-                            <select class="span1" name="score[{{ field.id }}][value]" data-field-id="{{ field.id }}">
-                            {% for score, label in field.scores %}
-                                <option value="{{ score }}" data-tooltip="{{ label }}" class="tooltip">
-                                {{ score }}
-                                </option>
-                            {% endfor %}
-                        </td>
-                        <td>{% if field.fatal == true %}
-                                Involve Mgr
-                            {% else %}
-                                {{ field.weight }}
-                            {% endif %}
-                        </td>
-                        <td><textarea class="span4" name="score[{{ field.id }}][comment]"></textarea></td>
+                        <th>S.No.</th>
+                        <th>Field</th>
+                        <th>Score</th>
+                        <th>Weight</th>
+                        <th>Reviewer's Comment</th>
                     </tr>
-                    {% set counter = counter + 1 %}
+                </thead>
+                <tbody>
+                {% set counter = 1 %}
+                {% for section in audit.auditform.sections %}
+                    <tr>
+                        <td colspan="5">Section {{ loop.index }}: {{ section.title }}</td>
+                    </tr>
+                    {% for field in section.fields %}
+                        <tr>
+                            <td>{{ counter }}</td>
+                            <td>{{ field.title }}</td>
+                            <td>
+                                {% set form = craue_cloneForm(scoreform) %}
+                                <select class="span1" name="score[{{ field.id }}][value]" data-field-id="{{ field.id }}">
+                                {% for score, label in field.scores %}
+                                    <option value="{{ score }}" data-tooltip="{{ label }}" class="tooltip">
+                                    {{ score }}
+                                    </option>
+                                {% endfor %}
+                            </td>
+                            <td>{% if field.fatal == true %}
+                                    Involve Mgr
+                                {% else %}
+                                    {{ field.weight }}
+                                {% endif %}
+                            </td>
+                            <td><textarea class="span4" name="score[{{ field.id }}][comment]"></textarea></td>
+                        </tr>
+                        {% set counter = counter + 1 %}
+                    {% endfor %}
+                        <tr>
+                        <td colspan="2" style="text-align: right">Section's Score</td>
+                        <td>{{ attribute( audit, 'resultForSection', [ section ] ) }}</td>
+                        <td>{{ section.weight }}</td>
+                        <td class="bar"></td>
+                    </tr>
                 {% endfor %}
                     <tr>
-                    <td colspan="2" style="text-align: right">Section's Score</td>
-                    <td>{{ attribute( audit, 'resultForSection', [ section ] ) }}</td>
-                    <td>{{ section.weight }}</td>
-                    <td class="bar"></td>
-                </tr>
-            {% endfor %}
-                <tr>
-                    <td colspan="2" style="text-align: right">Final Score</td>
-                    <td></td>
-                    <td>{{ audit.totalWeight }}</td>
-                    <td></td>
-                </tr>
-            </tbody>
-        </table>
-
-        <div>
-            <input type="submit" value="save" class="btn"/>
-        </div>
-    </form>
+                        <td colspan="2" style="text-align: right">Final Score</td>
+                        <td></td>
+                        <td>{{ audit.totalWeight }}</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
 </div>
 <script type="text/javascript">
     var routePatternCalculateScore = '{{ routePatternCalculateScore }}';

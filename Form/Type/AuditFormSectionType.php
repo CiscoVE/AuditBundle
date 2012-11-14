@@ -20,7 +20,7 @@ class AuditFormSectionType extends AbstractType
             'empty_data' => '---',
             'required' => true,
             'label' => 'Audit',
-        ));      
+        ));
         $builder->add( 'description', 'textarea', array(
             'attr' => array( 'placeholder' => 'description for the section. This should be as clear as possible' ),
         ));
