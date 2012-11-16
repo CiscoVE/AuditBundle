@@ -18,6 +18,14 @@ wgauditform_delete:
     requirements:
         id: \d+
 
+wgauditform_add_section:
+    pattern:  /{id}/section/{section_id}/add
+    defaults: { _controller: WGAuditBundle:AuditForm:add }
+    requirements:
+        id: \d+
+        section_id: \d+
+
+
 wgauditform_remove:
     pattern:  /{id}/section/{section_id}/remove
     defaults: { _controller: WGAuditBundle:AuditForm:remove }

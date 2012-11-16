@@ -12,8 +12,18 @@
             {% endif %}
                 <div class="btn-group pull-right">
                     <button type="submit" class="btn btn-mini">
-                        <i class="icon-ok"></i> Save Section
+                        <i class="icon-ok"></i> Save Form
                     </button>
+                    <noscript>
+                        <a class="btn btn-mini" 
+                           href="#">
+                            <i class="icon-plus"></i> Add Section
+                        </a>
+                        <a class="btn btn-mini" 
+                           href="#">
+                            <i class="icon-trash"></i> Delete Form
+                        </a>
+                    </noscript>
                     <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">
                         <span class="caret"></span>
                     </a>
@@ -23,9 +33,21 @@
                                 <i class="icon-plus"></i> Add Section
                             </a>
                         </li>
+                        {% if usections is not empty %}
+                            <li class="divider"></li>
+                            {% for section in usections %}
+                            <li>
+                                <a data-section-id={{ section.id }} class="audit-section-add"
+                                   href="{{ path( 'wgauditform_add_section', { 'id' : auditform.id ,'section_id': section.id } ) }}">
+                                    <i class="icon-plus"></i> {{ section.title }}
+                                </a>
+                            </li>
+                            {% endfor %}
+                            <li class="divider"></li>
+                        {% endif %}
                         <li>
                             <a class="audit-form-delete" href="#">
-                                <i class="icon-remove"></i> Delete Form
+                                <i class="icon-trash"></i> Delete Form
                             </a>
                         </li>
                     </ul>
@@ -73,9 +95,16 @@
                         <td colspan=2>{{ section.description }}</td>
                         <td>
                             <div class="btn-group">
-                                <a class="btn btn-mini" data-toggle="modal" data-target="#modal" href="{{ path( 'wgauditformsection_view', { 'id': section.id } ) }}">
+                                <a class="btn btn-mini" 
+                                   href="{{ path( 'wgauditformsection_view', { 'id': section.id } ) }}">
                                     <i class="icon-eye-open"></i> View Section
                                 </a>
+                                    <noscript>
+                                        <a class="btn btn-mini"
+                                            href="{{ path( 'wgauditformsection_edit', { 'id': section.id } ) }}">
+                                            <i class="icon-pencil"></i> Edit Section
+                                        </a>
+                                    </noscript>
                                 <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">
                                     <span class="caret"></span>
                                 </a>
@@ -86,7 +115,8 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="audit-section-remove" href="{{ path( 'wgauditform_remove', { 'id' : auditform.id ,'section_id': section.id } ) }}">
+                                        <a class="audit-section-remove" 
+                                           href="{{ path( 'wgauditform_remove', { 'id' : auditform.id ,'section_id': section.id } ) }}">
                                             <i class="icon-minus"></i> Remove Section
                                         </a>
                                     </li>
@@ -99,21 +129,42 @@
                             </div>
                         </td>
                     </tr>
-                        {% for field in section.fields %}
-                        <tr class="audit-form-field">
-                            <td></td>
-                            <td>{{ field.title }}</td>
-                            <td>{{ field.description }}</td>
-                            <td>{{ field.weight }}</td>
-                            <td></td>
-                        </tr>
-                        {% else %}
-                        <tr>no fields assigned yet</tr>
-                        {% endfor %}
-                    {% else %}
-                    {#<tr>no sections assigned yet</tr>#}
+                        {% if section.fields != null %}
+                            {% for field in section.fields %}
+                            <tr class="audit-form-field">
+                                <td></td>
+                                <td>{{ field.title }}</td>
+                                <td>{{ field.description }}</td>
+                                <td>{{ field.weight }}</td>
+                                <td>
+                                </td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="5">no Fields assigned yet</td>
+                            </tr>
+                            {% endfor %}
+                        {% endif %}
                     {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="5">no Sections assigned yet</td>
+                    </tr>
                 {% endif %}
+                    <noscript>
+                    {% if usections is not empty and auditform.id is not null %}
+                        <tr>
+                            <td colspan="5">
+                            {% for section in usections %}
+                                <a class="btn btn-mini" 
+                                   href="{{ path( 'wgauditform_add_section', { 'id' : auditform.id ,'section_id': section.id } ) }}">
+                                    <i class="icon-plus"></i> Add Section: {{ section.title }}
+                                </a>
+                            {% endfor %}                       
+                            </td>
+                        </tr>
+                    {% endif %}
+                    </noscript>
                 </tbody>
             </table>
         </form>
@@ -122,7 +173,7 @@
 <script language="javascript">
 // find to which section this field belongs to
 // get last row of this section
-// add new row after the last one
+// add new row after the last on
 
 
 //$('.audit-section-row').next('.audit-form-field').css('background-color', 'yellow');
@@ -136,7 +187,6 @@ $( function()
         var url = $( this ).attr( 'href' );
         var that = this;
 
-        // TODO: remove all the related .audit-field-row
         $.ajax(
         {
             url: url,
@@ -166,42 +216,25 @@ $( function()
     // Add Section
     $( '.audit-section-add' ).click( function()
     {
-        $( 'tbody' ).after( '<tr><td colspan="5">Add New Field</td></tr>' ).css( 'background-color', 'red' );
-    });
-
-    // Add Field
-    $( '.audit-form-add' ).click( function()
-    {
-        console.log( 'click !' );
-
-        //var current = $(this).closest('.audit-section-row');
-        var nextSection = $( this ).closest( '.audit-section-row' ).nextAll( 'tr.audit-section-row' ).eq(0);
-        //current.css('background-color', 'yellow');
-        nextSection.prev().after( '<tr><td colspan="5">Add New Field</td></tr>' ).css( 'background-color', 'red' );
-        //current.next().css('background-color', 'green');
-        //return false;
+        var url = $( this ).attr( 'href' );
+        var sectionId = $( this ).attr( 'data-section-id' );
+        
+        loadUrl = routePatternLoad.replace( '{id}', sectionId );
 
         $.ajax(
         {
-        /**
             url: url,
-            dataType: 'json',
-            data: { id: id,
-                    field: name },
-            type: 'POST',
-            error: function( response )
-            {
-                console.log( 'error: ' + response );
-            },
+            type: "POST",
             success: function( response )
             {
-                console.log( 'success: ' + response );
-
-                $( '.wgaudit-section-score' ).html( response.score );
-                $( '.bar' ).html( response.scoreData + "(" + response.fieldScore + ")- FW:" + response.fieldWeight + "- GW: " + response.sectionWeight );
+                $( '.audit-section-row' ).last( '.audit-section-row' ).after().load( loadUrl );
+            },
+            error: function( response )
+            {
+                //console.log( 'failure: ' + response );
             }
-            **/
         });
+        return false;
     });
 });
 </script>

@@ -212,6 +212,14 @@ class AuditFormSection
 
         $this->fields->removeElement( $field );
     }
+    
+    public function removeAllField()
+    {
+        foreach( $this->fields as $field )
+        {
+            $this->removeField( $field );
+        }
+    }
 
     public function __toString()
     {

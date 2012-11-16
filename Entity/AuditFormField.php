@@ -232,7 +232,7 @@ class AuditFormField
     public function setSection(\WG\AuditBundle\Entity\AuditFormSection $section = null)
     {
         $this->section = $section;
-
+        
         return $this;
     }
 

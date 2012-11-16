@@ -14,15 +14,18 @@ class AuditFormSectionType extends AbstractType
             'mapped' => false
         ));
         $builder->add( 'title', null, array(
-            'attr' => array( 'placeholder' => 'title of the section' ),
+            'attr' => array( 'placeholder' => 'Section\'s title ' ),
         ));
-        $builder->add( 'auditform', null, array(
-            'empty_data' => '---',
-            'required' => true,
+        $builder->add( 'auditform', 'entity', array(
+            'empty_data'    => null,
+            'empty_value'   => '(Choose a Form)',
+            'required'      => false,    
+            'class'         => 'WGAuditBundle:AuditForm',
+            'property'      => 'title',
             'label' => 'Audit',
         ));
         $builder->add( 'description', 'textarea', array(
-            'attr' => array( 'placeholder' => 'description for the section. This should be as clear as possible' ),
+            'attr' => array( 'placeholder' => 'Section\'s description. This should be as clear as possible' ),
         ));
     }
 

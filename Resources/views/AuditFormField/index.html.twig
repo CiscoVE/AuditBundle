@@ -28,11 +28,35 @@
                         </td>
                         <td>
                             <div class="btn-group">
-                                <a class="btn btn-mini" href="{{ path( 'wgauditformfield_view', { 'id': field.id } ) }}"><i class="icon-eye-open"></i> View</a></li>
-                                <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+                                <a class="btn btn-mini" 
+                                   href="{{ path( 'wgauditformfield_view', { 'id': field.id } ) }}">
+                                    <i class="icon-eye-open"></i> View
+                                </a>
+                                </li>
+                                <noscript>
+                                    <a class="btn btn-mini"
+                                        href="{{ path( 'wgauditformfield_edit', { 'id': field.id } ) }}">
+                                        <i class="icon-pencil"></i> Edit
+                                    </a>
+                                    <a class="btn btn-mini"
+                                        href="{{ path( 'wgauditformfield_delete', { 'id': field.id } ) }}">
+                                        <i class="icon-trash"></i> Delete
+                                    </a>
+                                </noscript>
+                                <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <span class="caret"></span>
+                                </a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="{{ path( 'wgauditformfield_edit', { 'id': field.id } ) }}"><i class="icon-pencil"></i> Edit</a></li>
-                                    <li><a href="{{ path( 'wgauditformfield_delete', { 'id': field.id } ) }}"><i class="icon-trash"></i> Delete</a></li>
+                                    <li>
+                                        <a href="{{ path( 'wgauditformfield_edit', { 'id': field.id } ) }}">
+                                            <i class="icon-pencil"></i> Edit
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path( 'wgauditformfield_delete', { 'id': field.id } ) }}">
+                                            <i class="icon-trash"></i> Delete
+                                        </a>
+                                    </li>
                                 </ul>
                             </div>
                         </td>

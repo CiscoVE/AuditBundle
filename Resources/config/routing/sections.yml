@@ -36,6 +36,12 @@ wgauditformsection_view:
     requirements:
         id: \d+
 
+wgauditformsection_load:
+    pattern:  /{id}
+    defaults: { _controller: WGAuditBundle:AuditFormSection:load }
+    requirements:
+        id: \d+
+
 wgauditformsections:
     pattern:  /
     defaults: { _controller: WGAuditBundle:AuditFormSection:index }

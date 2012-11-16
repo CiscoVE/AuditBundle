@@ -76,6 +76,9 @@ class AuditFormFieldController extends Controller
         $repo = $em->getRepository( 'WGAuditBundle:AuditFormField' );
         if ( null !== $field = $repo->find( $request->get( 'id' ) ))
         {
+            $section = $em->getRepository( 'WGAuditBundle:AuditFormSection' )->findBy( array( 'id' => $field.id )  );
+            $section->removeField( $field );
+            $field->setSection( null );
             $em->remove( $field );
             $em->flush();
             return $this->redirect( $this->generateUrl( 'wgauditformfields' ));

@@ -18,25 +18,6 @@
                     <button href="#" class="btn btn-mini">
                         <i class="icon-plus"></i> Add Field
                     </button>
-                    {#
-                        TODO: create route for each value in options
-                        FORM need 1 and only 1 action (path) to be rendered (NOT dynamic)
-                    #}
-                    {% if ufields is not empty %}
-                        <form action="{#{ path( 'wgauditformsection_add_field', { 'id' : section.id ,'field_id': field.id } ) }#}">
-                            <div class="input-append">
-                                <select name="field_id">
-                                    <option value="-1">(Please select)</option>
-                                    {% for field in ufields %}
-                                    <option value="{{ field.id }}">{{ field.title }}</option>
-                                    {% endfor %}
-                                </select>
-                                <button type="submit">
-                                    <i class="icon-plus"></i>
-                                </button>
-                            </div>
-                        </form>
-                    {% endif %}
                     <button href="#" class="btn btn-mini">
                         <i class="icon-remove"></i> Delete Section
                     </button>
@@ -51,6 +32,7 @@
                             </a>
                         </li>
                         {% if ufields is not empty %}
+                            <li class="divider"></li>
                             {% for field in ufields %}
                             <li>
                                 <a data-field-id={{ field.id }} class="audit-field-add"
@@ -59,6 +41,7 @@
                                 </a>
                             </li>
                             {% endfor %}
+                            <li class="divider"></li>
                         {% endif %}
                         <li>
                             <a class="audit-section-delete" href="#">
@@ -129,14 +112,17 @@
                     </td>
                     <td>
                         <div class="btn-group">
-                            <a class="btn btn-mini"  data-toggle="modal" data-target="#modal" href="{{ path( 'wgauditformfield_view', { 'id': field.id } ) }}">
+                            <a class="btn btn-mini" 
+                               href="{{ path( 'wgauditformfield_view', { 'id': field.id } ) }}">
                                 <i class="icon-eye-open"></i> View
                             </a>
                             <noscript>
-                                <a href="{{ path( 'wgauditformfield_edit', { 'id': field.id } ) }}" class="btn btn-mini">
+                                <a class="btn btn-mini"
+                                   href="{{ path( 'wgauditformfield_edit', { 'id': field.id } ) }}">
                                     <i class="icon-pencil"></i> Edit
                                 </a>
-                                <a  href="{{ path( 'wgauditformsection_remove', { 'id' : section.id ,'field_id': field.id } ) }}" class="btn btn-mini">
+                                <a class="btn btn-mini" 
+                                   href="{{ path( 'wgauditformsection_remove', { 'id' : section.id ,'field_id': field.id } ) }}">
                                     <i class="icon-minus"></i> Remove
                                 </a>
                             </noscript>
@@ -150,7 +136,8 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="audit-field-remove" href="{{ path( 'wgauditformsection_remove', { 'id' : section.id ,'field_id': field.id } ) }}">
+                                    <a class="audit-field-remove" 
+                                       href="{{ path( 'wgauditformsection_remove', { 'id' : section.id ,'field_id': field.id } ) }}">
                                         <i class="icon-minus"></i> Remove
                                     </a>
                                 </li>
@@ -159,8 +146,24 @@
                     </td>
                 </tr>
             {% else %}
-                <tr>no fields assigned yet</tr>
+                <tr>
+                    <td class="5">no fields assigned yet</td>
+                </tr>
             {% endfor %}
+                <noscript>
+                {% if ufields is not empty and section.id is not null %}
+                    <tr>
+                        <td colspan="5">
+                            {% for field in ufields %}
+                                <a class="btn btn-mini" 
+                                   href="{{ path( 'wgauditformsection_add_field', { 'id' : section.id ,'field_id': field.id } ) }}">
+                                    <i class="icon-plus"></i> Add Field: {{ field.title }}
+                                </a>
+                            {% endfor %}                       
+                        </td>
+                    </tr>
+                {% endif %}
+                </noscript>
             </tbody>
         </table>
     </div>

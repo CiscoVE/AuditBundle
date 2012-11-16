@@ -10,16 +10,22 @@
             Add new field
         {% endif %}
             <div class="btn-group pull-right">
-                <button type="submit" class="btn btn-mini">
+                <a type="submit" class="btn btn-mini">
                     <i class="icon-ok"></i> Save
-                </button>
+                </a>
+                <noscript>
+                    <a class="btn btn-mini"
+                       href="wgauditformfield_delete">
+                        <i class="icon-trash"></i> Delete
+                    </a>
+                </noscript>
                 <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">
                     <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu">
                     <li>
-                        <a class="audit-form-delete" href="#">
-                            <i class="icon-minus"></i> Delete Field
+                        <a class="audit-form-delete" href="wgauditformfield_delete">
+                            <i class="icon-trash"></i> Delete Field
                         </a>
                     </li>
                 </ul>
@@ -59,7 +65,7 @@
                     {{ form_label(form.fatal) }}
                 </div>
                 <div class="controls">
-                    {{ form_widget(form.fatal, { 'attr': { 'class': 'ez-checkbox' }}) }}
+                    {{ form_widget(form.fatal) }}
                     {{ form_errors(form.fatal) }}
                 </div>
             </div>

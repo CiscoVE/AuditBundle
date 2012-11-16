@@ -74,6 +74,8 @@ class AuditFormSectionController extends Controller
         $repo = $em->getRepository( 'WGAuditBundle:AuditFormSection' );
         if ( null !== $section = $repo->find( $request->get( 'id' ) ))
         {
+            $section->setAuditForm( null );
+            $section->removeAllField();
             $em->remove( $section );
             $em->flush();
             return $this->redirect( $this->generateUrl( 'wgauditformsections' ));
@@ -110,7 +112,7 @@ class AuditFormSectionController extends Controller
             }
             throw $this->createNotFoundException( 'Field does not exist' );
         }
-        throw $this->createNotFoundException( 'Section   does not exist' );
+        throw $this->createNotFoundException( 'Section does not exist' );
     }
 
     /**

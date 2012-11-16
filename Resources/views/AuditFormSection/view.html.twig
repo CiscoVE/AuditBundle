@@ -7,10 +7,18 @@
     <div class="span10 offset1">
         <legend>Section: {{ section.title }}
             <div class="btn-group pull-right">
-                <a class="btn btn-mini" href="{{ path( 'wgauditformsection_edit', { 'id': section.id } ) }}"><i class="icon-pencil"></i> Edit</a>
-                <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+                <a class="btn btn-mini" href="{{ path( 'wgauditformsection_edit', { 'id': section.id } ) }}">
+                    <i class="icon-pencil"></i> Edit
+                </a>
+                <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">
+                    <span class="caret"></span>
+                </a>
                 <ul class="dropdown-menu">
-                    <li><a href="{{ path( 'wgauditformsection_delete', { 'id': section.id } ) }}"><i class="icon-trash"></i> Delete</a></li>
+                    <li>
+                        <a href="{{ path( 'wgauditformsection_delete', { 'id': section.id } ) }}">
+                            <i class="icon-trash"></i> Delete
+                        </a>
+                    </li>
                 </ul>
             </div>
         </legend>
