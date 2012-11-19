@@ -40,6 +40,11 @@ class AuditFormField
     protected $scores;
 
     /**
+     * @ORM\OneToMany(targetEntity="WG\AuditBundle\Entity\AuditScore", mappedBy="field")
+     */
+    protected $auditscores;
+
+    /**
      * @ORM\Column(type="integer")
      */
     protected $weight;
@@ -152,6 +157,58 @@ class AuditFormField
     public function getScores()
     {
         return $this->scores;
+    }
+
+    /**
+     * Get auditscore
+     * 
+     * @return type
+     */
+    public function getAuditscores()
+    {
+        return $this->auditscores;
+    }
+
+    /**
+     * Add an auditscore
+     * 
+     * @param \WG\AuditBundle\Entity\AuditScore $score
+     * @return AuditFormField
+     */
+    public function addAuditScore( AuditScore $score )
+    {
+        $score->setField( $this );
+        $this->auditscores[] = $score;
+        
+        return $this;
+    }
+    
+    /**
+     * Remove auditscores
+     * 
+     * @param \WG\AuditBundle\Entity\AuditScore $score
+     */
+    public function removeAuditScore( AuditScore $score )
+    {
+        if($this->auditscores->contains( $score ))
+        {
+            $index = $this->auditscores->indexOf( $score );
+            $rem = $this->auditscores->get( $index );
+            $rem->setField( null );
+        }
+        
+        $this->auditscores->removeElement( $score );
+    }
+    
+    /**
+     * Remove all auditscores
+     */
+    public function removeAllAuditScore()
+    {
+        foreach( $this->auditscores as $auditscore )
+        {
+            $this->removeAuditScore( $auditscore );
+        }
     }
 
     /**

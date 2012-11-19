@@ -246,20 +246,35 @@ class Audit
         return $this->createdAt;
     }
 
+    /**
+     * Get Score for Field
+     * 
+     * @param \WG\AuditBundle\Entity\AuditFormField $field
+     * @return $score
+     */
     public function getScoreForField( AuditFormField $field )
     {
         $scores = $this->getScores();
         foreach ( $scores as $score )
         {
-            if ( $field->getId() == $score->getField()->getId() )
+            if ( null !== $score->getField()->getId())
             {
-                return $score;
+                if ( $field->getId() == $score->getField()->getId() )
+                {
+                    return $score;
+                }
             }
         }
         return false;
     }
 
-    public function getResultForSection( $section )
+    /**
+     * Get Score for Section
+     * 
+     * @param \WG\AuditBundle\Entity\AuditFormSection $section
+     * @return int
+     */
+    public function getResultForSection( AuditFormSection $section )
     {
         $fields = $section->getFields();
         $fieldCount = count( $fields );
@@ -288,6 +303,11 @@ class Audit
     }
 
     // TODO: take into account the weight of 1 for fields where getFatal() == true
+    /**
+     * Get global score
+     * 
+     * @return int
+     */
     public function getTotalResult()
     {
         $sections = $this->getAuditForm()->getSections();
@@ -304,6 +324,11 @@ class Audit
         return number_format($totalPercent, 2, '.', '');
     }
 
+    /**
+     * Get global weight
+     * 
+     * @return int
+     */
     public function getTotalWeight()
     {
         $weight = 0;

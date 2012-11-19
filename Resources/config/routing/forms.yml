@@ -24,14 +24,21 @@ wgauditform_add_section:
     requirements:
         id: \d+
         section_id: \d+
+        _method:  POST|GET
+        _format:  JSON
 
+wgauditform_new_section:
+    pattern:  /{id}/sections/new
+    defaults: { _controller: WGAuditBundle:AuditForm:new }
+    requirements:
+        id: \d+
 
 wgauditform_remove:
     pattern:  /{id}/section/{section_id}/remove
     defaults: { _controller: WGAuditBundle:AuditForm:remove }
     requirements:
-        _method:  POST
-        _format: json
+        _method:  POST|GET
+        _format: JSON
         id: \d+
         section_id: \d+
 

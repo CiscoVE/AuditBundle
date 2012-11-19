@@ -14,13 +14,16 @@
                     <button type="submit" class="btn btn-mini">
                         <i class="icon-ok"></i> Save Section
                     </button>
+                    {% if edit == true %}
                     <noscript>
-                    <button href="#" class="btn btn-mini">
-                        <i class="icon-plus"></i> Add Field
-                    </button>
-                    <button href="#" class="btn btn-mini">
-                        <i class="icon-remove"></i> Delete Section
-                    </button>
+                        <a href="#" class="btn btn-mini">
+                            <i class="icon-plus"></i> Add Field
+                        </a>
+                        {% if edit == true %}
+                        <a href="{{ path( 'wgauditformsection_delete', { 'id' : section.id  } ) }}" class="btn btn-mini">
+                            <i class="icon-trash"></i> Delete Section
+                        </a>
+                        {% endif %}
                     </noscript>
                     <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">
                         <span class="caret"></span>
@@ -42,13 +45,15 @@
                             </li>
                             {% endfor %}
                             <li class="divider"></li>
+                            <li>
+                                <a class="audit-section-delete" 
+                                   href="{{ path( 'wgauditformsection_delete', { 'id' : section.id  } ) }}">
+                                    <i class="icon-trash"></i> Delete Section
+                                </a>
+                            </li>
                         {% endif %}
-                        <li>
-                            <a class="audit-section-delete" href="#">
-                                <i class="icon-remove"></i> Delete Section
-                            </a>
-                        </li>
                     </ul>
+                    {% endif %}
                 </div>
             </legend>
             <div class="controls controls-row">

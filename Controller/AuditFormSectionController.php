@@ -107,8 +107,8 @@ class AuditFormSectionController extends Controller
                 $em->flush();
                 if ( $request->isXmlHttpRequest() ) return new Response();
                 else return $this->redirect( $this->generateUrl( 'wgauditformsection_edit', array (
-                        'id' => $section->getId() )
-                    ));
+                    'id' => $section->getId() )
+                ));
             }
             throw $this->createNotFoundException( 'Field does not exist' );
         }

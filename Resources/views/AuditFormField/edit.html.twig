@@ -10,13 +10,14 @@
             Add new field
         {% endif %}
             <div class="btn-group pull-right">
-                <a type="submit" class="btn btn-mini">
+                <button type="submit" class="btn btn-mini">
                     <i class="icon-ok"></i> Save
-                </a>
+                </button>
+                {% if edit == true %}
                 <noscript>
-                    <a class="btn btn-mini"
-                       href="wgauditformfield_delete">
-                        <i class="icon-trash"></i> Delete
+                    <a class="btn btn-mini" 
+                        href="{{ path ( 'wgauditformfield_delete', { 'id': field.id }) }}">
+                         <i class="icon-trash"></i> Delete
                     </a>
                 </noscript>
                 <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">
@@ -24,11 +25,13 @@
                 </a>
                 <ul class="dropdown-menu">
                     <li>
-                        <a class="audit-form-delete" href="wgauditformfield_delete">
+                        <a class="audit-form-delete" 
+                           href="{{ path ( 'wgauditformfield_delete', { 'id': field.id }) }}">
                             <i class="icon-trash"></i> Delete Field
                         </a>
                     </li>
                 </ul>
+                {% endif %}
             </div>
         </legend>
 

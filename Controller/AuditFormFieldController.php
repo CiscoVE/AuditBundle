@@ -46,8 +46,9 @@ class AuditFormFieldController extends Controller
             }
         }
         return $this->render( 'WGAuditBundle:AuditFormField:edit.html.twig', array(
-            'edit' => $edit,
-            'form' => $form->createView(),
+            'edit'  => $edit,
+            'field' => $field,
+            'form'  => $form->createView(),
         ));
     }
 
@@ -76,8 +77,11 @@ class AuditFormFieldController extends Controller
         $repo = $em->getRepository( 'WGAuditBundle:AuditFormField' );
         if ( null !== $field = $repo->find( $request->get( 'id' ) ))
         {
-            $section = $em->getRepository( 'WGAuditBundle:AuditFormSection' )->findBy( array( 'id' => $field.id )  );
-            $section->removeField( $field );
+            $scoreRepo = $em->getRepository( 'WGAuditBundle:AuditScore' );
+            $scores = $scoreRepo->findAll();
+            if ( null != $scores = $field->getAuditScores()) $field->removeAllAuditScore();
+            if ( null !== $section = $field->getSection()) $section->removeField( $field );
+            
             $field->setSection( null );
             $em->remove( $field );
             $em->flush();
