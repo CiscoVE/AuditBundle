@@ -144,6 +144,6 @@ class AuditFormSectionController extends Controller
             }
             throw $this->createNotFoundException( 'Field does not exist' );
         }
-        throw $this->createNotFoundException( 'Section   does not exist' );
+        throw $this->createNotFoundException( 'Section does not exist' );
     }
 }

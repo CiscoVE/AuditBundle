@@ -1,5 +1,5 @@
 {% block body %}
-<tr>
+<tr class="wgaudit-field-row">
     <td>{{ field.title }}</td>
     <td>{{ field.description }}</td>
     <td>{{ field.weight }}</td>
@@ -13,16 +13,16 @@
         <div class="btn-group">
             <a class="btn btn-mini" 
                href="{{ path( 'wgauditformfield_view', { 'id': field.id } ) }}">
-                <i class="icon-eye-open"></i> View Field
+                <i class="icon-eye-open"></i> View
             </a>
             <noscript>
                 <a class="btn btn-mini"
                     href="{{ path( 'wgauditformfield_edit', { 'id': field.id } ) }}">
-                    <i class="icon-pencil"></i> Edit Field
+                    <i class="icon-pencil"></i> Edit
                 </a>
                 <a class="btn btn-mini" 
                    href="{{ path( 'wgauditformsection_remove', { 'id' : section.id ,'field_id': field.id } ) }}">
-                    <i class="icon-minus"></i> Remove Field
+                    <i class="icon-minus"></i> Remove
                 </a>                
             </noscript>
             <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">
@@ -31,13 +31,13 @@
             <ul class="dropdown-menu">
                 <li>
                     <a href="{{ path( 'wgauditformfield_edit', { 'id': field.id } ) }}">
-                        <i class="icon-pencil"></i> Edit Field
+                        <i class="icon-pencil"></i> Edit
                     </a>
                 </li>
                 <li>
                     <a class="audit-field-remove" 
                        href="{{ path( 'wgauditformsection_remove', { 'id' : section.id ,'field_id': field.id } ) }}">
-                        <i class="icon-minus"></i> Remove Field
+                        <i class="icon-minus"></i> Remove
                     </a>
                 </li>
             </ul>

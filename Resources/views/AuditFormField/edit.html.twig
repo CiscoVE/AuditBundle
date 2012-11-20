@@ -16,7 +16,7 @@
                 {% if edit == true %}
                 <noscript>
                     <a class="btn btn-mini" 
-                        href="{{ path ( 'wgauditformfield_delete', { 'id': field.id }) }}">
+                        href="{{ path( 'wgauditformfield_delete', { 'id': field.id } ) }}">
                          <i class="icon-trash"></i> Delete
                     </a>
                 </noscript>
@@ -26,7 +26,7 @@
                 <ul class="dropdown-menu">
                     <li>
                         <a class="audit-form-delete" 
-                           href="{{ path ( 'wgauditformfield_delete', { 'id': field.id }) }}">
+                           href="{{ path( 'wgauditformfield_delete', { 'id': field.id } ) }}">
                             <i class="icon-trash"></i> Delete Field
                         </a>
                     </li>

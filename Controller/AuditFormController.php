@@ -93,6 +93,7 @@ class AuditFormController extends Controller
             'form'                  => $form->createView(),
             'routePatternRemove'    => $routes->get( 'wgauditform_remove' )->getPattern(),
             'routePatternLoad'      => $routes->get( 'wgauditformsection_load' )->getPattern(),
+            'routePatternLoadField' => $routes->get( 'wgauditformfield_load' )->getPattern(), 
         ));
     }
 

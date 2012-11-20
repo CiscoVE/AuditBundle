@@ -1,34 +1,48 @@
 {% block body %}
-<tr>
-    <td>{{ section.title }}</td>
-    <td>{{ section.auditform }}</td>
-    <td>{{ section.description }}</td>
-    <td width="10%">
+<tr class="audit-section-row">
+    <td colspan=2>
+        <strong>Section {{ section.id }}: {{ section.title }}</strong>
+    </td>
+    <td colspan=2>{{ section.description }}</td>
+    <td>
         <div class="btn-group">
             <a class="btn btn-mini" 
                href="{{ path( 'wgauditformsection_view', { 'id': section.id } ) }}">
                 <i class="icon-eye-open"></i> View
             </a>
-            <noscript>
-                <a class="btn btn-mini"
-                   href="{{ path( 'wgauditformsection_edit', { 'id': section.id } ) }}">
-                    <i class="icon-pencil"></i> Edit
-                </a>
-                <a class="btn btn-mini"
-                    href="{{ path( 'wgauditformsection_delete', { 'id': section.id } ) }}">
-                    <i class="icon-trash"></i> Delete
-                </a>
-            </noscript>
+                <noscript>
+                    <a class="btn btn-mini"
+                        href="{{ path( 'wgauditformsection_edit', { 'id': section.id } ) }}">
+                        <i class="icon-pencil"></i> Edit
+                    </a>
+                </noscript>
             <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">
                 <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
-                <li><a href="{{ path( 'wgauditformsection_edit', { 'id': section.id } ) }}">
+                <li>
+                    <a href="{{ path( 'wgauditformsection_edit', { 'id': section.id } ) }}">
                         <i class="icon-pencil"></i> Edit
                     </a>
                 </li>
-                <li><a href="{{ path( 'wgauditformsection_delete', { 'id': section.id } ) }}">
-                        <i class="icon-trash"></i> Delete
+                <li>
+                {% if ufields is not empty %}
+                    <li class="divider"></li>
+                    {% for field in ufields %}
+                    <li>
+                        <a data-field-id="{{ field.id }}" class="audit-field-add"
+                           href="{{ path( 'wgauditformsection_add_field', { 'id' : section.id ,'field_id': field.id } ) }}">
+                            <i class="icon-plus"></i> {{ field.title }}
+                        </a>
+                    </li>
+                    {% endfor %}
+                    <li class="divider"></li>
+                {% endif %}
+                </li>
+                <li>
+                    <a class="audit-section-remove" 
+                       href="{{ path( 'wgauditform_remove', { 'id' : auditform.id ,'section_id': section.id } ) }}">
+                        <i class="icon-minus"></i> Remove
                     </a>
                 </li>
             </ul>
