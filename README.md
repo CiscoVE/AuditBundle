@@ -39,7 +39,9 @@ cisco_audit:
 
 This bundle requires five tables that can be generated from the following:
 
+```php
     php app/console doctrine:schema:update --dump-sql
+```
 
 Those are:
 
@@ -53,35 +55,41 @@ Those are:
 
 1. for now the following need to be added to the composer.json file of the project:
 
+```yaml   
     "repositories": [
         { "type": "vcs", "url": "http://github.com/WrittenGames/AuditBundle" }
     ]
-
+```
 and
 
+```yaml   
     "require": {
         "cisco-systems/audit-bundle": "dev-master"
     }
-
+```
 2. Then update through composer.phar
 
 3. And add the bundle in the AppKernel:
 
+```php
     $bundles = array(
         new Craue\TwigExtensionsBundle\CraueTwigExtensionsBundle(),
         new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
         new CiscoSystems\AuditBundle\CiscoSystemsAuditBundle(),
     );
+```-
 
 4. Add as well the Bundle to the routing:
 
-    
+```yaml    
     CiscoSystemsAuditBundle:
         resource: "@CiscoSystemsAuditBundle/Resources/config/routing.yml"
         prefix:   /cisco_audit
+```
 
 5. Finally add the configuration for the stof bundle in the config.yml file:
 
+---yaml
     # Doctrine Extensions
     stof_doctrine_extensions:
         orm:
@@ -89,10 +97,11 @@ and
                 timestampable: true
                 sluggable: true
                 sortable: true
+---
 
 ## Issues
 
-Issues should be reported in https://github.com/WrittenGames/AuditBundle/issues
+Issues should be reported in [GitHub Issues] (https://github.com/WrittenGames/AuditBundle/issues)
 
 ## License
 
