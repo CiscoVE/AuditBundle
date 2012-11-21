@@ -16,7 +16,8 @@
     ],
     "require": {
         "symfony/symfony": ">=2.1",
-        "stof/doctrine-extensions-bundle": "dev-master"
+        "stof/doctrine-extensions-bundle": "dev-master",
+        "craue/twigextensions-bundle": "dev-master"
     },
     "autoload": {
         "psr-0": { "CiscoSystems\\AuditBundle": "" }
