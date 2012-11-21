@@ -37,6 +37,18 @@ cisco_audit:
         property: caseId
 ```
 
+This bundle requires five tables that can be generated from the following:
+
+    php app/console doctrine:schema:update --dump-sql
+
+Those are:
+
+    * cisco_audit__audit
+    * cisco_audit__form
+    * cisco_audit__section
+    * cisco_audit__field
+    * cisco_audit__score
+
 ## Required
 
 1. for now the following need to be added to the composer.json file of the project:
@@ -55,9 +67,28 @@ and
 
 3. And add the bundle in the AppKernel:
 
-        $bundles = array(
-            new CiscoSystems\AuditBundle\CiscoSystemsAuditBundle(),
-        );
+    $bundles = array(
+        new Craue\TwigExtensionsBundle\CraueTwigExtensionsBundle(),
+        new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
+        new CiscoSystems\AuditBundle\CiscoSystemsAuditBundle(),
+    );
+
+4. Add as well the Bundle to the routing:
+
+    
+    CiscoSystemsAuditBundle:
+        resource: "@CiscoSystemsAuditBundle/Resources/config/routing.yml"
+        prefix:   /cisco_audit
+
+5. Finally add the configuration for the stof bundle in the config.yml file:
+
+    # Doctrine Extensions
+    stof_doctrine_extensions:
+        orm:
+            default:
+                timestampable: true
+                sluggable: true
+                sortable: true
 
 ## Issues
 
