@@ -23,7 +23,7 @@ class AuditFormSection
      * @ORM\ManyToOne(targetEntity="CiscoSystems\AuditBundle\Entity\AuditForm")
      * @ORM\JoinColumn(name="audit_form_id",referencedColumnName="id")
      */
-    protected $auditform;
+    protected $auditForm;
 
     /**
      * @ORM\Column(type="string")
@@ -183,7 +183,7 @@ class AuditFormSection
     }
 
     /**
-     * Add a field
+     * Add a field to ArrayCollection fields
      *
      * @param CiscoSystems\AuditBundle\Entity\AuditFormField $field
      * @return AuditFormSection
@@ -197,13 +197,13 @@ class AuditFormSection
     }
 
     /**
-     * Remove fields
+     * Remove Field from ArrayCollection fields
      *
      * @param CiscoSystems\AuditBundle\Entity\AuditFormField $field
      */
     public function removeField( AuditFormField $field )
     {
-        if($this->fields->contains( $field ))
+        if( $this->fields->contains( $field ))
         {
             $index = $this->fields->indexOf( $field );
             $rem = $this->fields->get( $index );
@@ -214,7 +214,7 @@ class AuditFormSection
     }
     
     /**
-     * Remove all fields
+     * Remove all Field from ArrayCollection fields
      */
     public function removeAllField()
     {

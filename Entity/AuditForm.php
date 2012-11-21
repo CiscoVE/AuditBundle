@@ -43,14 +43,21 @@ class AuditForm
 
     /**
      *
-     * @ORM\OneToMany(targetEntity="CiscoSystems\AuditBundle\Entity\AuditFormSection", mappedBy="auditform")
+     * @ORM\OneToMany(targetEntity="CiscoSystems\AuditBundle\Entity\AuditFormSection", mappedBy="auditForm")
      */
     protected $sections;
+    
+    /**
+     * 
+     * @ORM\OneToMany(targetEntity="CiscoSystems\AuditBundle\Entity\Audit", mappedBy="auditForm")
+     */
+    protected $audits;
 
     public function __construct()
     {
         $this->active = true;
         $this->sections = new ArrayCollection();
+        $this->audits = new ArrayCollection();
     }
 
     /**
@@ -161,7 +168,7 @@ class AuditForm
      * @param CiscoSystems\AuditBundle\Entity\AuditFormSection $section
      * @return AuditForm
      */
-    public function addSection(AuditFormSection $section)
+    public function addSection( AuditFormSection $section )
     {
         $section->setAuditform( $this );
         $this->sections[] = $section;
@@ -174,9 +181,9 @@ class AuditForm
      *
      * @param CiscoSystems\AuditBundle\Entity\AuditFormSection $section
      */
-    public function removeSection(AuditFormSection $section)
+    public function removeSection( AuditFormSection $section )
     {
-        if($this->sections->contains( $section ))
+        if( $this->sections->contains( $section ))
         {
             $index = $this->sections->indexOf( $section );
             $rem = $this->sections->get( $index );
@@ -196,6 +203,58 @@ class AuditForm
         return $this->sections;
     }
 
+    /**
+     * Add an Audit to ArrayColletion audits
+     * 
+     * @param \CiscoSystems\AuditBundle\Entity\Audit $audit
+     * @return AuditForm
+     */
+    public function addAudit( Audit $audit )
+    {
+        $audit->setAuditForm( $this );
+        $this->audits[] = $audit;
+        
+        return $this;
+    }
+        
+    /**
+     * Remove Audit from ArrayColletion audits
+     * 
+     * @param \CiscoSystems\AuditBundle\Entity\Audit $audit
+     */
+    public function removeAudit( Audit $audit )
+    {
+        if( $this->audits->contains( $audit ))
+        {
+            $index = $this->audits->indexOf( $audit );
+            $rem = $this->audits->get( $index );
+            $rem->setAuditForm( NULL );
+        }
+        
+        $this->audits->removeElement( $audit );
+    }
+    
+    /**
+     * Remove all Audit from ArrayColletion audits
+     */
+    public function removeAllAudit()
+    {
+        foreach ( $this->audits as $audit )
+        {
+            $this->removeAudit( $audit );
+        }
+    }
+    
+    /**
+     * Get audits
+     * 
+     * @return Doctrine\Common\Collections\Collection
+     */
+    public function getAudits()
+    {
+        return $this->audits;
+    }
+    
     public function __toString()
     {
         return $this->title;

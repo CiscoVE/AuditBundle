@@ -10,7 +10,7 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $node = $treeBuilder->root( 'cisco_audit' );
+        $node = $treeBuilder->root( 'cisco_systems_audit' );
         $node
             ->children()
                 ->scalarNode( 'control_user' )

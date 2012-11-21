@@ -23,7 +23,7 @@ class Audit
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AuditForm")
+     * @ORM\ManyToOne(targetEntity="CiscoSystems\AuditBundle\Entity\AuditForm")
      * @ORM\JoinColumn(name="audit_form_id",referencedColumnName="id")
      */
     protected $auditForm;
@@ -114,7 +114,7 @@ class Audit
      * @param string $auditForm
      * @return Audit
      */
-    public function setAuditForm($auditForm)
+    public function setAuditForm( $auditForm )
     {
         $this->auditForm = $auditForm;
 
@@ -137,7 +137,7 @@ class Audit
      * @param integer $auditReference
      * @return Audit
      */
-    public function setAuditReference($auditReference)
+    public function setAuditReference( $auditReference )
     {
         $this->auditReference = $auditReference;
 
@@ -160,7 +160,7 @@ class Audit
      * @param integer $auditingUser
      * @return Audit
      */
-    public function setAuditingUser($auditingUser)
+    public function setAuditingUser( $auditingUser )
     {
         $this->auditingUser = $auditingUser;
 
@@ -183,7 +183,7 @@ class Audit
      * @param integer $controlUser
      * @return Audit
      */
-    public function setControlUser($controlUser)
+    public function setControlUser( $controlUser )
     {
         $this->controlUser = $controlUser;
 
@@ -206,7 +206,7 @@ class Audit
      * @param boolean $failed
      * @return Audit
      */
-    public function setFailed($failed)
+    public function setFailed( $failed )
     {
         $this->failed = $failed;
 
@@ -229,7 +229,7 @@ class Audit
      * @param \DateTime $createdAt
      * @return Audit
      */
-    public function setCreatedAt($createdAt)
+    public function setCreatedAt( $createdAt )
     {
         $this->createdAt = $createdAt;
 

@@ -81,7 +81,7 @@ class AuditFormController extends Controller
         }
         $routes = $this->get( 'router' )->getRouteCollection();
         $uSectionRepo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditFormSection' );
-        $uSections = $uSectionRepo->findBy( array ( 'auditform' => null ));
+        $uSections = $uSectionRepo->findBy( array ( 'auditForm' => null ));
         $uFieldRepo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditFormField' );
         $uFields = $uFieldRepo->findBy( array ( 'section' => null ));
         
@@ -103,6 +103,7 @@ class AuditFormController extends Controller
         $repo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditForm' );
         if ( null !== $form = $repo->find( $request->get( 'id' ) ))
         {
+            $form->removeAllAudit();
             $em->remove( $form );
             $em->flush();
             return $this->redirect( $this->generateUrl( 'cisco_auditforms' ));
