@@ -77,7 +77,7 @@ and
         new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
         new CiscoSystems\AuditBundle\CiscoSystemsAuditBundle(),
     );
-```-
+```
 
 4. Add as well the Bundle to the routing:
 
