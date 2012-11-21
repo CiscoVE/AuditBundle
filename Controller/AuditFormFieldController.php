@@ -56,19 +56,16 @@ class AuditFormFieldController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
         $repo = $em->getRepository( 'WGAuditBundle:AuditFormField' );
-        if ( null === $field = $repo->find( $request->get( 'id' ) ))
+        if ( null !== $field = $repo->find( $request->get( 'id' ) ))
         {
-            throw $this->createNotFoundException( 'Field does not exist' );
+            if ( $request->isXmlHttpRequest()) return $this->render( 'WGAuditBundle:AuditFormField:_view.html.twig', array(
+                'field' => $field,
+            ));
+            else return $this->render( 'WGAuditBundle:AuditFormField:view.html.twig', array(
+                'field' => $field,
+            ));
         }
-        if ( $request->isXmlHttpRequest())
-        {
-        return $this->render( 'WGAuditBundle:AuditFormField:_view.html.twig', array(
-            'field' => $field,
-        ));
-        }
-        else return $this->render( 'WGAuditBundle:AuditFormField:view.html.twig', array(
-            'field' => $field,
-        ));
+        throw $this->createNotFoundException( 'Field does not exist' );
     }
 
     public function deleteAction( Request $request )
@@ -118,7 +115,6 @@ class AuditFormFieldController extends Controller
         $ret = array();
 
         $ret['score'] = $returnedScore;
-
         $ret['scoreData'] = $scoreData;
         $ret['fieldScore'] = $fieldScore;
         $ret['fieldWeight'] = $fieldWeight;
@@ -135,7 +131,7 @@ class AuditFormFieldController extends Controller
         $field = $fieldRepo->find( $request->get( 'id' ));
         $section = $repo->find( $field-getAudit()->getId() );
 
-        return $this->render( 'WGAuditBundle:AuditFormField:load.html.twig', array(
+        return $this->render( 'WGAuditBundle:AuditFormField:_load.html.twig', array(
             'field' => $field,
             'section' => $section,
         ));

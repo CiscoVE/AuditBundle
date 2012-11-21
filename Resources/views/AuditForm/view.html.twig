@@ -9,7 +9,7 @@
             <div class="btn-group pull-right">
                 <a class="btn btn-mini" 
                    href="{{ path( 'wgauditform_edit', { 'id': form.id } ) }}" style="font-size: 10px">
-                    <i class="icon-pencil"></i> Edit
+                    <i class="icon-wrench"></i> Edit
                 </a>
             </div>
         </legend>
@@ -24,7 +24,13 @@
             <tbody>
                 <tr>
                     <td>{{ form.title }}</td>
-                    <td>{% if  form.active == 1 %}<i class="icon-check"/>{% else %}<i class="icon-uncheck"/>No{% endif %}</td>
+                    <td>
+                    {% if  form.active == 1 %}
+                        <i class="icon-check"/>
+                    {% else %}
+                        <i class="icon-uncheck"/>No
+                    {% endif %}
+                    </td>
                     <td>{{ form.description }}</td>
                 </tr>
             </tbody>
@@ -41,7 +47,9 @@
             <tbody>
             {% for section in form.sections %}
                 <tr>
-                    <td colspan=4><strong>Section {{section.id}}: {{ section.title }}</strong> - {{ section.description }}</td>
+                    <td colspan=4>
+                        <strong>Section {{section.id}}: {{ section.title }}</strong> - {{ section.description }}
+                    </td>
                 </tr>
                 {% for field in section.fields %}
                 <tr>
@@ -50,9 +58,14 @@
                     <td>{{ field.weight }}</td>
                 </tr>
                 {% else %}
+                <tr>
+                    <td colspan="3">no field assigned yet</td>
+                </tr>
                 {% endfor %}
             {% else %}
-                <tr>no fields assigned yet</tr>
+                <tr>
+                    <td colspan="3">no section assigned yet</td>
+                </tr>
             {% endfor %}
             </tbody>
         </table>

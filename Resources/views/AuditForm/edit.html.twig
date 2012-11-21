@@ -30,15 +30,16 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a class="audit-section-add" href="#">
-                                <i class="icon-plus"></i> Add Section
+                            <a class="wgaudit-section-add" data-form-id={{ auditform.id }}
+                               href="#">
+                                <i class="icon-plus"></i> Add new Section
                             </a>
                         </li>
                         {% if usections is not empty %}
                             <li class="divider"></li>
                             {% for section in usections %}
                             <li>
-                                <a data-section-id="{{ section.id }}" class="audit-section-add"
+                                <a class="wgaudit-section-add" data-section-id={{ section.id }}
                                    href="{{ path( 'wgauditform_add_section', { 'id' : auditform.id ,'section_id': section.id } ) }}">
                                     <i class="icon-plus"></i> {{ section.title }}
                                 </a>
@@ -47,7 +48,7 @@
                             <li class="divider"></li>
                         {% endif %}
                         <li>
-                            <a class="audit-form-delete" 
+                            <a class="wgaudit-form-delete" data-form-id={{ auditform.id }}
                                href="{{ path( 'wgauditform_delete', { 'id': auditform.id }) }}">
                                 <i class="icon-trash"></i> Delete Form
                             </a>
@@ -92,7 +93,7 @@
                 <tbody>
                 {% if auditform.sections != null %}
                     {% for section in auditform.sections %}
-                    {% include 'WGAuditBundle:AuditFormSection:load.html.twig' %}
+                    {% include 'WGAuditBundle:AuditFormSection:_load.html.twig' %}
                         {% if section.fields != null %}
                             {% for field in section.fields %}
                             <tr class="audit-field-row">

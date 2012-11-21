@@ -16,11 +16,12 @@
             <tbody>
                 <tr>
                     <td>{{ audit.auditReference }}</td>
-                    <td>{% if audit.failed == true %}
+                    <td>
+                    {% if audit.failed == true %}
                         <div class="text-warning">FAILED</div>
-                        {% else %}
-                            {{ audit.totalResult }}
-                        {% endif %}
+                    {% else %}
+                        {{ audit.totalResult }}
+                    {% endif %}
                     </td>
                     <td>{{ audit.auditingUser }}</td>
                     <td>{{ audit.controlUser }}</td>
@@ -51,11 +52,12 @@
                         <td>{{ counter }}</td>
                         <td>{{ field.title }}</td>
                         <td>{{ score.score }}</td>
-                        <td>{% if field.fatal == true %}
-                                Involve Mgr
-                            {% else %}
-                                {{ field.weight }}
-                            {% endif %}
+                        <td>
+                        {% if field.fatal == true %}
+                            Involve Mgr
+                        {% else %}
+                            {{ field.weight }}
+                        {% endif %}
                         </td>
                         <td>{{ score.comment }}</td>
                     </tr>
@@ -72,11 +74,13 @@
             {% endfor %}
             <tr>
                 <td colspan="2" style="text-align: right">Final Score</td>
-                <td>{% if audit.failed == true %}
+                <td>
+                {% if audit.failed == true %}
                     <div class="text-warning">FAILED</div>
-                    {% else %}
-                        {{ audit.totalResult }}
-                    {% endif %}</td>
+                {% else %}
+                    {{ audit.totalResult }}
+                {% endif %}
+                </td>
                 <td>{{ audit.totalWeight }}</td>
                 <td></td>
             </tr>

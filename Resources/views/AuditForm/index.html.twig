@@ -2,10 +2,11 @@
 
 {% block body %}
 <div class="container">
-    <div class="span10 offset1">
+    <div class="span6 offset1">
         <legend>Forms
-            <a class="btn btn-small pull-right" href="{{ path( 'wgauditform_add' ) }}">
-                <i class="icon-plus"></i> Add a new form
+            <a class="btn btn-small pull-right" 
+               href="{{ path( 'wgauditform_add' ) }}">
+                <i class="icon-plus"></i> Create a new form
             </a>
         </legend>
         <table class="table table-condensed table-hover">
@@ -13,28 +14,37 @@
             <thead>
                 <tr>
                     <th>Title</th>
-                    <th>Description</th>
                     <th>Is the form Active?</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
                 {% for form in forms %}
-                    <tr>
+                    <tr title="{{ form.description }}">
                         <td>{{ form.title }}</td>
-                        <td>{{ form.description }}</td>
-                        <td>{% if  form.active == 1 %}
-                                <i class="icon-check"/>
-                            {% else %}
-                                <i class="icon-check-empty"/>
-                            {% endif %}
+                        <td>
+                        {% if  form.active == 1 %}
+                            <i class="icon-check"/>
+                        {% else %}
+                            <i class="icon-check-empty"/>
+                        {% endif %}
                         </td>
                         <td>
-                            <div class="btn-group">
+                            <div class="btn-group pull-right">
                                 <a class="btn btn-mini" 
                                    href="{{ path( 'wgauditform_view', { 'id': form.id } ) }}">
                                     <i class="icon-eye-open"></i> View
                                 </a>
+                                <noscript>
+                                    <a class="btn btn-mini"
+                                       href="{{ path( 'wgauditform_edit', { 'id': form.id } ) }}">
+                                        <i class="icon-wrench"></i> Edit
+                                    </a>
+                                    <a class="btn btn-mini"
+                                       href="{{ path( 'wgauditform_delete', { 'id': form.id } ) }}">
+                                        <i class="icon-trash"></i> Delete
+                                    </a>
+                                </noscript>    
                                 <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" 
                                    href="#">
                                     <span class="caret"></span>
@@ -42,11 +52,12 @@
                                 <ul class="dropdown-menu">
                                     <li>
                                         <a href="{{ path( 'wgauditform_edit', { 'id': form.id } ) }}">
-                                            <i class="icon-pencil"></i> Edit
+                                            <i class="icon-wrench"></i> Edit
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="{{ path( 'wgauditform_delete', { 'id': form.id } ) }}">
+                                        <a class="wgaudit-form-delete" data-form-id="{{ form.id }}"
+                                            href="{{ path( 'wgauditform_delete', { 'id': form.id } ) }}">
                                             <i class="icon-trash"></i> Delete
                                         </a>
                                     </li>

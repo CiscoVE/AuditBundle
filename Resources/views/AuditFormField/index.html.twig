@@ -2,33 +2,41 @@
 
 {% block body %}
 <div class="container">
-    <div class="span10 offest1">
-        <legend>Existing Fields
-            <a href="{{ path( 'wgauditformfield_add' ) }}" class="btn btn-small pull-right">
+    <div class="span8 offset2">
+        <legend>
+            Existing Fields
+            <a class="btn btn-mini pull-right"
+               href="{{ path( 'wgauditformfield_add' ) }}">
                 <i class="icon-plus"></i> Add a new field
             </a>
         </legend>
         <table class="table table-condensed table-hover">
             <caption>List of existing fields</caption>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Section</th>
+                    <th>Weight</th>
+                    <th>Fatal</th>
+                    <th></th>
+                </tr>
+            </thead>
             <tbody>
                 {% for field in fields %}
-                    <tr>
-                        <td><strong>Title: </strong></td>
+                    <tr class="wgaudit-field-row" title="{{ field.description }}">
                         <td>{{ field.title }}</td>
-                        <td><strong>Section: </strong></td>
                         <td>{{ field.section }}</td>
-                        <td><strong>Weight: </strong></td>
                         <td>{{ field.weight }}</td>
-                        <td><strong>Fatal: </strong></td>
-                        <td>{% if field.fatal == 1 %}
-                                <div>Yes</div>
-                            {% else %}
-                                <div>No</div>
-                            {% endif %}
+                        <td>
+                        {% if field.fatal == 1 %}
+                            <div>Yes</div>
+                        {% else %}
+                            <div>No</div>
+                        {% endif %}
                         </td>
                         <td>
-                            <div class="btn-group">
-                                <a class="btn btn-mini" 
+                            <div class="btn-group pull-right">
+                                <a class="btn btn-mini wgaudit-field-view" rel="#overlay"
                                    href="{{ path( 'wgauditformfield_view', { 'id': field.id } ) }}">
                                     <i class="icon-eye-open"></i> View
                                 </a>
@@ -36,7 +44,7 @@
                                 <noscript>
                                     <a class="btn btn-mini"
                                         href="{{ path( 'wgauditformfield_edit', { 'id': field.id } ) }}">
-                                        <i class="icon-pencil"></i> Edit
+                                        <i class="icon-wrench"></i> Edit
                                     </a>
                                     <a class="btn btn-mini"
                                         href="{{ path( 'wgauditformfield_delete', { 'id': field.id } ) }}">
@@ -48,12 +56,14 @@
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a href="{{ path( 'wgauditformfield_edit', { 'id': field.id } ) }}">
-                                            <i class="icon-pencil"></i> Edit
+                                        <a class="wgaudit-field-edit" data-field-id="{{ field.id }}"
+                                            href="{{ path( 'wgauditformfield_edit', { 'id': field.id } ) }}">
+                                            <i class="icon-wrench"></i> Edit
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="{{ path( 'wgauditformfield_delete', { 'id': field.id } ) }}">
+                                        <a class="wgaudit-field-delete" data-field-id="{{ field.id }}"
+                                            href="{{ path( 'wgauditformfield_delete', { 'id': field.id } ) }}">
                                             <i class="icon-trash"></i> Delete
                                         </a>
                                     </li>
@@ -61,22 +71,6 @@
                             </div>
                         </td>
                     </tr>
-                    <tr>
-                        <td><strong>Description: </strong></td>
-                        <td colspan="10">{{ field.description }}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Scores: </strong></td>
-                        <td colspan="10">{% for score, label in field.scores %}
-                                <div>
-                                    {{ score }}: {{ label }}
-                                </div>
-                            {% else %}
-                                <div>No scores defined</div>
-                            {% endfor %}
-                        </td>
-                    </tr>
-
                 {% else %}
                     <tr>
                         <td colspan="8" align="center">no fields yet</td>
@@ -86,4 +80,43 @@
         </table>
     </div>
 </div>
+{#
+<script type="text/javascript">
+//$('.audit-section-row').next('.audit-form-field').css('background-color', 'yellow');
+//$('.audit-section-row').next('.audit-section-row').prev().css('background-color', 'red');
+
+
+$( function()
+{
+    // View Field
+    // load up load_view.html.twig in a modal box
+    //$( '.wgaudit-field-view' ).click( function()
+    $( '.wgaudit-field-view' ).overlay(
+    {
+        var url = $( this ).attr( 'href' );
+        $.ajax(
+        {
+            url: url,
+            type: "POST",
+            success: function( response )
+            {
+                onBeforeLoad: function() {
+
+                    // grab wrapper element inside content
+                    var wrap = this.getOverlay().find(".contentWrap");
+
+                    // load the page specified in the trigger
+                    wrap.load( response );
+                }
+            }
+            error: function( response )
+            {
+                console.log( 'can not do it .....' );
+            }
+        });       
+        return false;
+    });
+});
+</script>
+#}
 {% endblock %}

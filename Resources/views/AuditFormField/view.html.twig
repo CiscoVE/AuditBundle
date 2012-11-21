@@ -5,9 +5,9 @@
     <div class="span10 offset1">
         <legend>Field view
             <div class="btn-group pull-right">
-                <a class="btn btn-mini" 
+                <a class="btn btn-mini wgaudit-field-view" data-field-id="{{ field.id }}"
                    href="{{ path( 'wgauditformfield_edit', { 'id': field.id } ) }}">
-                    <i class="icon-pencil"></i> Edit
+                    <i class="icon-wrench"></i> Edit
                 </a>
                 <noscript>
                     <a class="btn btn-mini"
@@ -21,7 +21,8 @@
                 </a>
                 <ul class="dropdown-menu">
                     <li>
-                        <a href="{{ path( 'wgauditformfield_delete', { 'id': field.id } ) }}">
+                        <a class="wgaudit-field-delete" data-field-id="{{ field.id }}"
+                            href="{{ path( 'wgauditformfield_delete', { 'id': field.id } ) }}">
                             <i class="icon-trash"></i> Delete
                         </a>
                     </li>

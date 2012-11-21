@@ -257,12 +257,9 @@ class Audit
         $scores = $this->getScores();
         foreach ( $scores as $score )
         {
-            if ( null !== $score->getField()->getId())
+            if ( null !== $score->getField() && $field === $score->getField())
             {
-                if ( $field->getId() == $score->getField()->getId() )
-                {
                     return $score;
-                }
             }
         }
         return false;

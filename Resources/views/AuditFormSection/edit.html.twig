@@ -6,7 +6,7 @@
         <form class="form-horizontal" method="POST" action="">
             <legend>
             {% if edit == true %}
-                Edit existing section
+                Editing section: {{ section.title }}
             {% else %}
                 Add new section
             {% endif %}
@@ -16,11 +16,13 @@
                     </button>
                     {% if edit == true %}
                     <noscript>
-                        <a href="#" class="btn btn-mini">
-                            <i class="icon-plus"></i> Add Field
+                        <a class="btn btn-mini"
+                           href="#">
+                            <i class="icon-plus"></i> Add new Field
                         </a>
                         {% if edit == true %}
-                        <a href="{{ path( 'wgauditformsection_delete', { 'id' : section.id  } ) }}" class="btn btn-mini">
+                        <a class="btn btn-mini"
+                            href="{{ path( 'wgauditformsection_delete', { 'id' : section.id  } ) }}">
                             <i class="icon-trash"></i> Delete Section
                         </a>
                         {% endif %}
@@ -30,7 +32,8 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a class="wgaudit-section-new" href="#">
+                            <a class="wgaudit-section-new" data-section-id="{{ section.id }}"
+                               href="#">
                                 <i class="icon-pencil"></i> Add Field
                             </a>
                         </li>
@@ -38,20 +41,20 @@
                             <li class="divider"></li>
                             {% for field in ufields %}
                             <li>
-                                <a data-field-id="{{ field.id }}" class="wgaudit-field-add"
+                                <a class="wgaudit-field-add" data-field-id="{{ field.id }}"
                                    href="{{ path( 'wgauditformsection_add_field', { 'id' : section.id ,'field_id': field.id } ) }}">
                                     <i class="icon-plus"></i> {{ field.title }}
                                 </a>
                             </li>
                             {% endfor %}
-                            <li class="divider"></li>
-                            <li>
-                                <a class="wgaudit-section-delete" 
-                                   href="{{ path( 'wgauditformsection_delete', { 'id' : section.id  } ) }}">
-                                    <i class="icon-trash"></i> Delete Section
-                                </a>
-                            </li>
+                        <li class="divider"></li>
                         {% endif %}
+                        <li>
+                            <a class="wgaudit-section-delete" data-section-id="{{ section.id }}"
+                               href="{{ path( 'wgauditformsection_delete', { 'id' : section.id  } ) }}">
+                                <i class="icon-trash"></i> Delete Section
+                            </a>
+                        </li>
                     </ul>
                     {% endif %}
                 </div>
@@ -105,7 +108,7 @@
             </thead>
             <tbody>
             {% for field in section.fields %}
-                    {% include 'WGAuditBundle:AuditFormField:load.html.twig' %}
+                {% include 'WGAuditBundle:AuditFormField:_load.html.twig' %}
             {% else %}
                 <tr>
                     <td class="5">no fields assigned yet</td>

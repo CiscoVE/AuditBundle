@@ -1,5 +1,5 @@
 {
-    "name": "writtengames/audit-bundle",
+    "name": "cisco/audit-bundle",
     "type": "symfony-bundle",
     "description": "Symfony 2 bundle for auditing",
     "keywords": ["audit", "audits", "auditing"],
@@ -19,7 +19,7 @@
         "stof/doctrine-extensions-bundle": "dev-master"
     },
     "autoload": {
-        "psr-0": { "WG\\AuditBundle": "" }
+        "psr-0": { "CiscoSystems\\AuditBundle": "" }
     },
-    "target-dir": "WG/AuditBundle"
+    "target-dir": "CiscoSystems/AuditBundle"
 }

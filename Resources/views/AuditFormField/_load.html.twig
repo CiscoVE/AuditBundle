@@ -3,22 +3,23 @@
     <td>{{ field.title }}</td>
     <td>{{ field.description }}</td>
     <td>{{ field.weight }}</td>
-    <td>{% if field.fatal == 1 %}
-            <i class="icon-check"/>
-        {% else %}
-            <i class="icon-check-empty"/>
-        {% endif %}
+    <td>
+    {% if field.fatal == 1 %}
+        <i class="icon-check"/>
+    {% else %}
+        <i class="icon-check-empty"/>
+    {% endif %}
     </td>
     <td>
         <div class="btn-group">
-            <a class="btn btn-mini" 
+            <a class="btn btn-mini wgaudit-field-view" data-field-id="{{ field.id }}" 
                href="{{ path( 'wgauditformfield_view', { 'id': field.id } ) }}">
                 <i class="icon-eye-open"></i> View
             </a>
             <noscript>
                 <a class="btn btn-mini"
                     href="{{ path( 'wgauditformfield_edit', { 'id': field.id } ) }}">
-                    <i class="icon-pencil"></i> Edit
+                    <i class="icon-wrench"></i> Edit
                 </a>
                 <a class="btn btn-mini" 
                    href="{{ path( 'wgauditformsection_remove', { 'id' : section.id ,'field_id': field.id } ) }}">
@@ -30,12 +31,13 @@
             </a>
             <ul class="dropdown-menu">
                 <li>
-                    <a href="{{ path( 'wgauditformfield_edit', { 'id': field.id } ) }}">
-                        <i class="icon-pencil"></i> Edit
+                    <a class="wgaudit-field-edit" data-field-id="{{ field.id }}"
+                        href="{{ path( 'wgauditformfield_edit', { 'id': field.id } ) }}">
+                        <i class="icon-wrench"></i> Edit
                     </a>
                 </li>
                 <li>
-                    <a class="audit-field-remove" 
+                    <a class="wgaudit-field-remove" data-field-id="{{ field.id }}"
                        href="{{ path( 'wgauditformsection_remove', { 'id' : section.id ,'field_id': field.id } ) }}">
                         <i class="icon-minus"></i> Remove
                     </a>

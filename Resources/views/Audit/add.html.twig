@@ -30,7 +30,7 @@
                             <td>{{ counter }}</td>
                             <td>{{ field.title }}</td>
                             <td>
-                                {% set form = craue_cloneForm(scoreform) %}
+                            {% set form = craue_cloneForm(scoreform) %}
                                 <select class="span1" name="score[{{ field.id }}][value]" data-field-id="{{ field.id }}">
                                 {% for score, label in field.scores %}
                                     <option value="{{ score }}" data-tooltip="{{ label }}" class="tooltip">
@@ -38,17 +38,20 @@
                                     </option>
                                 {% endfor %}
                             </td>
-                            <td>{% if field.fatal == true %}
-                                    Involve Mgr
-                                {% else %}
-                                    {{ field.weight }}
-                                {% endif %}
+                            <td>
+                            {% if field.fatal == true %}
+                                Involve Mgr
+                            {% else %}
+                                {{ field.weight }}
+                            {% endif %}
                             </td>
-                            <td><textarea class="span4" name="score[{{ field.id }}][comment]"></textarea></td>
+                            <td>
+                                <textarea class="span4" name="score[{{ field.id }}][comment]"></textarea>
+                            </td>
                         </tr>
                         {% set counter = counter + 1 %}
                     {% endfor %}
-                        <tr>
+                    <tr>
                         <td colspan="2" style="text-align: right">Section's Score</td>
                         <td>{{ attribute( audit, 'resultForSection', [ section ] ) }}</td>
                         <td>{{ section.weight }}</td>
@@ -80,6 +83,7 @@
             var sectionWeight;
             var resultRow = false;
             var allSiblings = $( row ).nextAll( 'tr' );
+            
             for ( var it in allSiblings )
             {
                 if ( $( allSiblings[it] ).hasClass( 'wgaudit-section-row' ) )
@@ -88,6 +92,7 @@
                     break;
                 }
             }
+        
             if ( resultRow )
             {
                 var sectionScore = $( resultRow ).find( '.wgaudit-section-score' ).html();

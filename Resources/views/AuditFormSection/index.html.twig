@@ -2,7 +2,7 @@
 
 {% block body %}
 <div class="container">
-    <div class="span10 offset1">
+    <div class="span6 offset2">
         <legend>
             Sections
             <a class="btn btn-small pull-right"
@@ -10,24 +10,22 @@
                 <i class="icon-plus"></i> Add a section
             </a>
         </legend>
-        <table class="table table-condensed">
+        <table class="table table-condensed table-hover">
             <caption>List of existing Section</caption>
             <thead>
                 <tr>
                     <th>Title</th>
                     <th>Form</th>
-                    <th>Description</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
                 {% for section in sections %}
-                    <tr>
+                    <tr title="{{ section.description }}">
                         <td>{{ section.title }}</td>
                         <td>{{ section.auditform }}</td>
-                        <td>{{ section.description }}</td>
                         <td width="10%">
-                            <div class="btn-group">
+                            <div class="btn-group pull-right">
                                 <a class="btn btn-mini" 
                                    href="{{ path( 'wgauditformsection_view', { 'id': section.id } ) }}">
                                     <i class="icon-eye-open"></i> View
@@ -35,22 +33,27 @@
                                 <noscript>
                                     <a class="btn btn-mini"
                                        href="{{ path( 'wgauditformsection_edit', { 'id': section.id } ) }}">
-                                        <i class="icon-pencil"></i> Edit
+                                        <i class="icon-wrench"></i> Edit
                                     </a>
                                     <a class="btn btn-mini"
                                         href="{{ path( 'wgauditformsection_delete', { 'id': section.id } ) }}">
                                         <i class="icon-trash"></i> Delete
                                     </a>
                                 </noscript>
-                                <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">
+                                <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" 
+                                   href="#">
                                     <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="{{ path( 'wgauditformsection_edit', { 'id': section.id } ) }}">
-                                            <i class="icon-pencil"></i> Edit
+                                    <li>
+                                        <a class="wgaudit-section-edit" data-section-id="{{ section.id }}"
+                                            href="{{ path( 'wgauditformsection_edit', { 'id': section.id } ) }}">
+                                            <i class="icon-wrench"></i> Edit
                                         </a>
                                     </li>
-                                    <li><a href="{{ path( 'wgauditformsection_delete', { 'id': section.id } ) }}">
+                                    <li>
+                                        <a class="wgaudit-section-delete" data-section-id="{{ section.id }}"
+                                            href="{{ path( 'wgauditformsection_delete', { 'id': section.id } ) }}">
                                             <i class="icon-trash"></i> Delete
                                         </a>
                                     </li>
@@ -60,7 +63,7 @@
                     </tr>
                 {% else %}
                     <tr>
-                        <td colspan="6">no sections yet</td>
+                        <td colspan="3">no sections yet</td>
                     </tr>
                 {% endfor %}
             </tbody>

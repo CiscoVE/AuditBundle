@@ -100,4 +100,61 @@ $( function()
         });
         return false;
     });
+
+    // View Field
+    // load up load_view.html.twig in a modal box
+    $( '.wgaudit-field-view' ).click( function()
+    {
+        var url = $( this ).attr( 'href' );
+        var that = this;
+        $.ajax(
+        {
+            url: url,
+            type: "POST",
+            success: function( response )
+            {
+                console.log( response );
+                
+                $( that ).closest( '.wgaudit-field-row' ).css( 'backgroundColor', 'red' );
+                
+                //$( that ).closest( '.contentWrap' ).load( response );
+                
+                $( that ).closest( '.contentWrap' ).append( 'Jesus Christ !!!' );
+                $( that ).find( '.contentWrap' ).load( response );
+                
+                $( '#overlay-box' ).overlay(
+                {
+                    top: 260,
+                    mask: 
+                    {
+                        color: '#fff',
+                        loadSpeed: 100,
+                        opacity: 0.9
+                    },
+                    effect: 'apple',
+                    load: false,
+                    
+                    onBeforeLoad: function()
+                    {
+                        
+//                        var wrap = this.getOverlay().find( '.contentWrap' );
+//                        wrap.load( response );
+                    }
+                });
+            },
+            error: function( response )
+            {
+                console.log( 'can not do it .....' );
+            }
+        });
+        return false;
+    });
+
+// test code in case needed
+//$('.audit-section-row').next('.audit-form-field').css('background-color', 'yellow');
+//$('.audit-section-row').next('.audit-section-row').prev().css('background-color', 'red');
+
+
+    // Delete Field
+    // need modal box to prompt for YES/NO confirmation message
 });

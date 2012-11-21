@@ -5,7 +5,8 @@
 <div class="container">
     <div class="span10 offset1">
         <legend>Audits
-            <a href="{{ path( 'wgauditform_list' ) }}" class="btn btn-small pull-right">
+            <a class="btn btn-mini pull-right"
+               href="{{ path( 'wgauditform_list' ) }}">
                 <i class="icon-plus"></i> Create new Audit
             </a>
         </legend>
@@ -29,13 +30,19 @@
                     <td>{{ audit.auditingUser }}</td>
                     <td>{{ audit.controlUser }}</td>
                     <td>{{ audit.auditForm }}</td>
-                    <td>{% if audit.failed == true %}
+                    <td>
+                    {% if audit.failed == true %}
                         <div class="text-warning">FAILED</div>
-                        {% else %}
-                            {{ result }}
-                        {% endif %}
+                    {% else %}
+                        {{ result }}
+                    {% endif %}
                     </td>
-                    <td width="10%"><a href="{{ path( 'wgaudit_view', { 'id': audit.id } ) }}" class="btn btn-mini"><i class="icon-eye-open"></i> View</a></td>
+                    <td width="10%">
+                        <a class="btn btn-mini"
+                            href="{{ path( 'wgaudit_view', { 'id': audit.id } ) }}">
+                            <i class="icon-eye-open"></i> View
+                        </a>
+                    </td>
                 </tr>
         {% else %}
                 <tr>

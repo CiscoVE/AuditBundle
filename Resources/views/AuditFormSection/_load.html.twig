@@ -13,7 +13,7 @@
                 <noscript>
                     <a class="btn btn-mini"
                         href="{{ path( 'wgauditformsection_edit', { 'id': section.id } ) }}">
-                        <i class="icon-pencil"></i> Edit
+                        <i class="icon-wrench"></i> Edit
                     </a>
                 </noscript>
             <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">
@@ -22,7 +22,7 @@
             <ul class="dropdown-menu">
                 <li>
                     <a href="{{ path( 'wgauditformsection_edit', { 'id': section.id } ) }}">
-                        <i class="icon-pencil"></i> Edit
+                        <i class="icon-wrench"></i> Edit
                     </a>
                 </li>
                 <li>
@@ -30,7 +30,7 @@
                     <li class="divider"></li>
                     {% for field in ufields %}
                     <li>
-                        <a data-field-id="{{ field.id }}" class="audit-field-add"
+                        <a data-field-id="{{ field.id }}" class="wgaudit-field-add"
                            href="{{ path( 'wgauditformsection_add_field', { 'id' : section.id ,'field_id': field.id } ) }}">
                             <i class="icon-plus"></i> {{ field.title }}
                         </a>
@@ -40,7 +40,7 @@
                 {% endif %}
                 </li>
                 <li>
-                    <a class="audit-section-remove" 
+                    <a class="wgaudit-section-remove" 
                        href="{{ path( 'wgauditform_remove', { 'id' : auditform.id ,'section_id': section.id } ) }}">
                         <i class="icon-minus"></i> Remove
                     </a>
