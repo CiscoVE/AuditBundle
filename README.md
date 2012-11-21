@@ -45,11 +45,11 @@ This bundle requires five tables that can be generated from the following:
 
 Those are:
 
-    * cisco_audit__audit
-    * cisco_audit__form
-    * cisco_audit__section
-    * cisco_audit__field
-    * cisco_audit__score
+* cisco_audit__audit
+* cisco_audit__form
+* cisco_audit__section
+* cisco_audit__field
+* cisco_audit__score
 
 ## Required
 
@@ -89,7 +89,7 @@ and
 
 5. Finally add the configuration for the stof bundle in the config.yml file:
 
----yaml
+```yaml
     # Doctrine Extensions
     stof_doctrine_extensions:
         orm:
@@ -97,7 +97,7 @@ and
                 timestampable: true
                 sluggable: true
                 sortable: true
----
+```
 
 ## Issues
 
