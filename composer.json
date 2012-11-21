@@ -1,5 +1,5 @@
 {
-    "name": "cisco/audit-bundle",
+    "name": "cisco-systems/audit-bundle",
     "type": "symfony-bundle",
     "description": "Symfony 2 bundle for auditing",
     "keywords": ["audit", "audits", "auditing"],

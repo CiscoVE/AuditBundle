@@ -1,13 +1,13 @@
 <?php
 
-namespace WG\AuditBundle\Tests\DependencyInjection;
+namespace CiscoSystems\AuditBundle\Tests\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-use WG\AuditBundle\DependencyInjection\WGAuditExtension;
+use CiscoSystems\AuditBundle\DependencyInjection\CiscoSystemsAuditExtension;
 
-class WGAuditExtensionTest extends \PHPUnit_Framework_TestCase
+class CiscoSystemsAuditExtensionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @test
@@ -16,7 +16,7 @@ class WGAuditExtensionTest extends \PHPUnit_Framework_TestCase
     {
         $configs = array();
         $containerBuilder = new ContainerBuilder( new ParameterBag );
-        $extension = new WGAuditExtension();
+        $extension = new CiscoSystemsAuditExtension();
         $extension->load( $configs, $containerBuilder );
     }
 
@@ -33,7 +33,7 @@ class WGAuditExtensionTest extends \PHPUnit_Framework_TestCase
         );
         $configs = array( $config );
         $containerBuilder = new ContainerBuilder( new ParameterBag );
-        $extension = new WGAuditExtension();
+        $extension = new CiscoSystemsAuditExtension();
         $extension->load( $configs, $containerBuilder );
     }
 
@@ -50,7 +50,7 @@ class WGAuditExtensionTest extends \PHPUnit_Framework_TestCase
         );
         $configs = array( $config );
         $containerBuilder = new ContainerBuilder( new ParameterBag );
-        $extension = new WGAuditExtension();
+        $extension = new CiscoSystemsAuditExtension();
         $extension->load( $configs, $containerBuilder );
     }
 
@@ -67,7 +67,7 @@ class WGAuditExtensionTest extends \PHPUnit_Framework_TestCase
         );
         $configs = array( $config );
         $containerBuilder = new ContainerBuilder( new ParameterBag );
-        $extension = new WGAuditExtension();
+        $extension = new CiscoSystemsAuditExtension();
         $extension->load( $configs, $containerBuilder );
     }
 
@@ -84,7 +84,7 @@ class WGAuditExtensionTest extends \PHPUnit_Framework_TestCase
         );
         $configs = array( $config );
         $containerBuilder = new ContainerBuilder( new ParameterBag );
-        $extension = new WGAuditExtension();
+        $extension = new CiscoSystemsAuditExtension();
         $extension->load( $configs, $containerBuilder );
     }
 }

@@ -1,11 +1,11 @@
-{% extends 'WGAuditBundle::base.html.twig' %}
+{% extends 'CiscoSystemsAuditBundle::base.html.twig' %}
 
 {% block body %}
 <div class="container">
     <div class="span6 offset1">
         <legend>Forms
             <a class="btn btn-small pull-right" 
-               href="{{ path( 'wgauditform_add' ) }}">
+               href="{{ path( 'cisco_auditform_add' ) }}">
                 <i class="icon-plus"></i> Create a new form
             </a>
         </legend>
@@ -32,16 +32,16 @@
                         <td>
                             <div class="btn-group pull-right">
                                 <a class="btn btn-mini" 
-                                   href="{{ path( 'wgauditform_view', { 'id': form.id } ) }}">
+                                   href="{{ path( 'cisco_auditform_view', { 'id': form.id } ) }}">
                                     <i class="icon-eye-open"></i> View
                                 </a>
                                 <noscript>
                                     <a class="btn btn-mini"
-                                       href="{{ path( 'wgauditform_edit', { 'id': form.id } ) }}">
+                                       href="{{ path( 'cisco_auditform_edit', { 'id': form.id } ) }}">
                                         <i class="icon-wrench"></i> Edit
                                     </a>
                                     <a class="btn btn-mini"
-                                       href="{{ path( 'wgauditform_delete', { 'id': form.id } ) }}">
+                                       href="{{ path( 'cisco_auditform_delete', { 'id': form.id } ) }}">
                                         <i class="icon-trash"></i> Delete
                                     </a>
                                 </noscript>    
@@ -51,13 +51,13 @@
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a href="{{ path( 'wgauditform_edit', { 'id': form.id } ) }}">
+                                        <a href="{{ path( 'cisco_auditform_edit', { 'id': form.id } ) }}">
                                             <i class="icon-wrench"></i> Edit
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="wgaudit-form-delete" data-form-id="{{ form.id }}"
-                                            href="{{ path( 'wgauditform_delete', { 'id': form.id } ) }}">
+                                        <a class="cisco-audit-form-delete" data-form-id="{{ form.id }}"
+                                            href="{{ path( 'cisco_auditform_delete', { 'id': form.id } ) }}">
                                             <i class="icon-trash"></i> Delete
                                         </a>
                                     </li>

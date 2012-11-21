@@ -1,14 +1,14 @@
 <?php
 
-namespace WG\AuditBundle\Entity;
+namespace CiscoSystems\AuditBundle\Entity;
 
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * @ORM\Entity(repositoryClass="WG\AuditBundle\Entity\Repository\AuditFormSectionRepository")
- * @ORM\Table(name="wgauditformsection")
+ * @ORM\Entity(repositoryClass="CiscoSystems\AuditBundle\Entity\Repository\AuditFormSectionRepository")
+ * @ORM\Table(name="cisco_audit__section")
  */
 class AuditFormSection
 {
@@ -20,7 +20,7 @@ class AuditFormSection
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="WG\AuditBundle\Entity\AuditForm")
+     * @ORM\ManyToOne(targetEntity="CiscoSystems\AuditBundle\Entity\AuditForm")
      * @ORM\JoinColumn(name="audit_form_id",referencedColumnName="id")
      */
     protected $auditform;
@@ -42,7 +42,7 @@ class AuditFormSection
     protected $position;
 
     /**
-     * @ORM\OneToMany(targetEntity="WG\AuditBundle\Entity\AuditFormField", mappedBy="section")
+     * @ORM\OneToMany(targetEntity="CiscoSystems\AuditBundle\Entity\AuditFormField", mappedBy="section")
      */
     protected $fields;
 
@@ -175,7 +175,7 @@ class AuditFormSection
     /**
      * Get fields
      *
-     * @return WG\AuditBundle\Entity\AuditFormField $fields
+     * @return CiscoSystems\AuditBundle\Entity\AuditFormField $fields
      */
     public function getFields()
     {
@@ -185,7 +185,7 @@ class AuditFormSection
     /**
      * Add a field
      *
-     * @param WG\AuditBundle\Entity\AuditFormField $field
+     * @param CiscoSystems\AuditBundle\Entity\AuditFormField $field
      * @return AuditFormSection
      */
     public function addField( AuditFormField $field )
@@ -199,7 +199,7 @@ class AuditFormSection
     /**
      * Remove fields
      *
-     * @param WG\AuditBundle\Entity\AuditFormField $field
+     * @param CiscoSystems\AuditBundle\Entity\AuditFormField $field
      */
     public function removeField( AuditFormField $field )
     {

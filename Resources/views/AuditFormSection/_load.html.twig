@@ -7,12 +7,12 @@
     <td>
         <div class="btn-group">
             <a class="btn btn-mini" 
-               href="{{ path( 'wgauditformsection_view', { 'id': section.id } ) }}">
+               href="{{ path( 'cisco_auditformsection_view', { 'id': section.id } ) }}">
                 <i class="icon-eye-open"></i> View
             </a>
                 <noscript>
                     <a class="btn btn-mini"
-                        href="{{ path( 'wgauditformsection_edit', { 'id': section.id } ) }}">
+                        href="{{ path( 'cisco_auditformsection_edit', { 'id': section.id } ) }}">
                         <i class="icon-wrench"></i> Edit
                     </a>
                 </noscript>
@@ -21,7 +21,7 @@
             </a>
             <ul class="dropdown-menu">
                 <li>
-                    <a href="{{ path( 'wgauditformsection_edit', { 'id': section.id } ) }}">
+                    <a href="{{ path( 'cisco_auditformsection_edit', { 'id': section.id } ) }}">
                         <i class="icon-wrench"></i> Edit
                     </a>
                 </li>
@@ -30,8 +30,8 @@
                     <li class="divider"></li>
                     {% for field in ufields %}
                     <li>
-                        <a data-field-id="{{ field.id }}" class="wgaudit-field-add"
-                           href="{{ path( 'wgauditformsection_add_field', { 'id' : section.id ,'field_id': field.id } ) }}">
+                        <a data-field-id="{{ field.id }}" class="cisco-audit-field-add"
+                           href="{{ path( 'cisco_auditformsection_add_field', { 'id' : section.id ,'field_id': field.id } ) }}">
                             <i class="icon-plus"></i> {{ field.title }}
                         </a>
                     </li>
@@ -40,8 +40,8 @@
                 {% endif %}
                 </li>
                 <li>
-                    <a class="wgaudit-section-remove" 
-                       href="{{ path( 'wgauditform_remove', { 'id' : auditform.id ,'section_id': section.id } ) }}">
+                    <a class="cisco-audit-section-remove" 
+                       href="{{ path( 'cisco_auditform_remove', { 'id' : auditform.id ,'section_id': section.id } ) }}">
                         <i class="icon-minus"></i> Remove
                     </a>
                 </li>

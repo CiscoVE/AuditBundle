@@ -1,12 +1,12 @@
 <?php
 
-namespace WG\AuditBundle\Form\Type;
+namespace CiscoSystems\AuditBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use WG\AuditBundle\Entity\AuditScore;
-use WG\AuditBundle\Entity\AuditFormField;
+use CiscoSystems\AuditBundle\Entity\AuditScore;
+use CiscoSystems\AuditBundle\Entity\AuditFormField;
 
 class AuditFormFieldType extends AbstractType
 {
@@ -28,7 +28,7 @@ class AuditFormFieldType extends AbstractType
         $builder->add( 'section', 'entity', array(
             'empty_data'    => '---',
             'required'      => false,    
-            'class'         => 'WGAuditBundle:AuditFormSection',
+            'class'         => 'CiscoSystemsAuditBundle:AuditFormSection',
             'property'      => 'title',
             'empty_value'   => '(Choose a Section)',
         ));
@@ -76,14 +76,14 @@ class AuditFormFieldType extends AbstractType
     public function setDefaultOptions( OptionsResolverInterface $resolver )
     {
         $resolver->setDefaults( array(
-            'data_class' => 'WG\AuditBundle\Entity\AuditFormField',
+            'data_class' => 'CiscoSystems\AuditBundle\Entity\AuditFormField',
         ));
     }
 
     /**
      * Convenience method for setting a non-mapped field from the form data
      *
-     * @param WG\AuditBundle\Entity\AuditFormField $entity
+     * @param CiscoSystems\AuditBundle\Entity\AuditFormField $entity
      * @param array $values
      */
     static public function mapScores( AuditFormField $entity, $values )

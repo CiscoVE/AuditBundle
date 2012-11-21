@@ -1,21 +1,21 @@
 <?php
 
-namespace WG\AuditBundle\Controller;
+namespace CiscoSystems\AuditBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use WG\AuditBundle\Entity\AuditFormSection;
-use WG\AuditBundle\Form\Type\AuditFormSectionType;
+use CiscoSystems\AuditBundle\Entity\AuditFormSection;
+use CiscoSystems\AuditBundle\Form\Type\AuditFormSectionType;
 
 class AuditFormSectionController extends Controller
 {
     public function indexAction()
     {
         $em = $this->getDoctrine()->getEntityManager();
-        $repo = $em->getRepository( 'WGAuditBundle:AuditFormSection' );
+        $repo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditFormSection' );
         $sections = $repo->findAll();
-        return $this->render( 'WGAuditBundle:AuditFormSection:index.html.twig', array(
+        return $this->render( 'CiscoSystemsAuditBundle:AuditFormSection:index.html.twig', array(
             'sections' => $sections,
         ));
     }
@@ -24,7 +24,7 @@ class AuditFormSectionController extends Controller
     {
         $edit = false;
         $em = $this->getDoctrine()->getEntityManager();
-        $repo = $em->getRepository( 'WGAuditBundle:AuditFormSection' );
+        $repo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditFormSection' );
         $section = new AuditFormSection();
         if ( $request->get( 'id' ) )
         {
@@ -39,31 +39,31 @@ class AuditFormSectionController extends Controller
             {
                 $em->persist( $section );
                 $em->flush();
-                return $this->redirect( $this->generateUrl( 'wgauditformsections' ));
+                return $this->redirect( $this->generateUrl( 'cisco_auditformsections' ));
             }
         }
         $routes = $this->get( 'router' )->getRouteCollection();
-        $uFieldRepo = $em->getRepository( 'WGAuditBundle:AuditFormField' );
+        $uFieldRepo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditFormField' );
         $uFields = $uFieldRepo->findBy( array ( 'section' => null ));
 
-        return $this->render( 'WGAuditBundle:AuditFormSection:edit.html.twig', array(
+        return $this->render( 'CiscoSystemsAuditBundle:AuditFormSection:edit.html.twig', array(
             'edit' => $edit,
             'section' => $section,
             'ufields' => $uFields,
             'form' => $form->createView(),
-            'routePatternLoad' => $routes->get( 'wgauditformfield_load' )->getPattern(),
+            'routePatternLoad' => $routes->get( 'cisco_auditformfield_load' )->getPattern(),
         ));
     }
 
     public function viewAction( Request $request )
     {
         $em = $this->getDoctrine()->getEntityManager();
-        $sectionRepo = $em->getRepository( 'WGAuditBundle:AuditFormSection' );
+        $sectionRepo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditFormSection' );
         if ( null === $section = $sectionRepo->find( $request->get( 'id' ) ))
         {
             throw $this->createNotFoundException( 'Field does not exist' );
         }
-        return $this->render( 'WGAuditBundle:AuditFormSection:view.html.twig', array(
+        return $this->render( 'CiscoSystemsAuditBundle:AuditFormSection:view.html.twig', array(
             'section' => $section,
         ));
     }
@@ -71,14 +71,14 @@ class AuditFormSectionController extends Controller
     public function deleteAction( Request $request )
     {
         $em = $this->getDoctrine()->getEntityManager();
-        $repo = $em->getRepository( 'WGAuditBundle:AuditFormSection' );
+        $repo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditFormSection' );
         if ( null !== $section = $repo->find( $request->get( 'id' ) ))
         {
             $section->setAuditForm( null );
             $section->removeAllField();
             $em->remove( $section );
             $em->flush();
-            return $this->redirect( $this->generateUrl( 'wgauditformsections' ));
+            return $this->redirect( $this->generateUrl( 'cisco_auditformsections' ));
         }
         throw $this->createNotFoundException( 'Section does not exist' );
     }
@@ -94,11 +94,11 @@ class AuditFormSectionController extends Controller
     public function removeAction( Request $request )
     {
         $em = $this->getDoctrine()->getEntityManager();
-        $repo = $em->getRepository( 'WGAuditBundle:AuditFormSection' );
+        $repo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditFormSection' );
         $section = $repo->find( $request->get( 'id' ));
         if ( null !== $section )
         {
-            $fieldRep = $em->getRepository( 'WGAuditBundle:AuditFormField' );
+            $fieldRep = $em->getRepository( 'CiscoSystemsAuditBundle:AuditFormField' );
             $field = $fieldRep->find( $request->get( 'field_id' ));
             if ( null !== $field )
             {
@@ -106,7 +106,7 @@ class AuditFormSectionController extends Controller
                 $em->persist( $section );
                 $em->flush();
                 if ( $request->isXmlHttpRequest() ) return new Response();
-                else return $this->redirect( $this->generateUrl( 'wgauditformsection_edit', array (
+                else return $this->redirect( $this->generateUrl( 'cisco_auditformsection_edit', array (
                     'id' => $section->getId() )
                 ));
             }
@@ -126,11 +126,11 @@ class AuditFormSectionController extends Controller
     public function addAction( Request $request )
     {
         $em = $this->getDoctrine()->getEntityManager();
-        $repo = $em->getRepository( 'WGAuditBundle:AuditFormSection' );
+        $repo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditFormSection' );
         $section = $repo->find( $request->get( 'id' ));
         if ( null !== $section )
         {
-            $fieldRepo = $em->getRepository( 'WGAuditBundle:AuditFormField' );
+            $fieldRepo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditFormField' );
             $field = $fieldRepo->find( $request->get( 'field_id' ));
             if ( null !== $field )
                 {
@@ -138,7 +138,7 @@ class AuditFormSectionController extends Controller
                     $em->persist( $section );
                     $em->flush();
                     if ( $request->isXmlHttpRequest() ) return new Response();
-                    else return $this->redirect( $this->generateUrl( 'wgauditformsection_edit', array (
+                    else return $this->redirect( $this->generateUrl( 'cisco_auditformsection_edit', array (
                         'id' => $section->getId() )
                     ));
             }

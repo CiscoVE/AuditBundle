@@ -1,13 +1,13 @@
 <?php
 
-namespace WG\AuditBundle\Controller;
+namespace CiscoSystems\AuditBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use WG\AuditBundle\Entity\AuditFormField;
-use WG\AuditBundle\Form\Type\AuditFormFieldType;
-use WG\AuditBundle\Entity\AuditScore;
+use CiscoSystems\AuditBundle\Entity\AuditFormField;
+use CiscoSystems\AuditBundle\Form\Type\AuditFormFieldType;
+use CiscoSystems\AuditBundle\Entity\AuditScore;
 
 
 class AuditFormFieldController extends Controller
@@ -15,9 +15,9 @@ class AuditFormFieldController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getEntityManager();
-        $repo = $em->getRepository( 'WGAuditBundle:AuditFormField' );
+        $repo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditFormField' );
         $fields = $repo->findAll();
-        return $this->render( 'WGAuditBundle:AuditFormField:index.html.twig', array(
+        return $this->render( 'CiscoSystemsAuditBundle:AuditFormField:index.html.twig', array(
             'fields' => $fields,
         ));
     }
@@ -26,7 +26,7 @@ class AuditFormFieldController extends Controller
     {
         $edit = false;
         $em = $this->getDoctrine()->getEntityManager();
-        $repo = $em->getRepository( 'WGAuditBundle:AuditFormField' );
+        $repo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditFormField' );
         $field = new AuditFormField();
         if ( $request->get( 'id' ))
         {
@@ -42,10 +42,10 @@ class AuditFormFieldController extends Controller
                 AuditFormFieldType::mapScores( $field, $values );
                 $em->persist( $field );
                 $em->flush();
-                return $this->redirect( $this->generateUrl( 'wgauditformfields' ));
+                return $this->redirect( $this->generateUrl( 'cisco_auditformfields' ));
             }
         }
-        return $this->render( 'WGAuditBundle:AuditFormField:edit.html.twig', array(
+        return $this->render( 'CiscoSystemsAuditBundle:AuditFormField:edit.html.twig', array(
             'edit'  => $edit,
             'field' => $field,
             'form'  => $form->createView(),
@@ -55,13 +55,13 @@ class AuditFormFieldController extends Controller
     public function viewAction( Request $request )
     {
         $em = $this->getDoctrine()->getEntityManager();
-        $repo = $em->getRepository( 'WGAuditBundle:AuditFormField' );
+        $repo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditFormField' );
         if ( null !== $field = $repo->find( $request->get( 'id' ) ))
         {
-            if ( $request->isXmlHttpRequest()) return $this->render( 'WGAuditBundle:AuditFormField:_view.html.twig', array(
+            if ( $request->isXmlHttpRequest()) return $this->render( 'CiscoSystemsAuditBundle:AuditFormField:_view.html.twig', array(
                 'field' => $field,
             ));
-            else return $this->render( 'WGAuditBundle:AuditFormField:view.html.twig', array(
+            else return $this->render( 'CiscoSystemsAuditBundle:AuditFormField:view.html.twig', array(
                 'field' => $field,
             ));
         }
@@ -71,10 +71,10 @@ class AuditFormFieldController extends Controller
     public function deleteAction( Request $request )
     {
         $em = $this->getDoctrine()->getEntityManager();
-        $repo = $em->getRepository( 'WGAuditBundle:AuditFormField' );
+        $repo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditFormField' );
         if ( null !== $field = $repo->find( $request->get( 'id' ) ))
         {
-            $scoreRepo = $em->getRepository( 'WGAuditBundle:AuditScore' );
+            $scoreRepo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditScore' );
             $scores = $scoreRepo->findAll();
             if ( null != $scores = $field->getAuditScores()) $field->removeAllAuditScore();
             if ( null !== $section = $field->getSection()) $section->removeField( $field );
@@ -82,7 +82,7 @@ class AuditFormFieldController extends Controller
             $field->setSection( null );
             $em->remove( $field );
             $em->flush();
-            return $this->redirect( $this->generateUrl( 'wgauditformfields' ));
+            return $this->redirect( $this->generateUrl( 'cisco_auditformfields' ));
         }
         throw $this->createNotFoundException( 'Field does not exist' );
     }
@@ -97,7 +97,7 @@ class AuditFormFieldController extends Controller
     public function calculateScoreAction( Request $request )
     {
         $em = $this->getDoctrine()->getEntityManager();
-        $repo = $em->getRepository( 'WGAuditBundle:AuditFormField' );
+        $repo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditFormField' );
         $field = $repo->find( $request->get( 'id' ));
         if ( null === $field )
         {
@@ -126,12 +126,12 @@ class AuditFormFieldController extends Controller
     public function loadAction( Request $request )
     {
         $em = $this->getDoctrine()->getEntityManager();
-        $repo = $em->getRepository( 'WGAuditBundle:AuditFormSection' );
-        $fieldRepo = $em->getRepository( 'WGAuditBundle:AuditFormField' );
+        $repo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditFormSection' );
+        $fieldRepo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditFormField' );
         $field = $fieldRepo->find( $request->get( 'id' ));
         $section = $repo->find( $field-getAudit()->getId() );
 
-        return $this->render( 'WGAuditBundle:AuditFormField:_load.html.twig', array(
+        return $this->render( 'CiscoSystemsAuditBundle:AuditFormField:_load.html.twig', array(
             'field' => $field,
             'section' => $section,
         ));

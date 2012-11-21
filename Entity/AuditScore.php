@@ -1,12 +1,12 @@
 <?php
 
-namespace WG\AuditBundle\Entity;
+namespace CiscoSystems\AuditBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="wgauditscore")
+ * @ORM\Table(name="cisco_audit__score")
  */
 class AuditScore
 {
@@ -136,10 +136,10 @@ class AuditScore
     /**
      * Set audit
      *
-     * @param WG\AuditBundle\Entity\Audit $audit
+     * @param CiscoSystems\AuditBundle\Entity\Audit $audit
      * @return AuditScore
      */
-    public function setAudit(\WG\AuditBundle\Entity\Audit $audit = null)
+    public function setAudit(\CiscoSystems\AuditBundle\Entity\Audit $audit = null)
     {
         $this->audit = $audit;
 
@@ -149,7 +149,7 @@ class AuditScore
     /**
      * Get audit
      *
-     * @return WG\AuditBundle\Entity\Audit
+     * @return CiscoSystems\AuditBundle\Entity\Audit
      */
     public function getAudit()
     {
@@ -159,10 +159,10 @@ class AuditScore
     /**
      * Set field
      *
-     * @param WG\AuditBundle\Entity\AuditFormField $field
+     * @param CiscoSystems\AuditBundle\Entity\AuditFormField $field
      * @return AuditScore
      */
-    public function setField(\WG\AuditBundle\Entity\AuditFormField $field = null)
+    public function setField(\CiscoSystems\AuditBundle\Entity\AuditFormField $field = null)
     {
         $this->field = $field;
 
@@ -172,7 +172,7 @@ class AuditScore
     /**
      * Get field
      *
-     * @return WG\AuditBundle\Entity\AuditFormField
+     * @return CiscoSystems\AuditBundle\Entity\AuditFormField
      */
     public function getField()
     {

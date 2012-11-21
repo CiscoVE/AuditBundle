@@ -1,5 +1,5 @@
 parameters:
-#    wg.audit.example.class: WG\AuditBundle\Example
+#    wg.audit.example.class: CiscoSystems\AuditBundle\Example
 
 services:
 #    wg.audit.example:

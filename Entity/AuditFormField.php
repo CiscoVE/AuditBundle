@@ -1,13 +1,13 @@
 <?php
 
-namespace WG\AuditBundle\Entity;
+namespace CiscoSystems\AuditBundle\Entity;
 
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="WG\AuditBundle\Entity\Repository\AuditFormFieldRepository")
- * @ORM\Table(name="wgauditformfield")
+ * @ORM\Entity(repositoryClass="CiscoSystems\AuditBundle\Entity\Repository\AuditFormFieldRepository")
+ * @ORM\Table(name="cisco_audit__field")
  */
 class AuditFormField
 {
@@ -40,7 +40,7 @@ class AuditFormField
     protected $scores;
 
     /**
-     * @ORM\OneToMany(targetEntity="WG\AuditBundle\Entity\AuditScore", mappedBy="field")
+     * @ORM\OneToMany(targetEntity="CiscoSystems\AuditBundle\Entity\AuditScore", mappedBy="field")
      */
     protected $auditscores;
 
@@ -172,7 +172,7 @@ class AuditFormField
     /**
      * Add an auditscore
      * 
-     * @param \WG\AuditBundle\Entity\AuditScore $score
+     * @param \CiscoSystems\AuditBundle\Entity\AuditScore $score
      * @return AuditFormField
      */
     public function addAuditScore( AuditScore $score )
@@ -186,7 +186,7 @@ class AuditFormField
     /**
      * Remove auditscores
      * 
-     * @param \WG\AuditBundle\Entity\AuditScore $score
+     * @param \CiscoSystems\AuditBundle\Entity\AuditScore $score
      */
     public function removeAuditScore( AuditScore $score )
     {
@@ -283,10 +283,10 @@ class AuditFormField
     /**
      * Set section
      *
-     * @param WG\AuditBundle\Entity\AuditFormSection $section
+     * @param CiscoSystems\AuditBundle\Entity\AuditFormSection $section
      * @return AuditFormField
      */
-    public function setSection(\WG\AuditBundle\Entity\AuditFormSection $section = null)
+    public function setSection(\CiscoSystems\AuditBundle\Entity\AuditFormSection $section = null)
     {
         $this->section = $section;
         
@@ -296,7 +296,7 @@ class AuditFormField
     /**
      * Get section
      *
-     * @return WG\AuditBundle\Entity\AuditFormSection
+     * @return CiscoSystems\AuditBundle\Entity\AuditFormSection
      */
     public function getSection()
     {

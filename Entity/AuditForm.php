@@ -1,6 +1,6 @@
 <?php
 
-namespace WG\AuditBundle\Entity;
+namespace CiscoSystems\AuditBundle\Entity;
 
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="wgauditform")
+ * @ORM\Table(name="cisco_audit__form")
  */
 class AuditForm
 {
@@ -43,7 +43,7 @@ class AuditForm
 
     /**
      *
-     * @ORM\OneToMany(targetEntity="WG\AuditBundle\Entity\AuditFormSection", mappedBy="auditform")
+     * @ORM\OneToMany(targetEntity="CiscoSystems\AuditBundle\Entity\AuditFormSection", mappedBy="auditform")
      */
     protected $sections;
 
@@ -158,7 +158,7 @@ class AuditForm
     /**
      * Add a section
      *
-     * @param WG\AuditBundle\Entity\AuditFormSection $section
+     * @param CiscoSystems\AuditBundle\Entity\AuditFormSection $section
      * @return AuditForm
      */
     public function addSection(AuditFormSection $section)
@@ -172,7 +172,7 @@ class AuditForm
     /**
      * Remove sections
      *
-     * @param WG\AuditBundle\Entity\AuditFormSection $section
+     * @param CiscoSystems\AuditBundle\Entity\AuditFormSection $section
      */
     public function removeSection(AuditFormSection $section)
     {

@@ -1,6 +1,6 @@
 <?php
 
-namespace WG\AuditBundle\Entity\Repository;
+namespace CiscoSystems\AuditBundle\Entity\Repository;
 
 use Gedmo\Sortable\Entity\Repository\SortableRepository;
 

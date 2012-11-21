@@ -1,4 +1,4 @@
-{% extends 'WGAuditBundle::base.html.twig' %}
+{% extends 'CiscoSystemsAuditBundle::base.html.twig' %}
 
 {% block body %}
 {{ parent() }}
@@ -6,7 +6,7 @@
     <div class="span10 offset1">
         <legend>Audits
             <a class="btn btn-mini pull-right"
-               href="{{ path( 'wgauditform_list' ) }}">
+               href="{{ path( 'cisco_auditform_list' ) }}">
                 <i class="icon-plus"></i> Create new Audit
             </a>
         </legend>
@@ -39,7 +39,7 @@
                     </td>
                     <td width="10%">
                         <a class="btn btn-mini"
-                            href="{{ path( 'wgaudit_view', { 'id': audit.id } ) }}">
+                            href="{{ path( 'cisco_audit_view', { 'id': audit.id } ) }}">
                             <i class="icon-eye-open"></i> View
                         </a>
                     </td>

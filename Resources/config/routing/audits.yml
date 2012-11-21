@@ -1,15 +1,15 @@
-wgaudit_add:
+cisco_audit_add:
     pattern:  /{id}/new
-    defaults: { _controller: WGAuditBundle:Audit:add }
+    defaults: { _controller: CiscoSystemsAuditBundle:Audit:add }
     requirements:
         id: \d+
 
-wgaudit_view:
+cisco_audit_view:
     pattern:  /{id}
-    defaults: { _controller: WGAuditBundle:Audit:view }
+    defaults: { _controller: CiscoSystemsAuditBundle:Audit:view }
     requirements:
         id: \d+
 
-wgaudits:
+cisco_audits:
     pattern:  /
-    defaults: { _controller: WGAuditBundle:Audit:index }
+    defaults: { _controller: CiscoSystemsAuditBundle:Audit:index }

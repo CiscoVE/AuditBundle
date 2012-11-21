@@ -1,13 +1,13 @@
 <?php
 
-namespace WG\AuditBundle\Controller;
+namespace CiscoSystems\AuditBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use WG\AuditBundle\Form\Type\AuditScoreType;
-use WG\AuditBundle\Entity\Audit;
-use WG\AuditBundle\Entity\AuditScore;
+use CiscoSystems\AuditBundle\Form\Type\AuditScoreType;
+use CiscoSystems\AuditBundle\Entity\Audit;
+use CiscoSystems\AuditBundle\Entity\AuditScore;
 
 class AuditController extends Controller
 {
@@ -21,9 +21,9 @@ class AuditController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getEntityManager();
-        $repo = $em->getRepository( 'WGAuditBundle:Audit' );
+        $repo = $em->getRepository( 'CiscoSystemsAuditBundle:Audit' );
         $audits = $repo->findAll();
-        return $this->render( 'WGAuditBundle:Audit:index.html.twig', array(
+        return $this->render( 'CiscoSystemsAuditBundle:Audit:index.html.twig', array(
             'audits' => $audits,
         ));
     }
@@ -40,7 +40,7 @@ class AuditController extends Controller
         $audit = new Audit();
 
         $em = $this->getDoctrine()->getEntityManager();
-        $repo = $em->getRepository( 'WGAuditBundle:AuditForm' );
+        $repo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditForm' );
         $auditform = $repo->find( $request->get( 'id' ));
         $audit->setAuditForm( $auditform );
 
@@ -59,14 +59,14 @@ class AuditController extends Controller
             // TODO: calculate result and display / send emails / whatever, depending on configuration
             // replace with result of calculation
             $em->flush();
-            return $this->redirect( $this->generateUrl( 'wgaudits' ));
+            return $this->redirect( $this->generateUrl( 'cisco_audits' ));
         }
         $scoreform = $this->createForm( new AuditScoreType() );
         $routes = $this->get( 'router' )->getRouteCollection();
-        return $this->render( 'WGAuditBundle:Audit:add.html.twig', array(
+        return $this->render( 'CiscoSystemsAuditBundle:Audit:add.html.twig', array(
             'audit' => $audit,
             'scoreform' => $scoreform->createView(),
-            'routePatternCalculateScore' => $routes->get( 'wgauditformfield_calculate_score' )->getPattern(),
+            'routePatternCalculateScore' => $routes->get( 'cisco_auditformfield_calculate_score' )->getPattern(),
         ));
     }
 
@@ -90,7 +90,7 @@ class AuditController extends Controller
 
     private function setAuditScores( $entityMrg, $audit, $scores )
     {
-        $fieldRepo = $entityMrg->getRepository( 'WGAuditBundle:AuditFormField' );
+        $fieldRepo = $entityMrg->getRepository( 'CiscoSystemsAuditBundle:AuditFormField' );
         foreach ( $scores as $fieldId => $scoreData )
         {
             $field = $fieldRepo->find( $fieldId );
@@ -113,7 +113,7 @@ class AuditController extends Controller
     public function viewAction( Request $request )
     {
         $em = $this->getDoctrine()->getEntityManager();
-        $auditrepo = $em->getRepository( 'WGAuditBundle:Audit' );
+        $auditrepo = $em->getRepository( 'CiscoSystemsAuditBundle:Audit' );
         $audit = $auditrepo->find( $request->get( 'id' ));
         if ( null === $audit )
         {
@@ -121,10 +121,10 @@ class AuditController extends Controller
         }
         else
         {
-            $scorerepo = $em->getRepository( 'WGAuditBundle:AuditScore' );
+            $scorerepo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditScore' );
             $scores = $scorerepo->findBy( array( 'audit' => $audit ));
         }
-        return $this->render( 'WGAuditBundle:Audit:view.html.twig', array(
+        return $this->render( 'CiscoSystemsAuditBundle:Audit:view.html.twig', array(
             'audit' => $audit,
             'scores' => $scores,
         ));
@@ -132,6 +132,6 @@ class AuditController extends Controller
 
     public function showIconSetAction()
     {
-        return $this->render( 'WGAuditBundle:Audit:iconset.html.twig' );
+        return $this->render( 'CiscoSystemsAuditBundle:Audit:iconset.html.twig' );
     }
 }

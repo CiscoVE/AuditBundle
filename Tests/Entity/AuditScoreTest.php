@@ -1,8 +1,8 @@
 <?php
 
-namespace WG\AuditBundle\Tests\Entity;
+namespace CiscoSystems\AuditBundle\Tests\Entity;
 
-use WG\AuditBundle\Entity\AuditScore;
+use CiscoSystems\AuditBundle\Entity\AuditScore;
 
 class AuditScoreTest extends \PHPUnit_Framework_TestCase
 {

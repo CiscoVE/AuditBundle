@@ -1,54 +1,54 @@
-wgauditform_add:
+cisco_auditform_add:
     pattern:  /add
-    defaults: { _controller: WGAuditBundle:AuditForm:edit }
+    defaults: { _controller: CiscoSystemsAuditBundle:AuditForm:edit }
 
-wgauditform_list:
+cisco_auditform_list:
     pattern:  /list
-    defaults: { _controller: WGAuditBundle:AuditForm:list }
+    defaults: { _controller: CiscoSystemsAuditBundle:AuditForm:list }
 
-wgauditform_edit:
+cisco_auditform_edit:
     pattern:  /{id}/edit
-    defaults: { _controller: WGAuditBundle:AuditForm:edit }
+    defaults: { _controller: CiscoSystemsAuditBundle:AuditForm:edit }
     requirements:
         id: \d+
 
-wgauditform_delete:
+cisco_auditform_delete:
     pattern:  /{id}/delete
-    defaults: { _controller: WGAuditBundle:AuditForm:delete }
+    defaults: { _controller: CiscoSystemsAuditBundle:AuditForm:delete }
     requirements:
         id: \d+
 
-wgauditform_add_section:
+cisco_auditform_add_section:
     pattern:  /{id}/section/{section_id}/add
-    defaults: { _controller: WGAuditBundle:AuditForm:add }
+    defaults: { _controller: CiscoSystemsAuditBundle:AuditForm:add }
     requirements:
         id: \d+
         section_id: \d+
         _method:  POST|GET
         _format:  JSON
 
-wgauditform_new_section:
+cisco_auditform_new_section:
     pattern:  /{id}/sections/new
-    defaults: { _controller: WGAuditBundle:AuditForm:new }
+    defaults: { _controller: CiscoSystemsAuditBundle:AuditForm:new }
     requirements:
         id: \d+
 
-wgauditform_remove:
+cisco_auditform_remove:
     pattern:  /{id}/section/{section_id}/remove
-    defaults: { _controller: WGAuditBundle:AuditForm:remove }
+    defaults: { _controller: CiscoSystemsAuditBundle:AuditForm:remove }
     requirements:
         _method:  POST|GET
         _format: JSON
         id: \d+
         section_id: \d+
 
-wgauditform_view:
+cisco_auditform_view:
     pattern:  /{id}
-    defaults: { _controller: WGAuditBundle:AuditForm:view }
+    defaults: { _controller: CiscoSystemsAuditBundle:AuditForm:view }
     requirements:
         id: \d+
 
-wgauditforms:
+cisco_auditforms:
     pattern:  /
-    defaults: { _controller: WGAuditBundle:AuditForm:index }
+    defaults: { _controller: CiscoSystemsAuditBundle:AuditForm:index }
 

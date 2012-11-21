@@ -1,4 +1,4 @@
-{% extends 'WGAuditBundle::base.html.twig' %}
+{% extends 'CiscoSystemsAuditBundle::base.html.twig' %}
 
 {% block body %}
 <div class="container">
@@ -22,7 +22,7 @@
                         </a>
                         {% if edit == true %}
                         <a class="btn btn-mini"
-                            href="{{ path( 'wgauditformsection_delete', { 'id' : section.id  } ) }}">
+                            href="{{ path( 'cisco_auditformsection_delete', { 'id' : section.id  } ) }}">
                             <i class="icon-trash"></i> Delete Section
                         </a>
                         {% endif %}
@@ -32,7 +32,7 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a class="wgaudit-section-new" data-section-id="{{ section.id }}"
+                            <a class="cisco-audit-section-new" data-section-id="{{ section.id }}"
                                href="#">
                                 <i class="icon-pencil"></i> Add Field
                             </a>
@@ -41,8 +41,8 @@
                             <li class="divider"></li>
                             {% for field in ufields %}
                             <li>
-                                <a class="wgaudit-field-add" data-field-id="{{ field.id }}"
-                                   href="{{ path( 'wgauditformsection_add_field', { 'id' : section.id ,'field_id': field.id } ) }}">
+                                <a class="cisco-audit-field-add" data-field-id="{{ field.id }}"
+                                   href="{{ path( 'cisco_auditformsection_add_field', { 'id' : section.id ,'field_id': field.id } ) }}">
                                     <i class="icon-plus"></i> {{ field.title }}
                                 </a>
                             </li>
@@ -50,8 +50,8 @@
                         <li class="divider"></li>
                         {% endif %}
                         <li>
-                            <a class="wgaudit-section-delete" data-section-id="{{ section.id }}"
-                               href="{{ path( 'wgauditformsection_delete', { 'id' : section.id  } ) }}">
+                            <a class="cisco-audit-section-delete" data-section-id="{{ section.id }}"
+                               href="{{ path( 'cisco_auditformsection_delete', { 'id' : section.id  } ) }}">
                                 <i class="icon-trash"></i> Delete Section
                             </a>
                         </li>
@@ -108,7 +108,7 @@
             </thead>
             <tbody>
             {% for field in section.fields %}
-                {% include 'WGAuditBundle:AuditFormField:_load.html.twig' %}
+                {% include 'CiscoSystemsAuditBundle:AuditFormField:_load.html.twig' %}
             {% else %}
                 <tr>
                     <td class="5">no fields assigned yet</td>
@@ -120,7 +120,7 @@
                         <td colspan="5">
                             {% for field in ufields %}
                                 <a class="btn btn-mini" 
-                                   href="{{ path( 'wgauditformsection_add_field', { 'id' : section.id ,'field_id': field.id } ) }}">
+                                   href="{{ path( 'cisco_auditformsection_add_field', { 'id' : section.id ,'field_id': field.id } ) }}">
                                     <i class="icon-plus"></i> Add Field: {{ field.title }}
                                 </a>
                             {% endfor %}                       

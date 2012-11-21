@@ -1,22 +1,22 @@
 routing_audits:
-    resource: "@WGAuditBundle/Resources/config/routing/audits.yml"
+    resource: "@CiscoSystemsAuditBundle/Resources/config/routing/audits.yml"
     prefix:   /audits
 
 routing_forms:
-    resource: "@WGAuditBundle/Resources/config/routing/forms.yml"
+    resource: "@CiscoSystemsAuditBundle/Resources/config/routing/forms.yml"
     prefix:   /forms
 
 routing_sections:
-    resource: "@WGAuditBundle/Resources/config/routing/sections.yml"
+    resource: "@CiscoSystemsAuditBundle/Resources/config/routing/sections.yml"
     prefix:   /sections
 
 routing_fields:
-    resource: "@WGAuditBundle/Resources/config/routing/fields.yml"
+    resource: "@CiscoSystemsAuditBundle/Resources/config/routing/fields.yml"
     prefix:   /fields
 
 # temp
-wgaudit_iconset:
+cisco_audit_iconset:
     pattern: /iconset
-    defaults: { _controller: WGAuditBundle:Audit:showIconSet }
+    defaults: { _controller: CiscoSystemsAuditBundle:Audit:showIconSet }
 
 

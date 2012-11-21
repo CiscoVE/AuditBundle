@@ -1,47 +1,47 @@
-wgauditformsection_add:
+cisco_auditformsection_add:
     pattern:  /add
-    defaults: { _controller: WGAuditBundle:AuditFormSection:edit }
+    defaults: { _controller: CiscoSystemsAuditBundle:AuditFormSection:edit }
 
-wgauditformsection_edit:
+cisco_auditformsection_edit:
     pattern:  /{id}/edit
-    defaults: { _controller: WGAuditBundle:AuditFormSection:edit }
+    defaults: { _controller: CiscoSystemsAuditBundle:AuditFormSection:edit }
     requirements:
         id: \d+
 
-wgauditformsection_delete:
+cisco_auditformsection_delete:
     pattern:  /{id}/delete
-    defaults: { _controller: WGAuditBundle:AuditFormSection:delete }
+    defaults: { _controller: CiscoSystemsAuditBundle:AuditFormSection:delete }
     requirements:
         id: \d+
 
-wgauditformsection_add_field:
+cisco_auditformsection_add_field:
     pattern:  /{id}/field/{field_id}/add
-    defaults: { _controller: WGAuditBundle:AuditFormSection:add }
+    defaults: { _controller: CiscoSystemsAuditBundle:AuditFormSection:add }
     requirements:
         id: \d+
         field_id: \d+
 
-wgauditformsection_remove:
+cisco_auditformsection_remove:
     pattern:  /{id}/field/{field_id}/remove
-    defaults: { _controller: WGAuditBundle:AuditFormSection:remove }
+    defaults: { _controller: CiscoSystemsAuditBundle:AuditFormSection:remove }
     requirements:
         _method:  POST|GET
         _format: JSON
         id: \d+
         field_id: \d+
 
-wgauditformsection_view:
+cisco_auditformsection_view:
     pattern:  /{id}
-    defaults: { _controller: WGAuditBundle:AuditFormSection:view }
+    defaults: { _controller: CiscoSystemsAuditBundle:AuditFormSection:view }
     requirements:
         id: \d+
 
-wgauditformsection_load:
+cisco_auditformsection_load:
     pattern:  /{id}
-    defaults: { _controller: WGAuditBundle:AuditFormSection:load }
+    defaults: { _controller: CiscoSystemsAuditBundle:AuditFormSection:load }
     requirements:
         id: \d+
 
-wgauditformsections:
+cisco_auditformsections:
     pattern:  /
-    defaults: { _controller: WGAuditBundle:AuditFormSection:index }
+    defaults: { _controller: CiscoSystemsAuditBundle:AuditFormSection:index }

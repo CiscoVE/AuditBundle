@@ -1,4 +1,4 @@
-{% extends 'WGAuditBundle::base.html.twig' %}
+{% extends 'CiscoSystemsAuditBundle::base.html.twig' %}
 
 {% block body %}
 <div class="container">
@@ -73,12 +73,12 @@
     var routePatternCalculateScore = '{{ routePatternCalculateScore }}';
     $(function()
     {
-        $( '.wgaudit-score-selector' ).change(function()
+        $( '.cisco-audit-score-selector' ).change(function()
         {
             var id = $( this ).attr( 'data-field-id' );
             var value = $( this ).val();
             var row = $( this ).closest( 'tr' );
-            var weight = $( row ).find( '.wgaudit-field-weight' ).html();
+            var weight = $( row ).find( '.cisco-audit-field-weight' ).html();
             var sectionScore;
             var sectionWeight;
             var resultRow = false;
@@ -86,7 +86,7 @@
             
             for ( var it in allSiblings )
             {
-                if ( $( allSiblings[it] ).hasClass( 'wgaudit-section-row' ) )
+                if ( $( allSiblings[it] ).hasClass( 'cisco-audit-section-row' ) )
                 {
                     resultRow = allSiblings[it];
                     break;
@@ -95,8 +95,8 @@
         
             if ( resultRow )
             {
-                var sectionScore = $( resultRow ).find( '.wgaudit-section-score' ).html();
-                var sectionWeight = $( resultRow ).find( '.wgaudit-section-weight' ).html();
+                var sectionScore = $( resultRow ).find( '.cisco-audit-section-score' ).html();
+                var sectionWeight = $( resultRow ).find( '.cisco-audit-section-weight' ).html();
             }
 
             var url = routePatternCalculateScore.replace( '{id}', id );
@@ -117,7 +117,7 @@
                 {
                     console.log( 'success: ' + response );
 
-                    $( '.wgaudit-section-score' ).html( response.score );
+                    $( '.cisco-audit-section-score' ).html( response.score );
                     $( '.bar' ).html( response.scoreData + "(" + response.fieldScore + ")- FW:" + response.fieldWeight + "- GW: " + response.sectionWeight );
                 }
             });

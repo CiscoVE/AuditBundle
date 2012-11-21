@@ -1,4 +1,4 @@
-{% extends 'WGAuditBundle::base.html.twig' %}
+{% extends 'CiscoSystemsAuditBundle::base.html.twig' %}
 
 {% block body %}
 <div class="container">
@@ -27,7 +27,7 @@
                         </td>
                         <td>
                             <a class="btn btn-mini" 
-                               href="{{ path( 'wgaudit_add', { 'id' : form.id } ) }}">
+                               href="{{ path( 'cisco_audit_add', { 'id' : form.id } ) }}">
                                 <i class="icon-edit"></i> Pick
                             </a>
                         </td>

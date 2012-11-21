@@ -1,7 +1,7 @@
 $( function()
 {
     // Add Section
-    $( '.wgaudit-section-add' ).click( function()
+    $( '.cisco_audit-section-add' ).click( function()
     {
         var url = $( this ).attr( 'href' );
         var sectionId = $( this ).attr( 'data-section-id' );
@@ -25,7 +25,7 @@ $( function()
     });
     
     // Remove Section
-    $( '.wgaudit-section-remove' ).click( function()
+    $( '.cisco_audit-section-remove' ).click( function()
     {
         var url = $( this ).attr( 'href' );
         var that = this;
@@ -49,7 +49,7 @@ $( function()
     });
 
     // Edit Section
-    $( '.wgaudit-section-edit' ).click( function()
+    $( '.cisco-audit-section-edit' ).click( function()
     {
         // TODO: pop a new row bellow the current one and populate with the EditSectionForm
         // OR: get current row and replace by value of the EditSectionForm
@@ -57,7 +57,7 @@ $( function()
     });
 
     // Add Field
-    $( '.wgaudit-field-add' ).click( function()
+    $( '.cisco-audit-field-add' ).click( function()
     {
         var url = $( this ).attr( 'href' );
         var fieldId = $( this ).attr( 'data-field-id' );
@@ -70,7 +70,7 @@ $( function()
             type: "POST",
             success: function( response )
             {
-                $( '.wgaudit-field-row' ).last( '.wgaudit-field-row' ).after().load( loadUrl );
+                $( '.cisco-audit-field-row' ).last( '.cisco-audit-field-row' ).after().load( loadUrl );
             },
             error: function( response )
             {
@@ -81,7 +81,7 @@ $( function()
     });
 
     // Remove Field
-    $( '.wgaudit-field-remove' ).click( function()
+    $( '.cisco-audit-field-remove' ).click( function()
     {
         var url = $( this ).attr( 'href' );
         var that = this;
@@ -91,7 +91,7 @@ $( function()
             type: "POST",
             success: function( response )
             {
-                $( that ).closest( '.wgaudit-field-row' ).remove();
+                $( that ).closest( '.cisco-audit-field-row' ).remove();
             },
             error: function( response )
             {
@@ -103,7 +103,7 @@ $( function()
 
     // View Field
     // load up load_view.html.twig in a modal box
-    $( '.wgaudit-field-view' ).click( function()
+    $( '.cisco-audit-field-view' ).click( function()
     {
         var url = $( this ).attr( 'href' );
         var that = this;
@@ -115,7 +115,7 @@ $( function()
             {
                 console.log( response );
                 
-                $( that ).closest( '.wgaudit-field-row' ).css( 'backgroundColor', 'red' );
+                $( that ).closest( '.cisco-audit-field-row' ).css( 'backgroundColor', 'red' );
                 
                 //$( that ).closest( '.contentWrap' ).load( response );
                 

@@ -1,37 +1,37 @@
-wgauditformfield_add:
+cisco_auditformfield_add:
     pattern:  /add
-    defaults: { _controller: WGAuditBundle:AuditFormField:edit }
+    defaults: { _controller: CiscoSystemsAuditBundle:AuditFormField:edit }
 
-wgauditformfield_edit:
+cisco_auditformfield_edit:
     pattern:  /{id}/edit
-    defaults: { _controller: WGAuditBundle:AuditFormField:edit }
+    defaults: { _controller: CiscoSystemsAuditBundle:AuditFormField:edit }
     requirements:
         id: \d+
 
-wgauditformfield_delete:
+cisco_auditformfield_delete:
     pattern:  /{id}/delete
-    defaults: { _controller: WGAuditBundle:AuditFormField:delete }
+    defaults: { _controller: CiscoSystemsAuditBundle:AuditFormField:delete }
     requirements:
         id: \d+
 
-wgauditformfield_calculate_score:
+cisco_auditformfield_calculate_score:
     pattern:  /{id}/calculate-score
-    defaults: { _controller: WGAuditBundle:AuditFormField:calculateScore }
+    defaults: { _controller: CiscoSystemsAuditBundle:AuditFormField:calculateScore }
     requirements:
         id: \d+
 
-wgauditformfield_view:
+cisco_auditformfield_view:
     pattern:  /{id}
-    defaults: { _controller: WGAuditBundle:AuditFormField:view }
+    defaults: { _controller: CiscoSystemsAuditBundle:AuditFormField:view }
     requirements:
         id: \d+
 
-wgauditformfield_load:
+cisco_auditformfield_load:
     pattern:  /{id}
-    defaults: { _controller: WGAuditBundle:AuditFormField:load }
+    defaults: { _controller: CiscoSystemsAuditBundle:AuditFormField:load }
     requirements:
         id: \d+
 
-wgauditformfields:
+cisco_auditformfields:
     pattern:  /
-    defaults: { _controller: WGAuditBundle:AuditFormField:index }
+    defaults: { _controller: CiscoSystemsAuditBundle:AuditFormField:index }

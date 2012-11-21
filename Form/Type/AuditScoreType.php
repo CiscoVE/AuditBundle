@@ -1,6 +1,6 @@
 <?php
 
-namespace WG\AuditBundle\Form\Type;
+namespace CiscoSystems\AuditBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -25,7 +25,7 @@ class AuditScoreType extends AbstractType
     public function setDefaultOptions( OptionsResolverInterface $resolver )
     {
         $resolver->setDefaults( array(
-            'data_class' => 'WG\AuditBundle\Entity\AuditScore',
+            'data_class' => 'CiscoSystems\AuditBundle\Entity\AuditScore',
         ) );
     }
 

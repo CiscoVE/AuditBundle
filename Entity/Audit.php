@@ -1,17 +1,17 @@
 <?php
 
-namespace WG\AuditBundle\Entity;
+namespace CiscoSystems\AuditBundle\Entity;
 
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-use WG\AuditBundle\Entity\AuditForm;
-use WG\AuditBundle\Entity\AuditFormField;
-use WG\AuditBundle\Entity\AuditScore;
+use CiscoSystems\AuditBundle\Entity\AuditForm;
+use CiscoSystems\AuditBundle\Entity\AuditFormField;
+use CiscoSystems\AuditBundle\Entity\AuditScore;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="wgaudit")
+ * @ORM\Table(name="cisco_audit__audit")
  */
 class Audit
 {
@@ -49,7 +49,7 @@ class Audit
     protected $failed;
 
     /**
-     * @ORM\OneToMany(targetEntity="WG\AuditBundle\Entity\AuditScore", mappedBy="audit")
+     * @ORM\OneToMany(targetEntity="CiscoSystems\AuditBundle\Entity\AuditScore", mappedBy="audit")
      */
     protected $scores;
 
@@ -77,7 +77,7 @@ class Audit
     /**
      * Add a score
      *
-     * @param \WG\AuditBundle\Entity\AuditScore $score
+     * @param \CiscoSystems\AuditBundle\Entity\AuditScore $score
      * @return Audit
      */
     public function addScore( AuditScore $score )
@@ -91,7 +91,7 @@ class Audit
     /**
      * Remove score
      *
-     * @param \WG\AuditBundle\Entity\AuditScore $score
+     * @param \CiscoSystems\AuditBundle\Entity\AuditScore $score
      */
     public function removeScore( AuditScore $score )
     {
@@ -249,7 +249,7 @@ class Audit
     /**
      * Get Score for Field
      * 
-     * @param \WG\AuditBundle\Entity\AuditFormField $field
+     * @param \CiscoSystems\AuditBundle\Entity\AuditFormField $field
      * @return $score
      */
     public function getScoreForField( AuditFormField $field )
@@ -268,7 +268,7 @@ class Audit
     /**
      * Get Score for Section
      * 
-     * @param \WG\AuditBundle\Entity\AuditFormSection $section
+     * @param \CiscoSystems\AuditBundle\Entity\AuditFormSection $section
      * @return int
      */
     public function getResultForSection( AuditFormSection $section )

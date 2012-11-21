@@ -1,6 +1,6 @@
 <?php
 
-namespace WG\AuditBundle\Form\Type;
+namespace CiscoSystems\AuditBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -20,7 +20,7 @@ class AuditFormSectionType extends AbstractType
             'empty_data'    => null,
             'empty_value'   => '(Choose a Form)',
             'required'      => false,    
-            'class'         => 'WGAuditBundle:AuditForm',
+            'class'         => 'CiscoSystemsAuditBundle:AuditForm',
             'property'      => 'title',
             'label' => 'Audit',
         ));
@@ -37,7 +37,7 @@ class AuditFormSectionType extends AbstractType
     public function setDefaultOptions( OptionsResolverInterface $resolver )
     {
         $resolver->setDefaults( array(
-            'data_class' => 'WG\AuditBundle\Entity\AuditFormSection',
+            'data_class' => 'CiscoSystems\AuditBundle\Entity\AuditFormSection',
         ));
     }
 }

@@ -1,4 +1,4 @@
-{% extends 'WGAuditBundle::base.html.twig' %}
+{% extends 'CiscoSystemsAuditBundle::base.html.twig' %}
 
 {% block body %}
 <div class="container">
@@ -6,7 +6,7 @@
         <legend>
             Existing Fields
             <a class="btn btn-mini pull-right"
-               href="{{ path( 'wgauditformfield_add' ) }}">
+               href="{{ path( 'cisco_auditformfield_add' ) }}">
                 <i class="icon-plus"></i> Add a new field
             </a>
         </legend>
@@ -23,7 +23,7 @@
             </thead>
             <tbody>
                 {% for field in fields %}
-                    <tr class="wgaudit-field-row" title="{{ field.description }}">
+                    <tr class="cisco-audit-field-row" title="{{ field.description }}">
                         <td>{{ field.title }}</td>
                         <td>{{ field.section }}</td>
                         <td>{{ field.weight }}</td>
@@ -36,18 +36,18 @@
                         </td>
                         <td>
                             <div class="btn-group pull-right">
-                                <a class="btn btn-mini wgaudit-field-view" rel="#overlay"
-                                   href="{{ path( 'wgauditformfield_view', { 'id': field.id } ) }}">
+                                <a class="btn btn-mini cisco-audit-field-view" rel="#overlay"
+                                   href="{{ path( 'cisco_auditformfield_view', { 'id': field.id } ) }}">
                                     <i class="icon-eye-open"></i> View
                                 </a>
                                 </li>
                                 <noscript>
                                     <a class="btn btn-mini"
-                                        href="{{ path( 'wgauditformfield_edit', { 'id': field.id } ) }}">
+                                        href="{{ path( 'cisco_auditformfield_edit', { 'id': field.id } ) }}">
                                         <i class="icon-wrench"></i> Edit
                                     </a>
                                     <a class="btn btn-mini"
-                                        href="{{ path( 'wgauditformfield_delete', { 'id': field.id } ) }}">
+                                        href="{{ path( 'cisco_auditformfield_delete', { 'id': field.id } ) }}">
                                         <i class="icon-trash"></i> Delete
                                     </a>
                                 </noscript>
@@ -56,14 +56,14 @@
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a class="wgaudit-field-edit" data-field-id="{{ field.id }}"
-                                            href="{{ path( 'wgauditformfield_edit', { 'id': field.id } ) }}">
+                                        <a class="cisco-audit-field-edit" data-field-id="{{ field.id }}"
+                                            href="{{ path( 'cisco_auditformfield_edit', { 'id': field.id } ) }}">
                                             <i class="icon-wrench"></i> Edit
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="wgaudit-field-delete" data-field-id="{{ field.id }}"
-                                            href="{{ path( 'wgauditformfield_delete', { 'id': field.id } ) }}">
+                                        <a class="cisco-audit-field-delete" data-field-id="{{ field.id }}"
+                                            href="{{ path( 'cisco_auditformfield_delete', { 'id': field.id } ) }}">
                                             <i class="icon-trash"></i> Delete
                                         </a>
                                     </li>
@@ -90,8 +90,8 @@ $( function()
 {
     // View Field
     // load up load_view.html.twig in a modal box
-    //$( '.wgaudit-field-view' ).click( function()
-    $( '.wgaudit-field-view' ).overlay(
+    //$( '.cisco-audit-field-view' ).click( function()
+    $( '.cisco-audit-field-view' ).overlay(
     {
         var url = $( this ).attr( 'href' );
         $.ajax(

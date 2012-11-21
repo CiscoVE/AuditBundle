@@ -1,6 +1,6 @@
 {# Auditform::view.html.twig #}
 
-{% extends 'WGAuditBundle::base.html.twig' %}
+{% extends 'CiscoSystemsAuditBundle::base.html.twig' %}
 
 {% block body %}
 <div class="container">
@@ -8,7 +8,7 @@
         <legend>Audit Form
             <div class="btn-group pull-right">
                 <a class="btn btn-mini" 
-                   href="{{ path( 'wgauditform_edit', { 'id': form.id } ) }}" style="font-size: 10px">
+                   href="{{ path( 'cisco_auditform_edit', { 'id': form.id } ) }}" style="font-size: 10px">
                     <i class="icon-wrench"></i> Edit
                 </a>
             </div>

@@ -1,6 +1,6 @@
 <?php
 
-namespace WG\AuditBundle\DependencyInjection;
+namespace CiscoSystems\AuditBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
@@ -10,7 +10,7 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $node = $treeBuilder->root( 'wg_audit' );
+        $node = $treeBuilder->root( 'cisco_audit' );
         $node
             ->children()
                 ->scalarNode( 'control_user' )

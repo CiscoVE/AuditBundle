@@ -1,4 +1,4 @@
-Written Games AuditBundle
+Cisco Systems AuditBundle
 =========================
 
 Symfony 2 bundle for auditing processes, employees etc.
@@ -19,7 +19,7 @@ fatal errors.
 Below is a complete example configuration (config.yml):
 
 ```
-wg_audit:
+cisco_audit:
     control_user: true
     user:
         class: Acme\UserBundle\Entity\User
