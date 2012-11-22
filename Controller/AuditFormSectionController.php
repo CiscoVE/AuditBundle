@@ -46,7 +46,16 @@ class AuditFormSectionController extends Controller
         $uFieldRepo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditFormField' );
         $uFields = $uFieldRepo->findBy( array ( 'section' => null ));
 
-        return $this->render( 'CiscoSystemsAuditBundle:AuditFormSection:edit.html.twig', array(
+        if ( $request->isXmlHttpRequest() ) 
+        {
+            return $this->render( 'CiscoSystemsAuditBundle:AuditFormSection:_edit.html.twig', array(
+                'edit' => $edit,
+                'section' => $section,
+                'ufields' => $uFields,
+                'form' => $form->createView(),
+            ));
+        }
+        else return $this->render( 'CiscoSystemsAuditBundle:AuditFormSection:edit.html.twig', array(
             'edit' => $edit,
             'section' => $section,
             'ufields' => $uFields,

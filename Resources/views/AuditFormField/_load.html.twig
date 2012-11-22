@@ -14,35 +14,16 @@
         <div class="btn-group">
             <a class="btn btn-mini cisco-audit-field-view" data-field-id="{{ field.id }}" 
                href="{{ path( 'cisco_auditformfield_view', { 'id': field.id } ) }}">
-                <i class="icon-eye-open"></i> View
+                <i class="icon-eye-open" title="View"></i> 
+            </a>  
+            <a class="btn btn-mini cisco-audit-field-edit"
+                href="{{ path( 'cisco_auditformfield_edit', { 'id': field.id } ) }}">
+                <i class="icon-wrench" title="Edit"></i> 
+            </a>  
+            <a class="btn btn-mini cisco-audit-field-remove" 
+               href="{{ path( 'cisco_auditformsection_remove', { 'id' : section.id ,'field_id': field.id } ) }}">
+                <i class="icon-minus" title="Remove"></i> 
             </a>
-            <noscript>
-                <a class="btn btn-mini"
-                    href="{{ path( 'cisco_auditformfield_edit', { 'id': field.id } ) }}">
-                    <i class="icon-wrench"></i> Edit
-                </a>
-                <a class="btn btn-mini" 
-                   href="{{ path( 'cisco_auditformsection_remove', { 'id' : section.id ,'field_id': field.id } ) }}">
-                    <i class="icon-minus"></i> Remove
-                </a>                
-            </noscript>
-            <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">
-                <span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu">
-                <li>
-                    <a class="cisco-audit-field-edit" data-field-id="{{ field.id }}"
-                        href="{{ path( 'cisco_auditformfield_edit', { 'id': field.id } ) }}">
-                        <i class="icon-wrench"></i> Edit
-                    </a>
-                </li>
-                <li>
-                    <a class="cisco-audit-field-remove" data-field-id="{{ field.id }}"
-                       href="{{ path( 'cisco_auditformsection_remove', { 'id' : section.id ,'field_id': field.id } ) }}">
-                        <i class="icon-minus"></i> Remove
-                    </a>
-                </li>
-            </ul>
         </div>
     </td>
 </tr>

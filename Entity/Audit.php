@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use CiscoSystems\AuditBundle\Entity\AuditForm;
 use CiscoSystems\AuditBundle\Entity\AuditFormField;
 use CiscoSystems\AuditBundle\Entity\AuditScore;
+use CiscoSystems\AuditBundle\Model\UserInterface;
 
 /**
  * @ORM\Entity
@@ -110,7 +111,7 @@ class Audit
      * @param string $auditForm
      * @return Audit
      */
-    public function setAuditForm( $auditForm )
+    public function setAuditForm( AuditForm $auditForm )
     {
         $this->auditForm = $auditForm;
 
@@ -153,10 +154,10 @@ class Audit
     /**
      * Set auditingUser
      *
-     * @param integer $auditingUser
+     * @param \CiscoSystems\AuditBundle\Model\UserInterface $auditingUser
      * @return Audit
      */
-    public function setAuditingUser( $auditingUser )
+    public function setAuditingUser( UserInterface $auditingUser )
     {
         $this->auditingUser = $auditingUser;
 
@@ -166,7 +167,7 @@ class Audit
     /**
      * Get auditingUser
      *
-     * @return integer
+     * @return \CiscoSystems\AuditBundle\Model\UserInterface
      */
     public function getAuditingUser()
     {
@@ -202,7 +203,7 @@ class Audit
      * @param \DateTime $createdAt
      * @return Audit
      */
-    public function setCreatedAt( $createdAt )
+    public function setCreatedAt( \DateTime $createdAt )
     {
         $this->createdAt = $createdAt;
 

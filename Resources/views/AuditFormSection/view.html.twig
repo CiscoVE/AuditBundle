@@ -49,7 +49,6 @@
             <thead>
                 <tr>
                     <th>Title</th>
-                    <th>Section</th>
                     <th>description</th>
                     <th>Weight</th>
                     <th>Fatal</th>
@@ -59,7 +58,6 @@
             {% for field in section.fields %}
                 <tr>
                     <td>{{ field.title }}</td>
-                    <td>{{ field.section }}</td>
                     <td>{{ field.description }}</td>
                     <td>{{ field.weight }}</td>
                     <td>{% if field.fatal == 1 %}
@@ -70,7 +68,15 @@
                     </td>
                 </tr>
             {% else %}
-                <tr>no fields assigned yet</tr>
+                <tr>
+                    <td>
+                        <div class="alert alert-error">
+                            <button type="button" class="close" data-dismiss="alert">×</button>
+                            <h4>Warning!</h4>
+                            <p>No fields yet.</p>
+                        </div>
+                    </td>
+                </tr>
             {% endfor %}
             </tbody>
         </table>

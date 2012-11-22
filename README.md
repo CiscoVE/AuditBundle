@@ -85,6 +85,15 @@ Finally add the configuration for the stof bundle in the config.yml file:
                 sortable: true
 ```
 
+And the orm bundle for the user interface:
+
+```yaml
+    doctrine:
+        orm:
+            resolve_target_entities: 
+                CiscoSystems\AuditBundle\Model\UserInterface: Acme\UserBundle\Entity\User
+```
+
 Once this all done, generate the five tables needed:
 
 ```php

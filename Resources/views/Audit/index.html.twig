@@ -15,8 +15,7 @@
             <thead>
                 <tr>
                     <th>Case #</th>
-                    <th>Engineer</th>
-                    <th>Manager</th>
+                    <th>Auditing User</th>
                     <th>Form</th>
                     <th>Score</th>
                     <th></th>
@@ -28,7 +27,6 @@
                 <tr>
                     <td>{{ audit.auditReference }}</td>
                     <td>{{ audit.auditingUser }}</td>
-                    <td>{{ audit.controlUser }}</td>
                     <td>{{ audit.auditForm }}</td>
                     <td>
                     {% if audit.failed == true %}
@@ -46,7 +44,7 @@
                 </tr>
         {% else %}
                 <tr>
-                    <td colspan="6">
+                    <td colspan="5">
                         <div class="alert alert-error">
                             <button type="button" class="close" data-dismiss="alert">×</button>
                             <h4>Warning!</h4>

@@ -96,17 +96,16 @@
                     {% include 'CiscoSystemsAuditBundle:AuditFormSection:_load.html.twig' %}
                         {% if section.fields != null %}
                             {% for field in section.fields %}
-                            <tr class="audit-field-row">
-                                <td></td>
-                                <td>{{ field.title }}</td>
-                                <td>{{ field.description }}</td>
-                                <td>{{ field.weight }}</td>
-                                <td>
-                                </td>
-                            </tr>
+                            {% include 'CiscoSystemsAuditBundle:AuditFormField:_load.html.twig' %}
                             {% else %}
                             <tr>
-                                <td colspan="5">no Fields assigned yet</td>
+                                <td class="5">
+                                    <div class="alert alert-error">
+                                        <button type="button" class="close" data-dismiss="alert">×</button>
+                                        <h4>Warning!</h4>
+                                        <p>No fields yet.</p>
+                                    </div>
+                                </td>
                             </tr>
                             {% endfor %}
                         {% endif %}

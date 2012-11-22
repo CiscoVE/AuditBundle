@@ -1,0 +1,38 @@
+{% block body %}
+<form class="form-horizontal" method="POST" action="">
+    <div class="controls controls-row">
+        <div class="control-group">
+            <div class="control-label">
+                {{ form_label(form.title) }}
+            </div>
+            <div class="controls">
+                {{ form_widget(form.title) }}
+                {{ form_errors(form.title) }}
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="control-label">
+                {{ form_label(form.auditform) }}
+            </div>
+            <div class="controls">
+                {{ form_widget(form.auditform) }}
+                {{ form_errors(form.auditform) }}
+            </div>
+        </div>
+    </div>
+    <div class="controls controls-row">
+        <div class="control-group">
+            <div class="control-label">
+                {{ form_label(form.description) }}
+            </div>
+            <div class="controls">
+                {{ form_widget(form.description, { 'attr': { 'class': 'input-xxlarge' }}) }}
+                {{ form_errors(form.description) }}
+            </div>
+        </div>
+        <div class="controls">
+            {{ form_rest(form) }}
+        </div>
+    </div>
+</form>
+{% endblock %}

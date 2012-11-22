@@ -51,7 +51,7 @@ class AuditController extends Controller
         if ( null !== $scores = $request->get( 'score' ))
         {
             // depending on configuration, set a user ID:
-            $this->setUserID( $audit );
+            $this->setUser( $audit );
             // TODO: add input field to form in order to set a reference
             // $audit->setAuditReference( null );
             $this->setAuditScores( $em, $audit, $scores );
@@ -70,20 +70,15 @@ class AuditController extends Controller
         ));
     }
 
-    private function setUserID( $audit )
+    private function setUser( $audit )
     {
-        $userClass = $this->container->getParameter( 'wg.audit.user.class' );
-        if ( $userClass )
+        $token = $this->container->get( 'security.context' )->getToken();
+        if ( $token )
         {
-            $prop = $this->container->getParameter( 'wg.audit.user.property' );
-            $user = $this->container->get( 'security.context' )->getToken()->getUser();
-            if ( $user instanceof $userClass && $prop )
+            $user = $token->getUser();
+            if ( $user )
             {
-                $method = 'get' . ucfirst( $prop );
-                if ( method_exists( $user, $method ))
-                {
-                    $audit->setAuditingUser( $user->$method() );
-                }
+                $audit->setAuditingUser( $user );
             }
         }
     }

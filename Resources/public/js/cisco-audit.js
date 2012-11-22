@@ -54,6 +54,51 @@ $( function()
     // Edit Section
     $( '.cisco-audit-section-edit' ).click( function()
     {
+        var url = $( this ).attr( 'href' );
+        var sectionTitle = $( this ).attr( 'title' );
+        var content = $( 'body' ).find( '#dialog-modal' );
+        
+        $.ajax(
+        {
+            url: url,
+            type: "POST",
+            success: function( response )
+            {
+                var replacement = '<div class="modal-content">' + response + '</div>';
+                
+                $( content ).find( '.modal-content' ).replaceWith( replacement );
+        
+                $( "#dialog-modal" ).dialog(
+                {
+                    autoOpen: false,
+                    height: 520,
+                    width: 760,
+                    position: [250,100],
+                    modal: true,
+                    title: sectionTitle,
+                    buttons: 
+                    {
+                        "Save": function()
+                        {
+                            $( this ).find( 'form' ).submit();
+                            $( this ).dialog( "close" );                            
+                        },
+                        Cancel: function() 
+                        {
+                            $( this ).dialog( "close" );
+                        }
+                    }
+                });
+            
+                $( "#dialog-modal" ).dialog( "open" );
+            },
+            error: function( response )
+            {
+                console.log( 'can not do it .....' );
+            }
+        });
+        return false; 
+        
         // TODO: pop a new row bellow the current one and populate with the EditSectionForm
         // OR: get current row and replace by value of the EditSectionForm
         return false;

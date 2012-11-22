@@ -21,7 +21,8 @@
             </a>
             <ul class="dropdown-menu">
                 <li>
-                    <a href="{{ path( 'cisco_auditformsection_edit', { 'id': section.id } ) }}">
+                    <a class="cisco-audit-section-edit" title="{{ section.title }}"
+                        href="{{ path( 'cisco_auditformsection_edit', { 'id': section.id } ) }}">
                         <i class="icon-wrench"></i> Edit
                     </a>
                 </li>
