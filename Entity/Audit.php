@@ -33,15 +33,11 @@ class Audit
      */
     protected $auditReference;
 
-    /**
-     * @ORM\Column(type="integer", name="auditing_user_id", nullable=true)
+    /**     
+     * @ORM\ManyToOne(targetEntity="CiscoSystems\AuditBundle\Model\UserInterface")
+     * @ORM\JoinColumn(name="auditing_user_id",referencedColumnName="id")
      */
     protected $auditingUser;
-
-    /**
-     * @ORM\Column(type="integer", name="control_user_id", nullable=true)
-     */
-    protected $controlUser;
 
     /**
      * @var boolean
@@ -175,29 +171,6 @@ class Audit
     public function getAuditingUser()
     {
         return $this->auditingUser;
-    }
-
-    /**
-     * Set controlUser
-     *
-     * @param integer $controlUser
-     * @return Audit
-     */
-    public function setControlUser( $controlUser )
-    {
-        $this->controlUser = $controlUser;
-
-        return $this;
-    }
-
-    /**
-     * Get controlUser
-     *
-     * @return integer
-     */
-    public function getControlUser()
-    {
-        return $this->controlUser;
     }
 
     /**
