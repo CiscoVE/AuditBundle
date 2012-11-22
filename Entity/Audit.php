@@ -307,18 +307,23 @@ class Audit
      */
     public function getTotalResult()
     {
-        $sections = $this->getAuditForm()->getSections();
-        if ( 0 == count( $sections ) ) return 100;
-        $totalPercent = 0;
-        $divisor = 0;
-        foreach ( $sections as $section )
+        if( null !== $auditform = $this->getAuditForm())
         {
-            $percent = $this->getResultForSection( $section );
-            $weight  = $section->getWeight();
-            $divisor += $weight;
-            $totalPercent = $totalPercent * ( $divisor - $weight ) / $divisor + $percent * $weight / $divisor;
+            $sections = $auditform->getSections();
+            if ( 0 == count( $sections ) ) return 100;
+            $totalPercent = 0;
+            $divisor = 0;
+            foreach ( $sections as $section )
+            {
+                $percent = $this->getResultForSection( $section );
+                $weight  = $section->getWeight();
+                $divisor += $weight;
+                $totalPercent = $totalPercent * ( $divisor - $weight ) / $divisor + $percent * $weight / $divisor;
+            }
+            return number_format($totalPercent, 2, '.', '');
         }
-        return number_format($totalPercent, 2, '.', '');
+        else
+            return 0;
     }
 
     /**

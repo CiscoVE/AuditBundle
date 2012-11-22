@@ -115,19 +115,22 @@ class AuditController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
         $auditrepo = $em->getRepository( 'CiscoSystemsAuditBundle:Audit' );
         $audit = $auditrepo->find( $request->get( 'id' ));
-        if ( null === $audit )
+        
+        if ( null !== $audit )
         {
-            throw $this->createNotFoundException( 'Audit not found' );
+            if ( null !== $audit->getAuditForm())
+            {
+                $scorerepo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditScore' );
+                $scores = $scorerepo->findBy( array( 'audit' => $audit ));
+                return $this->render( 'CiscoSystemsAuditBundle:Audit:view.html.twig', array(
+                    'audit' => $audit,
+                    'scores' => $scores,
+                ));
+            }
+            else return $this->redirect( $this->generateUrl( 'cisco_audits' ));
         }
         else
-        {
-            $scorerepo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditScore' );
-            $scores = $scorerepo->findBy( array( 'audit' => $audit ));
-        }
-        return $this->render( 'CiscoSystemsAuditBundle:Audit:view.html.twig', array(
-            'audit' => $audit,
-            'scores' => $scores,
-        ));
+            throw $this->createNotFoundException( 'Audit not found' );
     }
 
     public function showIconSetAction()

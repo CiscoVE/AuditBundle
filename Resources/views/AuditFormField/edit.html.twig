@@ -13,25 +13,25 @@
                 <button type="submit" class="btn btn-mini">
                     <i class="icon-ok"></i> Save
                 </button>
-                {% if edit == true %}
-                <noscript>
-                    <a class="btn btn-mini" 
-                        href="{{ path( 'cisco_auditformfield_delete', { 'id': field.id } ) }}">
-                         <i class="icon-trash"></i> Delete
-                    </a>
-                </noscript>
-                <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">
-                    <span class="caret"></span>
-                </a>
-                <ul class="dropdown-menu">
-                    <li>
-                        <a class="audit-form-delete" 
-                           href="{{ path( 'cisco_auditformfield_delete', { 'id': field.id } ) }}">
-                            <i class="icon-trash"></i> Delete
+                    {% if edit == true %}
+                    <noscript>
+                        <a class="btn btn-mini" 
+                            href="{{ path( 'cisco_auditformfield_delete', { 'id': field.id } ) }}">
+                             <i class="icon-trash"></i> Delete
                         </a>
-                    </li>
-                </ul>
-                {% endif %}
+                    </noscript>
+                    <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a class="audit-form-delete" 
+                               href="{{ path( 'cisco_auditformfield_delete', { 'id': field.id } ) }}">
+                                <i class="icon-trash"></i> Delete
+                            </a>
+                        </li>
+                    </ul>
+                    {% endif %}
             </div>
         </legend>
 

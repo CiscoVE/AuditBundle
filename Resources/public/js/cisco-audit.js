@@ -1,5 +1,8 @@
 $( function()
 {
+    // bootstrap alert dismissal
+    $(".alert").alert();
+
     // Add Section
     $( '.cisco_audit-section-add' ).click( function()
     {
@@ -80,6 +83,86 @@ $( function()
         return false;
     });
 
+    // View Field
+    // load up _view.html.twig in a modal box
+    $( '.cisco-audit-field-view' ).click( function()
+    {
+        var url = $( this ).attr( 'href' );
+        var content = $( 'body' ).find( '#dialog-modal' );
+        
+        $.ajax(
+        {
+            url: url,
+            type: "POST",
+            success: function( response )
+            {
+                var replacement = '<div class="modal-content">' + response + '</div>';
+                
+                $( content ).find( '.modal-content' ).replaceWith( replacement );
+        
+                $( "#dialog-modal" ).dialog({
+                    height: 320,
+                    width: 960,
+                    modal: true
+                }).show();
+
+            },
+            error: function( response )
+            {
+                console.log( 'can not do it .....' );
+            }
+        });
+        return false;
+    });
+
+    // Edit Field
+    // load up _edit.html.twig in a modal box
+    $( '.cisco-audit-field-edit' ).click( function()
+    {
+        var url = $( this ).attr( 'href' );
+        var content = $( 'body' ).find( '#dialog-modal' );
+        
+        $.ajax(
+        {
+            url: url,
+            type: "POST",
+            success: function( response )
+            {
+                var replacement = '<div class="modal-content">' + response + '</div>';
+                
+                $( content ).find( '.modal-content' ).replaceWith( replacement );
+        
+                $( "#dialog-modal" ).dialog(
+                {
+                    autoOpen: false,
+                    height: 520,
+                    width: 760,
+                    position: [250,100],
+                    modal: true,
+                    buttons: 
+                    {
+                        "Save": function()
+                        {
+                            $( this ).find( 'form' ).submit();
+                            $( this ).dialog( "close" );                            
+                        },
+                        Cancel: function() 
+                        {
+                            $( this ).dialog( "close" );
+                        }
+                    }
+                });
+            
+                $( "#dialog-modal" ).dialog( "open" );
+            },
+            error: function( response )
+            {
+                console.log( 'can not do it .....' );
+            }
+        });
+        return false;        
+    });
+
     // Remove Field
     $( '.cisco-audit-field-remove' ).click( function()
     {
@@ -100,55 +183,7 @@ $( function()
         });
         return false;
     });
-
-    // View Field
-    // load up load_view.html.twig in a modal box
-    $( '.cisco-audit-field-view' ).click( function()
-    {
-        var url = $( this ).attr( 'href' );
-        var that = this;
-        $.ajax(
-        {
-            url: url,
-            type: "POST",
-            success: function( response )
-            {
-                console.log( response );
-                
-                $( that ).closest( '.cisco-audit-field-row' ).css( 'backgroundColor', 'red' );
-                
-                //$( that ).closest( '.contentWrap' ).load( response );
-                
-                $( that ).closest( '.contentWrap' ).append( 'Jesus Christ !!!' );
-                $( that ).find( '.contentWrap' ).load( response );
-                
-                $( '#overlay-box' ).overlay(
-                {
-                    top: 260,
-                    mask: 
-                    {
-                        color: '#fff',
-                        loadSpeed: 100,
-                        opacity: 0.9
-                    },
-                    effect: 'apple',
-                    load: false,
-                    
-                    onBeforeLoad: function()
-                    {
-                        
-//                        var wrap = this.getOverlay().find( '.contentWrap' );
-//                        wrap.load( response );
-                    }
-                });
-            },
-            error: function( response )
-            {
-                console.log( 'can not do it .....' );
-            }
-        });
-        return false;
-    });
+    
 
 // test code in case needed
 //$('.audit-section-row').next('.audit-form-field').css('background-color', 'yellow');

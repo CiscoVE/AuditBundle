@@ -45,7 +45,13 @@ class AuditFormFieldController extends Controller
                 return $this->redirect( $this->generateUrl( 'cisco_auditformfields' ));
             }
         }
-        return $this->render( 'CiscoSystemsAuditBundle:AuditFormField:edit.html.twig', array(
+        
+        if ( $request->isXmlHttpRequest()) return $this->render( 'CiscoSystemsAuditBundle:AuditFormField:_edit.html.twig', array(
+            'edit'  => $edit,
+            'field' => $field,
+            'form'  => $form->createView(),
+        ));
+        else return $this->render( 'CiscoSystemsAuditBundle:AuditFormField:edit.html.twig', array(
             'edit'  => $edit,
             'field' => $field,
             'form'  => $form->createView(),

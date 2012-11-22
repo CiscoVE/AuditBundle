@@ -47,7 +47,11 @@
         {% else %}
                 <tr>
                     <td colspan="6">
-                        <p>Nothin yet dude</p>
+                        <div class="alert alert-error">
+                            <button type="button" class="close" data-dismiss="alert">×</button>
+                            <h4>Warning!</h4>
+                            <p>No audit yet.</p>
+                        </div>
                     </td>
                 </tr>
         {% endfor %}

@@ -26,7 +26,7 @@ fatal errors.
 
 Below is a complete example configuration (config.yml):
 
-```
+```yaml
 cisco_audit:
     control_user: true
     user:
@@ -37,7 +37,55 @@ cisco_audit:
         property: caseId
 ```
 
-This bundle requires five tables that can be generated from the following:
+## Required
+
+For now the following need to be added to the composer.json file of the project:
+
+```yaml   
+    "repositories": [
+        { "type": "vcs", "url": "http://github.com/WrittenGames/AuditBundle" }
+    ]
+```
+    and
+
+```yaml   
+    "require": {
+        "cisco-systems/audit-bundle": "dev-master"
+    }
+```
+Then update through composer.phar
+
+And add the bundle in the AppKernel:
+
+```php
+    $bundles = array(
+        new Craue\TwigExtensionsBundle\CraueTwigExtensionsBundle(),
+        new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
+        new CiscoSystems\AuditBundle\CiscoSystemsAuditBundle(),
+    );
+```
+
+Add as well the Bundle to the routing.yml:
+
+```yaml    
+    CiscoSystemsAuditBundle:
+        resource: "@CiscoSystemsAuditBundle/Resources/config/routing.yml"
+        prefix:   /cisco_audit
+```
+
+Finally add the configuration for the stof bundle in the config.yml file:
+
+```yaml
+    # Doctrine Extensions
+    stof_doctrine_extensions:
+        orm:
+            default:
+                timestampable: true
+                sluggable: true
+                sortable: true
+```
+
+Once this all done, generate the five tables needed:
 
 ```php
     php app/console doctrine:schema:update --dump-sql
@@ -50,54 +98,6 @@ Those are:
 * cisco_audit__section
 * cisco_audit__field
 * cisco_audit__score
-
-## Required
-
-1. for now the following need to be added to the composer.json file of the project:
-
-```yaml   
-    "repositories": [
-        { "type": "vcs", "url": "http://github.com/WrittenGames/AuditBundle" }
-    ]
-```
-and
-
-```yaml   
-    "require": {
-        "cisco-systems/audit-bundle": "dev-master"
-    }
-```
-2. Then update through composer.phar
-
-3. And add the bundle in the AppKernel:
-
-```php
-    $bundles = array(
-        new Craue\TwigExtensionsBundle\CraueTwigExtensionsBundle(),
-        new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
-        new CiscoSystems\AuditBundle\CiscoSystemsAuditBundle(),
-    );
-```
-
-4. Add as well the Bundle to the routing:
-
-```yaml    
-    CiscoSystemsAuditBundle:
-        resource: "@CiscoSystemsAuditBundle/Resources/config/routing.yml"
-        prefix:   /cisco_audit
-```
-
-5. Finally add the configuration for the stof bundle in the config.yml file:
-
-```yaml
-    # Doctrine Extensions
-    stof_doctrine_extensions:
-        orm:
-            default:
-                timestampable: true
-                sluggable: true
-                sortable: true
-```
 
 ## Issues
 

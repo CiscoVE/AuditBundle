@@ -26,7 +26,6 @@ class AuditFormFieldType extends AbstractType
             'required'      => true,
         ));
         $builder->add( 'section', 'entity', array(
-            'empty_data'    => '---',
             'required'      => false,    
             'class'         => 'CiscoSystemsAuditBundle:AuditFormSection',
             'property'      => 'title',

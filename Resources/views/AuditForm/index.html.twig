@@ -67,7 +67,13 @@
                     </tr>
                 {% else %}
                     <tr>
-                        <td colspan="4">no forms yet</td>
+                        <td colspan="4">
+                        <div class="alert alert-error">
+                            <button type="button" class="close" data-dismiss="alert">×</button>
+                            <h4>Warning!</h4>
+                            <p>No forms yet.</p>
+                        </div>
+                        </td>
                     </tr>
                 {% endfor %}
             </tbody>

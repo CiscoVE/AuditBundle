@@ -23,7 +23,7 @@
                 {% for section in sections %}
                     <tr title="{{ section.description }}">
                         <td>{{ section.title }}</td>
-                        <td>{{ section.auditform }}</td>
+                        <td>{{ section.auditForm }}</td>
                         <td width="10%">
                             <div class="btn-group pull-right">
                                 <a class="btn btn-mini" 
@@ -63,7 +63,13 @@
                     </tr>
                 {% else %}
                     <tr>
-                        <td colspan="3">no sections yet</td>
+                        <td colspan="3">
+                            <div class="alert alert-error">
+                                <button type="button" class="close" data-dismiss="alert">×</button>
+                                <h4>Warning!</h4>
+                                <p>No section yet.</p>
+                            </div>
+                        </td>
                     </tr>
                 {% endfor %}
             </tbody>

@@ -81,26 +81,26 @@ class AuditFormSection
     }
 
     /**
-     * Set auditform
+     * Set auditForm
      *
-     * @param string $auditform
+     * @param string $auditForm
      * @return AuditFormSection
      */
-    public function setAuditform( $auditform )
+    public function setAuditForm( $auditForm )
     {
-        $this->auditform = $auditform;
+        $this->auditForm = $auditForm;
 
         return $this;
     }
 
     /**
-     * Get auditform
+     * Get auditForm
      *
      * @return string
      */
-    public function getAuditform()
+    public function getAuditForm()
     {
-        return $this->auditform;
+        return $this->auditForm;
     }
 
     /**
