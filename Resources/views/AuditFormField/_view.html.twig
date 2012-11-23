@@ -1,7 +1,13 @@
 {% block body %}
 <tr class="cisco-audit-field-row">
-    <td>{{ field.title }}</td>
-    <td>{{ field.section }}</td>
+    <td colspan="2">{{ field.title }}</td>
+    <td>
+    {% if field.section is empty %}
+        <i>No Section assigned.</i>
+    {% else %}
+        {{ field.section }}
+    {% endif %}
+    </td>
     <td>{{ field.weight }}</td>
     <td>
     {% if field.fatal == 1 %}
@@ -29,11 +35,11 @@
 </tr>
 <tr class="cisco-audit-desc-row">
     <td><i>Description: </i></td>
-    <td colspan="4">{{ field.description }}</td>
+    <td colspan="5">{{ field.description }}</td>
 </tr>
 <tr class="cisco-audit-desc-row">
     <td><i>Scores: </i></td>
-    <td colspan="4">
+    <td colspan="5">
     {% for score, label in field.scores %}
         <div>
             {{ score }}: {{ label }}

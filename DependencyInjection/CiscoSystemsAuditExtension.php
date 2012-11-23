@@ -19,7 +19,7 @@ class CiscoSystemsAuditExtension extends Extension
         $loader = new Loader\YamlFileLoader( $container, $fileLocator );
         $loader->load( 'services.yml' );
         // Set parameters
-        $container->setParameter( 'wg.audit.control_user', $config['control_user'] );
+        $container->setParameter( 'cisco.audit.control_user', $config['control_user'] );
         $userClass = $config['user']['class'];
         if ( $userClass )
         {
@@ -42,8 +42,8 @@ class CiscoSystemsAuditExtension extends Extension
                 ));
             }
         }
-        $container->setParameter( 'wg.audit.user.class', $userClass );
-        $container->setParameter( 'wg.audit.user.property', $config['user']['property'] );
+        $container->setParameter( 'cisco.audit.user.class', $userClass );
+        $container->setParameter( 'cisco.audit.user.property', $config['user']['property'] );
         $auditReferenceClass = $config['audit_reference']['class'];
         if ( $auditReferenceClass )
         {
@@ -66,7 +66,7 @@ class CiscoSystemsAuditExtension extends Extension
                 ));
             }
         }
-        $container->setParameter( 'wg.audit.audit_reference.class', $auditReferenceClass );
-        $container->setParameter( 'wg.audit.audit_reference.property', $config['audit_reference']['property'] );
+        $container->setParameter( 'cisco.audit.audit_reference.class', $auditReferenceClass );
+        $container->setParameter( 'cisco.audit.audit_reference.property', $config['audit_reference']['property'] );
     }
 }
