@@ -8,8 +8,7 @@
                 <tr>
                     <th>Case #</th>
                     <th>Audit Score</th>
-                    <th>Engineer</th>
-                    <th>Manager</th>
+                    <th>Audit User</th>
                     <th>Audit Form</th>
                 </tr>
             </thead>
@@ -24,7 +23,6 @@
                     {% endif %}
                     </td>
                     <td>{{ audit.auditingUser }}</td>
-                    <td>{{ audit.controlUser }}</td>
                     <td>{{ audit.auditForm }}</td>
                 </tr>
             </tbody>

@@ -3,8 +3,23 @@ $( function()
     // bootstrap alert dismissal
     $(".alert").alert();
 
+    // hide description row if any
+    $( '.cisco-audit-table' ).find( '.cisco-audit-desc-row' ).hide();
+
+    // Toggle single Field
+    $( '.cisco-audit-field-view' ).click( function()
+    {
+        $( this ).closest( '.cisco-audit-field-row' ).nextUntil( '.cisco-audit-field-row', '.cisco-audit-desc-row' ).toggle();
+    });
+
+    // Toggle All Fields for section
+    $( '.cisco-audit-section-view' ).click( function()
+    {
+        $( this ).closest( '.cisco-audit-section-row' ).nextUntil( '.cisco-audit-section-row', '.cisco-audit-desc-row' ).toggle();
+    });
+
     // Add Section
-    $( '.cisco_audit-section-add' ).click( function()
+    $( '.cisco-audit-section-add' ).click( function()
     {
         var url = $( this ).attr( 'href' );
         var sectionId = $( this ).attr( 'data-section-id' );
@@ -17,7 +32,7 @@ $( function()
             type: "POST",
             success: function( response )
             {
-                $( '.audit-section-row' ).last( '.audit-section-row' ).after().load( loadUrl );
+                $( '.cisco-audit-section-row' ).last( '.cisco-audit-section-row' ).after().load( loadUrl );
             },
             error: function( response )
             {
@@ -28,7 +43,7 @@ $( function()
     });
     
     // Remove Section
-    $( '.cisco_audit-section-remove' ).click( function()
+    $( '.cisco-audit-section-remove' ).click( function()
     {
         var url = $( this ).attr( 'href' );
         var that = this;
@@ -39,8 +54,8 @@ $( function()
             type: "POST",
             success: function( response )
             {
-                $( that ).closest( '.audit-section-row' ).nextUntil( '.audit-section-row' ).remove();
-                $( that ).closest( '.audit-section-row' ).remove();
+                $( that ).closest( '.cisco-audit-section-row' ).nextUntil( '.cisco-audit-section-row' ).remove();
+                $( that ).closest( '.cisco-audit-section-row' ).remove();
             },
             error: function( response )
             {
@@ -128,38 +143,6 @@ $( function()
         return false;
     });
 
-    // View Field
-    // load up _view.html.twig in a modal box
-    $( '.cisco-audit-field-view' ).click( function()
-    {
-        var url = $( this ).attr( 'href' );
-        var content = $( 'body' ).find( '#dialog-modal' );
-        
-        $.ajax(
-        {
-            url: url,
-            type: "POST",
-            success: function( response )
-            {
-                var replacement = '<div class="modal-content">' + response + '</div>';
-                
-                $( content ).find( '.modal-content' ).replaceWith( replacement );
-        
-                $( "#dialog-modal" ).dialog({
-                    height: 320,
-                    width: 960,
-                    modal: true
-                }).show();
-
-            },
-            error: function( response )
-            {
-                console.log( 'can not do it .....' );
-            }
-        });
-        return false;
-    });
-
     // Edit Field
     // load up _edit.html.twig in a modal box
     $( '.cisco-audit-field-edit' ).click( function()
@@ -229,6 +212,15 @@ $( function()
         return false;
     });
     
+
+
+//    table.find( '.cisco-audit-field-row' ).click( function()
+//    {
+//        $( this ).nextUntil( '.cisco-audit-field-row' ).fadeToggle( 500 );;
+//    });
+
+
+
 
 // test code in case needed
 //$('.audit-section-row').next('.audit-form-field').css('background-color', 'yellow');

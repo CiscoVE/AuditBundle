@@ -1,7 +1,6 @@
 {% block body %}
 <tr class="cisco-audit-field-row">
-    <td>{{ field.title }}</td>
-    <td>{{ field.description }}</td>
+    <td colspan="2">{{ field.title }}</td>
     <td>{{ field.weight }}</td>
     <td>
     {% if field.fatal == 1 %}
@@ -12,8 +11,7 @@
     </td>
     <td>
         <div class="btn-group">
-            <a class="btn btn-mini cisco-audit-field-view" data-field-id="{{ field.id }}" 
-               href="{{ path( 'cisco_auditformfield_view', { 'id': field.id } ) }}">
+            <a class="btn btn-mini cisco-audit-field-view">
                 <i class="icon-eye-open" title="View"></i> 
             </a>  
             <a class="btn btn-mini cisco-audit-field-edit"
@@ -25,6 +23,22 @@
                 <i class="icon-minus" title="Remove"></i> 
             </a>
         </div>
+    </td>
+</tr>
+<tr class="cisco-audit-desc-row">
+    <td><i>Description: </i></td>
+    <td colspan="4">{{ field.description }}</td>
+</tr>
+<tr class="cisco-audit-desc-row">
+    <td><i>Scores: </i></td>
+    <td colspan="4">
+    {% for score, label in field.scores %}
+        <div>
+            {{ score }}: {{ label }}
+        </div>
+    {% else %}
+        <div>No scores defined</div>
+    {% endfor %}
     </td>
 </tr>
 {% endblock %}

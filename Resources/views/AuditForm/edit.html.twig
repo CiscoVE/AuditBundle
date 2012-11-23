@@ -82,12 +82,13 @@
                     </div>
                 </div>
             </div>
-            <table class="table table-condensed table-hover">
+            <table class="table table-condensed table-hover cisco-audit-table">
                 <thead>
-                        <th colspan="2">Title</th>
-                        <th>Description</th>
-                        <th>Weight</th>
-                        <th></th>
+                        <th width=20%>Title</th>
+                        <th width=65%></th>
+                        <th width=5%>Weight</th>
+                        <th width=5%>Fatal</th>
+                        <th width=5%></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -99,7 +100,7 @@
                             {% include 'CiscoSystemsAuditBundle:AuditFormField:_load.html.twig' %}
                             {% else %}
                             <tr>
-                                <td class="5">
+                                <td colspan="6">
                                     <div class="alert alert-error">
                                         <button type="button" class="close" data-dismiss="alert">×</button>
                                         <h4>Warning!</h4>
@@ -112,13 +113,13 @@
                     {% endfor %}
                 {% else %}
                     <tr>
-                        <td colspan="5">no Sections assigned yet</td>
+                        <td colspan="6">no Sections assigned yet</td>
                     </tr>
                 {% endif %}
                     <noscript>
                     {% if usections is not empty and auditform.id is not null %}
                         <tr>
-                            <td colspan="5">
+                            <td colspan="6">
                             {% for section in usections %}
                                 <a class="btn btn-mini" 
                                    href="{{ path( 'cisco_auditform_add_section', { 'id' : auditform.id ,'section_id': section.id } ) }}">

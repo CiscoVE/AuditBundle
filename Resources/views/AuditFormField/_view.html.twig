@@ -1,47 +1,46 @@
 {% block body %}
-<table class="table table-condensed table-hover">
-    <caption>Field ID number: {{ field.id }}</caption>
-    <tbody>
-        <tr>
-            <td>
-                <strong>Title: </strong>
-            </td>
-            <td>{{ field.title }}</td>
-            <td>
-                <strong>Section: </strong>
-            </td>
-            <td>{{ field.section }}</td>
-            <td>
-                <strong>Weight: </strong>
-            </td>
-            <td>{{ field.weight }}</td>
-            <td>
-                <strong>Fatal: </strong>
-            </td>
-            <td>
-            {% if field.fatal == 1 %}
-                <i class="icon-check"/>
-            {% else %}
-                <i class="icon-check-empty"/>
-            {% endif %}
-            </td>
-        </tr>
-        <tr>
-            <td><strong>Description: </strong></td>
-            <td colspan="7">{{ field.description }}</td>
-        </tr>
-        <tr>
-            <td><strong>Scores: </strong></td>
-            <td colspan="7">
-            {% for score, label in field.scores %}
-                <div>
-                    {{ score }}: {{ label }}
-                </div>
-            {% else %}
-                <div>No scores defined</div>
-            {% endfor %}
-            </td>
-        </tr>
-    </tbody>
-</table>
+<tr class="cisco-audit-field-row">
+    <td>{{ field.title }}</td>
+    <td>{{ field.section }}</td>
+    <td>{{ field.weight }}</td>
+    <td>
+    {% if field.fatal == 1 %}
+        <i class="icon-check"/>
+    {% else %}
+        <i class="icon-check-empty"/>
+    {% endif %}
+    </td>
+    <td>
+        <div class="btn-group pull-right">
+            <a class="btn btn-mini cisco-audit-field-view" title="View">
+                <i class="icon-eye-open"></i>
+            </a>
+            <a class="btn btn-mini cisco-audit-field-view" data-field-id="{{ field.id }}"
+                href="{{ path( 'cisco_auditformfield_edit', { 'id': field.id } ) }}"
+                title="Edit">
+                 <i class="icon-wrench"></i>
+            </a>
+            <a class="btn btn-mini cisco-audit-field-delete" title="Delete"
+                href="{{ path( 'cisco_auditformfield_delete', { 'id': field.id } ) }}">
+                <i class="icon-trash"></i>
+            </a>
+        </div>        
+    </td>
+</tr>
+<tr class="cisco-audit-desc-row">
+    <td><i>Description: </i></td>
+    <td colspan="4">{{ field.description }}</td>
+</tr>
+<tr class="cisco-audit-desc-row">
+    <td><i>Scores: </i></td>
+    <td colspan="4">
+    {% for score, label in field.scores %}
+        <div>
+            {{ score }}: {{ label }}
+        </div>
+    {% else %}
+        <div>No scores defined</div>
+    {% endfor %}
+    </td>
+</tr>
 {% endblock %}

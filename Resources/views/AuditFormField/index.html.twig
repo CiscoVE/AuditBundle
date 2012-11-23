@@ -10,7 +10,7 @@
                 <i class="icon-plus"></i> Add a new field
             </a>
         </legend>
-        <table class="table table-condensed table-hover">
+        <table class="table table-condensed table-hover cisco-audit-table">
             <caption>List of existing fields</caption>
             <thead>
                 <tr>
@@ -23,54 +23,7 @@
             </thead>
             <tbody>
                 {% for field in fields %}
-                    <tr class="cisco-audit-field-row" title="{{ field.description }}">
-                        <td>{{ field.title }}</td>
-                        <td>{{ field.section }}</td>
-                        <td>{{ field.weight }}</td>
-                        <td>
-                        {% if field.fatal == 1 %}
-                            <div>Yes</div>
-                        {% else %}
-                            <div>No</div>
-                        {% endif %}
-                        </td>
-                        <td>
-                            <div class="btn-group pull-right">
-                                <a class="btn btn-mini cisco-audit-field-view"
-                                   href="{{ path( 'cisco_auditformfield_view', { 'id': field.id } ) }}">
-                                    <i class="icon-eye-open"></i> View
-                                </a>
-                                </li>
-                                <noscript>
-                                    <a class="btn btn-mini"
-                                        href="{{ path( 'cisco_auditformfield_edit', { 'id': field.id } ) }}">
-                                        <i class="icon-wrench"></i> Edit
-                                    </a>
-                                    <a class="btn btn-mini"
-                                        href="{{ path( 'cisco_auditformfield_delete', { 'id': field.id } ) }}">
-                                        <i class="icon-trash"></i> Delete
-                                    </a>
-                                </noscript>
-                                <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">
-                                    <span class="caret"></span>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a class="cisco-audit-field-edit" data-field-id="{{ field.id }}"
-                                            href="{{ path( 'cisco_auditformfield_edit', { 'id': field.id } ) }}">
-                                            <i class="icon-wrench"></i> Edit
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="cisco-audit-field-delete" data-field-id="{{ field.id }}"
-                                            href="{{ path( 'cisco_auditformfield_delete', { 'id': field.id } ) }}">
-                                            <i class="icon-trash"></i> Delete
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </td>
-                    </tr>
+                    {% include 'CiscoSystemsAuditBundle:AuditFormField:_view.html.twig' %}
                 {% else %}
                     <tr>
                         <td colspan="4">

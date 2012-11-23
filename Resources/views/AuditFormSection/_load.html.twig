@@ -1,13 +1,18 @@
 {% block body %}
-<tr class="audit-section-row">
-    <td colspan=2>
-        <strong>Section {{ section.id }}: {{ section.title }}</strong>
+<tr class="cisco-audit-section-row">
+    <td colspan="4">
+        <strong>Section {{ section.id }}: {{ section.title }}</strong> 
+        {% if section.description is not empty %}
+             - {{ section.description }}
+        {%  else %}
+            <i>(no description)</i>
+        {% endif %}
+        
     </td>
-    <td colspan=2>{{ section.description }}</td>
     <td>
         <div class="btn-group">
-            <a class="btn btn-mini" 
-               href="{{ path( 'cisco_auditformsection_view', { 'id': section.id } ) }}">
+            <a class="btn btn-mini cisco-audit-section-view" 
+               {#href="{{ path( 'cisco_auditformsection_view', { 'id': section.id } ) }}"#}>
                 <i class="icon-eye-open"></i> View
             </a>
                 <noscript>
@@ -31,7 +36,7 @@
                     <li class="divider"></li>
                     {% for field in ufields %}
                     <li>
-                        <a data-field-id="{{ field.id }}" class="cisco-audit-field-add"
+                        <a class="cisco-audit-field-add" data-field-id="{{ field.id }}"
                            href="{{ path( 'cisco_auditformsection_add_field', { 'id' : section.id ,'field_id': field.id } ) }}">
                             <i class="icon-plus"></i> {{ field.title }}
                         </a>
