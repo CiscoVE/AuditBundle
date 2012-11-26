@@ -15,7 +15,41 @@ $( function()
     // Toggle All Fields for section
     $( '.cisco-audit-section-view' ).click( function()
     {
-        $( this ).closest( '.cisco-audit-section-row' ).nextUntil( '.cisco-audit-section-row', '.cisco-audit-desc-row' ).toggle();
+        var viewAction = $( this );
+        
+        console.log( 'view action (this): ' + viewAction.html() );
+        
+        var sectionRow = $( this ).closest( '.cisco-audit-section-row' );
+                
+        console.log( 'section row: ' + sectionRow.html() );
+                
+        var sectionToggleValue = $( this ).attr( 'toggle-value' );
+        
+        console.log( 'toggle value: ' + sectionToggleValue.html() );
+        
+        var rowArray = $( this ).closest( '.cisco-audit-section-row' ).nextUntil( '.cisco-audit-section-row', '.cisco-audit-desc-row' );
+        rowArray.toggle();
+        
+//        console.log ( rowArray );
+//        
+//        var logArrayToConsole = function (index, value) { 
+//            console.log ( '[' + index + '] = ' + value );
+//        };
+        
+//        rowArray.each( logArrayToConsole );
+
+        
+        
+//        $( this ).closest( '.cisco-audit-section-row' ).nextUntil( '.cisco-audit-section-row', '.cisco-audit-desc-row' ).toggle();
+        
+//        if( $( this).closest( '.cisco-audit-desc-row' ).is( ':visible' ))
+//        {
+//            console.log( 'TRUE' );
+//        }
+//        else 
+//        {
+//            console.log( 'FALSE' );
+//        }
     });
 
     // Add Section

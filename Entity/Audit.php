@@ -9,6 +9,7 @@ use CiscoSystems\AuditBundle\Entity\AuditForm;
 use CiscoSystems\AuditBundle\Entity\AuditFormField;
 use CiscoSystems\AuditBundle\Entity\AuditScore;
 use CiscoSystems\AuditBundle\Model\UserInterface;
+use CiscoSystems\AuditBundle\Model\ReferenceInterface;
 
 /**
  * @ORM\Entity
@@ -30,20 +31,26 @@ class Audit
     protected $auditForm;
 
     /**
-     * @ORM\Column(type="integer", name="audit_reference_id", nullable=true)
+     * @ORM\ManyToOne(targetEntity="CiscoSystems\AuditBundle\Model\ReferenceInterface")
+     * @ORM\JoinColumn(name="reference_id",referencedColumnName="id")
      */
     protected $auditReference;
 
-    /**     
+    /**
      * @ORM\ManyToOne(targetEntity="CiscoSystems\AuditBundle\Model\UserInterface")
      * @ORM\JoinColumn(name="auditing_user_id",referencedColumnName="id")
      */
     protected $auditingUser;
 
     /**
-     * @var boolean
+     * @ORM\Column(type="boolean")
      */
     protected $failed;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    protected $totalScore;
 
     /**
      * @ORM\OneToMany(targetEntity="CiscoSystems\AuditBundle\Entity\AuditScore", mappedBy="audit")
@@ -95,7 +102,17 @@ class Audit
         $this->scores->removeElement( $score );
     }
 
-    /**
+    public function getTotalScore()
+    {
+        return $this->totalScore;
+    }
+
+    public function setTotalScore( $totalScore )
+    {
+        $this->totalScore = $totalScore;
+    }
+
+   /**
      * Get id
      *
      * @return integer
@@ -131,10 +148,10 @@ class Audit
     /**
      * Set auditReference
      *
-     * @param integer $auditReference
+     * @param \CiscoSystems\AuditBundle\Model\ReferenceInterface $auditReference
      * @return Audit
      */
-    public function setAuditReference( $auditReference )
+    public function setAuditReference( ReferenceInterface $auditReference )
     {
         $this->auditReference = $auditReference;
 
@@ -144,7 +161,7 @@ class Audit
     /**
      * Get auditReference
      *
-     * @return integer
+     * @return \CiscoSystems\AuditBundle\Model\ReferenceInterface
      */
     public function getAuditReference()
     {

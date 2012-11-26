@@ -2,11 +2,9 @@
 
 namespace CiscoSystems\AuditBundle\Model;
 
-interface UserInterface
+interface ReferenceInterface
 {
     public function getId();
-    
-    public function getUsername();
     
     public function __toString();
 }

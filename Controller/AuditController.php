@@ -5,6 +5,7 @@ namespace CiscoSystems\AuditBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use CiscoSystems\AuditBundle\Form\Type\AuditType;
 use CiscoSystems\AuditBundle\Form\Type\AuditScoreType;
 use CiscoSystems\AuditBundle\Entity\Audit;
 use CiscoSystems\AuditBundle\Entity\AuditScore;
@@ -43,30 +44,28 @@ class AuditController extends Controller
         $repo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditForm' );
         $auditform = $repo->find( $request->get( 'id' ));
         $audit->setAuditForm( $auditform );
+        
+        $form = $this->createForm( new AuditType(), $audit );
 
         if ( null === $auditform )
         {
             throw $this->createNotFoundException( 'Audit form not found' );
         }
-        if ( null !== $scores = $request->get( 'score' ))
+        if ( null !== $scores = $request->get( 'score' ) /*&& $form->isValid()*/ )
         {
-            // depending on configuration, set a user ID:
             $this->setUser( $audit );
-            // TODO: add input field to form in order to set a reference
-            // $audit->setAuditReference( null );
             $this->setAuditScores( $em, $audit, $scores );
             $em->persist( $audit );
-            // TODO: calculate result and display / send emails / whatever, depending on configuration
-            // replace with result of calculation
             $em->flush();
             return $this->redirect( $this->generateUrl( 'cisco_audits' ));
         }
         $scoreform = $this->createForm( new AuditScoreType() );
         $routes = $this->get( 'router' )->getRouteCollection();
         return $this->render( 'CiscoSystemsAuditBundle:Audit:add.html.twig', array(
-            'audit' => $audit,
-            'scoreform' => $scoreform->createView(),
-            'routePatternCalculateScore' => $routes->get( 'cisco_auditformfield_calculate_score' )->getPattern(),
+            'audit'                         => $audit,
+            'form'                          => $form->createView(),
+            'scoreform'                     => $scoreform->createView(),
+            'routePatternCalculateScore'    => $routes->get( 'cisco_auditformfield_calculate_score' )->getPattern(),
         ));
     }
 
@@ -83,9 +82,9 @@ class AuditController extends Controller
         }
     }
 
-    private function setAuditScores( $entityMrg, $audit, $scores )
+    private function setAuditScores( $entityMgr, $audit, $scores )
     {
-        $fieldRepo = $entityMrg->getRepository( 'CiscoSystemsAuditBundle:AuditFormField' );
+        $fieldRepo = $entityMgr->getRepository( 'CiscoSystemsAuditBundle:AuditFormField' );
         foreach ( $scores as $fieldId => $scoreData )
         {
             $field = $fieldRepo->find( $fieldId );
@@ -94,10 +93,22 @@ class AuditController extends Controller
             $score->setField( $field );
             $score->setScore( $scoreData[ 'value' ] );
             $score->setComment( $scoreData[ 'comment' ] );
-            $entityMrg->persist( $score );
+            $entityMgr->persist( $score );
         }
     }
 
+    public function listAction()
+    {
+        // TODO: retrieve list of available cases to audit
+        $em = $this->getDoctrine()->getEntityManager();
+        $auditformRepo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditForm' );
+        $auditForms = $auditformRepo->findAll();
+        
+        return $this->render( 'CiscoSystemsAuditBundle:Audit:list.html.twig', array(
+            'auditforms' => $auditForms,
+        ));
+    }
+    
     /**
      * view a single Audit
      *
@@ -118,8 +129,8 @@ class AuditController extends Controller
                 $scorerepo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditScore' );
                 $scores = $scorerepo->findBy( array( 'audit' => $audit ));
                 return $this->render( 'CiscoSystemsAuditBundle:Audit:view.html.twig', array(
-                    'audit' => $audit,
-                    'scores' => $scores,
+                    'audit'     => $audit,
+                    'scores'    => $scores,
                 ));
             }
             else return $this->redirect( $this->generateUrl( 'cisco_audits' ));

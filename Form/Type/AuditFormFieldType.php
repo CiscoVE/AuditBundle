@@ -26,7 +26,7 @@ class AuditFormFieldType extends AbstractType
             'required'      => true,
         ));
         $builder->add( 'section', 'entity', array(
-            'required'      => false,    
+            'required'      => false,
             'class'         => 'CiscoSystemsAuditBundle:AuditFormSection',
             'property'      => 'title',
             'empty_value'   => '(Choose a Section)',
