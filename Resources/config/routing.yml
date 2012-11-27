@@ -14,9 +14,4 @@ routing_fields:
     resource: "@CiscoSystemsAuditBundle/Resources/config/routing/fields.yml"
     prefix:   /fields
 
-# temp
-cisco_audit_iconset:
-    pattern: /iconset
-    defaults: { _controller: CiscoSystemsAuditBundle:Audit:showIconSet }
-
 

@@ -42,30 +42,30 @@ class AuditController extends Controller
 
         $em = $this->getDoctrine()->getEntityManager();
         $repo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditForm' );
-        $auditform = $repo->find( $request->get( 'id' ));
+        $auditform = $repo->find( $request->get( 'id' ) );
         $audit->setAuditForm( $auditform );
-        
-        $form = $this->createForm( new AuditType(), $audit );
+
+//        $form = $this->createForm( new AuditType(), $audit );
 
         if ( null === $auditform )
         {
             throw $this->createNotFoundException( 'Audit form not found' );
         }
-        if ( null !== $scores = $request->get( 'score' ) /*&& $form->isValid()*/ )
+        if ( null !== $scores = $request->get( 'score' ) /* && $form->isValid() */ )
         {
             $this->setUser( $audit );
             $this->setAuditScores( $em, $audit, $scores );
             $em->persist( $audit );
             $em->flush();
-            return $this->redirect( $this->generateUrl( 'cisco_audits' ));
+            return $this->redirect( $this->generateUrl( 'cisco_audits' ) );
         }
         $scoreform = $this->createForm( new AuditScoreType() );
         $routes = $this->get( 'router' )->getRouteCollection();
         return $this->render( 'CiscoSystemsAuditBundle:Audit:add.html.twig', array(
-            'audit'                         => $audit,
-            'form'                          => $form->createView(),
-            'scoreform'                     => $scoreform->createView(),
-            'routePatternCalculateScore'    => $routes->get( 'cisco_auditformfield_calculate_score' )->getPattern(),
+            'audit'                      => $audit,
+//            'form' => $form->createView(),
+            'scoreform'                  => $scoreform->createView(),
+            'routePatternCalculateScore' => $routes->get( 'cisco_auditformfield_calculate_score' )->getPattern(),
         ));
     }
 
@@ -103,12 +103,12 @@ class AuditController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
         $auditformRepo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditForm' );
         $auditForms = $auditformRepo->findAll();
-        
+
         return $this->render( 'CiscoSystemsAuditBundle:Audit:list.html.twig', array(
             'auditforms' => $auditForms,
         ));
     }
-    
+
     /**
      * view a single Audit
      *
@@ -120,27 +120,21 @@ class AuditController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
         $auditrepo = $em->getRepository( 'CiscoSystemsAuditBundle:Audit' );
-        $audit = $auditrepo->find( $request->get( 'id' ));
-        
+        $audit = $auditrepo->find( $request->get( 'id' ) );
+
         if ( null !== $audit )
         {
-            if ( null !== $audit->getAuditForm())
+            if ( null !== $audit->getAuditForm() )
             {
                 $scorerepo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditScore' );
-                $scores = $scorerepo->findBy( array( 'audit' => $audit ));
+                $scores = $scorerepo->findBy( array( 'audit' => $audit ) );
                 return $this->render( 'CiscoSystemsAuditBundle:Audit:view.html.twig', array(
-                    'audit'     => $audit,
-                    'scores'    => $scores,
+                    'audit'  => $audit,
+                    'scores' => $scores,
                 ));
             }
-            else return $this->redirect( $this->generateUrl( 'cisco_audits' ));
+            else return $this->redirect( $this->generateUrl( 'cisco_audits' ) );
         }
-        else
-            throw $this->createNotFoundException( 'Audit not found' );
-    }
-
-    public function showIconSetAction()
-    {
-        return $this->render( 'CiscoSystemsAuditBundle:Audit:iconset.html.twig' );
+        else throw $this->createNotFoundException( 'Audit not found' );
     }
 }

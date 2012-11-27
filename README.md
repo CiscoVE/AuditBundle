@@ -92,6 +92,7 @@ And the orm bundle for the user interface:
         orm:
             resolve_target_entities: 
                 CiscoSystems\AuditBundle\Model\UserInterface: Acme\UserBundle\Entity\User
+                CiscoSystems\AuditBundle\Model\ReferenceInterface: Acme\UserBundle\Entity\Reference
 ```
 
 Once this all done, generate the five tables needed:
@@ -114,4 +115,4 @@ Issues should be reported in [GitHub Issues] (https://github.com/WrittenGames/Au
 
 ## License
 
-This bundle is under the BSD license: The license can be read in LICENSE.
+This bundle is under the BSD license: The license can be read in [LICENSE] (https://github.com/WrittenGames/AuditBundle/blob/master/LICENSE).

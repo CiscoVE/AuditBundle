@@ -12,10 +12,10 @@ class AuditType extends AbstractType
     public function buildForm( FormBuilderInterface $builder, array $options )
     {
         $builder->add( 'auditReference', null, array(
-            'required'      => false,
-            'empty_data'   => null,
-            //'empty_value'   => '(Choose a reference)',
-        ) );
+            'required'      => true,
+//            'empty_data'   => null,
+//            'empty_value'   => '(Choose a reference)',
+        ));
     }
 
     public function getName()
@@ -27,7 +27,7 @@ class AuditType extends AbstractType
     {
         $resolver->setDefaults( array(
             'data_class' => 'CiscoSystems\AuditBundle\Entity\Audit',
-        ) );
+        ));
     }
 
 }
