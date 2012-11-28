@@ -4,6 +4,5 @@ parameters:
 services:
     cisco.formtype.audit:
         class: %cisco.formtype.audit.class%
-        arguments: ["@doctrine.orm.entity_manager"]
         tags:
-          - { name: form.type, alias: audit }
+            - { name: form.type, alias: audit }
