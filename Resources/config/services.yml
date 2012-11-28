@@ -1,7 +1,9 @@
 parameters:
-#    wg.audit.example.class: CiscoSystems\AuditBundle\Example
+    cisco.formtype.audit.class: CiscoSystems\AuditBundle\Form\Type\AuditType
 
 services:
-#    wg.audit.example:
-#        class: %wg.audit.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
+    cisco.formtype.audit:
+        class: %cisco.formtype.audit.class%
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+          - { name: form.type, alias: audit }
