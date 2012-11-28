@@ -97,18 +97,6 @@ class AuditController extends Controller
         }
     }
 
-    public function listAction()
-    {
-        // TODO: retrieve list of available cases to audit
-        $em = $this->getDoctrine()->getEntityManager();
-        $auditformRepo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditForm' );
-        $auditForms = $auditformRepo->findAll();
-
-        return $this->render( 'CiscoSystemsAuditBundle:Audit:list.html.twig', array(
-            'auditforms' => $auditForms,
-        ));
-    }
-
     /**
      * view a single Audit
      *
