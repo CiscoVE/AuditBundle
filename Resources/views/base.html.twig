@@ -31,7 +31,7 @@
             <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
             <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
             <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
-            <script src="{{ asset( 'bundles/ciscosystemsaudit/js/cisco-audit.js' ) }}" type="text/javascript"></script>
+            <script src="{{ asset( 'bundles/ciscosystemsaudit/js/ciscoaudit.js' ) }}" type="text/javascript"></script>
     {% endblock %}
   </head>
   <body>
@@ -58,9 +58,6 @@
               </li>
               <li>
                   <a href="{{ path( 'cisco_auditformfields' ) }}">view field list</a>
-              </li>
-              <li>
-                  <a href="{{ path( 'cisco_audit_iconset' )}}">view iconset</a>
               </li>
             </ul>
           </div><!--/.nav-collapse -->
