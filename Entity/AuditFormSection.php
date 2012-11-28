@@ -20,7 +20,7 @@ class AuditFormSection
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="CiscoSystems\AuditBundle\Entity\AuditForm")
+     * @ORM\ManyToOne(targetEntity="CiscoSystems\AuditBundle\Entity\AuditForm", inversedBy="sections")
      * @ORM\JoinColumn(name="audit_form_id",referencedColumnName="id")
      */
     protected $auditForm;

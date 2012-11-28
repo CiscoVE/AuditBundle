@@ -19,7 +19,7 @@ class AuditFormField
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AuditFormSection")
+     * @ORM\ManyToOne(targetEntity="AuditFormSection", inversedBy="fields")
      */
     protected $section;
 

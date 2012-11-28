@@ -23,7 +23,7 @@ class AuditScore
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Audit")
+     * @ORM\ManyToOne(targetEntity="Audit", inversedBy="scores")
      */
     protected $audit;
 
