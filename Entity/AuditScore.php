@@ -28,7 +28,7 @@ class AuditScore
     protected $audit;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AuditFormField")
+     * @ORM\ManyToOne(targetEntity="AuditFormField", inversedBy="auditscores" )
      */
     protected $field;
 
