@@ -45,7 +45,7 @@ class AuditController extends Controller
         $auditform = $repo->find( $request->get( 'id' ) );
         $audit->setAuditForm( $auditform );
 
-//        $form = $this->createForm( new AuditType(), $audit );
+        $form = $this->createForm( $this->container->get( 'cisco.formtype.audit' ), $audit );
 
         if ( null === $auditform )
         {
