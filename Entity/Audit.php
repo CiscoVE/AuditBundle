@@ -79,7 +79,7 @@ class Audit
     }
 
     /**
-     * Add a score
+     * Add a score to collection scores and set audit in the score instance
      *
      * @param \CiscoSystems\AuditBundle\Entity\AuditScore $score
      * @return Audit

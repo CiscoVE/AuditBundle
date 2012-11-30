@@ -102,10 +102,11 @@ class AuditController extends Controller
         {
             $field = $fieldRepo->find( $fieldId );
             $score = new AuditScore();
-            $score->setAudit( $audit );
+//            $score->setAudit( $audit );
             $score->setField( $field );
             $score->setScore( $scoreData[ 'value' ] );
             $score->setComment( $scoreData[ 'comment' ] );
+            $audit->addScore( $score );
             $entityMgr->persist( $score );
         }
     }
