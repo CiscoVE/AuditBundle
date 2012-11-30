@@ -175,6 +175,19 @@ class AuditForm
         }
         return $this;
     }
+    
+    /**
+     * Add all section in ArrayColleciton sections to ArrayCollection $this->sections
+     * 
+     * @param \Doctrine\Common\Collections\ArrayCollection $sections
+     */
+    public function addSections( \Doctrine\Common\Collections\ArrayCollection $sections )
+    {
+        foreach( $sections as $section )
+        {
+            $this->addSection( $section );
+        }
+    }
 
     /**
      * Remove sections
@@ -225,7 +238,20 @@ class AuditForm
         }
         return $this;
     }
-        
+    
+    /*
+     * Add all audit in ArrayColleciton audits to ArrayCollection $this->audits
+     * 
+     * @param \Doctrine\Common\Collections\ArrayCollection $audits
+     */
+    public function addAudits( \Doctrine\Common\Collections\ArrayCollection $audits )
+    {
+        foreach( $this->audits as $audit )
+        {
+            $this->addAudit( $audit );
+        }
+    }
+
     /**
      * Remove Audit from ArrayColletion audits
      * 

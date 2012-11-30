@@ -71,7 +71,7 @@ class Audit
     /**
      * Get scores
      *
-     * @return type
+     * @return \Doctrine\Common\Collections\ArrayCollection 
      */
     public function getScores()
     {
@@ -82,7 +82,7 @@ class Audit
      * Add a score to collection scores and set audit in the score instance
      *
      * @param \CiscoSystems\AuditBundle\Entity\AuditScore $score
-     * @return Audit
+     * @return \CiscoSystems\AuditBundle\Entity\Audit
      */
     public function addScore( \CiscoSystems\AuditBundle\Entity\AuditScore $score )
     {
@@ -103,12 +103,33 @@ class Audit
     {
         $this->scores->removeElement( $score );
     }
+    
+    /**
+     * Remove all score from ArrayCollection $this->scores
+     */    
+    public function removeAllScores()
+    {
+        foreach( $this->scores as $score )
+        {
+            $this->removeScore( $score );
+        }
+    }
 
+    /**
+     * Get total score
+     * 
+     * @return integer
+     */
     public function getTotalScore()
     {
         return $this->totalScore;
     }
 
+    /**
+     * Set total score
+     * 
+     * @param integer $totalScore
+     */
     public function setTotalScore( $totalScore )
     {
         $this->totalScore = $totalScore;
@@ -128,7 +149,7 @@ class Audit
      * Set auditForm
      *
      * @param string $auditForm
-     * @return Audit
+     * @return \CiscoSystems\AuditBundle\Entity\Audit
      */
     public function setAuditForm( \CiscoSystems\AuditBundle\Entity\AuditForm $auditForm )
     {
@@ -151,7 +172,7 @@ class Audit
      * Set auditReference
      *
      * @param \CiscoSystems\AuditBundle\Model\ReferenceInterface $auditReference
-     * @return Audit
+     * @return \CiscoSystems\AuditBundle\Entity\Audit
      */
     public function setAuditReference( ReferenceInterface $auditReference )
     {
@@ -174,7 +195,7 @@ class Audit
      * Set auditingUser
      *
      * @param \CiscoSystems\AuditBundle\Model\UserInterface $auditingUser
-     * @return Audit
+     * @return \CiscoSystems\AuditBundle\Entity\Audit
      */
     public function setAuditingUser( UserInterface $auditingUser )
     {
@@ -197,7 +218,7 @@ class Audit
      * Set failed
      *
      * @param boolean $failed
-     * @return Audit
+     * @return \CiscoSystems\AuditBundle\Entity\Audit
      */
     public function setFailed( $failed )
     {
@@ -220,7 +241,7 @@ class Audit
      * Set createdAt
      *
      * @param \DateTime $createdAt
-     * @return Audit
+     * @return \CiscoSystems\AuditBundle\Entity\Audit
      */
     public function setCreatedAt( \DateTime $createdAt )
     {
@@ -243,7 +264,7 @@ class Audit
      * Get Score for Field
      * 
      * @param \CiscoSystems\AuditBundle\Entity\AuditFormField $field
-     * @return $score
+     * @return \CiscoSystems\AuditBundle\Entity\AuditScore
      */
     public function getScoreForField( AuditFormField $field )
     {
@@ -263,7 +284,7 @@ class Audit
      * Get Score for Section
      * 
      * @param \CiscoSystems\AuditBundle\Entity\AuditFormSection $section
-     * @return int
+     * @return integer
      */
     public function getResultForSection( AuditFormSection $section )
     {
@@ -297,11 +318,10 @@ class Audit
         return number_format( $achievedPercentages / $fieldCount, 2, '.', '' );
     }
 
-    // TODO: take into account the weight of 1 for fields where getFatal() == true
     /**
      * Get global score
      * 
-     * @return int
+     * @return integer
      */
     public function getTotalResult()
     {
@@ -329,7 +349,7 @@ class Audit
     /**
      * Get global weight
      * 
-     * @return int
+     * @return integer
      */
     public function getTotalWeight()
     {

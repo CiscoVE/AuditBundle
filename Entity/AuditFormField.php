@@ -80,7 +80,7 @@ class AuditFormField
      * Set title
      *
      * @param string $title
-     * @return AuditFormField
+     * @return \CiscoSystems\AuditBundle\Entity\AuditFormField
      */
     public function setTitle( $title )
     {
@@ -103,7 +103,7 @@ class AuditFormField
      * Set description
      *
      * @param string $description
-     * @return AuditFormField
+     * @return \CiscoSystems\AuditBundle\Entity\AuditFormField
      */
     public function setDescription( $description )
     {
@@ -125,8 +125,8 @@ class AuditFormField
     /**
      * Set scores
      *
-     * @param array $scores
-     * @return AuditFormField
+     * @param \Doctrine\Common\Collections\ArrayCollection $scores
+     * @return \Doctrine\Common\Collections\ArrayCollection
      */
     public function setScores( $scores )
     {
@@ -162,7 +162,7 @@ class AuditFormField
     /**
      * Get auditscore
      * 
-     * @return type
+     * @return \Doctrine\Common\Collections\ArrayCollection
      */
     public function getAuditscores()
     {
@@ -173,7 +173,7 @@ class AuditFormField
      * Add an auditscore
      * 
      * @param \CiscoSystems\AuditBundle\Entity\AuditScore $score
-     * @return AuditFormField
+     * @return \CiscoSystems\AuditBundle\Entity\AuditFormField
      */
     public function addAuditScore( \CiscoSystems\AuditBundle\Entity\AuditScore $score )
     {
@@ -216,7 +216,7 @@ class AuditFormField
      * Set weight
      *
      * @param integer $weight
-     * @return AuditFormField
+     * @return \CiscoSystems\AuditBundle\Entity\uditFormField
      */
     public function setWeight( $weight )
     {

@@ -84,7 +84,7 @@ class AuditFormSection
      * Set auditForm
      *
      * @param string $auditForm
-     * @return AuditFormSection
+     * @return \CiscoSystems\AuditBundle\Entity\AuditFormSection
      */
     public function setAuditForm( $auditForm )
     {
@@ -96,7 +96,7 @@ class AuditFormSection
     /**
      * Get auditForm
      *
-     * @return string
+     * @return CiscoSystems\AuditBundle\Entity\AuditForm
      */
     public function getAuditForm()
     {
@@ -107,7 +107,7 @@ class AuditFormSection
      * Set title
      *
      * @param string $title
-     * @return AuditFormSection
+     * @return \CiscoSystems\AuditBundle\Entity\AuditFormSection
      */
     public function setTitle( $title )
     {
@@ -130,7 +130,7 @@ class AuditFormSection
      * Set description
      *
      * @param string $description
-     * @return AuditFormSection
+     * @return \CiscoSystems\AuditBundle\Entity\AuditFormSection
      */
     public function setDescription( $description )
     {
@@ -153,7 +153,7 @@ class AuditFormSection
      * Set position
      *
      * @param integer $position
-     * @return AuditFormSection
+     * @return \CiscoSystems\AuditBundle\Entity\AuditFormSection
      */
     public function setPosition( $position )
     {
@@ -173,9 +173,9 @@ class AuditFormSection
     }
 
     /**
-     * Get fields
+     * Get \Doctrine\Common\Collections\ArrayCollection
      *
-     * @return CiscoSystems\AuditBundle\Entity\AuditFormField $fields
+     * @return \CiscoSystems\AuditBundle\Entity\AuditFormField
      */
     public function getFields()
     {
@@ -183,10 +183,10 @@ class AuditFormSection
     }
 
     /**
-     * Add a field to ArrayCollection fields
+     * Add a field to ArrayCollection $this->fields
      *
      * @param CiscoSystems\AuditBundle\Entity\AuditFormField $field
-     * @return AuditFormSection
+     * @return \CiscoSystems\AuditBundle\Entity\AuditFormSection
      */
     public function addField( \CiscoSystems\AuditBundle\Entity\AuditFormField $field )
     {
@@ -197,7 +197,20 @@ class AuditFormSection
         }
         return $this;
     }
-
+    
+    /**
+     * Add all field in ArrayColleciton fields to ArrayCollection $this->fields
+     * 
+     * @param \Doctrine\Common\Collections\ArrayCollection $fields
+     */
+    public function addFields( \Doctrine\Common\Collections\ArrayCollection $fields )
+    {
+        foreach( $fields as $field )
+        {
+            $this->addField( $field );
+        }
+    }
+            
     /**
      * Remove Field from ArrayCollection fields
      *
