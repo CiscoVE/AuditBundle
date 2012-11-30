@@ -55,6 +55,7 @@ class AuditController extends Controller
         {
             $this->setUser( $audit );
             $this->setAuditScores( $em, $audit, $scores );
+            $audit->setTotalScore( $audit->getTotalResult() );
             $em->persist( $audit );
             $em->flush();
             return $this->redirect( $this->generateUrl( 'cisco_audits' ) );
@@ -69,6 +70,11 @@ class AuditController extends Controller
         ));
     }
 
+    /**
+     * Set the user from the context
+     * 
+     * @param type $audit
+     */
     private function setUser( $audit )
     {
         $token = $this->container->get( 'security.context' )->getToken();
@@ -82,6 +88,13 @@ class AuditController extends Controller
         }
     }
 
+    /**
+     * find all scores and persist them against the relevant fields
+     * 
+     * @param type $entityMgr
+     * @param type $audit
+     * @param type $scores
+     */
     private function setAuditScores( $entityMgr, $audit, $scores )
     {
         $fieldRepo = $entityMgr->getRepository( 'CiscoSystemsAuditBundle:AuditFormField' );

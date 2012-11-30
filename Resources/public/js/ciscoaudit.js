@@ -1,7 +1,7 @@
 $( function()
 {
     // bootstrap alert dismissal
-    $(".alert").alert();
+    //$(".alert").alert();
 
     // hide description row if any
     $( '.cisco-audit-table' ).find( '.cisco-audit-desc-row' ).hide();

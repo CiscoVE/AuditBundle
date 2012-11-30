@@ -188,11 +188,13 @@ class AuditFormSection
      * @param CiscoSystems\AuditBundle\Entity\AuditFormField $field
      * @return AuditFormSection
      */
-    public function addField( AuditFormField $field )
+    public function addField( \CiscoSystems\AuditBundle\Entity\AuditFormField $field )
     {
-        $field->setSection( $this );
-        $this->fields[ ] = $field;
-
+        if( !$this->fields->contains( $field ))
+        {
+            $field->setSection( $this );
+            $this->fields->add( $field );
+        }
         return $this;
     }
 
@@ -201,7 +203,7 @@ class AuditFormSection
      *
      * @param CiscoSystems\AuditBundle\Entity\AuditFormField $field
      */
-    public function removeField( AuditFormField $field )
+    public function removeField( \CiscoSystems\AuditBundle\Entity\AuditFormField $field )
     {
         if( $this->fields->contains( $field ))
         {
@@ -209,7 +211,6 @@ class AuditFormSection
             $rem = $this->fields->get( $index );
             $rem->setSection( null );
         }
-
         $this->fields->removeElement( $field );
     }
     

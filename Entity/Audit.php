@@ -84,11 +84,13 @@ class Audit
      * @param \CiscoSystems\AuditBundle\Entity\AuditScore $score
      * @return Audit
      */
-    public function addScore( AuditScore $score )
+    public function addScore( \CiscoSystems\AuditBundle\Entity\AuditScore $score )
     {
-        $score->setAudit( $this );
-        $this->scores[ ] = $score;
-
+        if( !$this->scores->contains( $score ) )
+        {
+            $score->setAudit( $this );
+            $this->scores->add( $score );
+        }
         return $this;
     }
 
@@ -97,7 +99,7 @@ class Audit
      *
      * @param \CiscoSystems\AuditBundle\Entity\AuditScore $score
      */
-    public function removeScore( AuditScore $score )
+    public function removeScore( \CiscoSystems\AuditBundle\Entity\AuditScore $score )
     {
         $this->scores->removeElement( $score );
     }
@@ -112,7 +114,7 @@ class Audit
         $this->totalScore = $totalScore;
     }
 
-   /**
+    /**
      * Get id
      *
      * @return integer
@@ -128,7 +130,7 @@ class Audit
      * @param string $auditForm
      * @return Audit
      */
-    public function setAuditForm( AuditForm $auditForm )
+    public function setAuditForm( \CiscoSystems\AuditBundle\Entity\AuditForm $auditForm )
     {
         $this->auditForm = $auditForm;
 
@@ -246,11 +248,12 @@ class Audit
     public function getScoreForField( AuditFormField $field )
     {
         $scores = $this->getScores();
+        
         foreach ( $scores as $score )
         {
-            if ( null !== $score->getField() && $field === $score->getField())
+            if ( null !== $score->getField() && $field === $score->getField() )
             {
-                    return $score;
+                return $score;
             }
         }
         return false;
@@ -266,16 +269,20 @@ class Audit
     {
         $fields = $section->getFields();
         $fieldCount = count( $fields );
+        
         if ( 0 == $fieldCount ) return 100;
         $achievedPercentages = 0;
+        
         foreach ( $fields as $field )
         {
             $score = $this->getScoreForField( $field );
+            
             if ( !$score )
             {
                 $score = new AuditScore();
                 $score->setScore( AuditScore::YES );
             }
+            
             if ( $field->getFatal() == true )
             {
                 if ( $score->getScore() == AuditScore::NO )
@@ -284,10 +291,10 @@ class Audit
                     continue;
                 }
             }
-            else
+            else 
                 $achievedPercentages += $score->getWeightPercentage();
         }
-        return number_format($achievedPercentages / $fieldCount, 2, '.', '');
+        return number_format( $achievedPercentages / $fieldCount, 2, '.', '' );
     }
 
     // TODO: take into account the weight of 1 for fields where getFatal() == true
@@ -298,23 +305,25 @@ class Audit
      */
     public function getTotalResult()
     {
-        if( null !== $auditform = $this->getAuditForm())
+        if ( null !== $auditform = $this->getAuditForm() )
         {
             $sections = $auditform->getSections();
-            if ( 0 == count( $sections ) ) return 100;
+            $count = count( $sections );
+            if ( 0 == $count ) return 100;
             $totalPercent = 0;
             $divisor = 0;
+            $this->setFailed( false );
+            
             foreach ( $sections as $section )
             {
                 $percent = $this->getResultForSection( $section );
-                $weight  = $section->getWeight();
+                $weight = $section->getWeight();
                 $divisor += $weight;
                 $totalPercent = $totalPercent * ( $divisor - $weight ) / $divisor + $percent * $weight / $divisor;
             }
-            return number_format($totalPercent, 2, '.', '');
+            return number_format( $totalPercent, 2, '.', '' );
         }
-        else
-            return 0;
+        else return 0;
     }
 
     /**
@@ -326,9 +335,10 @@ class Audit
     {
         $weight = 0;
         $sections = $this->getAuditForm()->getSections();
-        foreach( $sections as $section )
+        
+        foreach ( $sections as $section )
         {
-              $weight += $section->getWeight();
+            $weight += $section->getWeight();
         }
         return $weight;
     }

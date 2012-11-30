@@ -23,12 +23,12 @@ class AuditScore
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Audit", inversedBy="scores")
+     * @ORM\ManyToOne(targetEntity="CiscoSystems\AuditBundle\Entity\Audit", inversedBy="scores")
      */
     protected $audit;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AuditFormField")
+     * @ORM\ManyToOne(targetEntity="CiscoSystems\AuditBundle\Entity\AuditFormField")
      */
     protected $field;
 
@@ -93,7 +93,7 @@ class AuditScore
      * @param string $score
      * @return AuditScore
      */
-    public function setScore($score)
+    public function setScore( $score )
     {
         $this->score = $score;
 
@@ -116,7 +116,7 @@ class AuditScore
      * @param string $comment
      * @return AuditScore
      */
-    public function setComment($comment)
+    public function setComment( $comment )
     {
         $this->comment = $comment;
 
@@ -139,9 +139,9 @@ class AuditScore
      * @param CiscoSystems\AuditBundle\Entity\Audit $audit
      * @return AuditScore
      */
-    public function setAudit(\CiscoSystems\AuditBundle\Entity\Audit $audit = null)
+    public function setAudit( \CiscoSystems\AuditBundle\Entity\Audit $audit )
     {
-        $this->audit = $audit;
+        if ( null == $this->audit ) $this->audit = $audit;
 
         return $this;
     }
@@ -162,9 +162,9 @@ class AuditScore
      * @param CiscoSystems\AuditBundle\Entity\AuditFormField $field
      * @return AuditScore
      */
-    public function setField(\CiscoSystems\AuditBundle\Entity\AuditFormField $field = null)
+    public function setField( \CiscoSystems\AuditBundle\Entity\AuditFormField $field = null )
     {
-        $this->field = $field;
+        if ( null == $this->field ) $this->field = $field;
 
         return $this;
     }

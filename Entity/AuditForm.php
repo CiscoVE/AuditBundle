@@ -42,13 +42,11 @@ class AuditForm
     protected $createdAt;
 
     /**
-     *
      * @ORM\OneToMany(targetEntity="CiscoSystems\AuditBundle\Entity\AuditFormSection", mappedBy="auditForm")
      */
     protected $sections;
     
     /**
-     * 
      * @ORM\OneToMany(targetEntity="CiscoSystems\AuditBundle\Entity\Audit", mappedBy="auditForm")
      */
     protected $audits;
@@ -168,11 +166,13 @@ class AuditForm
      * @param CiscoSystems\AuditBundle\Entity\AuditFormSection $section
      * @return AuditForm
      */
-    public function addSection( AuditFormSection $section )
+    public function addSection( \CiscoSystems\AuditBundle\Entity\AuditFormSection $section )
     {
-        $section->setAuditform( $this );
-        $this->sections[] = $section;
-
+        if( !$this->sections->contains( $section ))
+        {
+            $section->setAuditform( $this );
+            $this->sections->add( $section );
+        }
         return $this;
     }
 
@@ -181,7 +181,7 @@ class AuditForm
      *
      * @param CiscoSystems\AuditBundle\Entity\AuditFormSection $section
      */
-    public function removeSection( AuditFormSection $section )
+    public function removeSection( \CiscoSystems\AuditBundle\Entity\AuditFormSection $section )
     {
         if( $this->sections->contains( $section ))
         {
@@ -189,10 +189,17 @@ class AuditForm
             $rem = $this->sections->get( $index );
             $rem->setAuditForm( null );
         }
-
         $this->sections->removeElement($section);
     }
 
+    public function removeAllSection()
+    {
+        foreach( $this->sections as $section )
+        {
+            $this->removeSection( $section );
+        }
+    }
+    
     /**
      * Get sections
      *
@@ -209,11 +216,13 @@ class AuditForm
      * @param \CiscoSystems\AuditBundle\Entity\Audit $audit
      * @return AuditForm
      */
-    public function addAudit( Audit $audit )
+    public function addAudit( \CiscoSystems\AuditBundle\Entity\Audit $audit )
     {
-        $audit->setAuditForm( $this );
-        $this->audits[] = $audit;
-        
+        if( !$this->audits->contains( $audit ))
+        {
+            $audit->setAuditForm( $this );
+            $this->audits->add( $audit );
+        }
         return $this;
     }
         
@@ -222,7 +231,7 @@ class AuditForm
      * 
      * @param \CiscoSystems\AuditBundle\Entity\Audit $audit
      */
-    public function removeAudit( Audit $audit )
+    public function removeAudit( \CiscoSystems\AuditBundle\Entity\Audit $audit )
     {
         if( $this->audits->contains( $audit ))
         {
@@ -230,7 +239,6 @@ class AuditForm
             $rem = $this->audits->get( $index );
             $rem->setAuditForm( NULL );
         }
-        
         $this->audits->removeElement( $audit );
     }
     
