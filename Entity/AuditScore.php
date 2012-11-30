@@ -28,7 +28,7 @@ class AuditScore
     protected $audit;
 
     /**
-     * @ORM\ManyToOne(targetEntity="CiscoSystems\AuditBundle\Entity\AuditFormField")
+     * @ORM\ManyToOne(targetEntity="CiscoSystems\AuditBundle\Entity\AuditFormField", inversedBy="auditscores")
      */
     protected $field;
 

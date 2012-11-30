@@ -64,7 +64,7 @@ class AuditController extends Controller
         $routes = $this->get( 'router' )->getRouteCollection();
         return $this->render( 'CiscoSystemsAuditBundle:Audit:add.html.twig', array(
             'audit'                      => $audit,
-//            'form' => $form->createView(),
+            'form'                       => $form->createView(),
             'scoreform'                  => $scoreform->createView(),
             'routePatternCalculateScore' => $routes->get( 'cisco_auditformfield_calculate_score' )->getPattern(),
         ));
