@@ -1,5 +1,13 @@
 $( function()
 {
+    var viewIcon = '<i class="icon-eye-open" title="View"></i>';
+    var hideIcon = '<i class="icon-eye-close" title="Hide"></i>';
+    
+    var viewBtn = '<i class="icon-eye-open"></i> View';
+    var hideBtn = '<i class="icon-eye-close"></i> Hide';
+
+    var sectionIsHidden = true;
+
     // bootstrap alert dismissal
     //$(".alert").alert();
 
@@ -9,47 +17,74 @@ $( function()
     // Toggle single Field
     $( '.cisco-audit-field-view' ).click( function()
     {
-        $( this ).closest( '.cisco-audit-field-row' ).nextUntil( '.cisco-audit-field-row', '.cisco-audit-desc-row' ).toggle();
+        var fieldRow = $( this ).closest( '.cisco-audit-field-row' );
+        var descRows = fieldRow.nextUntil( '.cisco-audit-field-row', '.cisco-audit-desc-row' );
+        
+        if( $( fieldRow ).hasClass( 'cisco-audit-field-row' ))
+        {
+            var btn = $( this ).html();
+            
+            if( btn.trim() === viewIcon )
+            {
+                $( this ).html( hideIcon );
+            }
+            if( btn.trim() === hideIcon )
+            {
+                $( this ).html( viewIcon );
+            }  
+        }
+        
+        descRows.each( function()
+        {
+            if( $( this ).hasClass( 'cisco-audit-desc-row' ))
+            {
+                $( this ).toggle();
+            }
+        });
     });
 
     // Toggle All Fields for section
     $( '.cisco-audit-section-view' ).click( function()
     {
-        var viewAction = $( this );
-        
-        console.log( 'view action (this): ' + viewAction.html() );
-        
         var sectionRow = $( this ).closest( '.cisco-audit-section-row' );
-                
-        console.log( 'section row: ' + sectionRow.html() );
-                
-        var sectionToggleValue = $( this ).attr( 'toggle-value' );
+        var fieldRows = sectionRow.nextUntil( '.cisco-audit-section-row' );
         
-        console.log( 'toggle value: ' + sectionToggleValue.html() );
+        if( sectionIsHidden === true )
+        {
+            $( this ).html( hideBtn );
+            
+            fieldRows.each( function()
+            {
+                if( $( this ).hasClass( 'cisco-audit-field-row' ))
+                {
+                    $( this ).find( '.cisco-audit-field-view' ).html( hideIcon );
+                }
+                if( $( this ).hasClass( 'cisco-audit-desc-row' ) && $( this ).is( ':hidden' ))
+                {
+                    $( this ).toggle();
+                }
+            });
         
-        var rowArray = $( this ).closest( '.cisco-audit-section-row' ).nextUntil( '.cisco-audit-section-row', '.cisco-audit-desc-row' );
-        rowArray.toggle();
-        
-//        console.log ( rowArray );
-//        
-//        var logArrayToConsole = function (index, value) { 
-//            console.log ( '[' + index + '] = ' + value );
-//        };
-        
-//        rowArray.each( logArrayToConsole );
-
-        
-        
-//        $( this ).closest( '.cisco-audit-section-row' ).nextUntil( '.cisco-audit-section-row', '.cisco-audit-desc-row' ).toggle();
-        
-//        if( $( this).closest( '.cisco-audit-desc-row' ).is( ':visible' ))
-//        {
-//            console.log( 'TRUE' );
-//        }
-//        else 
-//        {
-//            console.log( 'FALSE' );
-//        }
+            sectionIsHidden = false;
+        }
+        else if( sectionIsHidden === false )
+        {
+            $( this ).html( viewBtn );
+            
+            fieldRows.each( function()
+            {
+                if( $( this ).hasClass( 'cisco-audit-field-row' ))
+                {
+                    $( this ).find( '.cisco-audit-field-view' ).html( viewIcon );                    
+                }                
+                if( $( this ).hasClass( 'cisco-audit-desc-row' ) && $( this ).is( ':visible' ))
+                {
+                    $( this ).toggle();                    
+                }
+            });
+            
+            sectionIsHidden = true;
+        }
     });
 
     // Add Section

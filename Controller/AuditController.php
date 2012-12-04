@@ -54,6 +54,13 @@ class AuditController extends Controller
         if ( null !== $scores = $request->get( 'score' ) /* && $form->isValid() */ )
         {
             $this->setUser( $audit );
+            $formData = $request->get( 'audit' );
+            
+            if ( null !== $reference = $formData['auditReference'] )
+            {
+                $audit->setAuditReference( $reference );
+            }
+            
             $this->setAuditScores( $em, $audit, $scores );
             $audit->setTotalScore( $audit->getTotalResult() );
             $em->persist( $audit );
