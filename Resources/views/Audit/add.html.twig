@@ -2,7 +2,7 @@
 
 {% block pagecontent %}
 <div class="container">
-    <div class="span10 offset1">
+    <div class="span10">
         <form id="audit" method="POST" action="">
             <legend>Create new audit
                 <button type="submit" class="btn btn-mini pull-right">
@@ -11,7 +11,7 @@
             </legend>
 
             <div class="form-inline">
-                <label class="control-label">Reference: </label>
+                {#<label class="control-label">Reference: </label>#}
                 {{ form_row( form.auditReference ) }}
             </div>
 
@@ -32,19 +32,20 @@
                         <td colspan="5">Section {{ loop.index }}: {{ section.title }}</td>
                     </tr>
                     {% for field in section.fields %}
-                        <tr>
+                        <tr class="cisco-audit-field-row">
                             <td>{{ counter }}</td>
                             <td>{{ field.title }}</td>
-                            <td>
+                            <td class="cisco-audit-field-score">
                             {% set form = craue_cloneForm(scoreform) %}
-                                <select class="span1" name="score[{{ field.id }}][value]" data-field-id="{{ field.id }}">
+                                <select class="span1 cisco-audit-score-selector" name="score[{{ field.id }}][value]" 
+                                        href="{{ path( 'cisco_auditformfield_calculate_score', { 'id': field.id } ) }}">
                                 {% for score, label in field.scores %}
                                     <option value="{{ score }}" data-tooltip="{{ label }}" class="tooltip">
                                     {{ score }}
                                     </option>
                                 {% endfor %}
                             </td>
-                            <td>
+                            <td class="cisco-audit-field-weight">
                             {% if field.fatal == true %}
                                 Involve Mgr
                             {% else %}
@@ -57,10 +58,10 @@
                         </tr>
                         {% set counter = counter + 1 %}
                     {% endfor %}
-                    <tr>
+                    <tr class="cisco-audit-section-row">
                         <td colspan="2" style="text-align: right">Section's Score</td>
-                        <td>{{ attribute( audit, 'resultForSection', [ section ] ) }}</td>
-                        <td>{{ section.weight }}</td>
+                        <td class="cisco-audit-section-score">{{ attribute( audit, 'resultForSection', [ section ] ) }}</td>
+                        <td class="cisco-audit-secction-weight">{{ section.weight }}</td>
                         <td class="bar"></td>
                     </tr>
                 {% endfor %}
@@ -75,6 +76,7 @@
         </form>
     </div>
 </div>
+{#
 <script type="text/javascript">
     var routePatternCalculateScore = '{{ routePatternCalculateScore }}';
     $(function()
@@ -130,5 +132,5 @@
         });
     });
 </script>
-
+#}
 {% endblock %}

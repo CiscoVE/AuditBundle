@@ -7,6 +7,8 @@ $( function()
     var hideBtn = '<i class="icon-eye-close"></i> Hide';
 
     var sectionIsHidden = true;
+    
+//    var routePatternCalculateScore = '{{ routePatternCalculateScore }}';
 
     // bootstrap alert dismissal
     //$(".alert").alert();
@@ -110,6 +112,30 @@ $( function()
         });
         return false;
     });
+
+    // Add Field
+    $( '.cisco-audit-field-add' ).click( function()
+    {
+        var url = $( this ).attr( 'href' );
+        var fieldId = $( this ).attr( 'data-field-id' );
+
+        loadUrl = routePatternLoadField.replace( '{id}', fieldId );
+
+        $.ajax(
+        {
+            url: url,
+            type: "POST",
+            success: function( response )
+            {
+                $( '.cisco-audit-field-row' ).last( '.cisco-audit-field-row' ).after().load( loadUrl );
+            },
+            error: function( response )
+            {
+                //console.log( 'failure: ' + response );
+            }
+        });
+        return false;
+    });
     
     // Remove Section
     $( '.cisco-audit-section-remove' ).click( function()
@@ -135,6 +161,27 @@ $( function()
         return false;
     });
 
+    // Remove Field
+    $( '.cisco-audit-field-remove' ).click( function()
+    {
+        var url = $( this ).attr( 'href' );
+        var that = this;
+        $.ajax(
+        {
+            url: url,
+            type: "POST",
+            success: function( response )
+            {
+                $( that ).closest( '.cisco-audit-field-row' ).remove();
+            },
+            error: function( response )
+            {
+                //console.log( 'failure: ' + response );
+            }
+        });
+        return false;
+    });
+    
     // Edit Section
     $( '.cisco-audit-section-edit' ).click( function()
     {
@@ -188,30 +235,6 @@ $( function()
         return false;
     });
 
-    // Add Field
-    $( '.cisco-audit-field-add' ).click( function()
-    {
-        var url = $( this ).attr( 'href' );
-        var fieldId = $( this ).attr( 'data-field-id' );
-
-        loadUrl = routePatternLoadField.replace( '{id}', fieldId );
-
-        $.ajax(
-        {
-            url: url,
-            type: "POST",
-            success: function( response )
-            {
-                $( '.cisco-audit-field-row' ).last( '.cisco-audit-field-row' ).after().load( loadUrl );
-            },
-            error: function( response )
-            {
-                //console.log( 'failure: ' + response );
-            }
-        });
-        return false;
-    });
-
     // Edit Field
     // load up _edit.html.twig in a modal box
     $( '.cisco-audit-field-edit' ).click( function()
@@ -260,28 +283,78 @@ $( function()
         return false;        
     });
 
-    // Remove Field
-    $( '.cisco-audit-field-remove' ).click( function()
+    $( '.cisco-audit-score-selector' ).change( function()
     {
+        /**
+         * On select get the value for the score
+         *      multiple by the weight of the field
+         *      calculate the section's score
+         *      calculate the audit's score
+         */
+        
         var url = $( this ).attr( 'href' );
-        var that = this;
+        var scoreData = $( this ).val();
+        var scoreWeight = $( this ).closest( 'tr' ).find( '.cisco-audit-field-weight' ).text().trim();
+        var fieldRow = $( this ).closest( 'tr' );
+        var sectionScore;
+        var sectionWeight;
+        var resultRow = false;
+        var allSiblings = $( fieldRow ).nextAll( 'tr' );
+
+        var sectionRow = $( fieldRow ).closest( 'cisco-audit-section-row' );
+
+//        console.log( 'this: ' + $( this ).html() );
+        console.log( 'value: ' + scoreData );
+        console.log( 'weight: ' + scoreWeight );
+//        console.log();
+//        console.log( 'url: ' + url );
+//        console.log( 'row: ' + $( fieldRow ).html() );
+//        console.log( 'allSiblings: ' + $( allSiblings ).html());
+        console.log( 'section: ' + $( sectionRow ).html() );
+
+
+        for ( var it in allSiblings )
+        {
+            if ( $( allSiblings[it] ).hasClass( 'cisco-audit-section-row' ) )
+            {
+                resultRow = allSiblings[it];
+                break;
+            }
+        }
+
+        if ( resultRow )
+        {
+            var sectionScore = $( resultRow ).find( '.cisco-audit-section-score' ).html();
+            var sectionWeight = $( resultRow ).find( '.cisco-audit-section-weight' ).html();
+        }
+//        console.log( 'sectionScore: ' + sectionScore );
+//        console.log( 'sectionWeight: ' + sectionWeight );
+        
         $.ajax(
         {
             url: url,
-            type: "POST",
-            success: function( response )
+            dataType: 'json',
+            data: 
             {
-                $( that ).closest( '.cisco-audit-field-row' ).remove();
+                scoreData: scoreData,
+                scoreWeight: scoreWeight,
+                sectionScore: sectionScore,
+                sectionWeight: sectionWeight 
             },
+            type: 'POST',
             error: function( response )
             {
-                //console.log( 'failure: ' + response );
-            }
-        });
-        return false;
-    });
-    
+                console.log( 'error: ' + $( response ).text() );
+            },
+            success: function( response )
+            {
+                console.log( 'success: ' + $( response ).text() );
 
+                $( '.cisco-audit-section-score' ).html( response.score );
+//               $( '.bar' ).html( response.scoreData + "(" + response.fieldScore + ")- FW:" + response.fieldWeight + "- GW: " + response.sectionWeight );
+            }
+        });       
+    });
 
 //    table.find( '.cisco-audit-field-row' ).click( function()
 //    {
