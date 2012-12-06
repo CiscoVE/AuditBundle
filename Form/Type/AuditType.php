@@ -12,9 +12,7 @@ class AuditType extends AbstractType
     public function buildForm( FormBuilderInterface $builder, array $options )
     {
         $builder->add( 'auditReference', null, array(
-            'required'      => true,
-//            'empty_data'   => null,
-//            'empty_value'   => '(Choose a reference)',
+            'required' => true,
         ));
     }
 

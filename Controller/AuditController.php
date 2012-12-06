@@ -38,41 +38,29 @@ class AuditController extends Controller
      */
     public function addAction( Request $request )
     {
-        $audit = new Audit();
-
+        // Grab the entity manager from the container
         $em = $this->getDoctrine()->getEntityManager();
+        // Check for audit form data to be used
         $repo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditForm' );
         $auditform = $repo->find( $request->get( 'id' ) );
-        $audit->setAuditForm( $auditform );
-
-        $form = $this->createForm( $this->container->get( 'cisco.formtype.audit' ), $audit );
-
         if ( null === $auditform )
         {
+            // Throw error 404 if audit form data not found
             throw $this->createNotFoundException( 'Audit form not found' );
         }
+        // Create new audit instance
+        $audit = new Audit();
+        $audit->setAuditForm( $auditform );
+        // Create form object for audit
+        $form = $this->createForm( $this->container->get( 'cisco.formtype.audit' ), $audit );
         if ( 'POST' == $request->getMethod() )
         {
+            $this->get( 'logger' )->debug( '## POST request received' );
+            // bind request for form object
+            $form->bind( $request );
             $scores = $request->get( 'score' );
-            $auditFormData = $request->get( 'audit' );
-            $form->bind( $auditFormData );
-            $data = $form->getData();
-            echo $data->getAuditReference()->getId();
-                echo '<pre>';
-                print_r( $auditFormData );
-                print_r( $scores );
-                echo '</pre>';
-                die(); exit;
             if ( null !== $scores && $form->isValid() )
             {
-                echo '<pre>';
-                print_r( $scores );
-                echo '</pre>';
-                die(); exit;
-//                echo '<pre>';
-//                print_r( $_REQUEST );
-//                echo '</pre>';
-//                die(); exit;
                 $this->setUser( $audit );
                 $this->setAuditScores( $em, $audit, $scores );
                 $audit->setTotalScore( $audit->getTotalResult() );
@@ -87,7 +75,6 @@ class AuditController extends Controller
             'audit'                      => $audit,
             'form'                       => $form->createView(),
             'scoreform'                  => $scoreform->createView(),
-//            'routePatternCalculateScore' => $routes->get( 'cisco_auditformfield_calculate_score' )->getPattern(),
         ));
     }
     
