@@ -4,7 +4,6 @@ namespace CiscoSystems\AuditBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use CiscoSystems\AuditBundle\Form\Type\AuditType;
 use CiscoSystems\AuditBundle\Form\Type\AuditScoreType;
 use CiscoSystems\AuditBundle\Entity\Audit;
