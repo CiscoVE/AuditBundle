@@ -323,12 +323,13 @@ $( function()
         });
         
         console.log( scores );
+        
         $.ajax(
         {
             url: url,
             type: "POST",
-//            data: { scores: scores },
-            scores: scores,
+            data: { scores: scores },
+            dataType: 'text',
             success: function( response )
             {
                 $( sectionScore ).text( response );

@@ -102,25 +102,24 @@ class AuditFormFieldController extends Controller
      */
     public function calculateScoreAction( Request $request )
     {
-        $scores = json_decode($_POST['scores']);
-        echo "<pre>";
-        print_r( 'BLAH' );
-        echo "</pre>";
-        die(); exit;
         
         $scores[] = $request->request->get( 'scores' );
-        
+//        echo "<pre>";
+//        print_r( $scores );
+//        echo "</pre>";
+//        die(); exit;
+//        
 //        $sectionScore = 0;
         $sectionWeight = 0;
         
         $tempScore = 0;
         
-        foreach( $scores as $score )
+        foreach( $scores[0] as $score )
         {
             $value = AuditScore::getWeightPercentageForScore( $score[0] );
             $weight = $score[1];
             
-            $tempScore = $value * $weight;
+            $tempScore += $value * $weight;
             
             $sectionWeight += $weight;
         }

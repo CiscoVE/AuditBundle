@@ -17,6 +17,9 @@ cisco_auditformfield_delete:
 cisco_auditformfield_calculate_score:
     pattern:  /calculate-score
     defaults: { _controller: CiscoSystemsAuditBundle:AuditFormField:calculateScore }
+    requirements:
+        _method:  POST
+        _format:  JSON
 
 cisco_auditformfield_view:
     pattern:  /{id}
