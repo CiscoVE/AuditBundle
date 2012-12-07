@@ -285,84 +285,59 @@ $( function()
 
     $( '.cisco-audit-score-selector' ).change( function()
     {
-        /**
-         * On select get the value for the score
-         *      multiple by the weight of the field
-         *      calculate the section's score
-         *      calculate the audit's score
-         */
-        
         var url = $( this ).attr( 'href' );
-        var scoreData = $( this ).val();
-        var scoreWeight = $( this ).closest( 'tr' ).find( '.cisco-audit-field-weight' ).text().trim();
-        var fieldRow = $( this ).closest( 'tr' );
-        var sectionScore;
-        var sectionWeight;
-        var resultRow = false;
-        var allSiblings = $( fieldRow ).nextAll( 'tr' );
-
-        var sectionRow = $( fieldRow ).closest( 'cisco-audit-section-row' );
-
-//        console.log( 'this: ' + $( this ).html() );
-        console.log( 'value: ' + scoreData );
-        console.log( 'weight: ' + scoreWeight );
-//        console.log();
-//        console.log( 'url: ' + url );
-//        console.log( 'row: ' + $( fieldRow ).html() );
-//        console.log( 'allSiblings: ' + $( allSiblings ).html());
-        console.log( 'section: ' + $( sectionRow ).html() );
-
-
-        for ( var it in allSiblings )
-        {
-            if ( $( allSiblings[it] ).hasClass( 'cisco-audit-section-row' ) )
-            {
-                resultRow = allSiblings[it];
-                break;
-            }
-        }
-
-        if ( resultRow )
-        {
-            var sectionScore = $( resultRow ).find( '.cisco-audit-section-score' ).html();
-            var sectionWeight = $( resultRow ).find( '.cisco-audit-section-weight' ).html();
-        }
-//        console.log( 'sectionScore: ' + sectionScore );
-//        console.log( 'sectionWeight: ' + sectionWeight );
         
+        var row = $( this ).closest( 'tr' );
+        
+        var prevRows = $( row ).prevUntil( '.cisco-audit-section-row', '.cisco-audit-field-row' );
+        var nextRows = $( row ).nextUntil( '.cisco-audit-section-score-row', '.cisco-audit-field-row' );
+        var scoreRow = $( row ).nextUntil( '.cisco-audit-section-row', '.cisco-audit-section-score-row' );
+         
+        var sectionScore = $( scoreRow ).children().next( '.cisco-audit-section-score' );
+//        $( scoreRow ).children().next( '.cisco-audit-section-score' ).css( 'background-color', 'green' );
+        
+        var rows = $.merge( $.merge( prevRows, row ), nextRows );
+
+        var scores = [];
+        var index = 0;
+        
+        rows.each( function()
+        {
+            var score = [];
+            
+            $( this ).children().each( function()
+            {                
+                if( $( this ).hasClass( 'cisco-audit-field-score' ) )
+                {
+                    score[0] = $( this ).children().val();
+                }
+                if( $( this ).hasClass( 'cisco-audit-field-weight' ) )
+                {
+                    score[1] = $( this ).text().trim();
+                }
+            });
+        
+            scores[index] = score;
+            
+            index += 1;
+        });
+        
+        console.log( scores );
         $.ajax(
         {
             url: url,
-            dataType: 'json',
-            data: 
-            {
-                scoreData: scoreData,
-                scoreWeight: scoreWeight,
-                sectionScore: sectionScore,
-                sectionWeight: sectionWeight 
-            },
-            type: 'POST',
-            error: function( response )
-            {
-                console.log( 'error: ' + $( response ).text() );
-            },
+            type: "POST",
+            data: { scores: scores },
             success: function( response )
             {
-                console.log( 'success: ' + $( response ).text() );
-
-                $( '.cisco-audit-section-score' ).html( response.score );
-//               $( '.bar' ).html( response.scoreData + "(" + response.fieldScore + ")- FW:" + response.fieldWeight + "- GW: " + response.sectionWeight );
+                $( sectionScore ).text( response );
+            },
+            error: function( response )
+            {
+                console.log( 'can not do it .....' );
             }
         });       
     });
-
-//    table.find( '.cisco-audit-field-row' ).click( function()
-//    {
-//        $( this ).nextUntil( '.cisco-audit-field-row' ).fadeToggle( 500 );;
-//    });
-
-
-
 
 // test code in case needed
 //$('.audit-section-row').next('.audit-form-field').css('background-color', 'yellow');
