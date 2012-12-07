@@ -28,7 +28,7 @@
                 <tbody>
                 {% set counter = 1 %}
                 {% for section in audit.auditform.sections %}
-                    <tr>
+                    <tr class="cisco-audit-section-row">
                         <td colspan="5">Section {{ loop.index }}: {{ section.title }}</td>
                     </tr>
                     {% for field in section.fields %}
@@ -58,17 +58,17 @@
                         </tr>
                         {% set counter = counter + 1 %}
                     {% endfor %}
-                    <tr class="cisco-audit-section-row">
+                    <tr class="cisco-audit-section-score-row">
                         <td colspan="2" style="text-align: right">Section's Score</td>
                         <td class="cisco-audit-section-score">{{ attribute( audit, 'resultForSection', [ section ] ) }}</td>
-                        <td class="cisco-audit-secction-weight">{{ section.weight }}</td>
+                        <td class="cisco-audit-section-weight">{{ section.weight }}</td>
                         <td class="bar"></td>
                     </tr>
                 {% endfor %}
-                    <tr>
+                    <tr class="cisco-audit-score-row">
                         <td colspan="2" style="text-align: right">Final Score</td>
-                        <td></td>
-                        <td>{{ audit.totalWeight }}</td>
+                        <td class="cisco-audit-score"></td>
+                        <td class="cisco-audit-weight">{{ audit.totalWeight }}</td>
                         <td></td>
                     </tr>
                 </tbody>

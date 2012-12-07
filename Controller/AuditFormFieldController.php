@@ -102,31 +102,32 @@ class AuditFormFieldController extends Controller
      */
     public function calculateScoreAction( Request $request )
     {
-        $em = $this->getDoctrine()->getEntityManager();
-        $repo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditFormField' );
-        $field = $repo->find( $request->get( 'id' ));
-        if ( null === $field )
+        echo "<pre>";
+        print_r( $request );
+//        print_r( $request->get( 'scores' ) );
+        echo "</pre>";
+        die(); exit;
+        
+        $scores[] = $request->request->get( 'scores' );
+        
+//        $sectionScore = 0;
+        $sectionWeight = 0;
+        
+        $tempScore = 0;
+        
+        foreach( $scores as $score )
         {
-            throw $this->createNotFoundException( 'Field does not exist' );
+            $value = AuditScore::getWeightPercentageForScore( $score[0] );
+            $weight = $score[1];
+            
+            $tempScore = $value * $weight;
+            
+            $sectionWeight += $weight;
         }
-        $scoreData = $request->request->get( 'scoreData' ); //Y, N, A, N/A
-        $fieldScore = AuditScore::getWeightPercentageForScore( $scoreData );
-        $fieldWeight = $request->request->get( 'scoreWeight' );
-        $sectionScore = $request->request->get( 'sectionScore' );
-        $sectionWeight = $request->request->get( 'sectionWeight' );
-
-        $returnedWeight = $fieldWeight + $sectionWeight;
-        $returnedScore = $sectionScore * $sectionWeight / $returnedWeight + $fieldScore * $fieldWeight / $returnedWeight;
-
-        $ret = array();
-
-        $ret['score'] = $returnedScore;
-        $ret['scoreData'] = $scoreData;
-        $ret['fieldScore'] = $fieldScore;
-        $ret['fieldWeight'] = $fieldWeight;
-        $ret['sectionWeight'] = $sectionWeight;
-
-        return new Response( json_encode($ret));
+        
+        $sectionScore = $tempScore / $sectionWeight;
+        
+        return new Response( json_encode($sectionScore));
     }
 
     public function loadAction( Request $request )
