@@ -38,7 +38,7 @@
                             <td class="cisco-audit-field-score">
                             {% set form = craue_cloneForm(scoreform) %}
                                 <select class="span1 cisco-audit-score-selector" name="score[{{ field.id }}][value]" 
-                                        href="{{ path( 'cisco_auditformfield_calculate_score', { 'id': field.id } ) }}">
+                                        href="{{ path( 'cisco_auditformfield_calculate_score' ) }}">
                                 {% for score, label in field.scores %}
                                     <option value="{{ score }}" data-tooltip="{{ label }}" class="tooltip">
                                     {{ score }}

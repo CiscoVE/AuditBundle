@@ -102,10 +102,11 @@ class AuditFormFieldController extends Controller
      */
     public function calculateScoreAction( Request $request )
     {
-//        echo "<pre>";
-//        print_r( $request->get( 'scores' ) );
-//        echo "</pre>";
-//        die(); exit;
+        $scores = json_decode($_POST['scores']);
+        echo "<pre>";
+        print_r( 'BLAH' );
+        echo "</pre>";
+        die(); exit;
         
         $scores[] = $request->request->get( 'scores' );
         

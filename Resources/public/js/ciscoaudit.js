@@ -327,7 +327,8 @@ $( function()
         {
             url: url,
             type: "POST",
-            data: { scores: scores },
+//            data: { scores: scores },
+            scores: scores,
             success: function( response )
             {
                 $( sectionScore ).text( response );

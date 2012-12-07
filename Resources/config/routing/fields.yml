@@ -15,10 +15,8 @@ cisco_auditformfield_delete:
         id: \d+
 
 cisco_auditformfield_calculate_score:
-    pattern:  /{id}/calculate-score
+    pattern:  /calculate-score
     defaults: { _controller: CiscoSystemsAuditBundle:AuditFormField:calculateScore }
-    requirements:
-        id: \d+
 
 cisco_auditformfield_view:
     pattern:  /{id}
