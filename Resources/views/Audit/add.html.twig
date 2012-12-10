@@ -28,11 +28,11 @@
                 <tbody>
                 {% set counter = 1 %}
                 {% for section in audit.auditform.sections %}
-                    <tr class="cisco-audit-section-row">
+                    <tr class="cisco-audit-section-row" section-id="{{ section.id }}">
                         <td colspan="5">Section {{ loop.index }}: {{ section.title }}</td>
                     </tr>
                     {% for field in section.fields %}
-                        <tr class="cisco-audit-field-row">
+                        <tr class="cisco-audit-field-row" field-id="{{ field.id }}">
                             <td>{{ counter }}</td>
                             <td>{{ field.title }}</td>
                             <td class="cisco-audit-field-score">
@@ -76,61 +76,4 @@
         </form>
     </div>
 </div>
-{#
-<script type="text/javascript">
-    var routePatternCalculateScore = '{{ routePatternCalculateScore }}';
-    $(function()
-    {
-        $( '.cisco-audit-score-selector' ).change(function()
-        {
-            var id = $( this ).attr( 'data-field-id' );
-            var value = $( this ).val();
-            var row = $( this ).closest( 'tr' );
-            var weight = $( row ).find( '.cisco-audit-field-weight' ).html();
-            var sectionScore;
-            var sectionWeight;
-            var resultRow = false;
-            var allSiblings = $( row ).nextAll( 'tr' );
-            
-            for ( var it in allSiblings )
-            {
-                if ( $( allSiblings[it] ).hasClass( 'cisco-audit-section-row' ) )
-                {
-                    resultRow = allSiblings[it];
-                    break;
-                }
-            }
-        
-            if ( resultRow )
-            {
-                var sectionScore = $( resultRow ).find( '.cisco-audit-section-score' ).html();
-                var sectionWeight = $( resultRow ).find( '.cisco-audit-section-weight' ).html();
-            }
-
-            var url = routePatternCalculateScore.replace( '{id}', id );
-            $.ajax(
-            {
-                url: url,
-                dataType: 'json',
-                data: { scoreData: value,
-                        scoreWeight: weight,
-                        sectionScore: sectionScore,
-                        sectionWeight: sectionWeight },
-                type: 'POST',
-                error: function( response )
-                {
-                    console.log( 'error: ' + response );
-                },
-                success: function( response )
-                {
-                    console.log( 'success: ' + response );
-
-                    $( '.cisco-audit-section-score' ).html( response.score );
-                    $( '.bar' ).html( response.scoreData + "(" + response.fieldScore + ")- FW:" + response.fieldWeight + "- GW: " + response.sectionWeight );
-                }
-            });
-        });
-    });
-</script>
-#}
 {% endblock %}

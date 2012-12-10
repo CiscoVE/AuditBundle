@@ -102,31 +102,25 @@ class AuditFormFieldController extends Controller
      */
     public function calculateScoreAction( Request $request )
     {
-        
         $scores[] = $request->request->get( 'scores' );
-//        echo "<pre>";
-//        print_r( $scores );
-//        echo "</pre>";
-//        die(); exit;
-//        
-//        $sectionScore = 0;
         $sectionWeight = 0;
-        
         $tempScore = 0;
+        
+        $em = $this->getDoctrine()->getEntityManager();
         
         foreach( $scores[0] as $score )
         {
-            $value = AuditScore::getWeightPercentageForScore( $score[0] );
-            $weight = $score[1];
-            
+            $repo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditFormField' );
+            $field = $repo->find( $score[0] );
+            $value = AuditScore::getWeightPercentageForScore( $score[1] );
+            $weight = $field->getWeight();
             $tempScore += $value * $weight;
-            
             $sectionWeight += $weight;
         }
         
         $sectionScore = $tempScore / $sectionWeight;
         
-        return new Response( json_encode($sectionScore));
+        return new Response( json_encode( $sectionScore ));
     }
 
     public function loadAction( Request $request )
