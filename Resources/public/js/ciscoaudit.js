@@ -296,7 +296,6 @@ $( function()
         var scores = [];
         var index = 0;
         var failed = false;
-//        var counter = 0;
         var failedArray = [];
         
         rows.each( function()
@@ -323,8 +322,10 @@ $( function()
         ( $.inArray( 'N', failedArray ) > -1) ? failed = true: failed = false;
         
         var sectionScore = $( scoreRow ).children().next( '.cisco-audit-section-score' );
+        var sectionWeight = $( scoreRow ).children().next( '.cisco-audit-section-weight' );
         var finalRow = $( row ).siblings( ':last' );
         var auditScore = $( finalRow ).children().next( '.cisco-audit-score' );
+        var auditWeight = $( finalRow ).children().next( '.cisco-audit-weight' );
 
         if( failed )
         {
@@ -345,36 +346,45 @@ $( function()
                 dataType: 'text',
                 success: function( response )
                 {
-                    $( sectionScore ).text( response );
+                    $( sectionScore ).text( Math.round( 100*response )/100 );
                     $( sectionScore ).css( 'background-color', $( sectionScore ).parent().css( 'background-color' ));
                     $( sectionScore ).css( 'color', $( sectionScore ).parent().css( 'color' ));
+                    
                     var prevSectionRows = $( scoreRow ).prevAll( '.cisco-audit-section-score-row' );
                     var nextSectionRows = $( scoreRow ).nextAll( '.cisco-audit-section-score-row' );
                     var sectionRows = $.merge( prevSectionRows, nextSectionRows );
-                    var finalScore = 0;
+                    var sectionTempScore = parseFloat( response ) * $( sectionWeight ).text();
 
                     sectionRows.each( function()
                     {
+                        var tempScore;
+                        var tempWeight;
+                        
                         $( this ).children().each( function()
                         {
-                            if($( this ).hasClass( 'cisco-audit-section-score' ))
+                            if( $( this ).hasClass( 'cisco-audit-section-score' ))
                             {
                                 if( $( this ).text() === 'FAILED' )
                                 {
                                     failed = true;
                                 }
                                 else
-                                    finalScore += parseInt( $( this ).text() );
+                                {
+                                    tempScore = parseInt( $( this ).text());
+                                }
+                            }
+                            if( $( this ).hasClass( 'cisco-audit-section-weight' ))
+                            {
+                                tempWeight = parseInt( $( this ).text());
                             }
                         });
+                        sectionTempScore += tempScore * tempWeight;
                     });
                     
                     if( !failed )
                     {
-                        finalScore += parseInt( response );
-                        var length = sectionRows.length + 1;
-
-                        $( auditScore ).text( finalScore / length );
+                        var globalScore = sectionTempScore / $( auditWeight ).text();
+                        $( auditScore ).text( Math.round( 100*globalScore )/100 );
                         $( auditScore ).css( 'background-color', $( auditScore ).parent().css( 'background-color' ));
                         $( auditScore ).css( 'color', $( auditScore ).parent().css( 'color' ));
                     }
