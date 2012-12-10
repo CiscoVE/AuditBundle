@@ -5,14 +5,13 @@ namespace CiscoSystems\AuditBundle\Entity;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-use CiscoSystems\AuditBundle\Entity\AuditForm;
 use CiscoSystems\AuditBundle\Entity\AuditFormField;
 use CiscoSystems\AuditBundle\Entity\AuditScore;
 use CiscoSystems\AuditBundle\Model\UserInterface;
 use CiscoSystems\AuditBundle\Model\ReferenceInterface;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="CiscoSystems\AuditBundle\Entity\Repository\AuditRepository")
  * @ORM\Table(name="cisco_audit__audit")
  */
 class Audit
