@@ -69,7 +69,6 @@ class AuditController extends Controller
             }
         }
         $scoreform = $this->createForm( new AuditScoreType() );
-        $routes = $this->get( 'router' )->getRouteCollection();
         return $this->render( 'CiscoSystemsAuditBundle:Audit:add.html.twig', array(
             'audit'                      => $audit,
             'form'                       => $form->createView(),
@@ -104,10 +103,6 @@ class AuditController extends Controller
      */
     private function setAuditScores( $entityMgr, $audit, $scores )
     {
-//                echo '<pre>';
-//                print_r( $scores );
-//                echo '</pre>';
-//                die(); exit;
         $fieldRepo = $entityMgr->getRepository( 'CiscoSystemsAuditBundle:AuditFormField' );
         foreach ( $scores as $fieldId => $scoreData )
         {
@@ -119,6 +114,11 @@ class AuditController extends Controller
             $audit->addScore( $score );
             $entityMgr->persist( $score );
         }
+    }
+    
+    public function getAuditScore()
+    {
+        
     }
 
     /**

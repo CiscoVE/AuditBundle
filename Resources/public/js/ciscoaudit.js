@@ -286,59 +286,115 @@ $( function()
     $( '.cisco-audit-score-selector' ).change( function()
     {
         var url = $( this ).attr( 'href' );
-        
         var row = $( this ).closest( 'tr' );
         
         var prevRows = $( row ).prevUntil( '.cisco-audit-section-row', '.cisco-audit-field-row' );
         var nextRows = $( row ).nextUntil( '.cisco-audit-section-score-row', '.cisco-audit-field-row' );
         var scoreRow = $( row ).nextUntil( '.cisco-audit-section-row', '.cisco-audit-section-score-row' );
-         
-        var sectionScore = $( scoreRow ).children().next( '.cisco-audit-section-score' );
-//        $( scoreRow ).children().next( '.cisco-audit-section-score' ).css( 'background-color', 'green' );
-        
         var rows = $.merge( $.merge( prevRows, row ), nextRows );
 
         var scores = [];
         var index = 0;
+        var failed = false;
+        var failedArray = [];
         
         rows.each( function()
         {
             var score = [];
+            score[0] = $( this ).attr( 'field-id' );
             
             $( this ).children().each( function()
             {                
-                if( $( this ).hasClass( 'cisco-audit-field-score' ) )
+                if( $( this ).hasClass( 'cisco-audit-field-score' ))
                 {
-                    score[0] = $( this ).children().val();
+                    score[1] = $( this ).children().val();
                 }
-                if( $( this ).hasClass( 'cisco-audit-field-weight' ) )
+                if( $( this ).hasClass( 'cisco-audit-field-weight' ) && $( this ).text().trim() === 'Involve Mgr' )
                 {
-                    score[1] = $( this ).text().trim();
+                    failedArray.push( score[1] );
                 }
             });
         
             scores[index] = score;
-            
             index += 1;
         });
+    
+        ( $.inArray( 'N', failedArray ) > -1) ? failed = true: failed = false;
         
-        console.log( scores );
-        
-        $.ajax(
+        var sectionScore = $( scoreRow ).children().next( '.cisco-audit-section-score' );
+        var sectionWeight = $( scoreRow ).children().next( '.cisco-audit-section-weight' );
+        var finalRow = $( row ).siblings( ':last' );
+        var auditScore = $( finalRow ).children().next( '.cisco-audit-score' );
+        var auditWeight = $( finalRow ).children().next( '.cisco-audit-weight' );
+
+        if( failed )
         {
-            url: url,
-            type: "POST",
-            data: { scores: scores },
-            dataType: 'text',
-            success: function( response )
+            $( sectionScore ).text( 'FAILED' );
+            $( sectionScore ).css( 'background-color', 'red' );
+            $( sectionScore ).css( 'color', 'white' );
+            $( auditScore ).text( 'FAILED' );
+            $( auditScore ).css( 'background-color', 'red' );
+            $( auditScore ).css( 'color', 'white' );
+        }        
+        else
+        {
+            $.ajax(
             {
-                $( sectionScore ).text( response );
-            },
-            error: function( response )
-            {
-                console.log( 'can not do it .....' );
-            }
-        });       
+                url: url,
+                type: "POST",
+                data: { scores: scores },
+                dataType: 'text',
+                success: function( response )
+                {
+                    $( sectionScore ).text( Math.round( 100*response )/100 );
+                    $( sectionScore ).css( 'background-color', $( sectionScore ).parent().css( 'background-color' ));
+                    $( sectionScore ).css( 'color', $( sectionScore ).parent().css( 'color' ));
+                    
+                    var prevSectionRows = $( scoreRow ).prevAll( '.cisco-audit-section-score-row' );
+                    var nextSectionRows = $( scoreRow ).nextAll( '.cisco-audit-section-score-row' );
+                    var sectionRows = $.merge( prevSectionRows, nextSectionRows );
+                    var sectionTempScore = parseFloat( response ) * $( sectionWeight ).text();
+
+                    sectionRows.each( function()
+                    {
+                        var tempScore;
+                        var tempWeight;
+                        
+                        $( this ).children().each( function()
+                        {
+                            if( $( this ).hasClass( 'cisco-audit-section-score' ))
+                            {
+                                if( $( this ).text() === 'FAILED' )
+                                {
+                                    failed = true;
+                                }
+                                else
+                                {
+                                    tempScore = parseInt( $( this ).text());
+                                }
+                            }
+                            if( $( this ).hasClass( 'cisco-audit-section-weight' ))
+                            {
+                                tempWeight = parseInt( $( this ).text());
+                            }
+                        });
+                        sectionTempScore += tempScore * tempWeight;
+                    });
+                    
+                    if( !failed )
+                    {
+                        var globalScore = sectionTempScore / $( auditWeight ).text();
+                        $( auditScore ).text( Math.round( 100*globalScore )/100 );
+                        $( auditScore ).css( 'background-color', $( auditScore ).parent().css( 'background-color' ));
+                        $( auditScore ).css( 'color', $( auditScore ).parent().css( 'color' ));
+                    }
+                },
+                error: function( response )
+                {
+                    console.log( 'can not do it .....' );
+                }
+            });
+        }
     });
 
 // test code in case needed

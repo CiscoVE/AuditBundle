@@ -311,7 +311,7 @@ class Audit
                     continue;
                 }
             }
-            else 
+//            else 
                 $achievedPercentages += $score->getWeightPercentage();
         }
         return number_format( $achievedPercentages / $fieldCount, 2, '.', '' );
