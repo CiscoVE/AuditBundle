@@ -1,6 +1,5 @@
 {% if ufields is not empty %}
     <li class="divider"></li>
-    <ul class="cisco-audit-orphan-field">
         {% for field in ufields %}
         <li>
             <a class="cisco-audit-field-add" data-field-id="{{ field.id }}"
@@ -9,6 +8,5 @@
             </a>
         </li>
         {% endfor %}
-    </ul>
     <li class="divider"></li>
 {% endif %}

@@ -8,15 +8,17 @@ $( function()
 
     var sectionIsHidden = true;
     
-//    var routePatternCalculateScore = '{{ routePatternCalculateScore }}';
-
     // bootstrap alert dismissal
     //$(".alert").alert();
 
-    // hide description row if any
+    /**
+     * hide description row if any on page load
+     */
     $( '.cisco-audit-table' ).find( '.cisco-audit-desc-row' ).hide();
 
-    // Toggle single Field
+    /**
+     * Toggle show/hide single Field 
+     */
     $( '.cisco-audit-field-view' ).click( function()
     {
         var fieldRow = $( this ).closest( '.cisco-audit-field-row' );
@@ -45,7 +47,9 @@ $( function()
         });
     });
 
-    // Toggle All Fields for section
+    /**
+     * Toggle show/hide All Fields for Section
+     */
     $( '.cisco-audit-section-view' ).click( function()
     {
         var sectionRow = $( this ).closest( '.cisco-audit-section-row' );
@@ -89,7 +93,11 @@ $( function()
         }
     });
 
-    // Add Section
+    /**
+     * Add Section to Form
+     * Add Section Object to Form Object
+     * Remove Section from drop down menu
+     */
     $( '.cisco-audit-section-add' ).click( function()
     {
         var url = $( this ).attr( 'href' );
@@ -110,7 +118,11 @@ $( function()
         return false;
     });
 
-    // Add Field
+    /**
+     * Add Field to Section
+     * Add Field Object to Section Object
+     * Remove Field from drop down menu
+     */
     $( '.cisco-audit-field-add' ).click( function()
     {
         var url = $( this ).attr( 'href' );
@@ -155,7 +167,11 @@ $( function()
         return false;
     });
 
-    // Remove Field
+    /**
+     * Remove Field from section
+     * Remove Field Object from Section Object (saved to db)
+     * Add field back to drop drown menu without refreshing the page
+     */
     $( '.cisco-audit-field-remove' ).click( function()
     {
         var url = $( this ).attr( 'href' );
@@ -184,8 +200,12 @@ $( function()
         });
         return false;
     });
-    
-    // Edit Section
+
+    /**
+     * Edit Section
+     * load up _edit.html.twig in a modal box
+     * TODO: change this to inline editing
+     */    
     $( '.cisco-audit-section-edit' ).click( function()
     {
         var url = $( this ).attr( 'href' );
@@ -238,8 +258,11 @@ $( function()
         return false;
     });
 
-    // Edit Field
-    // load up _edit.html.twig in a modal box
+    /**
+     * Edit Field
+     * load up _edit.html.twig in a modal box
+     * TODO: change this to inline editing
+     */
     $( '.cisco-audit-field-edit' ).click( function()
     {
         var url = $( this ).attr( 'href' );
@@ -286,6 +309,9 @@ $( function()
         return false;        
     });
 
+    /**
+     * calculate section's score and audit score on field's score change
+     */
     $( '.cisco-audit-score-selector' ).change( function()
     {
         var url = $( this ).attr( 'href' );
