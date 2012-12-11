@@ -126,20 +126,7 @@ $( function()
     $( '.cisco-audit-field-add' ).click( function()
     {
         var url = $( this ).attr( 'href' );
-
-        $.ajax(
-        {
-            url: url,
-            datatype:  'HTML',
-            success: function( response )
-            {
-                $( '.cisco-audit-field-row' ).last( '.cisco-audit-field-row' ).after().html( response );
-            },
-            error: function( response )
-            {
-                //console.log( 'failure: ' + response );
-            }
-        });
+        $( '.cisco-audit-field-row' ).last( '.cisco-audit-field-row' ).after().load( url );
         return false;
     });
 
