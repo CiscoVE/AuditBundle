@@ -39,14 +39,16 @@
                         </li>
                         {% if ufields is not empty %}
                             <li class="divider"></li>
+                            <div class="cisco-audit-orphan-field">
                             {% for field in ufields %}
-                            <li>
-                                <a class="cisco-audit-field-add" data-field-id="{{ field.id }}"
-                                   href="{{ path( 'cisco_auditformsection_add_field', { 'id' : section.id ,'field_id': field.id } ) }}">
-                                    <i class="icon-plus"></i> {{ field.title }}
-                                </a>
-                            </li>
+                                <li>
+                                    <a class="cisco-audit-field-add" data-field-id="{{ field.id }}"
+                                       href="{{ path( 'cisco_auditformsection_add_field', { 'id' : section.id ,'field_id': field.id } ) }}">
+                                        <i class="icon-plus"></i> {{ field.title }}
+                                    </a>
+                                </li>
                             {% endfor %}
+                            </div>
                         <li class="divider"></li>
                         {% endif %}
                         <li>

@@ -115,11 +115,6 @@ class AuditController extends Controller
             $entityMgr->persist( $score );
         }
     }
-    
-    public function getAuditScore()
-    {
-        
-    }
 
     /**
      * view a single Audit

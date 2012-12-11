@@ -30,22 +30,22 @@
                         <i class="icon-wrench"></i> Edit
                     </a>
                 </li>
-                <li>
+                <div class="cisco-audit-orphan-field">
                 {% if ufields is not empty %}
                     <li class="divider"></li>
                     {% for field in ufields %}
-                    <li>
-                        <a class="cisco-audit-field-add" data-field-id="{{ field.id }}"
-                           href="{{ path( 'cisco_auditformsection_add_field', { 'id' : section.id ,'field_id': field.id } ) }}">
-                            <i class="icon-plus"></i> {{ field.title }}
-                        </a>
-                    </li>
+                        <li>
+                            <a class="cisco-audit-field-add" data-field-id="{{ field.id }}"
+                               href="{{ path( 'cisco_auditformsection_add_field', { 'id' : section.id ,'field_id': field.id } ) }}">
+                                <i class="icon-plus"></i> {{ field.title }}
+                            </a>
+                        </li>
                     {% endfor %}
                     <li class="divider"></li>
                 {% endif %}
-                </li>
+                </div>
                 <li>
-                    <a class="cisco-audit-section-remove" 
+                    <a class="cisco-audit-section-remove" data-section-id="{{ section.id }}"
                        href="{{ path( 'cisco_auditform_remove', { 'id' : auditform.id ,'section_id': section.id } ) }}">
                         <i class="icon-minus"></i> Remove
                     </a>

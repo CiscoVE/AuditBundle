@@ -18,6 +18,8 @@ cisco_auditformsection_add_field:
     pattern:  /{id}/field/{field_id}/add
     defaults: { _controller: CiscoSystemsAuditBundle:AuditFormSection:add }
     requirements:
+        _method:  POST|GET
+        _format: JSON
         id: \d+
         field_id: \d+
 
@@ -25,8 +27,6 @@ cisco_auditformsection_remove:
     pattern:  /{id}/field/{field_id}/remove
     defaults: { _controller: CiscoSystemsAuditBundle:AuditFormSection:remove }
     requirements:
-        _method:  POST|GET
-        _format: JSON
         id: \d+
         field_id: \d+
 

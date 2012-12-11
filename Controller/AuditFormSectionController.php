@@ -49,17 +49,17 @@ class AuditFormSectionController extends Controller
         if ( $request->isXmlHttpRequest() ) 
         {
             return $this->render( 'CiscoSystemsAuditBundle:AuditFormSection:_edit.html.twig', array(
-                'edit' => $edit,
-                'section' => $section,
-                'ufields' => $uFields,
-                'form' => $form->createView(),
+                'edit'      => $edit,
+                'section'   => $section,
+                'ufields'   => $uFields,
+                'form'      => $form->createView(),
             ));
         }
         else return $this->render( 'CiscoSystemsAuditBundle:AuditFormSection:edit.html.twig', array(
-            'edit' => $edit,
-            'section' => $section,
-            'ufields' => $uFields,
-            'form' => $form->createView(),
+            'edit'          => $edit,
+            'section'       => $section,
+            'ufields'       => $uFields,
+            'form'          => $form->createView(),
             'routePatternLoad' => $routes->get( 'cisco_auditformfield_load' )->getPattern(),
         ));
     }
@@ -103,18 +103,25 @@ class AuditFormSectionController extends Controller
     public function removeAction( Request $request )
     {
         $em = $this->getDoctrine()->getEntityManager();
-        $repo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditFormSection' );
-        $section = $repo->find( $request->get( 'id' ));
+        $sectionRepo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditFormSection' );
+        $section = $sectionRepo->find( $request->get( 'id' ));
         if ( null !== $section )
         {
-            $fieldRep = $em->getRepository( 'CiscoSystemsAuditBundle:AuditFormField' );
-            $field = $fieldRep->find( $request->get( 'field_id' ));
+            $fieldRepo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditFormField' );
+            $field = $fieldRepo->find( $request->get( 'field_id' ));
             if ( null !== $field )
             {
                 $section->removeField( $field );
                 $em->persist( $section );
                 $em->flush();
-                if ( $request->isXmlHttpRequest() ) return new Response();
+                if ( $request->isXmlHttpRequest() )
+                {
+                    $fields = $fieldRepo->findBy( array ( 'section' => null ));
+                    return $this->render( 'CiscoSystemsAuditBundle:AuditFormField:_list.html.twig', array(
+                        'ufields'   => $fields,
+                        'section'   => $section,
+                    ));
+                }
                 else return $this->redirect( $this->generateUrl( 'cisco_auditformsection_edit', array (
                     'id' => $section->getId() )
                 ));
@@ -142,14 +149,21 @@ class AuditFormSectionController extends Controller
             $fieldRepo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditFormField' );
             $field = $fieldRepo->find( $request->get( 'field_id' ));
             if ( null !== $field )
+            {
+                $section->addField( $field );
+                $em->persist( $section );
+                $em->flush();
+                if ( $request->isXmlHttpRequest() )
                 {
-                    $section->addField( $field );
-                    $em->persist( $section );
-                    $em->flush();
-                    if ( $request->isXmlHttpRequest() ) return new Response();
-                    else return $this->redirect( $this->generateUrl( 'cisco_auditformsection_edit', array (
-                        'id' => $section->getId() )
+                    $fields = $fieldRepo->findAll();                    
+                    return $this->render( 'CiscoSystemsAuditBundle:AuditFormField:_load.html.twig', array(
+                        'fields'    => $fields,
+                        'section'   => $section,
                     ));
+                }
+                else return $this->redirect( $this->generateUrl( 'cisco_auditformsection_edit', array (
+                    'id' => $section->getId() )
+                ));
             }
             throw $this->createNotFoundException( 'Field does not exist' );
         }

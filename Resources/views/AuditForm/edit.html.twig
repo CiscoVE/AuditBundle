@@ -37,14 +37,16 @@
                         </li>
                         {% if usections is not empty %}
                             <li class="divider"></li>
+                            <div class="cisco-audit-orphan-section">
                             {% for section in usections %}
-                            <li>
-                                <a class="cisco-audit-section-add" data-section-id={{ section.id }}
-                                   href="{{ path( 'cisco_auditform_add_section', { 'id' : auditform.id ,'section_id': section.id } ) }}">
-                                    <i class="icon-plus"></i> {{ section.title }}
-                                </a>
-                            </li>
+                                <li>
+                                    <a class="cisco-audit-section-add" data-section-id={{ section.id }}
+                                       href="{{ path( 'cisco_auditform_add_section', { 'id' : auditform.id ,'section_id': section.id } ) }}">
+                                        <i class="icon-plus"></i> {{ section.title }}
+                                    </a>
+                                </li>
                             {% endfor %}
+                            </div>
                             <li class="divider"></li>
                         {% endif %}
                         <li>

@@ -93,17 +93,14 @@ $( function()
     $( '.cisco-audit-section-add' ).click( function()
     {
         var url = $( this ).attr( 'href' );
-        var sectionId = $( this ).attr( 'data-section-id' );
         
-        loadUrl = routePatternLoad.replace( '{id}', sectionId );
-
         $.ajax(
         {
             url: url,
             type: "POST",
             success: function( response )
             {
-                $( '.cisco-audit-section-row' ).last( '.cisco-audit-section-row' ).after().load( loadUrl );
+                $( '.cisco-audit-section-row' ).last( '.cisco-audit-section-row' ).after().load( url );
             },
             error: function( response )
             {
@@ -117,17 +114,14 @@ $( function()
     $( '.cisco-audit-field-add' ).click( function()
     {
         var url = $( this ).attr( 'href' );
-        var fieldId = $( this ).attr( 'data-field-id' );
-
-        loadUrl = routePatternLoadField.replace( '{id}', fieldId );
 
         $.ajax(
         {
             url: url,
-            type: "POST",
+            datatype:  'HTML',
             success: function( response )
             {
-                $( '.cisco-audit-field-row' ).last( '.cisco-audit-field-row' ).after().load( loadUrl );
+                $( '.cisco-audit-field-row' ).last( '.cisco-audit-field-row' ).after().load( response );
             },
             error: function( response )
             {
@@ -166,13 +160,22 @@ $( function()
     {
         var url = $( this ).attr( 'href' );
         var that = this;
+//        var sectionId = $( this ).attr( 'data-section-id' );
+        var row = $( this ).closest( 'tr' );
+        var sectionRow = $( row ).prevAll( '.cisco-audit-section-row' ).first();
+        var menuField = $( sectionRow ).find( '.cisco-audit-orphan-field' );
+        
+        console.log( menuField );
+        
         $.ajax(
         {
             url: url,
-            type: "POST",
+            datatype: "HTML",
             success: function( response )
             {
+                console.log( 'success' );
                 $( that ).closest( '.cisco-audit-field-row' ).remove();
+                $( menuField ).html( response );
             },
             error: function( response )
             {
@@ -321,8 +324,6 @@ $( function()
     
         ( $.inArray( 'N', failedArray ) > -1) ? failed = true: failed = false;
         
-        var sectionScore = $( scoreRow ).children().next( '.cisco-audit-section-score' );
-        var sectionWeight = $( scoreRow ).children().next( '.cisco-audit-section-weight' );
         var finalRow = $( row ).siblings( ':last' );
         var auditScore = $( finalRow ).children().next( '.cisco-audit-score' );
         var auditWeight = $( finalRow ).children().next( '.cisco-audit-weight' );
@@ -350,6 +351,8 @@ $( function()
                     $( sectionScore ).css( 'background-color', $( sectionScore ).parent().css( 'background-color' ));
                     $( sectionScore ).css( 'color', $( sectionScore ).parent().css( 'color' ));
                     
+                    var sectionScore = $( scoreRow ).children().next( '.cisco-audit-section-score' );
+                    var sectionWeight = $( scoreRow ).children().next( '.cisco-audit-section-weight' );
                     var prevSectionRows = $( scoreRow ).prevAll( '.cisco-audit-section-score-row' );
                     var nextSectionRows = $( scoreRow ).nextAll( '.cisco-audit-section-score-row' );
                     var sectionRows = $.merge( prevSectionRows, nextSectionRows );
