@@ -133,7 +133,7 @@ $( function()
             datatype:  'HTML',
             success: function( response )
             {
-                $( '.cisco-audit-field-row' ).last( '.cisco-audit-field-row' ).after().load( response );
+                $( '.cisco-audit-field-row' ).last( '.cisco-audit-field-row' ).after().html( response );
             },
             error: function( response )
             {
@@ -142,7 +142,7 @@ $( function()
         });
         return false;
     });
-    
+
     // Remove Section
     $( '.cisco-audit-section-remove' ).click( function()
     {
@@ -162,7 +162,6 @@ $( function()
             {
                 //console.log( 'failure: ' + response );
             }
-
         });
         return false;
     });
