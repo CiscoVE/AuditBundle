@@ -155,9 +155,9 @@ class AuditFormSectionController extends Controller
                 $em->flush();
                 if ( $request->isXmlHttpRequest() )
                 {
-                    $fields = $fieldRepo->findAll();                    
+                    //$fields = $fieldRepo->findAll();                    
                     return $this->render( 'CiscoSystemsAuditBundle:AuditFormField:_load.html.twig', array(
-                        'fields'    => $fields,
+                        'field'    => $field,
                         'section'   => $section,
                     ));
                 }

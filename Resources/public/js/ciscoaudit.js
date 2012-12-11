@@ -101,20 +101,7 @@ $( function()
     $( '.cisco-audit-section-add' ).click( function()
     {
         var url = $( this ).attr( 'href' );
-        
-        $.ajax(
-        {
-            url: url,
-            type: "POST",
-            success: function( response )
-            {
-                $( '.cisco-audit-section-row' ).last( '.cisco-audit-section-row' ).after().load( url );
-            },
-            error: function( response )
-            {
-                //console.log( 'failure: ' + response );
-            }
-        });
+        $( '.cisco-audit-section-row' ).last( '.cisco-audit-section-row' ).after().load( url );
         return false;
     });
 

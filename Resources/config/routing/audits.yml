@@ -1,5 +1,5 @@
 cisco_audit_add:
-    pattern:  /{id}/new
+    pattern:  /new/{form}
     defaults: { _controller: CiscoSystemsAuditBundle:Audit:add }
     requirements:
         id: \d+

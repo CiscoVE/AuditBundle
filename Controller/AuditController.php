@@ -41,7 +41,7 @@ class AuditController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
         // Check for audit form data to be used
         $repo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditForm' );
-        $auditform = $repo->find( $request->get( 'id' ) );
+        $auditform = $repo->find( $request->get( 'form' ) );
         if ( null === $auditform )
         {
             // Throw error 404 if audit form data not found
