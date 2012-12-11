@@ -2,7 +2,7 @@
 
 {% block pagecontent %}
 <div class="container">
-    <div class="span10 offset1">
+    <div class="span10">
         <form class="form-horizontal" method="POST" action="">
             <legend>
             {% if edit == true %}
@@ -14,51 +14,9 @@
                     <button type="submit" class="btn btn-mini">
                         <i class="icon-ok"></i> Save Section
                     </button>
-                    {% if edit == true %}
-                    <noscript>
-                        <a class="btn btn-mini"
-                           href="#">
-                            <i class="icon-plus"></i> Add new Field
-                        </a>
-                        {% if edit == true %}
-                        <a class="btn btn-mini"
-                            href="{{ path( 'cisco_auditformsection_delete', { 'id' : section.id  } ) }}">
-                            <i class="icon-trash"></i> Delete Section
-                        </a>
-                        {% endif %}
-                    </noscript>
-                    <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">
-                        <span class="caret"></span>
+                    <a class="btn btn-mini" href="#" title="TO BE IMPLEMENTED">
+                        <i class="icon-trash"></i> Delete section
                     </a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a class="cisco-audit-section-new" data-section-id="{{ section.id }}"
-                               href="#">
-                                <i class="icon-pencil"></i> Add Field
-                            </a>
-                        </li>
-                        {% if ufields is not empty %}
-                            <li class="divider"></li>
-                            <div class="cisco-audit-orphan-field">
-                            {% for field in ufields %}
-                                <li>
-                                    <a class="cisco-audit-field-add" data-field-id="{{ field.id }}"
-                                       href="{{ path( 'cisco_auditformsection_add_field', { 'id' : section.id ,'field_id': field.id } ) }}">
-                                        <i class="icon-plus"></i> {{ field.title }}
-                                    </a>
-                                </li>
-                            {% endfor %}
-                            </div>
-                        <li class="divider"></li>
-                        {% endif %}
-                        <li>
-                            <a class="cisco-audit-section-delete" data-section-id="{{ section.id }}"
-                               href="{{ path( 'cisco_auditformsection_delete', { 'id' : section.id  } ) }}">
-                                <i class="icon-trash"></i> Delete Section
-                            </a>
-                        </li>
-                    </ul>
-                    {% endif %}
                 </div>
             </legend>
             <div class="controls controls-row">
@@ -102,10 +60,10 @@
             <thead>
                 <tr>
                     <th width=20%>Title</th>
-                    <th width=65%></th>
+                    <th width=60%></th>
                     <th width=5%>Weight</th>
                     <th width=5%>Fatal</th>
-                    <th width=5%></th>                    
+                    <th width=10%></th>                    
                 </tr>
             </thead>
             <tbody>
@@ -113,29 +71,30 @@
                 {% include 'CiscoSystemsAuditBundle:AuditFormField:_load.html.twig' %}
             {% else %}
                 <tr>
-                    <td colspan="5">
-                        <div class="alert alert-error">
-                            <button type="button" class="close" data-dismiss="alert">×</button>
-                            <h4>Warning!</h4>
-                            <p>No fields yet.</p>
-                        </div>
+                    <td colspan="5" style="text-align: center;">
+                        No field assigned to this section
                     </td>
                 </tr>
             {% endfor %}
-                <noscript>
+                <tr>
+                    <td></td>
+                    <td colspan="4" class="cisco-audit-orphan-field">
+                        <div class="btn-group">
+                        <a class="btn btn-mini"
+                           href="" title="TO BE IMPLEMENTED">
+                            Create: new Field <i class="icon-plus"></i>
+                        </a>
                 {% if ufields is not empty and section.id is not null %}
-                    <tr>
-                        <td colspan="5">
-                            {% for field in ufields %}
-                                <a class="btn btn-mini" 
-                                   href="{{ path( 'cisco_auditformsection_add_field', { 'id' : section.id ,'field_id': field.id } ) }}">
-                                    <i class="icon-plus"></i> Add Field: {{ field.title }}
-                                </a>
-                            {% endfor %}                       
-                        </td>
-                    </tr>
+                    {% for field in ufields %}
+                        <a class="btn btn-mini cisco-audit-field-add" data-field-id="{{ field.id }}" title="TO BE IMPLEMENTED"
+                           href="{{ path( 'cisco_auditsection_add_field', { 'id' : section.id ,'field_id': field.id } ) }}">
+                            Add: {{ field.title }} <i class="icon-plus"></i> 
+                        </a>
+                    {% endfor %}
+                        </div>
+                    </td>
+                </tr>
                 {% endif %}
-                </noscript>
             </tbody>
         </table>
     </div>

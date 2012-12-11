@@ -42,7 +42,7 @@ class AuditFormFieldController extends Controller
                 AuditFormFieldType::mapScores( $field, $values );
                 $em->persist( $field );
                 $em->flush();
-                return $this->redirect( $this->generateUrl( 'cisco_auditformfields' ));
+                return $this->redirect( $this->generateUrl( 'cisco_auditfields' ));
             }
         }
         
@@ -88,7 +88,7 @@ class AuditFormFieldController extends Controller
             $field->setSection( null );
             $em->remove( $field );
             $em->flush();
-            return $this->redirect( $this->generateUrl( 'cisco_auditformfields' ));
+            return $this->redirect( $this->generateUrl( 'cisco_auditfields' ));
         }
         throw $this->createNotFoundException( 'Field does not exist' );
     }

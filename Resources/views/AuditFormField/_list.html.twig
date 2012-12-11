@@ -3,7 +3,7 @@
     {% for field in ufields %}
         <li>
             <a class="cisco-audit-field-add" data-field-id="{{ field.id }}"
-               href="{{ path( 'cisco_auditformsection_add_field', { 'id' : section.id ,'field_id': field.id } ) }}">
+               href="{{ path( 'cisco_auditsection_add_field', { 'id' : section.id ,'field_id': field.id } ) }}">
                 <i class="icon-plus"></i> {{ field.title }}
             </a>
         </li>

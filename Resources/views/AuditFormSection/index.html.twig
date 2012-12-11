@@ -6,7 +6,7 @@
         <legend>
             Sections
             <a class="btn btn-small pull-right"
-               href="{{ path( 'cisco_auditformsection_add' ) }}">
+               href="{{ path( 'cisco_auditsection_add' ) }}">
                 <i class="icon-plus"></i> Add a section
             </a>
         </legend>
@@ -27,16 +27,16 @@
                         <td width="10%">
                             <div class="btn-group pull-right">
                                 <a class="btn btn-mini" 
-                                   href="{{ path( 'cisco_auditformsection_view', { 'id': section.id } ) }}">
+                                   href="{{ path( 'cisco_auditsection_view', { 'id': section.id } ) }}">
                                     <i class="icon-eye-open"></i> View
                                 </a>
                                 <noscript>
                                     <a class="btn btn-mini"
-                                       href="{{ path( 'cisco_auditformsection_edit', { 'id': section.id } ) }}">
+                                       href="{{ path( 'cisco_auditsection_edit', { 'id': section.id } ) }}">
                                         <i class="icon-wrench"></i> Edit
                                     </a>
                                     <a class="btn btn-mini"
-                                        href="{{ path( 'cisco_auditformsection_delete', { 'id': section.id } ) }}">
+                                        href="{{ path( 'cisco_auditsection_delete', { 'id': section.id } ) }}">
                                         <i class="icon-trash"></i> Delete
                                     </a>
                                 </noscript>
@@ -47,13 +47,13 @@
                                 <ul class="dropdown-menu">
                                     <li>
                                         <a class="cisco-audit-section-edit" data-section-id="{{ section.id }}"
-                                            href="{{ path( 'cisco_auditformsection_edit', { 'id': section.id } ) }}">
+                                            href="{{ path( 'cisco_auditsection_edit', { 'id': section.id } ) }}">
                                             <i class="icon-wrench"></i> Edit
                                         </a>
                                     </li>
                                     <li>
                                         <a class="cisco-audit-section-delete" data-section-id="{{ section.id }}"
-                                            href="{{ path( 'cisco_auditformsection_delete', { 'id': section.id } ) }}">
+                                            href="{{ path( 'cisco_auditsection_delete', { 'id': section.id } ) }}">
                                             <i class="icon-trash"></i> Delete
                                         </a>
                                     </li>

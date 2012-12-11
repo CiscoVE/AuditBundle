@@ -6,12 +6,12 @@
         <legend>Field view
             <div class="btn-group pull-right">
                 <a class="btn btn-mini cisco-audit-field-view" data-field-id="{{ field.id }}"
-                   href="{{ path( 'cisco_auditformfield_edit', { 'id': field.id } ) }}">
+                   href="{{ path( 'cisco_auditfield_edit', { 'id': field.id } ) }}">
                     <i class="icon-wrench"></i> Edit
                 </a>
                 <noscript>
                     <a class="btn btn-mini"
-                        href="{{ path( 'cisco_auditformfield_delete', { 'id': field.id } ) }}">
+                        href="{{ path( 'cisco_auditfield_delete', { 'id': field.id } ) }}">
                         <i class="icon-trash"></i> Delete
                     </a>
                 </noscript>
@@ -22,7 +22,7 @@
                 <ul class="dropdown-menu">
                     <li>
                         <a class="cisco-audit-field-delete" data-field-id="{{ field.id }}"
-                            href="{{ path( 'cisco_auditformfield_delete', { 'id': field.id } ) }}">
+                            href="{{ path( 'cisco_auditfield_delete', { 'id': field.id } ) }}">
                             <i class="icon-trash"></i> Delete
                         </a>
                     </li>

@@ -39,7 +39,7 @@ class AuditFormSectionController extends Controller
             {
                 $em->persist( $section );
                 $em->flush();
-                return $this->redirect( $this->generateUrl( 'cisco_auditformsections' ));
+                return $this->redirect( $this->generateUrl( 'cisco_auditsections' ));
             }
         }
         $routes = $this->get( 'router' )->getRouteCollection();
@@ -60,10 +60,17 @@ class AuditFormSectionController extends Controller
             'section'       => $section,
             'ufields'       => $uFields,
             'form'          => $form->createView(),
-            'routePatternLoad' => $routes->get( 'cisco_auditformfield_load' )->getPattern(),
+            'routePatternLoad' => $routes->get( 'cisco_auditfield_load' )->getPattern(),
         ));
     }
 
+    /**
+     * Not used
+     * 
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @return type
+     * @throws type
+     */
     public function viewAction( Request $request )
     {
         $em = $this->getDoctrine()->getEntityManager();
@@ -77,6 +84,13 @@ class AuditFormSectionController extends Controller
         ));
     }
 
+    /**
+     * Delete Section and remove all reference from AuditForm
+     * 
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @return type
+     * @throws type
+     */
     public function deleteAction( Request $request )
     {
         $em = $this->getDoctrine()->getEntityManager();
@@ -87,7 +101,7 @@ class AuditFormSectionController extends Controller
             $section->removeAllField();
             $em->remove( $section );
             $em->flush();
-            return $this->redirect( $this->generateUrl( 'cisco_auditformsections' ));
+            return $this->redirect( $this->generateUrl( 'cisco_auditsections' ));
         }
         throw $this->createNotFoundException( 'Section does not exist' );
     }
@@ -122,7 +136,7 @@ class AuditFormSectionController extends Controller
                         'section'   => $section,
                     ));
                 }
-                else return $this->redirect( $this->generateUrl( 'cisco_auditformsection_edit', array (
+                else return $this->redirect( $this->generateUrl( 'cisco_auditsection_edit', array (
                     'id' => $section->getId() )
                 ));
             }
@@ -160,7 +174,7 @@ class AuditFormSectionController extends Controller
                         'section'  => $section,
                     ));
                 }
-                else return $this->redirect( $this->generateUrl( 'cisco_auditformsection_edit', array (
+                else return $this->redirect( $this->generateUrl( 'cisco_auditsection_edit', array (
                     'id' => $section->getId() )
                 ));
             }

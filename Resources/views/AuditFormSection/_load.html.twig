@@ -11,45 +11,16 @@
     <td>
         <div class="btn-group">
             <a class="btn btn-mini cisco-audit-section-view">
-                <i class="icon-eye-open"></i> View
+                <i class="icon-eye-open" title="View"></i> 
+            </a>  
+            <a class="btn btn-mini cisco-audit-section-edit"
+                href="{{ path( 'cisco_auditsection_edit', { 'id': section.id } ) }}">
+                <i class="icon-wrench" title="Edit"></i> 
+            </a>  
+            <a class="btn btn-mini cisco-audit-section-remove" data-section-id="{{ section.id }}" 
+               href="{{ path( 'cisco_auditform_remove', { 'id' : auditform.id ,'section_id': section.id } ) }}">
+                <i class="icon-minus" title="Remove"></i> 
             </a>
-                <noscript>
-                    <a class="btn btn-mini cisco-audit-field-edit" toggle-value="true"
-                        href="{{ path( 'cisco_auditformsection_edit', { 'id': section.id } ) }}">
-                        <i class="icon-wrench"></i> Edit
-                    </a>
-                </noscript>
-            <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">
-                <span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu">
-                <li>
-                    <a class="cisco-audit-section-edit" title="{{ section.title }}"
-                        href="{{ path( 'cisco_auditformsection_edit', { 'id': section.id } ) }}">
-                        <i class="icon-wrench"></i> Edit
-                    </a>
-                </li>
-                <div class="cisco-audit-orphan-field">
-                {% if ufields is not empty %}
-                    <li class="divider"></li>
-                    {% for field in ufields %}
-                        <li>
-                            <a class="cisco-audit-field-add" data-field-id="{{ field.id }}"
-                               href="{{ path( 'cisco_auditformsection_add_field', { 'id' : section.id ,'field_id': field.id } ) }}">
-                                <i class="icon-plus"></i> {{ field.title }}
-                            </a>
-                        </li>
-                    {% endfor %}
-                    <li class="divider"></li>
-                {% endif %}
-                </div>
-                <li>
-                    <a class="cisco-audit-section-remove" data-section-id="{{ section.id }}"
-                       href="{{ path( 'cisco_auditform_remove', { 'id' : auditform.id ,'section_id': section.id } ) }}">
-                        <i class="icon-minus"></i> Remove
-                    </a>
-                </li>
-            </ul>
         </div>
     </td>
 </tr>

@@ -92,8 +92,8 @@ class AuditFormController extends Controller
             'ufields'               => $uFields,
             'form'                  => $form->createView(),
             'routePatternRemove'    => $routes->get( 'cisco_auditform_remove' )->getPattern(),
-            'routePatternLoad'      => $routes->get( 'cisco_auditformsection_load' )->getPattern(),
-            'routePatternLoadField' => $routes->get( 'cisco_auditformfield_load' )->getPattern(),
+            'routePatternLoad'      => $routes->get( 'cisco_auditsection_load' )->getPattern(),
+            'routePatternLoadField' => $routes->get( 'cisco_auditfield_load' )->getPattern(),
         ));
     }
 

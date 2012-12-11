@@ -2,132 +2,121 @@
 
 {% block pagecontent %}
 <div class="container">
-    <form class="form-horizontal" method="POST" action="">
-        <legend>
-        {% if edit == true %}
-            Edit existing field
-        {% else %}
-            Add new field
-        {% endif %}
-            <div class="btn-group pull-right">
-                <button type="submit" class="btn btn-mini">
-                    <i class="icon-ok"></i> Save
-                </button>
+    <div class="span11">
+        <form class="form-horizontal" method="POST" action="">
+            <legend>
+            {% if edit == true %}
+                Edit existing field
+            {% else %}
+                Add new field
+            {% endif %}
+                <div class="btn-group pull-right">
+                    <button type="submit" class="btn btn-mini">
+                        <i class="icon-ok"></i> Save Field
+                    </button>
                     {% if edit == true %}
-                    <noscript>
                         <a class="btn btn-mini" 
-                            href="{{ path( 'cisco_auditformfield_delete', { 'id': field.id } ) }}">
-                             <i class="icon-trash"></i> Delete
+                            href="{{ path( 'cisco_auditfield_delete', { 'id': field.id } ) }}">
+                             <i class="icon-trash"></i> Delete Field
                         </a>
-                    </noscript>
-                    <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">
-                        <span class="caret"></span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a class="audit-form-delete" 
-                               href="{{ path( 'cisco_auditformfield_delete', { 'id': field.id } ) }}">
-                                <i class="icon-trash"></i> Delete
-                            </a>
-                        </li>
-                    </ul>
                     {% endif %}
-            </div>
-        </legend>
+                </div>
+            </legend>
 
-        <div class="controls controls-row">
-            <div class="control-group">
-                <div class="control-label">
-                    {{ form_label(form.title) }}
+            <div class="controls controls-row">
+                <div class="control-group">
+                    <div class="control-label">
+                        {{ form_label(form.title) }}
+                    </div>
+                    <div class="controls">
+                        {{ form_widget(form.title) }}
+                        {{ form_errors(form.title) }}
+                    </div>
                 </div>
-                <div class="controls">
-                    {{ form_widget(form.title) }}
-                    {{ form_errors(form.title) }}
+                <div class="control-group">
+                    <div class="control-label">
+                        {{ form_label(form.section) }}
+                    </div>
+                    <div class="controls">
+                        {{ form_widget(form.section) }}
+                        {{ form_errors(form.section) }}
+                    </div>
                 </div>
-            </div>
-            <div class="control-group">
-                <div class="control-label">
-                    {{ form_label(form.section) }}
+                <div class="control-group">
+                    <div class="control-label">
+                        {{ form_label(form.weight) }}
+                    </div>
+                    <div class="controls">
+                        {{ form_widget(form.weight) }}
+                        {{ form_errors(form.weight) }}
+                    </div>
                 </div>
-                <div class="controls">
-                    {{ form_widget(form.section) }}
-                    {{ form_errors(form.section) }}
-                </div>
-            </div>
-            <div class="control-group">
-                <div class="control-label">
-                    {{ form_label(form.weight) }}
-                </div>
-                <div class="controls">
-                    {{ form_widget(form.weight) }}
-                    {{ form_errors(form.weight) }}
-                </div>
-            </div>
-            <div class="control-group">
-                <div class="control-label">
-                    {{ form_label(form.fatal) }}
-                </div>
-                <div class="controls">
-                    {{ form_widget(form.fatal) }}
-                    {{ form_errors(form.fatal) }}
-                </div>
-            </div>
-        </div>
-        <div class="controls controls-row">
-            <div class="control-group">
-                <div class="control-label">
-                    {{ form_label(form.description) }}
-                </div>
-                <div class="controls">
-                    {{ form_widget(form.description, { 'attr': { 'class': 'input-xxlarge' }}) }}
-                    {{ form_errors(form.description) }}
+                <div class="control-group">
+                    <div class="control-label">
+                        {{ form_label(form.fatal) }}
+                    </div>
+                    <div class="controls">
+                        {{ form_widget(form.fatal) }}
+                        {{ form_errors(form.fatal) }}
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="controls controls-row">
-            <div class="control-group">
-                <div class="control-label">
-                    {{ form_label(form.answer_yes) }}
-                </div>
-                <div class="controls">
-                    {{ form_widget(form.answer_yes, { 'attr': {'class': 'input-xxlarge' }}) }}
-                    {{ form_errors(form.answer_yes) }}
-                </div>
-            </div>
-        </div>
-        <div class="controls controls-row">
-            <div class="control-group">
-                <div class="control-label">
-                    {{ form_label(form.answer_no) }}
-                </div>
-                <div class="controls">
-                    {{ form_widget(form.answer_no, { 'attr': { 'class': 'input-xxlarge' }}) }}
-                    {{ form_errors(form.answer_no) }}
+            <div class="controls controls-row">
+                <div class="control-group">
+                    <div class="control-label">
+                        {{ form_label(form.description) }}
+                    </div>
+                    <div class="controls">
+                        {{ form_widget(form.description, { 'attr': { 'class': 'input-xxlarge' }}) }}
+                        {{ form_errors(form.description) }}
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="controls controls-row">
-            <div class="control-group">
-                <div class="control-label">
-                    {{ form_label(form.answer_acceptable) }}
-                </div>
-                <div class="controls">
-                    {{ form_widget(form.answer_acceptable, { 'attr': {  'class': 'input-xxlarge' }}) }}
-                    {{ form_errors(form.answer_acceptable) }}
-                </div>
-            </div>
-        </div>
-        <div class="controls controls-row">
-            <div class="control-group">
-                <div class="control-label">
-                    {{ form_label(form.answer_not_applicable) }}
-                </div>
-                <div class="controls">
-                    {{ form_widget(form.answer_not_applicable, { 'attr': {'class': 'input-xxlarge' }}) }}
-                    {{ form_errors(form.answer_not_applicable) }}
+            <div class="controls controls-row">
+                <div class="control-group">
+                    <div class="control-label">
+                        {{ form_label(form.answer_yes) }}
+                    </div>
+                    <div class="controls">
+                        {{ form_widget(form.answer_yes, { 'attr': {'class': 'input-xxlarge' }}) }}
+                        {{ form_errors(form.answer_yes) }}
+                    </div>
                 </div>
             </div>
-        </div>
-    </form>
+            <div class="controls controls-row">
+                <div class="control-group">
+                    <div class="control-label">
+                        {{ form_label(form.answer_no) }}
+                    </div>
+                    <div class="controls">
+                        {{ form_widget(form.answer_no, { 'attr': { 'class': 'input-xxlarge' }}) }}
+                        {{ form_errors(form.answer_no) }}
+                    </div>
+                </div>
+            </div>
+            <div class="controls controls-row">
+                <div class="control-group">
+                    <div class="control-label">
+                        {{ form_label(form.answer_acceptable) }}
+                    </div>
+                    <div class="controls">
+                        {{ form_widget(form.answer_acceptable, { 'attr': {  'class': 'input-xxlarge' }}) }}
+                        {{ form_errors(form.answer_acceptable) }}
+                    </div>
+                </div>
+            </div>
+            <div class="controls controls-row">
+                <div class="control-group">
+                    <div class="control-label">
+                        {{ form_label(form.answer_not_applicable) }}
+                    </div>
+                    <div class="controls">
+                        {{ form_widget(form.answer_not_applicable, { 'attr': {'class': 'input-xxlarge' }}) }}
+                        {{ form_errors(form.answer_not_applicable) }}
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
 {% endblock %}

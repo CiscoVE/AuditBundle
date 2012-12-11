@@ -17,6 +17,26 @@ $( function()
     $( '.cisco-audit-table' ).find( '.cisco-audit-desc-row' ).hide();
 
     /**
+     * hide menu btn group in table's row
+     */
+    $( 'tr' ).children().find( '.btn-group' ).children().prop( 'disabled', true );
+    $( 'tr' ).children().find( '.btn-group' ).children().addClass( 'disabled' );
+
+    /**
+     * show menu btn group on row being hovered
+     */
+    $( 'tr' ).hover( function()
+    {
+        $( this ).children().find( '.btn-group' ).children().prop( 'disabled', false );
+        $( this ).children().find( '.btn-group' ).children().removeClass( 'disabled' );
+    },
+    function()
+    {
+        $( this ).children().find( '.btn-group' ).children().prop( 'disabled', true );
+        $( this ).children().find( '.btn-group' ).children().addClass( 'disabled' );
+    });   
+
+    /**
      * Toggle show/hide single Field 
      */
     $( '.cisco-audit-field-view' ).click( function()
@@ -57,7 +77,7 @@ $( function()
         
         if( sectionIsHidden === true )
         {
-            $( this ).html( hideBtn );
+            $( this ).html( hideIcon );
             
             fieldRows.each( function()
             {
@@ -75,7 +95,7 @@ $( function()
         }
         else if( sectionIsHidden === false )
         {
-            $( this ).html( viewBtn );
+            $( this ).html( viewIcon );
             
             fieldRows.each( function()
             {
@@ -172,114 +192,6 @@ $( function()
             }
         });
         return false;
-    });
-
-    /**
-     * Edit Section
-     * load up _edit.html.twig in a modal box
-     * TODO: change this to inline editing
-     */    
-    $( '.cisco-audit-section-edit' ).click( function()
-    {
-        var url = $( this ).attr( 'href' );
-        var sectionTitle = $( this ).attr( 'title' );
-        var content = $( 'body' ).find( '#dialog-modal' );
-        
-        $.ajax(
-        {
-            url: url,
-            type: "POST",
-            success: function( response )
-            {
-                var replacement = '<div class="modal-content">' + response + '</div>';
-                
-                $( content ).find( '.modal-content' ).replaceWith( replacement );
-        
-                $( "#dialog-modal" ).dialog(
-                {
-                    autoOpen: false,
-                    height: 520,
-                    width: 760,
-                    position: [250,100],
-                    modal: true,
-                    title: sectionTitle,
-                    buttons: 
-                    {
-                        "Save": function()
-                        {
-                            $( this ).find( 'form' ).submit();
-                            $( this ).dialog( "close" );                            
-                        },
-                        Cancel: function() 
-                        {
-                            $( this ).dialog( "close" );
-                        }
-                    }
-                });
-            
-                $( "#dialog-modal" ).dialog( "open" );
-            },
-            error: function( response )
-            {
-                console.log( 'can not do it .....' );
-            }
-        });
-        return false; 
-        
-        // TODO: pop a new row bellow the current one and populate with the EditSectionForm
-        // OR: get current row and replace by value of the EditSectionForm
-        return false;
-    });
-
-    /**
-     * Edit Field
-     * load up _edit.html.twig in a modal box
-     * TODO: change this to inline editing
-     */
-    $( '.cisco-audit-field-edit' ).click( function()
-    {
-        var url = $( this ).attr( 'href' );
-        var content = $( 'body' ).find( '#dialog-modal' );
-        
-        $.ajax(
-        {
-            url: url,
-            type: "POST",
-            success: function( response )
-            {
-                var replacement = '<div class="modal-content">' + response + '</div>';
-                
-                $( content ).find( '.modal-content' ).replaceWith( replacement );
-        
-                $( "#dialog-modal" ).dialog(
-                {
-                    autoOpen: false,
-                    height: 520,
-                    width: 760,
-                    position: [250,100],
-                    modal: true,
-                    buttons: 
-                    {
-                        "Save": function()
-                        {
-                            $( this ).find( 'form' ).submit();
-                            $( this ).dialog( "close" );                            
-                        },
-                        Cancel: function() 
-                        {
-                            $( this ).dialog( "close" );
-                        }
-                    }
-                });
-            
-                $( "#dialog-modal" ).dialog( "open" );
-            },
-            error: function( response )
-            {
-                console.log( 'can not do it .....' );
-            }
-        });
-        return false;        
     });
 
     /**
@@ -406,4 +318,34 @@ $( function()
 
     // Delete Field
     // need modal box to prompt for YES/NO confirmation message
+    
+ 
+    
+    /**
+     * testing function to color 
+     * @param {type} e
+     * @param {type} color
+     * @returns {undefined}
+     */
+    function colorMe( e, color )
+    {
+        switch( color )
+        {
+            case 'yellow':
+                $( e ).css( 'background-color', 'yellow' );
+                break;
+            case 'green':
+                $( e ).css( 'background-color', 'green' );
+              break;
+            case 'red':
+                $( e ).css( 'background-color', 'red' );
+                break;
+            case 'blue':
+                $( e ).css( 'background-color', 'blue' );
+                break;
+            default:
+                var parent = $( e ).parent();
+                $( e ).css( 'background-color', $( parent ).css( 'background-color' ));
+        }
+    };    
 });
