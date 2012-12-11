@@ -1,12 +1,12 @@
 {% if ufields is not empty %}
     <li class="divider"></li>
-        {% for field in ufields %}
+    {% for field in ufields %}
         <li>
             <a class="cisco-audit-field-add" data-field-id="{{ field.id }}"
                href="{{ path( 'cisco_auditformsection_add_field', { 'id' : section.id ,'field_id': field.id } ) }}">
                 <i class="icon-plus"></i> {{ field.title }}
             </a>
         </li>
-        {% endfor %}
+     {% endfor %}
     <li class="divider"></li>
 {% endif %}

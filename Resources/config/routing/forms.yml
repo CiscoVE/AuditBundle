@@ -24,8 +24,6 @@ cisco_auditform_add_section:
     requirements:
         id: \d+
         section_id: \d+
-        _method:  POST|GET
-        _format:  JSON
 
 cisco_auditform_new_section:
     pattern:  /{id}/sections/new
@@ -37,8 +35,6 @@ cisco_auditform_remove:
     pattern:  /{id}/section/{section_id}/remove
     defaults: { _controller: CiscoSystemsAuditBundle:AuditForm:remove }
     requirements:
-        _method:  POST|GET
-        _format: JSON
         id: \d+
         section_id: \d+
 

@@ -116,7 +116,7 @@ $( function()
         $( '.cisco-audit-field-row' ).last( '.cisco-audit-field-row' ).after().load( url );
         return false;
     });
-    
+
     // Remove Section
     $( '.cisco-audit-section-remove' ).click( function()
     {
@@ -136,7 +136,6 @@ $( function()
             {
                 //console.log( 'failure: ' + response );
             }
-
         });
         return false;
     });
