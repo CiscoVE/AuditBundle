@@ -159,7 +159,10 @@ class AuditFormController extends Controller
                 $em->flush();
                 if ( $request->isXmlHttpRequest() ) 
                 {
-                    return new Response( '<tr>FUCK IT</tr>' );
+                    return $this->render( 'CiscoSystemsAuditBundle:AuditFormSection:_load.html.twig', array (
+                        'auditform' => $auditform,
+                        'section'   => $section,
+                    ));
                 }
                 else return $this->redirect( $this->generateUrl( 'cisco_auditform_edit', array (
                     'id' => $auditform->getId() )

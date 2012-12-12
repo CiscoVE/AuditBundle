@@ -3,9 +3,6 @@ $( function()
     var viewIcon = '<i class="icon-eye-open" title="View"></i>';
     var hideIcon = '<i class="icon-eye-close" title="Hide"></i>';
     
-    var viewBtn = '<i class="icon-eye-open"></i> View';
-    var hideBtn = '<i class="icon-eye-close"></i> Hide';
-
     var sectionIsHidden = true;
     
     // bootstrap alert dismissal
@@ -114,24 +111,21 @@ $( function()
     });
 
     /**
-     * Add Section to Form
-     * Add Section Object to Form Object
-     * Remove Section from drop down menu
+     * Add selected Section to Form
+     * Remove button for selected section from orphan sections
      */
     $( '.cisco-audit-section-add' ).click( function()
     {
-        var url = $( this ).attr( 'href' );
-//        $( this ).closest( 'tr' ).prev().after().load( url, function(response, status, xhr) {
-//            if (status == "error") {
-//                var msg = "Sorry but there was an error: ";
-//                $("#error").html(msg + xhr.status + " " + xhr.statusText);
-//            }
-//            else
-//            {
-//                $( '#success' ).html( response );
-//            }
-//        });
-        $( this ).closest( 'tr' ).prev().after().load( url );
+        alert( 'I am here' );
+        
+        var btn = this;
+        
+        $.get( $( this ).attr( 'href' ), function( data )
+        {
+            $( btn ).parent().prev('table').append( data );
+            $( btn ).remove();
+        });        
+        
         return false;
     });
 
@@ -148,7 +142,7 @@ $( function()
     });
 
     /**
-     * Remove seleced section 
+     * Remove selected section 
      * Reload the list of unassigned sections after the table
      */
     $( '.cisco-audit-section-remove' ).click( function()
@@ -185,9 +179,8 @@ $( function()
     });
 
     /**
-     * Remove Field from section
-     * Remove Field Object from Section Object (saved to db)
-     * Add field back to drop drown menu without refreshing the page
+     * Remove selected field
+     * Reload the list of unassigned fields after the table
      */
     $( '.cisco-audit-field-remove' ).click( function()
     {
@@ -340,23 +333,26 @@ $( function()
     // Delete Field
     // need modal box to prompt for YES/NO confirmation message
     
-    $( '.test' ).click( function()
+//    $( '.test' ).click( function()
+    $( '.test' ).live( 'click', function()
     {
-        var row = $( this ).closest( 'tr' );
-//        var form = $( this ).closest( 'form' );
-        var table = $( this ).closest( 'table' );
-//        var usections = $( this ).closest( 'form' ).next( '.cisco-audit-orphan-section' );
-        var ufields = $( this ).closest( 'table' ).next( '.cisco-audit-orphan-field' );
-//        var usections = $( this ).closest( '.cisco-audit-orphan-section' );
-//        var parent = $( row ).parents();
-//        var usections = $( row ).parent().closest( '.cisco-audit-orphan-section' );
+        var div = $( this ).parent();
+        var table = $( this ).closest('table');
+        var table1 = $( div ).prev('table');
+        var lastRow = $( table ).children().children().last();
+        var lastRow1 = $( table1 ).children().children().last();
         
+//        console.log( div );
+        console.log( lastRow );
+        console.log( lastRow1 );
+//        console.log( lastRow );
+//        console.log( $( lastRow ).html() );
         
-        console.log( row );
-//        console.log( form );
-        console.log( table );
-//        console.log( usections );
-        console.log( ufields );
+//        $( '<tr>THIS IS BULLSHIT</tr>' ).insertAfter( lastRow );
+        var temp = $('<tr><td colspan="4">THIS IS BULLSHIT</td><td><a class="btn btn-mini test"><i class="icon-warning-sign"></i> Oy !</td></tr>');
+        if( table1 !== null ) $( table1 ).append( temp );
+        else if( table !== null ) $( table ).append( temp );
+//        $( lastRow ).next().show();
     });
  
     
