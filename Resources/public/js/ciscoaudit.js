@@ -155,7 +155,7 @@ $( function()
     {
         var url = $( this ).attr( 'href' );
         var that = this;
-        var usections = $( this ).closest( 'form' ).next( '.cisco-audit-orphan-section' );
+        var usections = $( this ).closest( 'table' ).next( '.cisco-audit-orphan-section' );
 
         $.ajax(
         {
@@ -193,12 +193,9 @@ $( function()
     {
         var url = $( this ).attr( 'href' );
         var that = this;
-//        var sectionId = $( this ).attr( 'data-section-id' );
-        var row = $( this ).closest( 'tr' );
-        var sectionRow = $( row ).prevAll( '.cisco-audit-section-row' ).first();
-        var menuField = $( sectionRow ).find( '.cisco-audit-orphan-field' );
+        var ufields = $( this ).closest( 'table' ).next( '.cisco-audit-orphan-field' );
         
-        console.log( menuField );
+        console.log( ufields );
         
         $.ajax(
         {
@@ -208,7 +205,7 @@ $( function()
             {
                 console.log( 'success' );
                 $( that ).closest( '.cisco-audit-field-row' ).remove();
-                $( menuField ).html( response );
+                $( ufields ).replaceWith( response );
             },
             error: function( response )
             {
@@ -346,16 +343,20 @@ $( function()
     $( '.test' ).click( function()
     {
         var row = $( this ).closest( 'tr' );
-        var form = $( this ).closest( 'form' );
-        var usections = $( this ).closest( 'form' ).next( '.cisco-audit-orphan-section' );
+//        var form = $( this ).closest( 'form' );
+        var table = $( this ).closest( 'table' );
+//        var usections = $( this ).closest( 'form' ).next( '.cisco-audit-orphan-section' );
+        var ufields = $( this ).closest( 'table' ).next( '.cisco-audit-orphan-field' );
 //        var usections = $( this ).closest( '.cisco-audit-orphan-section' );
 //        var parent = $( row ).parents();
 //        var usections = $( row ).parent().closest( '.cisco-audit-orphan-section' );
         
         
         console.log( row );
-        console.log( form );
-        console.log( usections );
+//        console.log( form );
+        console.log( table );
+//        console.log( usections );
+        console.log( ufields );
     });
  
     
