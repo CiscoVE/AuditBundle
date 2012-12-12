@@ -2,62 +2,16 @@
 
 {% block pagecontent %}
 <div class="container">
-    <div class="span10 offset1">
+    <div class="span10">
         <form class="form-horizontal" method="POST" action="">
-            <legend>
-            {% if edit == true %}
-                Edit existing form
-            {% else %}
-                Add new form
-            {% endif %}
-                <div class="btn-group pull-right">
-                    <button type="submit" class="btn btn-mini">
-                        <i class="icon-ok"></i> Save Form
-                    </button>
-                    <noscript>
-                    {# need to load an edit form for Section and pass the auditform.id #}
-                        <a class="btn btn-mini" 
-                           href="#">
-                            <i class="icon-plus"></i> Add Section
-                        </a>
-                        <a class="btn btn-mini" 
-                           href="{{ path( 'cisco_auditform_delete', { 'id': auditform.id } ) }}">
-                            <i class="icon-trash"></i> Delete Form
-                        </a>
-                    </noscript>
-                    <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" href="#">
-                        <span class="caret"></span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a class="cisco-audit-section-add" data-form-id={{ auditform.id }}
-                               href="#">
-                                <i class="icon-plus"></i> Add new Section
-                            </a>
-                        </li>
-                        {% if usections is not empty %}
-                            <li class="divider"></li>
-                            <div class="cisco-audit-orphan-section">
-                            {% for section in usections %}
-                                <li>
-                                    <a class="cisco-audit-section-add" data-section-id={{ section.id }}
-                                       href="{{ path( 'cisco_auditform_add_section', { 'id' : auditform.id ,'section_id': section.id } ) }}">
-                                        <i class="icon-plus"></i> {{ section.title }}
-                                    </a>
-                                </li>
-                            {% endfor %}
-                            </div>
-                            <li class="divider"></li>
-                        {% endif %}
-                        <li>
-                            <a class="cisco-audit-form-delete" data-form-id={{ auditform.id }}
-                               href="{{ path( 'cisco_auditform_delete', { 'id': auditform.id }) }}">
-                                <i class="icon-trash"></i> Delete Form
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </legend>
+            <div class="btn-group pull-right">
+                <a type="submit" class="btn btn-mini">
+                    <i class="icon-ok"></i> Save Form
+                </a>
+                <a class="btn btn-mini" href="#" title="TO BE IMPLEMENTED">
+                    <i class="icon-trash"></i> Delete Form
+                </a>
+            </div>
             <div class="form-horizontal">
                 <div class="control-group">
                     <div class="control-label">
@@ -94,44 +48,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                {% if auditform.sections != null %}
-                    {% for section in auditform.sections %}
+                {% for section in auditform.sections %}
                     {% include 'CiscoSystemsAuditBundle:AuditFormSection:_load.html.twig' %}
-                        {% if section.fields != null %}
-                            {% for field in section.fields %}
-                            {% include 'CiscoSystemsAuditBundle:AuditFormField:_load.html.twig' %}
-                            {% else %}
-                            <tr>
-                                <td colspan="6">
-                                    <div class="alert alert-error">
-                                        <button type="button" class="close" data-dismiss="alert">×</button>
-                                        <h4>Warning!</h4>
-                                        <p>No fields yet.</p>
-                                    </div>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        {% endif %}
-                    {% endfor %}
                 {% else %}
                     <tr>
-                        <td colspan="6">no Sections assigned yet</td>
+                        <td colspan="6" style="text-align: center;">No section are assigned to this form.
+                        </td>
                     </tr>
-                {% endif %}
-                    <noscript>
-                    {% if usections is not empty and auditform.id is not null %}
-                        <tr>
-                            <td colspan="6">
-                            {% for section in usections %}
-                                <a class="btn btn-mini" 
-                                   href="{{ path( 'cisco_auditform_add_section', { 'id' : auditform.id ,'section_id': section.id } ) }}">
-                                    <i class="icon-plus"></i> Add Section: {{ section.title }}
-                                </a>
-                            {% endfor %}
-                            </td>
-                        </tr>
-                    {% endif %}
-                    </noscript>
+                {% endfor %}
+                    {% include 'CiscoSystemsAuditBundle:AuditFormSection:_ulist.html.twig' %}
                 </tbody>
             </table>
         </form>

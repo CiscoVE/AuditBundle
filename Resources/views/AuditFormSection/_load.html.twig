@@ -24,4 +24,12 @@
         </div>
     </td>
 </tr>
+{% for field in section.fields %}
+    {% include 'CiscoSystemsAuditBundle:AuditFormField:_load.html.twig' %}
+{% else %}
+<tr class="cisco-audit-field-row">
+    <td colspan="6" style="text-align: center; background-color: pink;">No field is assigned to this section.
+    </td>
+</tr>
+{% endfor %}
 {% endblock %}

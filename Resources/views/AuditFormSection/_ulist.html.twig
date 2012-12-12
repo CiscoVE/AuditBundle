@@ -1,0 +1,15 @@
+<div class="cisco-audit-orphan-section">
+    <div>
+        <a class="btn btn-mini" href="{{ path( 'cisco_auditsection_add' ) }}">
+            Create: new section <i class="icon-plus"></i> 
+        </a>
+    {% if usections is not empty and auditform.id is not null %}
+        {% for section in usections %}
+        <a class="btn btn-mini cisco-audit-section-add" title="TO BE IMPLEMENTED"
+           href="{{ path( 'cisco_auditform_add_section', { 'id' : auditform.id ,'section_id': section.id } ) }}">
+            Add: {{ section.title }} <i class="icon-plus"></i>
+        </a>
+        {% endfor %}
+    {% endif %}
+    </div>
+</div>

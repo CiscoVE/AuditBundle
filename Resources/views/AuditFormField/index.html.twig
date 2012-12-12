@@ -27,12 +27,14 @@
                     {% include 'CiscoSystemsAuditBundle:AuditFormField:_view.html.twig' %}
                 {% else %}
                     <tr>
-                        <td colspan="5">
-                            <div class="alert alert-error">
-                                <button type="button" class="close" data-dismiss="alert">×</button>
-                                <h4>Warning!</h4>
-                                <p>No fields yet.</p>
-                            </div>
+                        <td colspan="5" >No existing field to list
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="#" title="TO BE IMPLEMENTED">
+                                Create: new field <i class="icon-plus"></i>
+                            </a>
                         </td>
                     </tr>
                 {% endfor %}

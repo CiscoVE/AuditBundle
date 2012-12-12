@@ -1,0 +1,18 @@
+<tr>
+    <td></td>
+    <td colspan="4" class="cisco-audit-orphan-field">
+        <div class="btn-group">
+        <a class="btn btn-mini" href="" title="TO BE IMPLEMENTED">
+            Create: new Field <i class="icon-plus"></i>
+        </a>
+{% if ufields is not empty and section.id is not null %}
+    {% for field in ufields %}
+        <a class="btn btn-mini cisco-audit-field-add" data-field-id="{{ field.id }}" title="TO BE IMPLEMENTED"
+           href="{{ path( 'cisco_auditsection_add_field', { 'id' : section.id ,'field_id': field.id } ) }}">
+            Add: {{ field.title }} <i class="icon-plus"></i> 
+        </a>
+    {% endfor %}
+        </div>
+    </td>
+{% endif %}
+</tr>

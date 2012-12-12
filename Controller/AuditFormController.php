@@ -79,7 +79,6 @@ class AuditFormController extends Controller
                 return $this->redirect( $this->generateUrl( 'cisco_auditforms' ));
             }
         }
-        $routes = $this->get( 'router' )->getRouteCollection();
         $uSectionRepo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditFormSection' );
         $uSections = $uSectionRepo->findBy( array ( 'auditForm' => null ));
         $uFieldRepo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditFormField' );
@@ -91,9 +90,6 @@ class AuditFormController extends Controller
             'usections'             => $uSections,
             'ufields'               => $uFields,
             'form'                  => $form->createView(),
-            'routePatternRemove'    => $routes->get( 'cisco_auditform_remove' )->getPattern(),
-            'routePatternLoad'      => $routes->get( 'cisco_auditsection_load' )->getPattern(),
-            'routePatternLoadField' => $routes->get( 'cisco_auditfield_load' )->getPattern(),
         ));
     }
 
@@ -126,7 +122,20 @@ class AuditFormController extends Controller
                 $auditform->removeSection( $section );
                 $em->persist( $auditform );
                 $em->flush();
-                return new Response();
+                if ( $request->isXmlHttpRequest() ) 
+                {
+                    $sections = $sectionRep->findBy( array ( 'auditForm' => null ));
+                    return $this->render( 'CiscoSystemsAuditBundle:AuditFormSection:_ulist.html.twig', array(
+                        'auditform'  => $auditform,
+                        'usections'  => $sections,
+                    ));
+                }
+                else return $this->redirect( $this->generateUrl( 'cisco_auditform_edit', array (
+                    'id' => $auditform->getId() )
+                ));
+//                return new Response();
+                // TODO:
+                // return list of sections currently unassigned
                 //return $this->redirect( $this->generateUrl( 'cisco_auditforms' ));
             }
             throw $this->createNotFoundException( 'Section does not exist' );
@@ -148,7 +157,10 @@ class AuditFormController extends Controller
                 $auditform->addSection( $section );
                 $em->persist( $auditform );
                 $em->flush();
-                if ( $request->isXmlHttpRequest() ) return new Response();
+                if ( $request->isXmlHttpRequest() ) 
+                {
+                    return new Response( '<tr>FUCK IT</tr>' );
+                }
                 else return $this->redirect( $this->generateUrl( 'cisco_auditform_edit', array (
                     'id' => $auditform->getId() )
                 ));
@@ -157,4 +169,34 @@ class AuditFormController extends Controller
         }
         throw $this->createNotFoundException( 'AuditForm does not exist' );
     }
+    
+//    public function addAction( Request $request )
+//    {
+//        $em = $this->getDoctrine()->getEntityManager();
+//        $repo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditFormSection' );
+//        $section = $repo->find( $request->get( 'id' ));
+//        if ( null !== $section )
+//        {
+//            $fieldRepo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditFormField' );
+//            $field = $fieldRepo->find( $request->get( 'field_id' ));
+//            if ( null !== $field )
+//            {
+//                $section->addField( $field );
+//                $em->persist( $section );
+//                $em->flush();
+//                if ( $request->isXmlHttpRequest() )
+//                {
+//                    return $this->render( 'CiscoSystemsAuditBundle:AuditFormField:_load.html.twig', array(
+//                        'field'    => $field,
+//                        'section'  => $section,
+//                    ));
+//                }
+//                else return $this->redirect( $this->generateUrl( 'cisco_auditsection_edit', array (
+//                    'id' => $section->getId() )
+//                ));
+//            }
+//            throw $this->createNotFoundException( 'Field does not exist' );
+//        }
+//        throw $this->createNotFoundException( 'Section does not exist' );
+//    }
 }

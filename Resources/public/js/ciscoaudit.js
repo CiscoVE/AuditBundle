@@ -121,7 +121,17 @@ $( function()
     $( '.cisco-audit-section-add' ).click( function()
     {
         var url = $( this ).attr( 'href' );
-        $( '.cisco-audit-section-row' ).last( '.cisco-audit-section-row' ).after().load( url );
+//        $( this ).closest( 'tr' ).prev().after().load( url, function(response, status, xhr) {
+//            if (status == "error") {
+//                var msg = "Sorry but there was an error: ";
+//                $("#error").html(msg + xhr.status + " " + xhr.statusText);
+//            }
+//            else
+//            {
+//                $( '#success' ).html( response );
+//            }
+//        });
+        $( this ).closest( 'tr' ).prev().after().load( url );
         return false;
     });
 
@@ -137,11 +147,15 @@ $( function()
         return false;
     });
 
-    // Remove Section
+    /**
+     * Remove seleced section 
+     * Reload the list of unassigned sections after the table
+     */
     $( '.cisco-audit-section-remove' ).click( function()
     {
         var url = $( this ).attr( 'href' );
         var that = this;
+        var usections = $( this ).closest( 'form' ).next( '.cisco-audit-orphan-section' );
 
         $.ajax(
         {
@@ -149,8 +163,18 @@ $( function()
             type: "POST",
             success: function( response )
             {
-                $( that ).closest( '.cisco-audit-section-row' ).nextUntil( '.cisco-audit-section-row' ).remove();
-                $( that ).closest( '.cisco-audit-section-row' ).remove();
+                var sectionRow = $( that ).closest( '.cisco-audit-section-row' );
+                var fieldRows = sectionRow.nextUntil( '.cisco-audit-section-row' );
+                $( usections ).replaceWith( response );
+                
+                fieldRows.each( function()
+                {
+                    if( $( this ).hasClass( 'cisco-audit-field-row' ) || $( this ).hasClass( 'cisco-audit-desc-row' ))
+                    {
+                        $( this ).remove();
+                    }
+                });
+                sectionRow.remove();
             },
             error: function( response )
             {
@@ -319,6 +343,20 @@ $( function()
     // Delete Field
     // need modal box to prompt for YES/NO confirmation message
     
+    $( '.test' ).click( function()
+    {
+        var row = $( this ).closest( 'tr' );
+        var form = $( this ).closest( 'form' );
+        var usections = $( this ).closest( 'form' ).next( '.cisco-audit-orphan-section' );
+//        var usections = $( this ).closest( '.cisco-audit-orphan-section' );
+//        var parent = $( row ).parents();
+//        var usections = $( row ).parent().closest( '.cisco-audit-orphan-section' );
+        
+        
+        console.log( row );
+        console.log( form );
+        console.log( usections );
+    });
  
     
     /**
