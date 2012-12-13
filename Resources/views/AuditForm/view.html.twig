@@ -58,14 +58,19 @@
                     <td>{{ field.weight }}</td>
                 </tr>
                 {% else %}
-                <tr>
-                    <td colspan="3">no field assigned yet</td>
-                </tr>
+                    <tr class="warning-empty">
+                        <td colspan="6">
+                            <i class="icon-warning-sign"></i> 
+                            No field assigned to this section.
+                        </td>
+                    </tr>
                 {% endfor %}
-            {% else %}
-                <tr>
-                    <td colspan="3">no section assigned yet</td>
-                </tr>
+                    <tr class="warning-empty">
+                        <td colspan="6">
+                            <i class="icon-warning-sign"></i> 
+                            No section assigned to this form.
+                        </td>
+                    </tr>
             {% endfor %}
             </tbody>
         </table>

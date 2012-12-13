@@ -51,14 +51,16 @@
                 {% for section in auditform.sections %}
                     {% include 'CiscoSystemsAuditBundle:AuditFormSection:_load.html.twig' %}
                 {% else %}
-                    <tr>
-                        <td colspan="6" style="text-align: center;">No section are assigned to this form.
+                    <tr class="warning-empty">
+                        <td colspan="6">
+                            <i class="icon-warning-sign"></i> 
+                            No section assigned to this form.
                         </td>
                     </tr>
                 {% endfor %}
-                    {% include 'CiscoSystemsAuditBundle:AuditFormSection:_ulist.html.twig' %}
                 </tbody>
             </table>
+            {% include 'CiscoSystemsAuditBundle:AuditFormSection:_ulist.html.twig' %}
         </form>
     </div>
 </div>

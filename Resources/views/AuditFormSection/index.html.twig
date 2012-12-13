@@ -62,13 +62,10 @@
                         </td>
                     </tr>
                 {% else %}
-                    <tr>
-                        <td colspan="3">
-                            <div class="alert alert-error">
-                                <button type="button" class="close" data-dismiss="alert">×</button>
-                                <h4>Warning!</h4>
-                                <p>No section yet.</p>
-                            </div>
+                    <tr class="warning-empty">
+                        <td colspan="6">
+                            <i class="icon-warning-sign"></i> 
+                            No existing section
                         </td>
                     </tr>
                 {% endfor %}

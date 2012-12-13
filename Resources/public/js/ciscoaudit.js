@@ -1,212 +1,32 @@
 $( function()
 {
-    var viewIcon = '<i class="icon-eye-open" title="View"></i>';
-    var hideIcon = '<i class="icon-eye-close" title="Hide"></i>';
-    
-    var sectionIsHidden = true;
-    
     // bootstrap alert dismissal
     //$(".alert").alert();
 
     /**
      * hide description row if any on page load
      */
-    $( '.cisco-audit-table' ).find( '.cisco-audit-desc-row' ).hide();
+//    $( '.cisco-audit-table' ).find( '.cisco-audit-desc-row' ).hide();
 
     /**
      * hide menu btn group in table's row
      */
-    $( 'tr' ).children().find( '.btn-group' ).children().prop( 'disabled', true );
-    $( 'tr' ).children().find( '.btn-group' ).children().addClass( 'disabled' );
+//    $( 'tr' ).children().find( '.btn-group' ).children().prop( 'disabled', true );
+//    $( 'tr' ).children().find( '.btn-group' ).children().addClass( 'disabled' );
 
     /**
      * show menu btn group on row being hovered
      */
-    $( 'tr' ).hover( function()
-    {
-        $( this ).children().find( '.btn-group' ).children().prop( 'disabled', false );
-        $( this ).children().find( '.btn-group' ).children().removeClass( 'disabled' );
-    },
-    function()
-    {
-        $( this ).children().find( '.btn-group' ).children().prop( 'disabled', true );
-        $( this ).children().find( '.btn-group' ).children().addClass( 'disabled' );
-    });   
-
-    /**
-     * Toggle show/hide single Field 
-     */
-    $( '.cisco-audit-field-view' ).click( function()
-    {
-        var fieldRow = $( this ).closest( '.cisco-audit-field-row' );
-        var descRows = fieldRow.nextUntil( '.cisco-audit-field-row', '.cisco-audit-desc-row' );
-        
-        if( $( fieldRow ).hasClass( 'cisco-audit-field-row' ))
-        {
-            var btn = $( this ).html();
-            
-            if( btn.trim() === viewIcon )
-            {
-                $( this ).html( hideIcon );
-            }
-            if( btn.trim() === hideIcon )
-            {
-                $( this ).html( viewIcon );
-            }  
-        }
-        
-        descRows.each( function()
-        {
-            if( $( this ).hasClass( 'cisco-audit-desc-row' ))
-            {
-                $( this ).toggle();
-            }
-        });
-    });
-
-    /**
-     * Toggle show/hide All Fields for Section
-     */
-    $( '.cisco-audit-section-view' ).click( function()
-    {
-        var sectionRow = $( this ).closest( '.cisco-audit-section-row' );
-        var fieldRows = sectionRow.nextUntil( '.cisco-audit-section-row' );
-        
-        if( sectionIsHidden === true )
-        {
-            $( this ).html( hideIcon );
-            
-            fieldRows.each( function()
-            {
-                if( $( this ).hasClass( 'cisco-audit-field-row' ))
-                {
-                    $( this ).find( '.cisco-audit-field-view' ).html( hideIcon );
-                }
-                if( $( this ).hasClass( 'cisco-audit-desc-row' ) && $( this ).is( ':hidden' ))
-                {
-                    $( this ).toggle();
-                }
-            });
-        
-            sectionIsHidden = false;
-        }
-        else if( sectionIsHidden === false )
-        {
-            $( this ).html( viewIcon );
-            
-            fieldRows.each( function()
-            {
-                if( $( this ).hasClass( 'cisco-audit-field-row' ))
-                {
-                    $( this ).find( '.cisco-audit-field-view' ).html( viewIcon );                    
-                }                
-                if( $( this ).hasClass( 'cisco-audit-desc-row' ) && $( this ).is( ':visible' ))
-                {
-                    $( this ).toggle();                    
-                }
-            });
-            
-            sectionIsHidden = true;
-        }
-    });
-
-    /**
-     * Add selected Section to Form
-     * Remove button for selected section from orphan sections
-     */
-    $( '.cisco-audit-section-add' ).click( function()
-    {
-        alert( 'I am here' );
-        
-        var btn = this;
-        
-        $.get( $( this ).attr( 'href' ), function( data )
-        {
-            $( btn ).parent().prev('table').append( data );
-            $( btn ).remove();
-        });        
-        
-        return false;
-    });
-
-    /**
-     * Add Field to Section
-     * Add Field Object to Section Object
-     * Remove Field from drop down menu
-     */
-    $( '.cisco-audit-field-add' ).click( function()
-    {
-        var url = $( this ).attr( 'href' );
-        $( '.cisco-audit-field-row' ).last( '.cisco-audit-field-row' ).after().load( url );
-        return false;
-    });
-
-    /**
-     * Remove selected section 
-     * Reload the list of unassigned sections after the table
-     */
-    $( '.cisco-audit-section-remove' ).click( function()
-    {
-        var url = $( this ).attr( 'href' );
-        var that = this;
-        var usections = $( this ).closest( 'table' ).next( '.cisco-audit-orphan-section' );
-
-        $.ajax(
-        {
-            url: url,
-            type: "POST",
-            success: function( response )
-            {
-                var sectionRow = $( that ).closest( '.cisco-audit-section-row' );
-                var fieldRows = sectionRow.nextUntil( '.cisco-audit-section-row' );
-                $( usections ).replaceWith( response );
-                
-                fieldRows.each( function()
-                {
-                    if( $( this ).hasClass( 'cisco-audit-field-row' ) || $( this ).hasClass( 'cisco-audit-desc-row' ))
-                    {
-                        $( this ).remove();
-                    }
-                });
-                sectionRow.remove();
-            },
-            error: function( response )
-            {
-                //console.log( 'failure: ' + response );
-            }
-        });
-        return false;
-    });
-
-    /**
-     * Remove selected field
-     * Reload the list of unassigned fields after the table
-     */
-    $( '.cisco-audit-field-remove' ).click( function()
-    {
-        var url = $( this ).attr( 'href' );
-        var that = this;
-        var ufields = $( this ).closest( 'table' ).next( '.cisco-audit-orphan-field' );
-        
-        console.log( ufields );
-        
-        $.ajax(
-        {
-            url: url,
-            datatype: "HTML",
-            success: function( response )
-            {
-                console.log( 'success' );
-                $( that ).closest( '.cisco-audit-field-row' ).remove();
-                $( ufields ).replaceWith( response );
-            },
-            error: function( response )
-            {
-                //console.log( 'failure: ' + response );
-            }
-        });
-        return false;
-    });
+//    $( 'tr' ).hover( function()
+//    {
+//        $( this ).children().find( '.btn-group' ).children().prop( 'disabled', false );
+//        $( this ).children().find( '.btn-group' ).children().removeClass( 'disabled' );
+//    },
+//    function()
+//    {
+//        $( this ).children().find( '.btn-group' ).children().prop( 'disabled', true );
+//        $( this ).children().find( '.btn-group' ).children().addClass( 'disabled' );
+//    });   
 
     /**
      * calculate section's score and audit score on field's score change
@@ -384,3 +204,236 @@ $( function()
         }
     };    
 });
+
+
+/**
+ * Remove selected field
+ * Reload the list of unassigned fields after the table
+ */
+$( document ).on( 'click', '.cisco-audit-field-remove', function()
+{
+    var emptyFieldRow = ( '<tr class="warning-empty"><td colspan="6"><i class="icon-warning-sign"></i> No field assigned to this section.</td></tr>' );
+    var btn = this;
+    var ufields = $( this ).closest( 'table' ).next( '.cisco-audit-orphan-field' );
+    var tbody = $( this ).closest( 'tbody' );
+    
+    $.get( $( this ).attr( 'href' ), function( data )
+    {
+        var siblings = $( btn ).closest( 'tr' ).siblings( '.cisco-audit-field-row' );
+        $( btn ).closest( 'tr' ).nextUntil( '.cisco-audit-field-row' ).remove();
+        $( btn ).closest( 'tr' ).closest( '.cisco-audit-field-row' ).remove();
+        
+        if( $( siblings ).length === 0)        
+        {
+            $( tbody ).html( emptyFieldRow );
+        }
+    
+        $( ufields ).replaceWith( data );
+    });
+
+    return false;
+});
+
+/**
+ * Remove selected section 
+ * Reload the list of unassigned sections after the table
+ */
+$( document ).on( 'click', '.cisco-audit-section-remove', function()
+{
+    var emptySectionRow = ( '<tr class="warning-empty"><td colspan="6"><i class="icon-warning-sign"></i> No section assigned to this form.</td></tr>' );
+    var btn = this;
+    var usections = $( this ).closest( 'table' ).next( '.cisco-audit-orphan-section' );
+    var tbody = $( this ).closest( 'tbody' );
+
+    $.get( $( this ).attr( 'href' ), function( data )
+    {
+        var siblings = $( btn ).closest( 'tr' ).siblings( '.cisco-audit-section-row' );
+        var sectionRow = $( btn ).closest( '.cisco-audit-section-row' );
+        var fieldRows = sectionRow.nextUntil( '.cisco-audit-section-row' );
+        
+        fieldRows.each( function()
+        {
+            if( $( this ).hasClass( 'cisco-audit-field-row' ) || $( this ).hasClass( 'cisco-audit-desc-row' ))
+            {
+                $( this ).remove();
+            }
+        });
+        sectionRow.remove();
+        
+        if( $( siblings ).length === 0)        
+        {
+            $( tbody ).html( emptySectionRow );
+        }
+    
+        $( usections ).replaceWith( data );
+    });    
+
+    return false;
+});
+
+/**
+ * Add selected Section to Form
+ * Remove button for selected section from orphan sections
+ */
+$( document ).on( 'click', '.cisco-audit-section-add', function()
+{
+    var btn = this;
+    var table = $( this ).parent().prev('table');
+
+    $.get( $( this ).attr( 'href' ), function( data )
+    {
+        if( $( table ).find( 'tbody' ).children().hasClass( 'warning-empty' ) )
+        {
+            $( table ).find( 'tbody' ).children().remove();
+        }
+        $( btn ).parent().prev('table').append( data );
+        $( btn ).remove();
+    });        
+
+    return false;
+});
+
+/**
+ * Add Field to Section
+ * Add Field Object to Section Object
+ * Remove Field from drop down menu
+ */
+$( document ).on( 'click', '.cisco-audit-field-add', function()
+{
+    var btn = this;
+    var table = $( this ).parent().prev('table');
+    
+    $.get( $( this ).attr( 'href' ), function( data )
+    {
+        if( $( table ).find( 'tbody' ).children().hasClass( 'warning-empty' ) )
+        {
+            $( table ).find( 'tbody' ).children().remove();
+        }
+        $( table ).append( data );
+        $( btn ).remove();
+    });    
+
+    return false;
+});
+
+/**
+ * variable for the next 2 functions
+ * @type String
+ */
+var viewIcon = '<i class="icon-eye-open" title="View"></i>';
+var hideIcon = '<i class="icon-eye-close" title="Hide"></i>';
+
+/**
+ * Toggle show/hide single Field 
+ */
+$( document ).on( 'click', '.cisco-audit-field-view', function()
+{
+    var fieldRow = $( this ).closest( '.cisco-audit-field-row' );
+    var descRows = fieldRow.nextUntil( '.cisco-audit-field-row', '.cisco-audit-desc-row' );
+
+    if( $( fieldRow ).hasClass( 'cisco-audit-field-row' ))
+    {
+        var btn = $( this ).html();
+
+        if( btn.trim() === viewIcon )
+        {
+            $( this ).html( hideIcon );
+        }
+        if( btn.trim() === hideIcon )
+        {
+            $( this ).html( viewIcon );
+        }  
+    }
+
+    descRows.each( function()
+    {
+        if( $( this ).hasClass( 'cisco-audit-desc-row' ))
+        {
+            $( this ).toggle();
+        }
+    });
+});
+
+/**
+ * Toggle show/hide All Fields for Section
+ */
+$( document ).on( 'click', '.cisco-audit-section-view', function()
+{
+    var sectionRow = $( this ).closest( '.cisco-audit-section-row' );
+    var fieldRows = sectionRow.nextUntil( '.cisco-audit-section-row' );
+    
+    if( $( this ).children().hasClass( 'icon-eye-open' ) )
+    {
+        $( this ).html( hideIcon );
+
+        fieldRows.each( function()
+        {
+            if( $( this ).hasClass( 'cisco-audit-field-row' ))
+            {
+                $( this ).find( '.cisco-audit-field-view' ).html( hideIcon );
+            }
+            if( $( this ).hasClass( 'cisco-audit-desc-row' ) && $( this ).is( ':hidden' ))
+            {
+                $( this ).toggle();
+            }
+        });
+    }
+    else if(  $( this ).children().hasClass( 'icon-eye-close' ) )
+    {
+        $( this ).html( viewIcon );
+
+        fieldRows.each( function()
+        {
+            if( $( this ).hasClass( 'cisco-audit-field-row' ))
+            {
+                $( this ).find( '.cisco-audit-field-view' ).html( viewIcon );                    
+            }                
+            if( $( this ).hasClass( 'cisco-audit-desc-row' ) && $( this ).is( ':visible' ))
+            {
+                $( this ).toggle();                    
+            }
+        });
+    }
+});
+
+/**
+ * show menu btn group on row being hovered
+ */
+//$( document ).on(
+//{
+//    mouseenter: function()
+//    {
+//        console.log( 'entering: ' + $( this ).parent().html() );
+//        $( this ).prop( 'disabled', false );
+//        $( this ).removeClass( 'disabled' );
+//    },
+//    mouseleave: function()
+//    {
+//        console.log( 'leaving: ' + $( this ).parent().html() );
+//        $( this ).prop( 'disabled', true );
+//        $( this ).addClass( 'disabled' );
+//    }
+//}, 'a:.btn' );
+//        
+        
+        
+        
+//        'hover', '.btn', function()
+//{
+//    console.log( this );
+//    console.log( 'foo' );
+//});
+
+//    $( 'tr' ).hover( function()
+//$( document ).on( 'hover', 'tr', function()
+//{
+//    $( this ).children().find( '.btn-group' ).children().prop( 'disabled', false );
+//    $( this ).children().find( '.btn-group' ).children().removeClass( 'disabled' );
+////    alert( 'foo' );
+//},
+//function()
+//{
+//    $( this ).children().find( '.btn-group' ).children().prop( 'disabled', true );
+//    $( this ).children().find( '.btn-group' ).children().addClass( 'disabled' );
+////    alert( 'bar' );
+//});   
