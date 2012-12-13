@@ -1,33 +1,5 @@
 $( function()
 {
-    // bootstrap alert dismissal
-    //$(".alert").alert();
-
-    /**
-     * hide description row if any on page load
-     */
-//    $( '.cisco-audit-table' ).find( '.cisco-audit-desc-row' ).hide();
-
-    /**
-     * hide menu btn group in table's row
-     */
-//    $( 'tr' ).children().find( '.btn-group' ).children().prop( 'disabled', true );
-//    $( 'tr' ).children().find( '.btn-group' ).children().addClass( 'disabled' );
-
-    /**
-     * show menu btn group on row being hovered
-     */
-//    $( 'tr' ).hover( function()
-//    {
-//        $( this ).children().find( '.btn-group' ).children().prop( 'disabled', false );
-//        $( this ).children().find( '.btn-group' ).children().removeClass( 'disabled' );
-//    },
-//    function()
-//    {
-//        $( this ).children().find( '.btn-group' ).children().prop( 'disabled', true );
-//        $( this ).children().find( '.btn-group' ).children().addClass( 'disabled' );
-//    });   
-
     /**
      * calculate section's score and audit score on field's score change
      */
@@ -145,11 +117,6 @@ $( function()
         }
     });
 
-// test code in case needed
-//$('.audit-section-row').next('.audit-form-field').css('background-color', 'yellow');
-//$('.audit-section-row').next('.audit-section-row').prev().css('background-color', 'red');
-
-
     // Delete Field
     // need modal box to prompt for YES/NO confirmation message
     
@@ -169,7 +136,7 @@ $( function()
 //        console.log( $( lastRow ).html() );
         
 //        $( '<tr>THIS IS BULLSHIT</tr>' ).insertAfter( lastRow );
-        var temp = $('<tr><td colspan="4">THIS IS BULLSHIT</td><td><a class="btn btn-mini test"><i class="icon-warning-sign"></i> Oy !</td></tr>');
+        var temp = $('<tr><td colspan="4">THIS IS NOT WORKING</td><td><a class="btn btn-mini test"><i class="icon-warning-sign"></i> Oy !</td></tr>');
         if( table1 !== null ) $( table1 ).append( temp );
         else if( table !== null ) $( table ).append( temp );
 //        $( lastRow ).next().show();
@@ -258,6 +225,9 @@ $( document ).on( 'click', '.cisco-audit-section-remove', function()
                 $( this ).remove();
             }
         });
+        
+        if( sectionRow.next().hasClass( 'warning-empty' ) ) sectionRow.next().remove();
+    
         sectionRow.remove();
         
         if( $( siblings ).length === 0)        
@@ -282,7 +252,7 @@ $( document ).on( 'click', '.cisco-audit-section-add', function()
 
     $.get( $( this ).attr( 'href' ), function( data )
     {
-        if( $( table ).find( 'tbody' ).children().hasClass( 'warning-empty' ) )
+        if( $( table ).find( 'tbody' ).children().first().hasClass( 'warning-empty' )) 
         {
             $( table ).find( 'tbody' ).children().remove();
         }
