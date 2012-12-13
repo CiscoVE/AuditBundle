@@ -1,6 +1,8 @@
-{# AuditformSection::view.html.twig #}
-
 {% extends 'CiscoSystemsAuditBundle::base.html.twig' %}
+
+{% block pagetitle %}
+    {{ parent() }}: Section id: #{{ section.id }}
+{% endblock %}
 
 {% block pagecontent %}
 <div class="container">

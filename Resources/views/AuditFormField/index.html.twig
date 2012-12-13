@@ -1,17 +1,18 @@
 {% extends 'CiscoSystemsAuditBundle::base.html.twig' %}
 
+{% block pagetitle %}
+    {{ parent() }}: List of existing Fields
+{% endblock %}
+
 {% block pagecontent %}
 <div class="container">
-    <div class="span8 offset2">
-        <legend>
-            Existing Fields
-            <a class="btn btn-mini pull-right"
-               href="{{ path( 'cisco_auditfield_add' ) }}">
-                <i class="icon-plus"></i> Add a new field
+    <div class="span10">
+        <div class="btn-group pull-right">
+            <a class="btn btn-mini" href="{{ path( 'cisco_auditfield_add' ) }}">
+                Create new Field <i class="icon-plus"></i>
             </a>
-        </legend>
+        </div>
         <table class="table table-condensed table-hover cisco-audit-table">
-            <caption>List of existing fields</caption>
             <thead>
                 <tr>
                     <th width=20%>Title</th>
@@ -23,21 +24,15 @@
                 </tr>
             </thead>
             <tbody>
-                {% for field in fields %}
-                    {% include 'CiscoSystemsAuditBundle:AuditFormField:_view.html.twig' %}
-                {% else %}
-                    <tr>
-                        <td colspan="5" >No existing field to list
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <a href="#" title="TO BE IMPLEMENTED">
-                                Create: new field <i class="icon-plus"></i>
-                            </a>
-                        </td>
-                    </tr>
-                {% endfor %}
+            {% for field in fields %}
+                {% include 'CiscoSystemsAuditBundle:AuditFormField:_view.html.twig' %}
+            {% else %}
+                <tr class="warning-empty">
+                    <td colspan="6">
+                        <i class="icon-warning-sign"></i> No existing field to list
+                    </td>
+                </tr>
+            {% endfor %}
             </tbody>
         </table>
     </div>

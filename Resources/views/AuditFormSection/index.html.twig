@@ -1,17 +1,18 @@
 {% extends 'CiscoSystemsAuditBundle::base.html.twig' %}
 
+{% block pagetitle %}
+    {{ parent() }}: List of existing Section
+{% endblock %}
+
 {% block pagecontent %}
 <div class="container">
-    <div class="span6 offset2">
-        <legend>
-            Sections
-            <a class="btn btn-small pull-right"
-               href="{{ path( 'cisco_auditsection_add' ) }}">
-                <i class="icon-plus"></i> Add a section
+    <div class="span10">
+        <div class="btn-group pull-right">
+            <a class="btn btn-small" href="{{ path( 'cisco_auditsection_add' ) }}">
+                Create new Section <i class="icon-plus"></i>
             </a>
-        </legend>
+        </div>
         <table class="table table-condensed table-hover">
-            <caption>List of existing Section</caption>
             <thead>
                 <tr>
                     <th>Title</th>
@@ -21,49 +22,10 @@
             </thead>
             <tbody>
                 {% for section in sections %}
-                    <tr title="{{ section.description }}">
-                        <td>{{ section.title }}</td>
-                        <td>{{ section.auditForm }}</td>
-                        <td width="10%">
-                            <div class="btn-group pull-right">
-                                <a class="btn btn-mini" 
-                                   href="{{ path( 'cisco_auditsection_view', { 'id': section.id } ) }}">
-                                    <i class="icon-eye-open"></i> View
-                                </a>
-                                <noscript>
-                                    <a class="btn btn-mini"
-                                       href="{{ path( 'cisco_auditsection_edit', { 'id': section.id } ) }}">
-                                        <i class="icon-wrench"></i> Edit
-                                    </a>
-                                    <a class="btn btn-mini"
-                                        href="{{ path( 'cisco_auditsection_delete', { 'id': section.id } ) }}">
-                                        <i class="icon-trash"></i> Delete
-                                    </a>
-                                </noscript>
-                                <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" 
-                                   href="#">
-                                    <span class="caret"></span>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a class="cisco-audit-section-edit" data-section-id="{{ section.id }}"
-                                            href="{{ path( 'cisco_auditsection_edit', { 'id': section.id } ) }}">
-                                            <i class="icon-wrench"></i> Edit
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="cisco-audit-section-delete" data-section-id="{{ section.id }}"
-                                            href="{{ path( 'cisco_auditsection_delete', { 'id': section.id } ) }}">
-                                            <i class="icon-trash"></i> Delete
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </td>
-                    </tr>
+                    {% include 'CiscoSystemsAuditBundle:AuditFormSection:_view.html.twig' %}
                 {% else %}
                     <tr class="warning-empty">
-                        <td colspan="6">
+                        <td colspan="3">
                             <i class="icon-warning-sign"></i> 
                             No existing section
                         </td>

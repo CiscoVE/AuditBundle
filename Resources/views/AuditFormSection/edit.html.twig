@@ -1,24 +1,28 @@
 {% extends 'CiscoSystemsAuditBundle::base.html.twig' %}
 
+{% block pagetitle %}
+    {{ parent() }}: 
+    {% if edit == true %}
+        Section id: #{{ section.id }}
+    {% else %}
+        new Section
+    {% endif %}
+{% endblock %}
+    
 {% block pagecontent %}
 <div class="container">
     <div class="span10">
         <form class="form-horizontal" method="POST" action="">
-            <legend>
+            <div class="btn-group pull-right">
+                <button type="submit" class="btn btn-mini">
+                    <i class="icon-ok"></i> Save Section
+                </button>
             {% if edit == true %}
-                Editing section: {{ section.title }}
-            {% else %}
-                Add new section
+                <a class="btn btn-mini" href="#" title="TO BE IMPLEMENTED">
+                    <i class="icon-trash"></i> Delete section
+                </a>
             {% endif %}
-                <div class="btn-group pull-right">
-                    <button type="submit" class="btn btn-mini">
-                        <i class="icon-ok"></i> Save Section
-                    </button>
-                    <a class="btn btn-mini" href="#" title="TO BE IMPLEMENTED">
-                        <i class="icon-trash"></i> Delete section
-                    </a>
-                </div>
-            </legend>
+            </div>
             <div class="controls controls-row">
                 <div class="control-group">
                     <div class="control-label">
@@ -79,7 +83,9 @@
             {% endfor %}
             </tbody>
         </table>
-        {% include 'CiscoSystemsAuditBundle:AuditFormField:_ulist.html.twig' %}
+        {% if edit == true %}
+            {% include 'CiscoSystemsAuditBundle:AuditFormField:_ulist.html.twig' %}
+        {% endif %}
     </div>
 </div>
 {% endblock %}

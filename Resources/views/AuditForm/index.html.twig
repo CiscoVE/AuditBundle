@@ -1,27 +1,31 @@
 {% extends 'CiscoSystemsAuditBundle::base.html.twig' %}
 
+{% block pagetitle %}
+    {{ parent() }}: List of existing Forms
+{% endblock %}
+
 {% block pagecontent %}
 <div class="container">
-    <div class="span10 offset1">
-        <legend>Forms
-            <a class="btn btn-small pull-right" 
-               href="{{ path( 'cisco_auditform_add' ) }}">
-                <i class="icon-plus"></i> Create a new form
+    <div class="span10">
+        <div class="btn-group pull-right">
+            <a class="btn btn-mini" href="{{ path( 'cisco_auditform_add' ) }}">
+                Create a new form <i class="icon-plus"></i> 
             </a>
-        </legend>
+        </div>
         <table class="table table-condensed table-hover">
-            <caption>List of existing Forms</caption>
             <thead>
                 <tr>
-                    <th>Title</th>
-                    <th>Is the form Active?</th>
-                    <th></th>
+                    <th width=20%>Title</th>
+                    <th width=60%>Description</th>
+                    <th width=20%>Is the form Active?</th>
+                    <th width=20% style="white-space: nowrap;"></th>
                 </tr>
             </thead>
             <tbody>
                 {% for form in forms %}
-                    <tr title="{{ form.description }}">
+                    <tr>
                         <td>{{ form.title }}</td>
+                        <td>{{ form.description }}</td>
                         <td>
                         {% if  form.active == 1 %}
                             <i class="icon-check"/>
@@ -29,45 +33,26 @@
                             <i class="icon-check-empty"/>
                         {% endif %}
                         </td>
-                        <td>
+                        <td width=20% style="white-space: nowrap;">
                             <div class="btn-group pull-right">
-                                <a class="btn btn-mini" 
+                                <a class="btn btn-mini" title="View"
                                    href="{{ path( 'cisco_auditform_view', { 'id': form.id } ) }}">
-                                    <i class="icon-eye-open"></i> View
+                                    <i class="icon-eye-open"></i>
+                                </a>  
+                                <a class="btn btn-mini" title="Edit"
+                                    href="{{ path( 'cisco_auditform_edit', { 'id': form.id } ) }}">
+                                    <i class="icon-wrench"></i>
                                 </a>
-                                <noscript>
-                                    <a class="btn btn-mini"
-                                       href="{{ path( 'cisco_auditform_edit', { 'id': form.id } ) }}">
-                                        <i class="icon-wrench"></i> Edit
-                                    </a>
-                                    <a class="btn btn-mini"
-                                       href="{{ path( 'cisco_auditform_delete', { 'id': form.id } ) }}">
-                                        <i class="icon-trash"></i> Delete
-                                    </a>
-                                </noscript>    
-                                <a class="btn btn-mini dropdown-toggle" data-toggle="dropdown" 
-                                   href="#">
-                                    <span class="caret"></span>
+                                <a class="btn btn-mini" title="Delete"
+                                   href="{{ path( 'cisco_auditform_delete', { 'id': form.id } ) }}">
+                                    <i class="icon-trash"></i>
                                 </a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a href="{{ path( 'cisco_auditform_edit', { 'id': form.id } ) }}">
-                                            <i class="icon-wrench"></i> Edit
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="cisco-audit-form-delete" data-form-id="{{ form.id }}"
-                                            href="{{ path( 'cisco_auditform_delete', { 'id': form.id } ) }}">
-                                            <i class="icon-trash"></i> Delete
-                                        </a>
-                                    </li>
-                                </ul>
                             </div>
                         </td>
                     </tr>
                 {% else %}
                     <tr class="warning-empty">
-                        <td colspan="6">
+                        <td colspan="4">
                             <i class="icon-warning-sign"></i> 
                             No forms yet.
                         </td>

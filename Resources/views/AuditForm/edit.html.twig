@@ -8,9 +8,11 @@
                 <a type="submit" class="btn btn-mini">
                     <i class="icon-ok"></i> Save Form
                 </a>
+                {% if edit == true %}
                 <a class="btn btn-mini" href="#" title="TO BE IMPLEMENTED">
                     <i class="icon-trash"></i> Delete Form
                 </a>
+                {% endif %}
             </div>
             <div class="form-horizontal">
                 <div class="control-group">
@@ -60,7 +62,9 @@
                 {% endfor %}
                 </tbody>
             </table>
+        {% if edit == true %}
             {% include 'CiscoSystemsAuditBundle:AuditFormSection:_ulist.html.twig' %}
+        {% endif %}
         </form>
     </div>
 </div>

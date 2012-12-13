@@ -1,0 +1,30 @@
+{% block pagecontent %}
+<tr class="cisco-audit-section-row">
+    <td>{{ section.title }}</td>
+    <td>
+    {% if section.auditform is empty %}
+        <i>No form assigned.</i>
+    {% else %}
+        {{ section.auditform }}
+    {% endif %}
+    </td>
+    <td>
+        <div class="btn-group pull-right">
+            <a class="btn btn-mini cisco-audit-section-view">
+                <i class="icon-eye-open" title="View"></i>
+            </a>
+            <a class="btn btn-mini cisco-audit-section-edit" data-section-id="{{ section.id }}"
+                href="{{ path( 'cisco_auditsection_edit', { 'id': section.id } ) }}">
+                <i class="icon-wrench" title="Edit"></i> 
+            </a>
+            <a class="btn btn-mini cisco-audit-section-delete" data-section-id="{{ section.id }}"
+                href="{{ path( 'cisco_auditsection_delete', { 'id': section.id } ) }}">
+                <i class="icon-trash" title="Delete"></i> 
+            </a>
+        </div>        
+    </td>
+</tr>
+<tr class="cisco-audit-desc-row" style="display: none;">
+    <td colspan="3"><i>Description: </i>{{ section.description }}</td>
+</tr>
+{% endblock %}
