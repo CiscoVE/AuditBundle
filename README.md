@@ -45,10 +45,9 @@ For now the following need to be added to the composer.json file of the project:
     "repositories": [
         { "type": "vcs", "url": "http://github.com/WrittenGames/AuditBundle" }
     ]
-```
-    and
+    
+    ...
 
-```yaml   
     "require": {
         "cisco-systems/audit-bundle": "dev-master"
     }
