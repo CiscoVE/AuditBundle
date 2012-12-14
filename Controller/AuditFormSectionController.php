@@ -106,11 +106,16 @@ class AuditFormSectionController extends Controller
         $repo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditFormSection' );
         if ( null !== $section = $repo->find( $request->get( 'section_id' ) ))
         {
+//            $formRepo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditForm' );
+            $auditform = $section->getAuditForm();
+            $id = $auditform->getId();
             $section->setAuditForm( null );
             $section->removeAllField();
             $em->remove( $section );
             $em->flush();
-            return $this->redirect( $this->generateUrl( 'cisco_auditsections' ));
+            return $this->redirect( $this->generateUrl( 'cisco_auditform_edit', array(
+                'form_id'   => $id,
+            )));
         }
         throw $this->createNotFoundException( 'Section does not exist' );
     }

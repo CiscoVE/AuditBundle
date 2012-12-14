@@ -58,7 +58,9 @@ class AuditFormFieldController extends Controller
                 AuditFormFieldType::mapScores( $field, $values );
                 $em->persist( $field );
                 $em->flush();
-                return $this->redirect( $this->generateUrl( 'cisco_auditfields' ));
+                return $this->redirect( $this->generateUrl( 'cisco_auditsection_edit', array(
+                    'section_id'  => $field->getSection()->getId(),
+                )));
             }
         }
         /**
@@ -111,6 +113,8 @@ class AuditFormFieldController extends Controller
         $repo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditFormField' );
         if ( null !== $field = $repo->find( $request->get( 'field_id' ) ))
         {
+            //
+            $section = $field->getSection();
             $scoreRepo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditScore' );
             $scores = $scoreRepo->findAll();
             if ( null != $scores = $field->getAuditScores()) $field->removeAllAuditScore();
@@ -119,7 +123,9 @@ class AuditFormFieldController extends Controller
             $field->setSection( null );
             $em->remove( $field );
             $em->flush();
-            return $this->redirect( $this->generateUrl( 'cisco_auditfields' ));
+            return $this->redirect( $this->generateUrl( 'cisco_auditsection_edit', array (
+                'section_id'  => $section->getId(),
+            )));
         }
         throw $this->createNotFoundException( 'Field does not exist' );
     }

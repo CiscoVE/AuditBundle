@@ -222,9 +222,9 @@ class AuditFormSection
         {
             $index = $this->fields->indexOf( $field );
             $rem = $this->fields->get( $index );
+            $this->fields->removeElement( $field );
             $rem->setSection( null );
         }
-        $this->fields->removeElement( $field );
     }
     
     /**

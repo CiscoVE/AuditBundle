@@ -24,7 +24,8 @@
                 </a>                
             {% endif %}
             {% if edit == true %}
-                <a class="btn btn-mini" href="#" title="TO BE IMPLEMENTED">
+                <a class="btn btn-mini" 
+                   href="{{ path( 'cisco_auditsection_delete', { 'section_id': section.id } ) }}">
                     Delete section <i class="icon-trash"></i>
                 </a>
             {% endif %}
