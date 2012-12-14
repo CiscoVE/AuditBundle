@@ -1,28 +1,35 @@
 {% extends 'CiscoSystemsAuditBundle::base.html.twig' %}
 
+{% block pagetitle %}
+    {{ parent() }}: 
+    {% if edit == true %}
+        Field id: #{{ field.id }}
+    {% else %}
+        new Field
+    {% endif %}
+{% endblock %}
+
 {% block pagecontent %}
 <div class="container">
     <div class="span11">
         <form class="form-horizontal" method="POST" action="">
-            <legend>
-            {% if edit == true %}
-                Edit existing field
-            {% else %}
-                Add new field
-            {% endif %}
-                <div class="btn-group pull-right">
-                    <button type="submit" class="btn btn-mini">
-                        <i class="icon-ok"></i> Save Field
-                    </button>
-                    {% if edit == true %}
-                        <a class="btn btn-mini" 
-                            href="{{ path( 'cisco_auditfield_delete', { 'id': field.id } ) }}">
-                             <i class="icon-trash"></i> Delete Field
-                        </a>
-                    {% endif %}
-                </div>
-            </legend>
-
+            <div class="pull-right">
+                <button type="submit" class="btn btn-mini">
+                    Save Field <i class="icon-ok"></i>
+                </button>
+                {% if field.section is defined %}
+                    <a class="btn btn-mini" 
+                        href="{{ path( 'cisco_auditsection_edit', { 'section_id': field.section.id } ) }}">
+                         Cancel <i class="icon-remove"></i>
+                    </a>
+                {% endif %}
+                {% if edit == true %}
+                    <a class="btn btn-mini" 
+                        href="{{ path( 'cisco_auditfield_delete', { 'field_id': field.id } ) }}">
+                         Delete Field <i class="icon-trash"></i>
+                    </a>
+                {% endif %}
+            </div>
             <div class="controls controls-row">
                 <div class="control-group">
                     <div class="control-label">

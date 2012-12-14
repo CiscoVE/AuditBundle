@@ -200,9 +200,9 @@ class AuditForm
         {
             $index = $this->sections->indexOf( $section );
             $rem = $this->sections->get( $index );
+            $this->sections->removeElement($section);
             $rem->setAuditForm( null );
         }
-        $this->sections->removeElement($section);
     }
 
     public function removeAllSection()
@@ -246,7 +246,7 @@ class AuditForm
      */
     public function addAudits( \Doctrine\Common\Collections\ArrayCollection $audits )
     {
-        foreach( $this->audits as $audit )
+        foreach( $audits as $audit )
         {
             $this->addAudit( $audit );
         }
@@ -263,9 +263,9 @@ class AuditForm
         {
             $index = $this->audits->indexOf( $audit );
             $rem = $this->audits->get( $index );
+            $this->audits->removeElement( $audit );
             $rem->setAuditForm( NULL );
         }
-        $this->audits->removeElement( $audit );
     }
     
     /**

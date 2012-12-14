@@ -7,42 +7,42 @@ cisco_auditform_list:
     defaults: { _controller: CiscoSystemsAuditBundle:AuditForm:list }
 
 cisco_auditform_edit:
-    pattern:  /{id}/edit
+    pattern:  /{form_id}/edit
     defaults: { _controller: CiscoSystemsAuditBundle:AuditForm:edit }
     requirements:
-        id: \d+
+        form_id: \d+
 
 cisco_auditform_delete:
-    pattern:  /{id}/delete
+    pattern:  /{form_id}/delete
     defaults: { _controller: CiscoSystemsAuditBundle:AuditForm:delete }
     requirements:
-        id: \d+
+        form_id: \d+
 
 cisco_auditform_add_section:
-    pattern:  /{id}/section/{section_id}/add
+    pattern:  /{form_id}/section/{section_id}/add
     defaults: { _controller: CiscoSystemsAuditBundle:AuditForm:add }
     requirements:
-        id: \d+
+        form_id: \d+
         section_id: \d+
 
 cisco_auditform_new_section:
-    pattern:  /{id}/sections/new
-    defaults: { _controller: CiscoSystemsAuditBundle:AuditForm:new }
+    pattern:  /{form_id}/sections/add
+    defaults: { _controller: CiscoSystemsAuditBundle:AuditFormSection:edit }
     requirements:
-        id: \d+
+        form_id: \d+
 
 cisco_auditform_remove:
-    pattern:  /{id}/section/{section_id}/remove
+    pattern:  /{form_id}/section/{section_id}/remove
     defaults: { _controller: CiscoSystemsAuditBundle:AuditForm:remove }
     requirements:
-        id: \d+
+        form_id: \d+
         section_id: \d+
 
 cisco_auditform_view:
-    pattern:  /{id}
+    pattern:  /{form_id}
     defaults: { _controller: CiscoSystemsAuditBundle:AuditForm:view }
     requirements:
-        id: \d+
+        form_id: \d+
 
 cisco_auditforms:
     pattern:  /

@@ -3,16 +3,16 @@ cisco_auditfield_add:
     defaults: { _controller: CiscoSystemsAuditBundle:AuditFormField:edit }
 
 cisco_auditfield_edit:
-    pattern:  /{id}/edit
+    pattern:  /{field_id}/edit
     defaults: { _controller: CiscoSystemsAuditBundle:AuditFormField:edit }
     requirements:
-        id: \d+
+        field_id: \d+
 
 cisco_auditfield_delete:
-    pattern:  /{id}/delete
+    pattern:  /{field_id}/delete
     defaults: { _controller: CiscoSystemsAuditBundle:AuditFormField:delete }
     requirements:
-        id: \d+
+        field_id: \d+
 
 cisco_auditfield_calculate_score:
     pattern:  /calculate-score
@@ -22,16 +22,16 @@ cisco_auditfield_calculate_score:
         _format:  JSON
 
 cisco_auditfield_view:
-    pattern:  /{id}
+    pattern:  /{field_id}
     defaults: { _controller: CiscoSystemsAuditBundle:AuditFormField:view }
     requirements:
-        id: \d+
+        field_id: \d+
 
 cisco_auditfield_load:
-    pattern:  /{id}
+    pattern:  /{field_id}
     defaults: { _controller: CiscoSystemsAuditBundle:AuditFormField:load }
     requirements:
-        id: \d+
+        field_id: \d+
 
 cisco_auditfields:
     pattern:  /

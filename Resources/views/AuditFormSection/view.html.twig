@@ -10,12 +10,12 @@
         <legend>Section: {{ section.title }}
             <div class="btn-group pull-right">
                 <a class="btn btn-mini" 
-                   href="{{ path( 'cisco_auditsection_edit', { 'id': section.id } ) }}">
+                   href="{{ path( 'cisco_auditsection_edit', { 'section_id': section.id } ) }}">
                     <i class="icon-wrench"></i> Edit
                 </a>
                 <noscript>
                     <a class="btn btn-mini"
-                        href="{{ path( 'cisco_auditsection_delete', { 'id': section.id } ) }}">
+                        href="{{ path( 'cisco_auditsection_delete', { 'section_id': section.id } ) }}">
                         <i class="icon-trash"></i> Delete
                     </a>
                 </noscript>
@@ -24,7 +24,7 @@
                 </a>
                 <ul class="dropdown-menu">
                     <li>
-                        <a href="{{ path( 'cisco_auditsection_delete', { 'id': section.id } ) }}">
+                        <a href="{{ path( 'cisco_auditsection_delete', { 'section_id': section.id } ) }}">
                             <i class="icon-trash"></i> Delete
                         </a>
                     </li>

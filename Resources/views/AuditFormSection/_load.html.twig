@@ -14,11 +14,11 @@
                 <i class="icon-eye-open" title="View"></i> 
             </a>  
             <a class="btn btn-mini cisco-audit-section-edit"
-                href="{{ path( 'cisco_auditsection_edit', { 'id': section.id } ) }}">
+                href="{{ path( 'cisco_auditsection_edit', { 'section_id': section.id } ) }}">
                 <i class="icon-wrench" title="Edit"></i> 
             </a>  
             <a class="btn btn-mini cisco-audit-section-remove" data-section-id="{{ section.id }}" 
-               href="{{ path( 'cisco_auditform_remove', { 'id' : auditform.id ,'section_id': section.id } ) }}">
+               href="{{ path( 'cisco_auditform_remove', { 'form_id' : auditform.id ,'section_id': section.id } ) }}">
                 <i class="icon-minus" title="Remove"></i> 
             </a>
         </div>

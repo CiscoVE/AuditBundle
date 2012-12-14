@@ -22,12 +22,12 @@
                 <i class="icon-eye-open" title="View"></i>
             </a>
             <a class="btn btn-mini cisco-audit-field-view" data-field-id="{{ field.id }}"
-                href="{{ path( 'cisco_auditfield_edit', { 'id': field.id } ) }}"
+                href="{{ path( 'cisco_auditfield_edit', { 'field_id': field.id } ) }}"
                 title="Edit">
                  <i class="icon-wrench"></i>
             </a>
             <a class="btn btn-mini cisco-audit-field-delete" title="Delete"
-                href="{{ path( 'cisco_auditfield_delete', { 'id': field.id } ) }}">
+                href="{{ path( 'cisco_auditfield_delete', { 'field_id': field.id } ) }}">
                 <i class="icon-trash"></i>
             </a>
         </div>        

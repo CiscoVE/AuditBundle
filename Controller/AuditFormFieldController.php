@@ -12,6 +12,11 @@ use CiscoSystems\AuditBundle\Entity\AuditScore;
 
 class AuditFormFieldController extends Controller
 {
+    /**
+     * List all fields
+     * 
+     * @return twig template
+     */
     public function indexAction()
     {
         $em = $this->getDoctrine()->getEntityManager();
@@ -22,18 +27,29 @@ class AuditFormFieldController extends Controller
         ));
     }
 
+    /**
+     * Edit existing field or create new field
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @return twig template
+     */
     public function editAction( Request $request )
     {
         $edit = false;
         $em = $this->getDoctrine()->getEntityManager();
         $repo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditFormField' );
         $field = new AuditFormField();
-        if ( $request->get( 'id' ))
+        if ( $request->get( 'field_id' ))
         {
             $edit = true;
-            $field = $repo->find( $request->get( 'id' ));
+            $field = $repo->find( $request->get( 'field_id' ));
         }
-        $form = $this->createForm( new AuditFormFieldType(), $field);
+        if( $request->get( 'section_id' ) )
+        {
+            $sectionRepo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditFormSection' );
+            $section = $sectionRepo->find( $request->get( 'section_id' ));
+            $field->setSection( $section );
+        }
+        $form = $this->createForm( new AuditFormFieldType(), $field );
         if ( null !== $values = $request->get( $form->getName() ))
         {
             $form->bind( $request );
@@ -45,24 +61,32 @@ class AuditFormFieldController extends Controller
                 return $this->redirect( $this->generateUrl( 'cisco_auditfields' ));
             }
         }
-        
+        /**
+         * NO currently used: planned to load into a modal box
         if ( $request->isXmlHttpRequest()) return $this->render( 'CiscoSystemsAuditBundle:AuditFormField:_edit.html.twig', array(
             'edit'  => $edit,
             'field' => $field,
             'form'  => $form->createView(),
-        ));
-        else return $this->render( 'CiscoSystemsAuditBundle:AuditFormField:edit.html.twig', array(
-            'edit'  => $edit,
-            'field' => $field,
-            'form'  => $form->createView(),
+        )); 
+        else */ return $this->render( 'CiscoSystemsAuditBundle:AuditFormField:edit.html.twig', array(
+            'edit'      => $edit,
+            'field'     => $field,
+            'form'      => $form->createView(),
         ));
     }
 
+    /**
+     * View single field
+     * 
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @return twig template
+     * @throws type
+     */
     public function viewAction( Request $request )
     {
         $em = $this->getDoctrine()->getEntityManager();
         $repo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditFormField' );
-        if ( null !== $field = $repo->find( $request->get( 'id' ) ))
+        if ( null !== $field = $repo->find( $request->get( 'field_id' ) ))
         {
             if ( $request->isXmlHttpRequest()) return $this->render( 'CiscoSystemsAuditBundle:AuditFormField:_view.html.twig', array(
                 'field' => $field,
@@ -74,11 +98,18 @@ class AuditFormFieldController extends Controller
         throw $this->createNotFoundException( 'Field does not exist' );
     }
 
+    /**
+     * Delete field and remove all relation to score and section
+     * 
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @return twig template
+     * @throws type
+     */
     public function deleteAction( Request $request )
     {
         $em = $this->getDoctrine()->getEntityManager();
         $repo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditFormField' );
-        if ( null !== $field = $repo->find( $request->get( 'id' ) ))
+        if ( null !== $field = $repo->find( $request->get( 'field_id' ) ))
         {
             $scoreRepo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditScore' );
             $scores = $scoreRepo->findAll();
@@ -105,7 +136,6 @@ class AuditFormFieldController extends Controller
         $scores[] = $request->request->get( 'scores' );
         $sectionWeight = 0;
         $tempScore = 0;
-        
         $em = $this->getDoctrine()->getEntityManager();
         
         foreach( $scores[0] as $score )
@@ -119,16 +149,21 @@ class AuditFormFieldController extends Controller
         }
         
         $sectionScore = $tempScore / $sectionWeight;
-        
         return new Response( json_encode( $sectionScore ));
     }
 
+    /**
+     * Load field
+     * 
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @return twig template
+     */
     public function loadAction( Request $request )
     {
         $em = $this->getDoctrine()->getEntityManager();
         $repo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditFormSection' );
         $fieldRepo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditFormField' );
-        $field = $fieldRepo->find( $request->get( 'id' ));
+        $field = $fieldRepo->find( $request->get( 'field_id' ));
         $section = $repo->find( $field-getAudit()->getId() );
 
         return $this->render( 'CiscoSystemsAuditBundle:AuditFormField:_load.html.twig', array(
@@ -136,8 +171,4 @@ class AuditFormFieldController extends Controller
             'section' => $section,
         ));
     }
-
-
-    // TODO:
-    // add new field (create new field)
 }

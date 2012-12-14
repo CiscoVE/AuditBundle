@@ -150,7 +150,7 @@ class Audit
      * @param string $auditForm
      * @return \CiscoSystems\AuditBundle\Entity\Audit
      */
-    public function setAuditForm( \CiscoSystems\AuditBundle\Entity\AuditForm $auditForm )
+    public function setAuditForm( \CiscoSystems\AuditBundle\Entity\AuditForm $auditForm = null)
     {
         $this->auditForm = $auditForm;
 

@@ -17,11 +17,11 @@ class AuditFormController extends Controller
         $repo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditForm' );
         $formlist = $repo->findAll();
         $newform = new AuditForm();
-        $form = $this->createForm( new AuditFormType(), $newform );
-        if ( null !== $request->get( $form->getName() ) )
+        $auditform = $this->createForm( new AuditFormType(), $newform );
+        if ( null !== $request->get( $auditform->getName() ) )
         {
-            $form->bind( $request );
-            if ( $form->isValid() )
+            $auditform->bind( $request );
+            if ( $auditform->isValid() )
             {
                 $em->persist( $newform );
                 $em->flush();
@@ -30,7 +30,7 @@ class AuditFormController extends Controller
         }
         return $this->render( 'CiscoSystemsAuditBundle:AuditForm:index.html.twig', array(
             'forms' => $formlist,
-            'form'  => $form->createView(),
+            'form'  => $auditform->createView(),
         ));
     }
 
@@ -38,12 +38,12 @@ class AuditFormController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
         $repo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditForm' );
-        if ( null === $form = $repo->find( $request->get( 'id' ) ))
+        if ( null === $auditform = $repo->find( $request->get( 'form_id' ) ))
         {
             throw $this->createNotFoundException( 'Form does not exist' );
         }
         return $this->render( 'CiscoSystemsAuditBundle:AuditForm:view.html.twig', array(
-            'form' => $form,
+            'form' => $auditform,
         ));
     }
 
@@ -63,10 +63,10 @@ class AuditFormController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
         $repo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditForm' );
         $auditform = new AuditForm();
-        if ( $request->get( 'id' ) )
+        if ( $request->get( 'form_id' ) )
         {
             $edit = true;
-            $auditform = $repo->find( $request->get( 'id' ));
+            $auditform = $repo->find( $request->get( 'form_id' ));
         }
         $form = $this->createForm( new AuditFormType(), $auditform);
         if ( null !== $request->get( $form->getName() ))
@@ -81,14 +81,11 @@ class AuditFormController extends Controller
         }
         $uSectionRepo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditFormSection' );
         $uSections = $uSectionRepo->findBy( array ( 'auditForm' => null ));
-        $uFieldRepo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditFormField' );
-        $uFields = $uFieldRepo->findBy( array ( 'section' => null ));
         
         return $this->render( 'CiscoSystemsAuditBundle:AuditForm:edit.html.twig', array(
             'edit'                  => $edit,
             'auditform'             => $auditform,
             'usections'             => $uSections,
-            'ufields'               => $uFields,
             'form'                  => $form->createView(),
         ));
     }
@@ -97,22 +94,22 @@ class AuditFormController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
         $repo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditForm' );
-        if ( null !== $form = $repo->find( $request->get( 'id' ) ))
+        if ( null !== $auditform = $repo->find( $request->get( 'form_id' ) ))
         {
-            $form->removeAllAudit();
-            $em->remove( $form );
+            $em->remove( $auditform );
+            $auditform->removeAllSection();
+            $auditform->removeAllAudit();
             $em->flush();
             return $this->redirect( $this->generateUrl( 'cisco_auditforms' ));
         }
         throw $this->createNotFoundException( 'Form does not exist' );
     }
 
-    // TODO: change this to have an ajax request
     public function removeAction( Request $request )
     {
         $em = $this->getDoctrine()->getEntityManager();
         $repo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditForm' );
-        $auditform = $repo->find( $request->get( 'id' ));
+        $auditform = $repo->find( $request->get( 'form_id' ));
         if ( null !== $auditform )
         {
             $sectionRep = $em->getRepository( 'CiscoSystemsAuditBundle:AuditFormSection' );
@@ -133,10 +130,6 @@ class AuditFormController extends Controller
                 else return $this->redirect( $this->generateUrl( 'cisco_auditform_edit', array (
                     'id' => $auditform->getId() )
                 ));
-//                return new Response();
-                // TODO:
-                // return list of sections currently unassigned
-                //return $this->redirect( $this->generateUrl( 'cisco_auditforms' ));
             }
             throw $this->createNotFoundException( 'Section does not exist' );
         }
@@ -147,7 +140,7 @@ class AuditFormController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
         $repo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditForm' );
-        $auditform = $repo->find( $request->get( 'id' ));
+        $auditform = $repo->find( $request->get( 'form_id' ));
         if ( null != $auditform )
         {
             $sectionRepo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditFormSection' );
@@ -173,33 +166,17 @@ class AuditFormController extends Controller
         throw $this->createNotFoundException( 'AuditForm does not exist' );
     }
     
-//    public function addAction( Request $request )
+//    public function newAction( Request $request )
 //    {
 //        $em = $this->getDoctrine()->getEntityManager();
-//        $repo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditFormSection' );
-//        $section = $repo->find( $request->get( 'id' ));
-//        if ( null !== $section )
+//        $repo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditForm' );
+//        $auditform = $repo->find( $request->get( 'form_id' ));
+//        if ( null != $auditform )
 //        {
-//            $fieldRepo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditFormField' );
-//            $field = $fieldRepo->find( $request->get( 'field_id' ));
-//            if ( null !== $field )
-//            {
-//                $section->addField( $field );
-//                $em->persist( $section );
-//                $em->flush();
-//                if ( $request->isXmlHttpRequest() )
-//                {
-//                    return $this->render( 'CiscoSystemsAuditBundle:AuditFormField:_load.html.twig', array(
-//                        'field'    => $field,
-//                        'section'  => $section,
-//                    ));
-//                }
-//                else return $this->redirect( $this->generateUrl( 'cisco_auditsection_edit', array (
-//                    'id' => $section->getId() )
-//                ));
-//            }
-//            throw $this->createNotFoundException( 'Field does not exist' );
+//            $sectionRepo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditFormSection' );
+//            $section = $sectionRepo->find( $request->get( 'section_id' ));
+//            
 //        }
-//        throw $this->createNotFoundException( 'Section does not exist' );
+//        throw $this->createNotFoundException( 'AuditForm does not exist' );        
 //    }
 }

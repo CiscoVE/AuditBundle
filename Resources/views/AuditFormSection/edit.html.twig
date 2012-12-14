@@ -13,13 +13,19 @@
 <div class="container">
     <div class="span10">
         <form class="form-horizontal" method="POST" action="">
-            <div class="btn-group pull-right">
+            <div class="pull-right">
                 <button type="submit" class="btn btn-mini">
-                    <i class="icon-ok"></i> Save Section
+                    Save Section <i class="icon-ok"></i>
                 </button>
+            {% if section.auditform %}
+                <a class="btn btn-mini" 
+                    href="{{ path( 'cisco_auditform_edit', { 'form_id': section.auditform.id } ) }}">
+                     Cancel <i class="icon-remove"></i>
+                </a>                
+            {% endif %}
             {% if edit == true %}
                 <a class="btn btn-mini" href="#" title="TO BE IMPLEMENTED">
-                    <i class="icon-trash"></i> Delete section
+                    Delete section <i class="icon-trash"></i>
                 </a>
             {% endif %}
             </div>
