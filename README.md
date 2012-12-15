@@ -1,6 +1,8 @@
 Cisco Systems AuditBundle
 =========================
 
+[![Build Status](https://travis-ci.org/WrittenGames/AuditBundle.png?branch=master)](https://travis-ci.org/WrittenGames/AuditBundle)
+
 Symfony 2 bundle for auditing processes, employees, etc.
 
 ## Features
