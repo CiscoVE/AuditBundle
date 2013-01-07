@@ -187,7 +187,7 @@ $( document ).on( 'click', '.cisco-audit-field-remove', function()
     $.get( $( this ).attr( 'href' ), function( data )
     {
         var siblings = $( btn ).closest( 'tr' ).siblings( '.cisco-audit-field-row' );
-        $( btn ).closest( 'tr' ).nextUntil( '.cisco-audit-field-row' ).remove();
+        $( btn ).closest( 'tr' ).nextUntil( '.cisco-audit-field-row, .cisco-audit-section-row' ).remove();
         $( btn ).closest( 'tr' ).closest( '.cisco-audit-field-row' ).remove();
         
         if( $( siblings ).length === 0)        
