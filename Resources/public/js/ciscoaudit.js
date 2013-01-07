@@ -41,6 +41,7 @@ $( function()
     
         ( $.inArray( 'N', failedArray ) > -1) ? failed = true: failed = false;
         
+        var sectionScore = $( scoreRow ).children().next( '.cisco-audit-section-score' );
         var finalRow = $( row ).siblings( ':last' );
         var auditScore = $( finalRow ).children().next( '.cisco-audit-score' );
         var auditWeight = $( finalRow ).children().next( '.cisco-audit-weight' );
@@ -64,11 +65,6 @@ $( function()
                 dataType: 'text',
                 success: function( response )
                 {
-                    $( sectionScore ).text( Math.round( 100*response )/100 );
-                    $( sectionScore ).css( 'background-color', $( sectionScore ).parent().css( 'background-color' ));
-                    $( sectionScore ).css( 'color', $( sectionScore ).parent().css( 'color' ));
-                    
-                    var sectionScore = $( scoreRow ).children().next( '.cisco-audit-section-score' );
                     var sectionWeight = $( scoreRow ).children().next( '.cisco-audit-section-weight' );
                     var prevSectionRows = $( scoreRow ).prevAll( '.cisco-audit-section-score-row' );
                     var nextSectionRows = $( scoreRow ).nextAll( '.cisco-audit-section-score-row' );
@@ -103,6 +99,9 @@ $( function()
                     
                     if( !failed )
                     {
+                        $( sectionScore ).text( Math.round( 100*response )/100 );
+                        $( sectionScore ).css( 'background-color', $( sectionScore ).parent().css( 'background-color' ));
+                        $( sectionScore ).css( 'color', $( sectionScore ).parent().css( 'color' ));
                         var globalScore = sectionTempScore / $( auditWeight ).text();
                         $( auditScore ).text( Math.round( 100*globalScore )/100 );
                         $( auditScore ).css( 'background-color', $( auditScore ).parent().css( 'background-color' ));
@@ -120,7 +119,6 @@ $( function()
     // Delete Field
     // need modal box to prompt for YES/NO confirmation message
     
-//    $( '.test' ).click( function()
     $( '.test' ).live( 'click', function()
     {
         var div = $( this ).parent();
