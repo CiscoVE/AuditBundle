@@ -22,7 +22,7 @@ class AuditFormSectionType extends AbstractType
             'required'      => false,    
             'class'         => 'CiscoSystemsAuditBundle:AuditForm',
             'property'      => 'title',
-            'label' => 'Audit',
+            'label'         => 'Audit',
         ));
         $builder->add( 'description', 'textarea', array(
             'attr' => array( 'placeholder' => 'Section\'s description. This should be as clear as possible' ),

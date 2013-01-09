@@ -8,7 +8,6 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class AuditFormType extends AbstractType
 {
-
     public function getName()
     {
         return 'form';
@@ -37,5 +36,4 @@ class AuditFormType extends AbstractType
             'data_class' => 'CiscoSystems\AuditBundle\Entity\AuditForm',
         ));
     }
-
 }

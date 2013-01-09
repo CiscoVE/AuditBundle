@@ -12,7 +12,6 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class AuditForm
 {
-
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
