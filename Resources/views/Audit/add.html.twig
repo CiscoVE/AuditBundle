@@ -20,6 +20,7 @@
                         <th>S.No.</th>
                         <th>Field</th>
                         <th>Score</th>
+                        <th></th>
                         <th>Weight</th>
                         <th>Reviewer's Comment</th>
                     </tr>
@@ -28,7 +29,7 @@
                 {% set counter = 1 %}
                 {% for section in audit.auditform.sections %}
                     <tr class="cisco-audit-section-row" section-id="{{ section.id }}">
-                        <td colspan="5">Section {{ loop.index }}: {{ section.title }}</td>
+                        <td colspan="6">Section {{ loop.index }}: {{ section.title }}</td>
                     </tr>
                     {% for field in section.fields %}
                         <tr class="cisco-audit-field-row" field-id="{{ field.id }}">
@@ -38,11 +39,18 @@
                             {% set form = craue_cloneForm(scoreform) %}
                                 <select class="span1 cisco-audit-score-selector" name="score[{{ field.id }}][value]" 
                                         href="{{ path( 'cisco_auditfield_calculate_score' ) }}">
+                                {% set ret = 'Options:'%}
                                 {% for score, label in field.scores %}
-                                    <option value="{{ score }}" data-tooltip="{{ label }}" class="tooltip">
-                                    {{ score }}
+                                    <option value="{{ score }}">
+                                        {{ score }}
                                     </option>
+                                    {% set ret = ret ~ '\n' ~ score ~ ' - ' ~ label %}
                                 {% endfor %}
+                            </td>
+                            <td>
+                                <a href="#" rel="tooltip" data-placement="top" title="{{ ret }}">
+                                    <i class="icon-info-sign"></i> 
+                                </a>
                             </td>
                             <td class="cisco-audit-field-weight">
                             {% if field.fatal == true %}

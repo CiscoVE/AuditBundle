@@ -86,7 +86,7 @@ class AuditFormSectionController extends Controller
         $sectionRepo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditFormSection' );
         if ( null === $section = $sectionRepo->find( $request->get( 'section_id' ) ))
         {
-            throw $this->createNotFoundException( 'Field does not exist' );
+            throw $this->createNotFoundException( 'Section does not exist' );
         }
         return $this->render( 'CiscoSystemsAuditBundle:AuditFormSection:view.html.twig', array(
             'section' => $section,
