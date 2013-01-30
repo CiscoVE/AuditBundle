@@ -73,8 +73,8 @@ $( function()
 
                     sectionRows.each( function()
                     {
-                        var tempScore;
-                        var tempWeight;
+                        var tempScore = 0;
+                        var tempWeight = 0;
                         
                         $( this ).children().each( function()
                         {
