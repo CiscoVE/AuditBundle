@@ -15,7 +15,7 @@
                         <i class="icon-trash"></i> Delete
                     </a>
                 </noscript>
-                <a class="btn btn-mini dropdown-toggle" 
+                <a class="btn btn-mini dropdown-toggle"
                    data-toggle="dropdown" href="#">
                     <span class="caret"></span>
                 </a>
@@ -39,9 +39,9 @@
                     <td>{{ field.section }}</td>
                     <td><strong>Weight: </strong></td>
                     <td>{{ field.weight }}</td>
-                    <td><strong>Fatal: </strong></td>
-                    <td>{% if field.fatal == 1 %}
-                            <i class="icon-check"/>
+                    <td><strong>Flag: </strong></td>
+                    <td>{% if field.flag == 1 %}
+                            <i class="icon-check"/> {{ field.flagText }}
                         {% else %}
                             <i class="icon-check-empty"/>
                         {% endif %}

@@ -29,8 +29,8 @@
                     <td>{{ audit.auditingUser }}</td>
                     <td>{{ audit.auditForm }}</td>
                     <td>
-                    {% if audit.failed == true %}
-                        <div class="text-warning">FAILED</div>
+                    {% if audit.flag == true %}
+                        <div class="text-warning">{{ audit.flagText }}</div>
                     {% else %}
                         {{ result }}
                     {% endif %}

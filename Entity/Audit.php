@@ -44,7 +44,12 @@ class Audit
     /**
      * @ORM\Column(type="boolean")
      */
-    protected $failed;
+    protected $flag;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    protected $flagText;
 
     /**
      * @ORM\Column(type="float", nullable=true)
@@ -70,7 +75,7 @@ class Audit
     /**
      * Get scores
      *
-     * @return \Doctrine\Common\Collections\ArrayCollection 
+     * @return \Doctrine\Common\Collections\ArrayCollection
      */
     public function getScores()
     {
@@ -102,10 +107,10 @@ class Audit
     {
         $this->scores->removeElement( $score );
     }
-    
+
     /**
      * Remove all score from ArrayCollection $this->scores
-     */    
+     */
     public function removeAllScores()
     {
         foreach( $this->scores as $score )
@@ -116,7 +121,7 @@ class Audit
 
     /**
      * Get total score
-     * 
+     *
      * @return integer
      */
     public function getTotalScore()
@@ -126,7 +131,7 @@ class Audit
 
     /**
      * Set total score
-     * 
+     *
      * @param integer $totalScore
      */
     public function setTotalScore( $totalScore )
@@ -214,26 +219,49 @@ class Audit
     }
 
     /**
-     * Set failed
+     * Get flag
      *
-     * @param boolean $failed
+     * @return boolean
+     */
+    public function getFlag()
+    {
+        return $this->flag;
+    }
+
+    /**
+     * Set flag
+     *
+     * @param boolean $flag
      * @return \CiscoSystems\AuditBundle\Entity\Audit
      */
-    public function setFailed( $failed )
+    public function setFlag( $flag )
     {
-        $this->failed = $failed;
+        $this->flag = $flag;
 
         return $this;
     }
 
     /**
-     * Get failed
+     * Get flagText
      *
-     * @return boolean
+     * @return string
      */
-    public function getFailed()
+    public function getFlagText()
     {
-        return $this->failed;
+        return $this->flagText;
+    }
+
+    /**
+     * Set flagText
+     *
+     * @param string $flagText
+     * @return \CiscoSystems\AuditBundle\Entity\Audit
+     */
+    public function setFlagText( $flagText )
+    {
+        $this->flagText = $flagText;
+
+        return $this;
     }
 
     /**
@@ -261,14 +289,14 @@ class Audit
 
     /**
      * Get Score for Field
-     * 
+     *
      * @param \CiscoSystems\AuditBundle\Entity\AuditFormField $field
      * @return \CiscoSystems\AuditBundle\Entity\AuditScore
      */
     public function getScoreForField( AuditFormField $field )
     {
         $scores = $this->getScores();
-        
+
         foreach ( $scores as $score )
         {
             if ( null !== $score->getField() && $field === $score->getField() )
@@ -281,7 +309,7 @@ class Audit
 
     /**
      * Get Score for Section
-     * 
+     *
      * @param \CiscoSystems\AuditBundle\Entity\AuditFormSection $section
      * @return integer
      */
@@ -289,20 +317,20 @@ class Audit
     {
         $fields = $section->getFields();
         $fieldCount = count( $fields );
-        
+
         if ( 0 == $fieldCount ) return 100;
         $achievedPercentages = 0;
-        
+
         foreach ( $fields as $field )
         {
             $score = $this->getScoreForField( $field );
-            
+
             if ( !$score )
             {
                 $score = new AuditScore();
                 $score->setScore( AuditScore::YES );
             }
-            
+
             if ( $field->getFatal() == true )
             {
                 if ( $score->getScore() == AuditScore::NO )
@@ -311,7 +339,7 @@ class Audit
                     continue;
                 }
             }
-//            else 
+//            else
                 $achievedPercentages += $score->getWeightPercentage();
         }
         return number_format( $achievedPercentages / $fieldCount, 2, '.', '' );
@@ -319,7 +347,7 @@ class Audit
 
     /**
      * Get global score
-     * 
+     *
      * @return integer
      */
     public function getTotalResult()
@@ -332,7 +360,7 @@ class Audit
             $totalPercent = 0;
             $divisor = 0;
             $this->setFailed( false );
-            
+
             foreach ( $sections as $section )
             {
                 $percent = $this->getResultForSection( $section );
@@ -347,14 +375,14 @@ class Audit
 
     /**
      * Get global weight
-     * 
+     *
      * @return integer
      */
     public function getTotalWeight()
     {
         $weight = 0;
         $sections = $this->getAuditForm()->getSections();
-        
+
         foreach ( $sections as $section )
         {
             $weight += $section->getWeight();

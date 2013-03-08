@@ -3,93 +3,102 @@
     <div class="controls controls-row">
         <div class="control-group">
             <div class="control-label">
-                {{ form_label(form.title) }}
+                {{ form_label( form.title ) }}
             </div>
             <div class="controls">
-                {{ form_widget(form.title) }}
-                {{ form_errors(form.title) }}
+                {{ form_widget( form.title ) }}
+                {{ form_errors( form.title ) }}
             </div>
         </div>
         <div class="control-group">
             <div class="control-label">
-                {{ form_label(form.section) }}
+                {{ form_label( form.section ) }}
             </div>
             <div class="controls">
-                {{ form_widget(form.section) }}
-                {{ form_errors(form.section) }}
+                {{ form_widget( form.section ) }}
+                {{ form_errors( form.section ) }}
             </div>
         </div>
         <div class="control-group">
             <div class="control-label">
-                {{ form_label(form.weight) }}
+                {{ form_label( form.weight ) }}
             </div>
             <div class="controls">
-                {{ form_widget(form.weight) }}
-                {{ form_errors(form.weight) }}
+                {{ form_widget( form.weight ) }}
+                {{ form_errors( form.weight ) }}
             </div>
         </div>
         <div class="control-group">
             <div class="control-label">
-                {{ form_label(form.fatal) }}
+                {{ form_label( form.flag ) }}
             </div>
             <div class="controls">
-                {{ form_widget(form.fatal) }}
-                {{ form_errors(form.fatal) }}
+                {{ form_widget( form.flag ) }}
+                {{ form_errors( form.flag ) }}
             </div>
         </div>
-    </div>
-    <div class="controls controls-row">
         <div class="control-group">
             <div class="control-label">
-                {{ form_label(form.description) }}
+                {{ form_label( form.flagText ) }}
             </div>
             <div class="controls">
-                {{ form_widget(form.description, { 'attr': { 'class': 'input-xxlarge' }}) }}
-                {{ form_errors(form.description) }}
+                {{ form_widget( form.flagText ) }}
+                {{ form_errors( form.flagText ) }}
             </div>
         </div>
     </div>
     <div class="controls controls-row">
         <div class="control-group">
             <div class="control-label">
-                {{ form_label(form.answer_yes) }}
+                {{ form_label( form.description ) }}
             </div>
             <div class="controls">
-                {{ form_widget(form.answer_yes, { 'attr': {'class': 'input-xxlarge' }}) }}
-                {{ form_errors(form.answer_yes) }}
+                {{ form_widget( form.description, { 'attr': { 'class': 'input-xxlarge' }}) }}
+                {{ form_errors( form.description ) }}
             </div>
         </div>
     </div>
     <div class="controls controls-row">
         <div class="control-group">
             <div class="control-label">
-                {{ form_label(form.answer_no) }}
+                {{ form_label( form.answer_yes ) }}
             </div>
             <div class="controls">
-                {{ form_widget(form.answer_no, { 'attr': { 'class': 'input-xxlarge' }}) }}
-                {{ form_errors(form.answer_no) }}
+                {{ form_widget( form.answer_yes, { 'attr': {'class': 'input-xxlarge' }}) }}
+                {{ form_errors( form.answer_yes ) }}
             </div>
         </div>
     </div>
     <div class="controls controls-row">
         <div class="control-group">
             <div class="control-label">
-                {{ form_label(form.answer_acceptable) }}
+                {{ form_label( form.answer_no ) }}
             </div>
             <div class="controls">
-                {{ form_widget(form.answer_acceptable, { 'attr': {  'class': 'input-xxlarge' }}) }}
-                {{ form_errors(form.answer_acceptable) }}
+                {{ form_widget( form.answer_no, { 'attr': { 'class': 'input-xxlarge' }}) }}
+                {{ form_errors( form.answer_no ) }}
             </div>
         </div>
     </div>
     <div class="controls controls-row">
         <div class="control-group">
             <div class="control-label">
-                {{ form_label(form.answer_not_applicable) }}
+                {{ form_label( form.answer_acceptable ) }}
             </div>
             <div class="controls">
-                {{ form_widget(form.answer_not_applicable, { 'attr': {'class': 'input-xxlarge' }}) }}
-                {{ form_errors(form.answer_not_applicable) }}
+                {{ form_widget( form.answer_acceptable, { 'attr': {  'class': 'input-xxlarge' }}) }}
+                {{ form_errors( form.answer_acceptable ) }}
+            </div>
+        </div>
+    </div>
+    <div class="controls controls-row">
+        <div class="control-group">
+            <div class="control-label">
+                {{ form_label( form.answer_not_applicable ) }}
+            </div>
+            <div class="controls">
+                {{ form_widget( form.answer_not_applicable, { 'attr': {'class': 'input-xxlarge' }}) }}
+                {{ form_errors( form.answer_not_applicable ) }}
             </div>
         </div>
     </div>

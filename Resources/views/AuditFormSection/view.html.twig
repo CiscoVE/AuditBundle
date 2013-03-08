@@ -9,7 +9,7 @@
     <div class="span10 offset1">
         <legend>Section: {{ section.title }}
             <div class="btn-group pull-right">
-                <a class="btn btn-mini" 
+                <a class="btn btn-mini"
                    href="{{ path( 'cisco_auditsection_edit', { 'section_id': section.id } ) }}">
                     <i class="icon-wrench"></i> Edit
                 </a>
@@ -62,8 +62,8 @@
                     <td>{{ field.title }}</td>
                     <td>{{ field.description }}</td>
                     <td>{{ field.weight }}</td>
-                    <td>{% if field.fatal == 1 %}
-                            <i class="icon-check"/>
+                    <td>{% if field.flag == 1 %}
+                            <i class="icon-check"/> {{ field.flagText }}
                         {% else %}
                             <i class="icon-check-empty"/>
                         {% endif %}
@@ -72,7 +72,7 @@
             {% else %}
                 <tr class="warning-empty">
                     <td colspan="6">
-                        <i class="icon-warning-sign"></i> 
+                        <i class="icon-warning-sign"></i>
                         No field assigned to this section.
                     </td>
                 </tr>

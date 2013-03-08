@@ -37,7 +37,7 @@
                             <td>{{ field.title }}</td>
                             <td class="cisco-audit-field-score">
                             {% set form = craue_cloneForm(scoreform) %}
-                                <select class="span1 cisco-audit-score-selector" name="score[{{ field.id }}][value]" 
+                                <select class="span1 cisco-audit-score-selector" name="score[{{ field.id }}][value]"
                                         href="{{ path( 'cisco_auditfield_calculate_score' ) }}">
                                 {% set ret = 'Options:'%}
                                 {% for score, label in field.scores %}
@@ -49,12 +49,12 @@
                             </td>
                             <td>
                                 <a href="#" rel="tooltip" data-placement="top" title="{{ ret }}">
-                                    <i class="icon-info-sign"></i> 
+                                    <i class="icon-info-sign"></i>
                                 </a>
                             </td>
                             <td class="cisco-audit-field-weight">
-                            {% if field.fatal == true %}
-                                Involve Mgr
+                            {% if field.flag == true %}
+                                {{ field.flagText }}
                             {% else %}
                                 {{ field.weight }}
                             {% endif %}

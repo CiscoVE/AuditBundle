@@ -52,7 +52,12 @@ class AuditFormField
     /**
      * @ORM\Column(type="boolean")
      */
-    protected $fatal;
+    protected $flag;
+
+    /**
+     * @ORM\Column(type="string",nullable=true)
+     */
+    protected $flagText;
 
     /**
      * @Gedmo\SortablePosition
@@ -161,7 +166,7 @@ class AuditFormField
 
     /**
      * Get auditscore
-     * 
+     *
      * @return \Doctrine\Common\Collections\ArrayCollection
      */
     public function getAuditscores()
@@ -171,7 +176,7 @@ class AuditFormField
 
     /**
      * Add an auditscore
-     * 
+     *
      * @param \CiscoSystems\AuditBundle\Entity\AuditScore $score
      * @return \CiscoSystems\AuditBundle\Entity\AuditFormField
      */
@@ -187,7 +192,7 @@ class AuditFormField
 
     /**
      * Remove auditscores
-     * 
+     *
      * @param \CiscoSystems\AuditBundle\Entity\AuditScore $score
      */
     public function removeAuditScore( \CiscoSystems\AuditBundle\Entity\AuditScore $score )
@@ -236,26 +241,49 @@ class AuditFormField
     }
 
     /**
-     * Set fatal
+     * Set flag
      *
-     * @param boolean $fatal
+     * @param boolean $flag
      * @return AuditFormField
      */
-    public function setFatal( $fatal )
+    public function setFlag( $flag )
     {
-        $this->fatal = $fatal;
+        $this->flag = $flag;
 
         return $this;
     }
 
     /**
-     * Get fatal
+     * Get flag
      *
      * @return boolean
      */
-    public function getFatal()
+    public function getFlag()
     {
-        return $this->fatal;
+        return $this->flag;
+    }
+
+    /**
+     * Set flagText
+     *
+     * @param boolean $flagText
+     * @return AuditFormField
+     */
+    public function setFlagText( $flagText )
+    {
+        $this->flagText = $flagText;
+
+        return $this;
+    }
+
+    /**
+     * Get flatText
+     *
+     * @return string
+     */
+    public function getFlagText()
+    {
+        return $this->flagText;
     }
 
     /**

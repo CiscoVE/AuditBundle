@@ -18,7 +18,7 @@ class AuditFormFieldType extends AbstractType
     public function buildForm( FormBuilderInterface $builder, array $options )
     {
         $scores = $options['data']->getScores();
-        $builder->add( 'id', 'hidden', array( 
+        $builder->add( 'id', 'hidden', array(
             'mapped'        => false
         ));
         $builder->add( 'title', 'textarea', array(
@@ -32,8 +32,12 @@ class AuditFormFieldType extends AbstractType
             'empty_value'   => '(Choose a Section)',
         ));
         $builder->add( 'weight', 'integer' );
-        $builder->add( 'fatal', 'checkbox', array(
-            'label'         => 'Is an error for this field fatal?',
+        $builder->add( 'flag', 'checkbox', array(
+            'label'         => 'Should this field raise a flag?',
+            'required'      => false,
+        ));
+        $builder->add( 'flagText, textarea', array(
+            'label'         => 'label for the flag',
             'required'      => false,
         ));
         $builder->add( 'description', 'textarea', array(
