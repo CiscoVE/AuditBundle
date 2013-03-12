@@ -55,11 +55,6 @@ class AuditFormField
     protected $flag;
 
     /**
-     * @ORM\Column(type="string",nullable=true)
-     */
-    protected $flagText;
-
-    /**
      * @Gedmo\SortablePosition
      * @ORM\Column(name="position",type="integer")
      */
@@ -261,29 +256,6 @@ class AuditFormField
     public function getFlag()
     {
         return $this->flag;
-    }
-
-    /**
-     * Set flagText
-     *
-     * @param boolean $flagText
-     * @return AuditFormField
-     */
-    public function setFlagText( $flagText )
-    {
-        $this->flagText = $flagText;
-
-        return $this;
-    }
-
-    /**
-     * Get flatText
-     *
-     * @return string
-     */
-    public function getFlagText()
-    {
-        return $this->flagText;
     }
 
     /**

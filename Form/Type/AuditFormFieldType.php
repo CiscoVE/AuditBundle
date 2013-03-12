@@ -36,10 +36,6 @@ class AuditFormFieldType extends AbstractType
             'label'         => 'Should this field raise a flag?',
             'required'      => false,
         ));
-        $builder->add( 'flagText, textarea', array(
-            'label'         => 'label for the flag',
-            'required'      => false,
-        ));
         $builder->add( 'description', 'textarea', array(
             'attr'          => array( 'placeholder' => 'Description for the field. This should be as clear as possible' ),
         ));

@@ -62,7 +62,7 @@ class AuditFormSection
         $weight = 0;
         foreach ( $this->fields as $field )
         {
-            if(!$field->getFatal() == true)
+            if(!$field->getFlag() == true)
             {
                 $weight += $field->getWeight();
             }
@@ -197,10 +197,10 @@ class AuditFormSection
         }
         return $this;
     }
-    
+
     /**
      * Add all field in ArrayColleciton fields to ArrayCollection $this->fields
-     * 
+     *
      * @param \Doctrine\Common\Collections\ArrayCollection $fields
      */
     public function addFields( \Doctrine\Common\Collections\ArrayCollection $fields )
@@ -210,7 +210,7 @@ class AuditFormSection
             $this->addField( $field );
         }
     }
-            
+
     /**
      * Remove Field from ArrayCollection fields
      *
@@ -226,7 +226,7 @@ class AuditFormSection
             $rem->setSection( null );
         }
     }
-    
+
     /**
      * Remove all Field from ArrayCollection fields
      */

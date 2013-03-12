@@ -1,14 +1,14 @@
 {% extends 'CiscoSystemsAuditBundle::base.html.twig' %}
 
 {% block pagetitle %}
-    {{ parent() }}: 
+    {{ parent() }}:
     {% if edit == true %}
         Section id: #{{ section.id }}
     {% else %}
         new Section
     {% endif %}
 {% endblock %}
-    
+
 {% block pagecontent %}
 <div class="container">
     <div class="span10">
@@ -18,13 +18,13 @@
                     Save Section <i class="icon-ok"></i>
                 </button>
             {% if section.auditform %}
-                <a class="btn btn-mini" 
+                <a class="btn btn-mini"
                     href="{{ path( 'cisco_auditform_edit', { 'form_id': section.auditform.id } ) }}">
                      Cancel <i class="icon-remove"></i>
-                </a>                
+                </a>
             {% endif %}
             {% if edit == true %}
-                <a class="btn btn-mini" 
+                <a class="btn btn-mini"
                    href="{{ path( 'cisco_auditsection_delete', { 'section_id': section.id } ) }}">
                     Delete section <i class="icon-trash"></i>
                 </a>
@@ -73,8 +73,8 @@
                     <th width=20%>Title</th>
                     <th width=60%></th>
                     <th width=5%>Weight</th>
-                    <th width=5%>Fatal</th>
-                    <th width=10%></th>                    
+                    <th width=5%>Flag</th>
+                    <th width=10%></th>
                 </tr>
             </thead>
             <tbody>
@@ -83,7 +83,7 @@
             {% else %}
                 <tr class="warning-empty">
                     <td colspan="6">
-                        <i class="icon-warning-sign"></i> 
+                        <i class="icon-warning-sign"></i>
                         No field assigned to this section.
                     </td>
                 </tr>

@@ -19,7 +19,7 @@ class AuditFormType extends AbstractType
             'mapped' => false
         ) );
         $builder->add( 'title', null, array(
-            'attr' => array( 'placeholder' => 'Title for this form' ),            
+            'attr' => array( 'placeholder' => 'Title for this form' ),
         ));
         $builder->add( 'description', 'textarea', array(
             'attr' => array( 'placeholder' => 'Description for the field. This should be as clear as possible' ),
@@ -27,6 +27,13 @@ class AuditFormType extends AbstractType
         $builder->add( 'active', 'checkbox', array(
             'label' => 'Is the form active?',
             'required' => false,
+        ));
+        $builder->add( 'flagLabel', 'text', array(
+            'label' => 'Wording for warning',
+            'required' => false,
+            'attr' => array(
+                'placeholder' => 'Warning / Failed.'
+            ),
         ));
     }
 

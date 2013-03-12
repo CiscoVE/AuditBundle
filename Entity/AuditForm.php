@@ -35,6 +35,11 @@ class AuditForm
     protected $active;
 
     /**
+     * @ORM\Column(type="string")
+     */
+    protected $flagLabel;
+
+    /**
      * @ORM\Column(name="created_at",type="datetime")
      * @Gedmo\Timestampable(on="create")
      */
@@ -44,7 +49,7 @@ class AuditForm
      * @ORM\OneToMany(targetEntity="CiscoSystems\AuditBundle\Entity\AuditFormSection", mappedBy="auditForm")
      */
     protected $sections;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="CiscoSystems\AuditBundle\Entity\Audit", mappedBy="auditForm")
      */
@@ -137,6 +142,29 @@ class AuditForm
     }
 
     /**
+     * Get flagLabel
+     *
+     * @return string
+     */
+    public function getFlagLabel()
+    {
+        return $this->flagLabel;
+    }
+
+    /**
+     * Set flagText
+     *
+     * @param string $flagLabel
+     * @return \CiscoSystems\AuditBundle\Entity\Audit
+     */
+    public function setFlagLabel( $flagLabel )
+    {
+        $this->flagLabel = $flagLabel;
+
+        return $this;
+    }
+
+    /**
      * Set createdAt
      *
      * @param \DateTime $createdAt
@@ -174,10 +202,10 @@ class AuditForm
         }
         return $this;
     }
-    
+
     /**
      * Add all section in ArrayColleciton sections to ArrayCollection $this->sections
-     * 
+     *
      * @param \Doctrine\Common\Collections\ArrayCollection $sections
      */
     public function addSections( \Doctrine\Common\Collections\ArrayCollection $sections )
@@ -211,7 +239,7 @@ class AuditForm
             $this->removeSection( $section );
         }
     }
-    
+
     /**
      * Get sections
      *
@@ -224,7 +252,7 @@ class AuditForm
 
     /**
      * Add an Audit to ArrayColletion audits
-     * 
+     *
      * @param \CiscoSystems\AuditBundle\Entity\Audit $audit
      * @return AuditForm
      */
@@ -237,10 +265,10 @@ class AuditForm
         }
         return $this;
     }
-    
+
     /*
      * Add all audit in ArrayColleciton audits to ArrayCollection $this->audits
-     * 
+     *
      * @param \Doctrine\Common\Collections\ArrayCollection $audits
      */
     public function addAudits( \Doctrine\Common\Collections\ArrayCollection $audits )
@@ -253,7 +281,7 @@ class AuditForm
 
     /**
      * Remove Audit from ArrayColletion audits
-     * 
+     *
      * @param \CiscoSystems\AuditBundle\Entity\Audit $audit
      */
     public function removeAudit( \CiscoSystems\AuditBundle\Entity\Audit $audit )
@@ -266,7 +294,7 @@ class AuditForm
             $rem->setAuditForm( NULL );
         }
     }
-    
+
     /**
      * Remove all Audit from ArrayColletion audits
      */
@@ -277,17 +305,17 @@ class AuditForm
             $this->removeAudit( $audit );
         }
     }
-    
+
     /**
      * Get audits
-     * 
+     *
      * @return Doctrine\Common\Collections\Collection
      */
     public function getAudits()
     {
         return $this->audits;
     }
-    
+
     public function __toString()
     {
         return $this->title;

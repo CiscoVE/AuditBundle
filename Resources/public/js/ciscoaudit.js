@@ -7,7 +7,7 @@ $( function()
     {
         var url = $( this ).attr( 'href' );
         var row = $( this ).closest( 'tr' );
-        
+
         var prevRows = $( row ).prevUntil( '.cisco-audit-section-row', '.cisco-audit-field-row' );
         var nextRows = $( row ).nextUntil( '.cisco-audit-section-score-row', '.cisco-audit-field-row' );
         var scoreRow = $( row ).nextUntil( '.cisco-audit-section-row', '.cisco-audit-section-score-row' );
@@ -15,38 +15,38 @@ $( function()
 
         var scores = [];
         var index = 0;
-        var failed = false;
-        var failedArray = [];
-        
+        var flag = false;
+        var flaggedArray = [];
+
         rows.each( function()
         {
             var score = [];
             score[0] = $( this ).attr( 'field-id' );
-            
+
             $( this ).children().each( function()
-            {                
+            {
                 if( $( this ).hasClass( 'cisco-audit-field-score' ))
                 {
                     score[1] = $( this ).children().val();
                 }
                 if( $( this ).hasClass( 'cisco-audit-field-weight' ) && $( this ).text().trim() === 'Involve Mgr' )
                 {
-                    failedArray.push( score[1] );
+                    flaggedArray.push( score[1] );
                 }
             });
-        
+
             scores[index] = score;
             index += 1;
         });
-    
-        ( $.inArray( 'N', failedArray ) > -1) ? failed = true: failed = false;
-        
+
+        ( $.inArray( 'N', flaggedArray ) > -1) ? flag = true: flag = false;
+
         var sectionScore = $( scoreRow ).children().next( '.cisco-audit-section-score' );
         var finalRow = $( row ).siblings( ':last' );
         var auditScore = $( finalRow ).children().next( '.cisco-audit-score' );
         var auditWeight = $( finalRow ).children().next( '.cisco-audit-weight' );
 
-        if( failed )
+        if( flag )
         {
             $( sectionScore ).text( 'FAILED' );
             $( sectionScore ).css( 'background-color', 'red' );
@@ -54,7 +54,7 @@ $( function()
             $( auditScore ).text( 'FAILED' );
             $( auditScore ).css( 'background-color', 'red' );
             $( auditScore ).css( 'color', 'white' );
-        }        
+        }
         else
         {
             $.ajax(
@@ -75,14 +75,14 @@ $( function()
                     {
                         var tempScore = 0;
                         var tempWeight = 0;
-                        
+
                         $( this ).children().each( function()
                         {
                             if( $( this ).hasClass( 'cisco-audit-section-score' ))
                             {
                                 if( $( this ).text() === 'FAILED' )
                                 {
-                                    failed = true;
+                                    flag = true;
                                 }
                                 else
                                 {
@@ -96,8 +96,8 @@ $( function()
                         });
                         sectionTempScore += tempScore * tempWeight;
                     });
-                    
-                    if( !failed )
+
+                    if( !flag )
                     {
                         $( sectionScore ).text( Math.round( 100*response )/100 );
                         $( sectionScore ).css( 'background-color', $( sectionScore ).parent().css( 'background-color' ));
@@ -118,7 +118,7 @@ $( function()
 
     // Delete Field
     // need modal box to prompt for YES/NO confirmation message
-    
+
     $( '.test' ).live( 'click', function()
     {
         var div = $( this ).parent();
@@ -126,23 +126,23 @@ $( function()
         var table1 = $( div ).prev('table');
         var lastRow = $( table ).children().children().last();
         var lastRow1 = $( table1 ).children().children().last();
-        
+
 //        console.log( div );
         console.log( lastRow );
         console.log( lastRow1 );
 //        console.log( lastRow );
 //        console.log( $( lastRow ).html() );
-        
+
 //        $( '<tr>THIS IS BULLSHIT</tr>' ).insertAfter( lastRow );
         var temp = $('<tr><td colspan="4">THIS IS NOT WORKING</td><td><a class="btn btn-mini test"><i class="icon-warning-sign"></i> Oy !</td></tr>');
         if( table1 !== null ) $( table1 ).append( temp );
         else if( table !== null ) $( table ).append( temp );
 //        $( lastRow ).next().show();
     });
- 
-    
+
+
     /**
-     * testing function to color 
+     * testing function to color
      * @param {type} e
      * @param {type} color
      * @returns {undefined}
@@ -167,7 +167,7 @@ $( function()
                 var parent = $( e ).parent();
                 $( e ).css( 'background-color', $( parent ).css( 'background-color' ));
         }
-    };    
+    };
 });
 
 
@@ -181,18 +181,18 @@ $( document ).on( 'click', '.cisco-audit-field-remove', function()
     var btn = this;
     var ufields = $( this ).closest( 'table' ).next( '.cisco-audit-orphan-field' );
     var tbody = $( this ).closest( 'tbody' );
-    
+
     $.get( $( this ).attr( 'href' ), function( data )
     {
         var siblings = $( btn ).closest( 'tr' ).siblings( '.cisco-audit-field-row' );
         $( btn ).closest( 'tr' ).nextUntil( '.cisco-audit-field-row, .cisco-audit-section-row' ).remove();
         $( btn ).closest( 'tr' ).closest( '.cisco-audit-field-row' ).remove();
-        
-        if( $( siblings ).length === 0)        
+
+        if( $( siblings ).length === 0)
         {
             $( tbody ).html( emptyFieldRow );
         }
-    
+
         $( ufields ).replaceWith( data );
     });
 
@@ -200,7 +200,7 @@ $( document ).on( 'click', '.cisco-audit-field-remove', function()
 });
 
 /**
- * Remove selected section 
+ * Remove selected section
  * Reload the list of unassigned sections after the table
  */
 $( document ).on( 'click', '.cisco-audit-section-remove', function()
@@ -215,7 +215,7 @@ $( document ).on( 'click', '.cisco-audit-section-remove', function()
         var siblings = $( btn ).closest( 'tr' ).siblings( '.cisco-audit-section-row' );
         var sectionRow = $( btn ).closest( '.cisco-audit-section-row' );
         var fieldRows = sectionRow.nextUntil( '.cisco-audit-section-row' );
-        
+
         fieldRows.each( function()
         {
             if( $( this ).hasClass( 'cisco-audit-field-row' ) || $( this ).hasClass( 'cisco-audit-desc-row' ))
@@ -223,18 +223,18 @@ $( document ).on( 'click', '.cisco-audit-section-remove', function()
                 $( this ).remove();
             }
         });
-        
+
         if( sectionRow.next().hasClass( 'warning-empty' ) ) sectionRow.next().remove();
-    
+
         sectionRow.remove();
-        
-        if( $( siblings ).length === 0)        
+
+        if( $( siblings ).length === 0)
         {
             $( tbody ).html( emptySectionRow );
         }
-    
+
         $( usections ).replaceWith( data );
-    });    
+    });
 
     return false;
 });
@@ -250,13 +250,13 @@ $( document ).on( 'click', '.cisco-audit-section-add', function()
 
     $.get( $( this ).attr( 'href' ), function( data )
     {
-        if( $( table ).find( 'tbody' ).children().first().hasClass( 'warning-empty' )) 
+        if( $( table ).find( 'tbody' ).children().first().hasClass( 'warning-empty' ))
         {
             $( table ).find( 'tbody' ).children().remove();
         }
         $( btn ).parent().prev('table').append( data );
         $( btn ).remove();
-    });        
+    });
 
     return false;
 });
@@ -270,7 +270,7 @@ $( document ).on( 'click', '.cisco-audit-field-add', function()
 {
     var btn = this;
     var table = $( this ).parent().prev('table');
-    
+
     $.get( $( this ).attr( 'href' ), function( data )
     {
         if( $( table ).find( 'tbody' ).children().hasClass( 'warning-empty' ) )
@@ -279,7 +279,7 @@ $( document ).on( 'click', '.cisco-audit-field-add', function()
         }
         $( table ).append( data );
         $( btn ).remove();
-    });    
+    });
 
     return false;
 });
@@ -292,7 +292,7 @@ var viewIcon = '<i class="icon-eye-open" title="View"></i>';
 var hideIcon = '<i class="icon-eye-close" title="Hide"></i>';
 
 /**
- * Toggle show/hide single Field 
+ * Toggle show/hide single Field
  */
 $( document ).on( 'click', '.cisco-audit-field-view', function()
 {
@@ -310,7 +310,7 @@ $( document ).on( 'click', '.cisco-audit-field-view', function()
         if( btn.trim() === hideIcon )
         {
             $( this ).html( viewIcon );
-        }  
+        }
     }
 
     descRows.each( function()
@@ -329,7 +329,7 @@ $( document ).on( 'click', '.cisco-audit-section-view', function()
 {
     var sectionRow = $( this ).closest( '.cisco-audit-section-row' );
     var fieldRows = sectionRow.nextUntil( '.cisco-audit-section-row' );
-    
+
     if( $( this ).children().hasClass( 'icon-eye-open' ) )
     {
         $( this ).html( hideIcon );
@@ -354,11 +354,11 @@ $( document ).on( 'click', '.cisco-audit-section-view', function()
         {
             if( $( this ).hasClass( 'cisco-audit-field-row' ))
             {
-                $( this ).find( '.cisco-audit-field-view' ).html( viewIcon );                    
-            }                
+                $( this ).find( '.cisco-audit-field-view' ).html( viewIcon );
+            }
             if( $( this ).hasClass( 'cisco-audit-desc-row' ) && $( this ).is( ':visible' ))
             {
-                $( this ).toggle();                    
+                $( this ).toggle();
             }
         });
     }
@@ -382,10 +382,10 @@ $( document ).on( 'click', '.cisco-audit-section-view', function()
 //        $( this ).addClass( 'disabled' );
 //    }
 //}, 'a:.btn' );
-//        
-        
-        
-        
+//
+
+
+
 //        'hover', '.btn', function()
 //{
 //    console.log( this );
@@ -404,4 +404,4 @@ $( document ).on( 'click', '.cisco-audit-section-view', function()
 //    $( this ).children().find( '.btn-group' ).children().prop( 'disabled', true );
 //    $( this ).children().find( '.btn-group' ).children().addClass( 'disabled' );
 ////    alert( 'bar' );
-//});   
+//});

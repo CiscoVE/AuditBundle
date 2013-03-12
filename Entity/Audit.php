@@ -47,11 +47,6 @@ class Audit
     protected $flag;
 
     /**
-     * @ORM\Column(type="string")
-     */
-    protected $flagText;
-
-    /**
      * @ORM\Column(type="float", nullable=true)
      */
     protected $totalScore;
@@ -242,29 +237,6 @@ class Audit
     }
 
     /**
-     * Get flagText
-     *
-     * @return string
-     */
-    public function getFlagText()
-    {
-        return $this->flagText;
-    }
-
-    /**
-     * Set flagText
-     *
-     * @param string $flagText
-     * @return \CiscoSystems\AuditBundle\Entity\Audit
-     */
-    public function setFlagText( $flagText )
-    {
-        $this->flagText = $flagText;
-
-        return $this;
-    }
-
-    /**
      * Set createdAt
      *
      * @param \DateTime $createdAt
@@ -331,11 +303,11 @@ class Audit
                 $score->setScore( AuditScore::YES );
             }
 
-            if ( $field->getFatal() == true )
+            if ( $field->getFlag() == true )
             {
                 if ( $score->getScore() == AuditScore::NO )
                 {
-                    $this->setFailed( true );
+                    $this->setFlag( true );
                     continue;
                 }
             }
@@ -359,7 +331,7 @@ class Audit
             if ( 0 == $count ) return 100;
             $totalPercent = 0;
             $divisor = 0;
-            $this->setFailed( false );
+            $this->setFlag( false );
 
             foreach ( $sections as $section )
             {
