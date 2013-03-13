@@ -75,10 +75,10 @@ class AuditController extends Controller
             'scoreform'                  => $scoreform->createView(),
         ));
     }
-    
+
     /**
      * Set the user from the context
-     * 
+     *
      * @param type $audit
      */
     private function setUser( $audit )
@@ -96,7 +96,7 @@ class AuditController extends Controller
 
     /**
      * find all scores and persist them against the relevant fields
-     * 
+     *
      * @param type $entityMgr
      * @param type $audit
      * @param type $scores
@@ -128,6 +128,11 @@ class AuditController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
         $auditrepo = $em->getRepository( 'CiscoSystemsAuditBundle:Audit' );
         $audit = $auditrepo->find( $request->get( 'id' ) );
+
+        foreach( $audit->getAuditForm()->getSections() as $section )
+        {
+            $audit->findFlagForSection( $section );
+        }
 
         if ( null !== $audit )
         {

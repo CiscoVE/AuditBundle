@@ -24,11 +24,13 @@ class AuditScore
 
     /**
      * @ORM\ManyToOne(targetEntity="CiscoSystems\AuditBundle\Entity\Audit", inversedBy="scores")
+     * @ORM\JoinColumn(name="audit_id", referencedColumnName="id")
      */
     protected $audit;
 
     /**
      * @ORM\ManyToOne(targetEntity="CiscoSystems\AuditBundle\Entity\AuditFormField", inversedBy="auditscores")
+     * @ORM\JoinColumn(name="field_id", referencedColumnName="id")
      */
     protected $field;
 

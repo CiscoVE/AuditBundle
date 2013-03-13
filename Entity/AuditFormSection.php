@@ -46,6 +46,8 @@ class AuditFormSection
      */
     protected $fields;
 
+    protected $flag = false;
+
     public function __construct()
     {
         $this->fields = new ArrayCollection();
@@ -76,14 +78,22 @@ class AuditFormSection
      *
      * @return boolean
      */
-    public function getFlat()
+    public function getFlag()
     {
-        $flag = false;
-        foreach ( $this->fields as $field )
-        {
-            $flag = ( $field->getFlag() === true  ? true : false );
-        }
-        return $flag;
+        return $this->flag;
+    }
+
+    /**
+     * Set Flag
+     *
+     * @param boolean $flag
+     * @return \CiscoSystems\AuditBundle\Entity\AuditFormSection
+     */
+    public function setFlag( $flag )
+    {
+        $this->flag = $flag;
+
+        return $this;
     }
 
     /**

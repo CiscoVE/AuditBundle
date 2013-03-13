@@ -30,7 +30,7 @@
                     <td>{{ audit.auditForm }}</td>
                     <td>
                     {% if audit.flag == true %}
-                        <div class="text-warning">{{ audit.flagText }}</div>
+                        <div class="text-warning">{{ audit.auditForm.flagLabel }}</div>
                     {% else %}
                         {{ result }}
                     {% endif %}

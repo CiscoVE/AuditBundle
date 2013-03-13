@@ -302,19 +302,20 @@ class Audit
                 $score = new AuditScore();
                 $score->setScore( AuditScore::YES );
             }
-
-            if ( $field->getFlag() == true )
-            {
-                if ( $score->getScore() == AuditScore::NO )
-                {
-                    $this->setFlag( true );
-                    continue;
-                }
-            }
-//            else
-                $achievedPercentages += $score->getWeightPercentage();
+            $achievedPercentages += $score->getWeightPercentage();
         }
         return number_format( $achievedPercentages / $fieldCount, 2, '.', '' );
+    }
+
+    public function findFlagForSection( AuditFormSection $section )
+    {
+        foreach ( $section->getFields() as $field )
+        {
+            if ( $field->getFlag() == true &&  $this->getScoreForField( $field )->getScore() == AuditScore::NO )
+            {
+                $section->setFlag( true );
+            }
+        }
     }
 
     /**
@@ -335,15 +336,17 @@ class Audit
 
             foreach ( $sections as $section )
             {
-                if( $section->getFlat() === false )
+                $percent = $this->getResultForSection( $section );
+                $weight = $section->getWeight();
+                $this->findFlagForSection( $section );
+
+                if ( $section->getFlag() ) $this->setFlag( true );
+
+                $divisor += $weight;
+                if( $section->getFlag() === false )
                 {
-                    $percent = $this->getResultForSection( $section );
-                    $weight = $section->getWeight();
-                    $divisor += $weight;
                     $totalPercent = $totalPercent * ( $divisor - $weight ) / $divisor + $percent * $weight / $divisor;
                 }
-                else
-                    $this->setFlag ( true );
             }
             return number_format( $totalPercent, 2, '.', '' );
         }

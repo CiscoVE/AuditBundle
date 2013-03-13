@@ -20,6 +20,7 @@ class AuditFormField
 
     /**
      * @ORM\ManyToOne(targetEntity="AuditFormSection", inversedBy="fields")
+     * @ORM\JoinColumn(name="section_id", referencedColumnName="id")
      */
     protected $section;
 

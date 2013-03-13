@@ -17,7 +17,7 @@
                     <td>{{ audit.auditReference }}</td>
                     <td>
                     {% if audit.flag == true %}
-                        <div class="text-warning">{{ audit.flagText }}</div>
+                        <div class="text-warning">{{ audit.auditForm.flagLabel }}</div>
                     {% else %}
                         {{ audit.totalResult }}
                     {% endif %}
@@ -40,41 +40,51 @@
             </thead>
             {% set counter = 1 %}
             {% for section in audit.auditform.sections %}
-            <tr>
-                <td colspan="5"><strong>Section {{ loop.index }}: {{ section.title }}</strong></td>
-            </tr>
-            {% for field in section.fields %}
-                {% for score in scores %}
-                    {% if score.field == field %}
-                    <tr>
-                        <td>{{ counter }}</td>
-                        <td>{{ field.title }}</td>
-                        <td>{{ score.score }}</td>
-                        <td>
-                        {% if field.flag == true %}
-                            {{ field.flagText }}
-                        {% else %}
-                            {{ field.weight }}
+                <tr>
+                    <td colspan="5"><strong>Section {{ loop.index }}: {{ section.title }}</strong></td>
+                </tr>
+                {% for field in section.fields %}
+                    {% for score in scores %}
+                        {% if score.field == field %}
+                        <tr>
+                            <td>{{ counter }}</td>
+                            <td>{{ field.title }}</td>
+                            <td>{{ score.score }}</td>
+                            <td>
+                            {% if field.flag == true %}
+                                {{ audit.auditForm.flagLabel }}
+                            {% else %}
+                                {{ field.weight }}
+                            {% endif %}
+                            </td>
+                            <td>{{ score.comment }}</td>
+                        </tr>
                         {% endif %}
-                        </td>
-                        <td>{{ score.comment }}</td>
-                    </tr>
-                    {% endif %}
+                    {% endfor %}
+                    {% set counter = counter +1 %}
                 {% endfor %}
-                {% set counter = counter +1 %}
-            {% endfor %}
-            <tr>
-                <td colspan="2" style="text-align: right">Section's Score</td>
-                <td>{{ attribute( audit, 'resultForSection', [ section ] ) }}</td>
-                <td>{{ section.weight }}</td>
-                <td></td>
-            </tr>
+                <tr>
+                    <td colspan="2" style="text-align: right">Section's Score</td>
+                    {#
+                    <td>{{ attribute( audit, 'resultForSection', [ section ] ) }}</td>
+                    <td>
+                        {{ section.weight }}
+                    </td>#}
+                    {% if section.flag == true %}
+                    <td>{{ audit.auditForm.flagLabel }}</td>
+                    <td></td>
+                    {% else %}
+                    <td>{{ attribute( audit, 'resultForSection', [ section ] ) }}</td>
+                    <td>{{ section.weight }}</td>
+                    {% endif %}
+                    <td></td>
+                </tr>
             {% endfor %}
             <tr>
                 <td colspan="2" style="text-align: right">Final Score</td>
                 <td>
                 {% if audit.flag == true %}
-                    <div class="text-warning">{{ audit.flagText }}</div>
+                    <div class="text-warning">{{ audit.auditForm.flagLabel }}</div>
                 {% else %}
                     {{ audit.totalResult }}
                 {% endif %}

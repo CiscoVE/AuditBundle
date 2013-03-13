@@ -81,7 +81,7 @@ class AuditFormController extends Controller
         }
         $uSectionRepo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditFormSection' );
         $uSections = $uSectionRepo->findBy( array ( 'auditForm' => null ));
-        
+
         return $this->render( 'CiscoSystemsAuditBundle:AuditForm:edit.html.twig', array(
             'edit'                  => $edit,
             'auditform'             => $auditform,
@@ -119,7 +119,7 @@ class AuditFormController extends Controller
                 $auditform->removeSection( $section );
                 $em->persist( $auditform );
                 $em->flush();
-                if ( $request->isXmlHttpRequest() ) 
+                if ( $request->isXmlHttpRequest() )
                 {
                     $sections = $sectionRep->findBy( array ( 'auditForm' => null ));
                     return $this->render( 'CiscoSystemsAuditBundle:AuditFormSection:_ulist.html.twig', array(
@@ -150,7 +150,7 @@ class AuditFormController extends Controller
                 $auditform->addSection( $section );
                 $em->persist( $auditform );
                 $em->flush();
-                if ( $request->isXmlHttpRequest() ) 
+                if ( $request->isXmlHttpRequest() )
                 {
                     return $this->render( 'CiscoSystemsAuditBundle:AuditFormSection:_load.html.twig', array (
                         'auditform' => $auditform,
@@ -165,18 +165,4 @@ class AuditFormController extends Controller
         }
         throw $this->createNotFoundException( 'AuditForm does not exist' );
     }
-    
-//    public function newAction( Request $request )
-//    {
-//        $em = $this->getDoctrine()->getEntityManager();
-//        $repo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditForm' );
-//        $auditform = $repo->find( $request->get( 'form_id' ));
-//        if ( null != $auditform )
-//        {
-//            $sectionRepo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditFormSection' );
-//            $section = $sectionRepo->find( $request->get( 'section_id' ));
-//            
-//        }
-//        throw $this->createNotFoundException( 'AuditForm does not exist' );        
-//    }
 }

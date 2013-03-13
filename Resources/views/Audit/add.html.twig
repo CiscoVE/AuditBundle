@@ -54,7 +54,7 @@
                             </td>
                             <td class="cisco-audit-field-weight">
                             {% if field.flag == true %}
-                                {{ field.flagText }}
+                                {{ audit.auditform.flagLabel }}
                             {% else %}
                                 {{ field.weight }}
                             {% endif %}
@@ -83,4 +83,9 @@
         </form>
     </div>
 </div>
+<script type="text/javascript" data-foo="{{ audit.auditform.flagLabel }}">
+
+    var flagLabel = '{{ audit.auditform.flagLabel }}';
+
+</script>
 {% endblock %}
