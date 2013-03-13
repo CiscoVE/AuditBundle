@@ -62,12 +62,28 @@ class AuditFormSection
         $weight = 0;
         foreach ( $this->fields as $field )
         {
-            if(!$field->getFlag() == true)
+//            The following was in place to restrict the weight for non flagged field
+            if( !$field->getFlag() == true )
             {
                 $weight += $field->getWeight();
             }
         }
         return $weight;
+    }
+
+    /**
+     * Get Flag
+     *
+     * @return boolean
+     */
+    public function getFlat()
+    {
+        $flag = false;
+        foreach ( $this->fields as $field )
+        {
+            $flag = ( $field->getFlag() === true  ? true : false );
+        }
+        return $flag;
     }
 
     /**

@@ -56,7 +56,7 @@ class AuditFormSectionController extends Controller
 
         /**
          * Performed for ajax request; Planned to be used with a modal box
-        if ( $request->isXmlHttpRequest() ) 
+        if ( $request->isXmlHttpRequest() )
         {
             return $this->render( 'CiscoSystemsAuditBundle:AuditFormSection:_edit.html.twig', array(
                 'edit'      => $edit,
@@ -95,7 +95,7 @@ class AuditFormSectionController extends Controller
 
     /**
      * Delete Section and remove all reference from AuditForm
-     * 
+     *
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @return twig template
      * @throws type
@@ -196,18 +196,4 @@ class AuditFormSectionController extends Controller
         }
         throw $this->createNotFoundException( 'Section does not exist' );
     }
-    
-//    public function newAction( Request $request )
-//    {
-//        $em = $this->getDoctrine()->getEntityManager();
-//        $repo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditForm' );
-//        $auditform = $repo->find( $request->get( 'section_id' ));
-//        if ( null != $auditform )
-//        {
-//            $sectionRepo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditFormSection' );
-//            $section = new Section();
-//            
-//        }
-//        throw $this->createNotFoundException( 'AuditForm does not exist' );        
-//    }
 }

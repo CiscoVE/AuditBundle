@@ -335,10 +335,15 @@ class Audit
 
             foreach ( $sections as $section )
             {
-                $percent = $this->getResultForSection( $section );
-                $weight = $section->getWeight();
-                $divisor += $weight;
-                $totalPercent = $totalPercent * ( $divisor - $weight ) / $divisor + $percent * $weight / $divisor;
+                if( $section->getFlat() === false )
+                {
+                    $percent = $this->getResultForSection( $section );
+                    $weight = $section->getWeight();
+                    $divisor += $weight;
+                    $totalPercent = $totalPercent * ( $divisor - $weight ) / $divisor + $percent * $weight / $divisor;
+                }
+                else
+                    $this->setFlag ( true );
             }
             return number_format( $totalPercent, 2, '.', '' );
         }
