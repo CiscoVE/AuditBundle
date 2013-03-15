@@ -20,21 +20,27 @@ class AuditRepository extends EntityRepository
         $qb->select( 'a' )->from( 'CiscoSystemsAuditBundle:Audit', 'a' );
         $entities = $qb->getQuery()->getResult();
 
-        $forms = array();
+        $uforms = array();
         $result = array();
 
+        // find all used forms
         foreach ( $entities as $entity )
         {
-            $id = $entity->getAuditReference()->getId();
-            if( !array_key_exists( $id, $forms ) )
+            $refId = $entity->getAuditReference()->getId();
+            $formId = $entity->getAuditForm()->getId();
+
+            // if key $refId does NOT exist in uforms
+            if( !array_key_exists( $refId, $uforms ) )
             {
-                $forms[$id] = array( $entity->getAuditForm() );
+                $uforms[$refId] = array( $formId );
             }
             else
             {
-                if( !in_array( $entity->getAuditForm(), $forms ))
+                // if value $formId does NOT exist in $uforms[$refId]
+                if( !in_array( $formId, $uforms[$refId] ))
                 {
-                    array_push($forms[$id], $entity->getAuditForm());
+                    // add value $formId to $uforms[$refId]
+                    array_push($uforms[$refId], $formId);
                 }
             }
         }
@@ -48,7 +54,7 @@ class AuditRepository extends EntityRepository
                 'auditingUser' => $entity->getAuditingUser(),
                 'flag' => $entity->getFlag(),
                 'totalScore' => $entity->getTotalScore(),
-                'usedforms' => $forms[$entity->getAuditReference()->getId()]
+                'usedforms' => $uforms[$entity->getAuditReference()->getId()]
             );
             $result[] = $row;
         }
