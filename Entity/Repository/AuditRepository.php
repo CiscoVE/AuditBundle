@@ -14,6 +14,11 @@ class AuditRepository extends EntityRepository
         return $qb->getQuery()->execute();
     }
 
+    /**
+     * get audits as an array with the auditforms used
+     *
+     * @return array
+     */
     public function getAuditGroupByForms()
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
@@ -49,10 +54,11 @@ class AuditRepository extends EntityRepository
         {
             $row = array(
                 'id' => $entity->getId(),
-                'auditReference' => $entity->getAuditReference(),
-                'auditForm' => $entity->getAuditForm(),
-                'auditingUser' => $entity->getAuditingUser(),
+                'auditReference' => $entity->getAuditReference()->getId(),
+                'auditForm' => $entity->getAuditForm()->getTitle(),
+                'auditingUser' => $entity->getAuditingUser()->getUsername(),
                 'flag' => $entity->getFlag(),
+                'flagLabel' => $entity->getAuditForm()->getFlagLabel(),
                 'totalScore' => $entity->getTotalScore(),
                 'usedforms' => $uforms[$entity->getAuditReference()->getId()]
             );

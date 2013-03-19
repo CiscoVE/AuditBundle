@@ -29,7 +29,7 @@ class AuditFormType extends AbstractType
             'required' => false,
         ));
         $builder->add( 'flagLabel', 'text', array(
-            'label' => 'Wording for warning',
+            'label' => 'Wording for trigger',
             'required' => false,
             'attr' => array(
                 'placeholder' => 'Warning / Failed.'
