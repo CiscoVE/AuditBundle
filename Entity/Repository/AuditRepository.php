@@ -19,7 +19,7 @@ class AuditRepository extends EntityRepository
      *
      * @return array
      */
-    public function getAuditGroupByForms()
+    public function getAuditsWithAuditFormsUsage()
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select( 'a' )->from( 'CiscoSystemsAuditBundle:Audit', 'a' );

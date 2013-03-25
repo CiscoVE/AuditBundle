@@ -343,7 +343,9 @@ class Audit
                 if ( $section->getFlag() ) $this->setFlag( true );
 
                 $divisor += $weight;
-                if( $section->getFlag() === false )
+
+                // check the section for flag not set and section's weight > 0
+                if( $section->getFlag() === false && $divisor > 0 )
                 {
                     $totalPercent = $totalPercent * ( $divisor - $weight ) / $divisor + $percent * $weight / $divisor;
                 }
