@@ -11,7 +11,6 @@ use CiscoSystems\AuditBundle\Entity\AuditScore;
 
 class AuditController extends Controller
 {
-
     /**
      * View created audits
      *

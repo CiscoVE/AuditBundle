@@ -173,7 +173,7 @@ class Audit
      * @param \CiscoSystems\AuditBundle\Model\ReferenceInterface $auditReference
      * @return \CiscoSystems\AuditBundle\Entity\Audit
      */
-    public function setAuditReference( ReferenceInterface $auditReference )
+    public function setAuditReference( \CiscoSystems\AuditBundle\Model\ReferenceInterface $auditReference )
     {
         $this->auditReference = $auditReference;
 
@@ -196,7 +196,7 @@ class Audit
      * @param \CiscoSystems\AuditBundle\Model\UserInterface $auditingUser
      * @return \CiscoSystems\AuditBundle\Entity\Audit
      */
-    public function setAuditingUser( UserInterface $auditingUser )
+    public function setAuditingUser( \CiscoSystems\AuditBundle\Model\UserInterface $auditingUser )
     {
         $this->auditingUser = $auditingUser;
 
@@ -265,7 +265,7 @@ class Audit
      * @param \CiscoSystems\AuditBundle\Entity\AuditFormField $field
      * @return \CiscoSystems\AuditBundle\Entity\AuditScore
      */
-    public function getScoreForField( AuditFormField $field )
+    public function getScoreForField( \CiscoSystems\AuditBundle\Entity\AuditFormField $field )
     {
         $scores = $this->getScores();
 
@@ -285,7 +285,7 @@ class Audit
      * @param \CiscoSystems\AuditBundle\Entity\AuditFormSection $section
      * @return integer
      */
-    public function getResultForSection( AuditFormSection $section )
+    public function getResultForSection( \CiscoSystems\AuditBundle\Entity\AuditFormSection $section )
     {
         $fields = $section->getFields();
         $fieldCount = count( $fields );
@@ -307,7 +307,7 @@ class Audit
         return number_format( $achievedPercentages / $fieldCount, 2, '.', '' );
     }
 
-    public function findFlagForSection( AuditFormSection $section )
+    public function findFlagForSection( \CiscoSystems\AuditBundle\Entity\AuditFormSection $section )
     {
         foreach ( $section->getFields() as $field )
         {

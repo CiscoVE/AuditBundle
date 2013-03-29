@@ -8,7 +8,6 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class AuditType extends AbstractType
 {
-
     public function buildForm( FormBuilderInterface $builder, array $options )
     {
         $builder->add( 'auditReference', null, array(
@@ -27,5 +26,4 @@ class AuditType extends AbstractType
             'data_class' => 'CiscoSystems\AuditBundle\Entity\Audit',
         ));
     }
-
 }
