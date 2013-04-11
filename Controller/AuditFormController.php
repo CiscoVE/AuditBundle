@@ -47,7 +47,7 @@ class AuditFormController extends Controller
         ));
     }
 
-    public function listAction()
+    public function listAction( Request $request )
     {
         $em = $this->getDoctrine()->getEntityManager();
         $repo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditForm' );
