@@ -5,6 +5,7 @@ namespace CiscoSystems\AuditBundle\Entity;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use CiscoSystems\AuditBundle\Model\MetaDataInterface;
 
 /**
  * @ORM\Entity
@@ -54,6 +55,11 @@ class AuditForm
      * @ORM\OneToMany(targetEntity="CiscoSystems\AuditBundle\Entity\Audit", mappedBy="auditForm")
      */
     protected $audits;
+
+    /**
+     * @ORM\OneToOne(targetEntity="CiscoSystems\AuditBundle\Model\MetaDataInterface", mappedBy="form")
+     */
+    protected $metadata;
 
     public function __construct()
     {
@@ -314,6 +320,29 @@ class AuditForm
     public function getAudits()
     {
         return $this->audits;
+    }
+
+    /**
+     * Set metadata
+     *
+     * @param \CiscoSystems\AuditBundle\Model\MetaDataInterface $metadata
+     * @return \CiscoSystems\AuditBundle\Entity\Audit
+     */
+    public function setMetadata( \CiscoSystems\AuditBundle\Model\MetaDataInterface $metadata )
+    {
+        $this->metadata = $metadata;
+
+        return $this;
+    }
+
+    /**
+     * Get metadata
+     *
+     * @return \CiscoSystems\AuditBundle\Model\MetaDataInterface
+     */
+    public function getMetadata()
+    {
+        return $this->metadata;
     }
 
     public function __toString()
