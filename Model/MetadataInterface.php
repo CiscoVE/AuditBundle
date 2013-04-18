@@ -2,7 +2,7 @@
 
 namespace CiscoSystems\AuditBundle\Model;
 
-interface MetaDataInterface
+interface MetadataInterface
 {
     public function getId();
 

@@ -68,5 +68,29 @@ class CiscoSystemsAuditExtension extends Extension
         }
         $container->setParameter( 'cisco.audit.audit_reference.class', $auditReferenceClass );
         $container->setParameter( 'cisco.audit.audit_reference.property', $config['audit_reference']['property'] );
+        $metadataClass = $config['metadata']['class'];
+        if ( $metadataClass )
+        {
+            if ( false == class_exists( $metadataClass, true ))
+            {
+                throw new \InvalidArgumentException( sprintf(
+                    'The option `%s` contains %s but it is not a valid class name.',
+                    'metadata.class',
+                    $metadataClass
+                ));
+            }
+            $method = 'get' . ucfirst( $config['metadata']['property'] );
+            if ( !method_exists( $metadataClass, $method ))
+            {
+                throw new \InvalidArgumentException( sprintf(
+                    'The option `%s` contains %s but the class %s does not have a getter method for that property.',
+                    'metadata.property',
+                    $config['metadata']['property'],
+                    $metadataClass
+                ));
+            }
+        }
+        $container->setParameter( 'cisco.audit.metadata.class', $metadataClass );
+        $container->setParameter( 'cisco.audit.metadata.property', $config['metadata']['property'] );
     }
 }

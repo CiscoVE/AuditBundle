@@ -34,6 +34,13 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode( 'property' )->defaultValue( 'id' )->end()
                     ->end()
                 ->end()
+                ->arrayNode( 'metadata' )
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->scalarNode( 'class' )->defaultNull()->end()
+                        ->scalarNode( 'property' )->defaultValue( 'id' )->end()
+                    ->end()
+                ->end()
             ->end()
         ;
         return $treeBuilder;
