@@ -36,6 +36,7 @@ class AuditController extends Controller
      */
     public function addAction( Request $request )
     {
+        $scoreService = $this->get( 'cisco.worker.audit_score' );
         // Grab the entity manager from the container
         $em = $this->getDoctrine()->getEntityManager();
         // Check for audit form data to be used
@@ -61,7 +62,7 @@ class AuditController extends Controller
             {
                 $this->setUser( $audit );
                 $this->setAuditScores( $em, $audit, $scores );
-                $audit->setTotalScore( $audit->getTotalResult() );
+                $audit->setTotalScore( $scoreService->getTotalResult( $audit ));
                 $em->persist( $audit );
                 $em->flush();
                 return $this->redirect( $this->generateUrl( 'cisco_audits' ) );
@@ -124,13 +125,14 @@ class AuditController extends Controller
      */
     public function viewAction( Request $request )
     {
+        $scoreService = $this->get( 'cisco.worker.audit_score' );
         $em = $this->getDoctrine()->getEntityManager();
         $auditrepo = $em->getRepository( 'CiscoSystemsAuditBundle:Audit' );
         $audit = $auditrepo->find( $request->get( 'id' ) );
 
         foreach( $audit->getAuditForm()->getSections() as $section )
         {
-            $audit->findFlagForSection( $section );
+            $scoreService->findFlagForSection( $audit, $section );
         }
 
         if ( null !== $audit )
