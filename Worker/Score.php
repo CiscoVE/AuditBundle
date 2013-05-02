@@ -7,20 +7,10 @@ use CiscoSystems\AuditBundle\Entity\AuditFormSection;
 use CiscoSystems\AuditBundle\Entity\AuditFormField;
 use CiscoSystems\AuditBundle\Entity\AuditScore;
 
-class AuditScoring
+class Score
 {
-    public function getWeightPercentageForScore( AuditScore $score )
-    {
-        switch( $score->getScore() )
-        {
-            case AuditScore::YES:
-            case AuditScore::NOT_APPLICABLE: return 100;
-            case AuditScore::ACCEPTABLE: return 50;
-            case AuditScore::NO: break;
-        }
-        return 0;
-    }
-
+    // calculate score based on the parameters passed to this class
+    // this is to take the business logic out of the Audit Entity
 
     /**
      * Get Score for Field
@@ -32,35 +22,16 @@ class AuditScoring
      */
     public function getScoreForField( Audit $audit, AuditFormField $field )
     {
-        foreach ( $audit->getScores() as $score )
+        $scores = $audit->getScores();
+
+        foreach ( $scores as $score )
         {
             if ( null !== $score->getField() && $field === $score->getField() )
             {
                 return $score;
             }
         }
-
         return false;
-    }
-
-    /**
-     * Get the total weight for the section
-     *
-     * @param \CiscoSystems\AuditBundle\Entity\AuditFormSection $section
-     *
-     * @return integer
-     */
-    public function getWeightForSection( AuditFormSection $section )
-    {
-        $weight = 0;
-        foreach( $section->getFields() as $field )
-        {
-            $weight +=  ( $field->getFlag() === TRUE ) ?
-                        1 :
-                        $field->getWeight() ;
-        }
-
-        return $weight;
     }
 
     /**
@@ -88,9 +59,7 @@ class AuditScoring
                 $score = new AuditScore();
                 $score->setScore( AuditScore::YES );
             }
-
-            $achievedPercentages += $this->getWeightPercentageForScore( $score );
-//            $achievedPercentages += $score->getWeightPercentage();
+            $achievedPercentages += $score->getWeightPercentage();
         }
         return number_format( $achievedPercentages / $fieldCount, 2, '.', '' );
     }
@@ -119,7 +88,7 @@ class AuditScoring
      *
      * @return integer
      */
-    public function getResultForForm( Audit $audit )
+    public function getTotalResult( Audit $audit )
     {
         if ( null !== $auditform = $audit->getAuditForm() )
         {
@@ -133,7 +102,7 @@ class AuditScoring
             foreach ( $sections as $section )
             {
                 $percent = $this->getResultForSection( $audit, $section );
-                $weight = $this->getWeightForSection( $section );
+                $weight = $section->getWeight();
                 $this->findFlagForSection( $audit, $section );
 
                 if ( $section->getFlag() ) $audit->setFlag( true );
@@ -158,15 +127,15 @@ class AuditScoring
      *
      * @return integer
      */
-    public function getWeightForForm( Audit $audit )
+    public function getTotalWeight( Audit $audit )
     {
         $weight = 0;
+        $sections = $audit->getAuditForm()->getSections();
 
-        foreach ( $audit->getAuditForm()->getSections() as $section )
+        foreach ( $sections as $section )
         {
-            $weight += $this->getWeightForSection( $section );
+            $weight += $section->getWeight();
         }
-
         return $weight;
     }
 }

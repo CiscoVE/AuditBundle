@@ -62,7 +62,7 @@ class AuditController extends Controller
             {
                 $this->setUser( $audit );
                 $this->setAuditScores( $em, $audit, $scores );
-                $audit->setTotalScore( $scoreService->getResultForForm( $audit ));
+                $audit->setTotalScore( $scoreService->getTotalResult( $audit ));
                 $em->persist( $audit );
                 $em->flush();
                 return $this->redirect( $this->generateUrl( 'cisco_audits' ) );

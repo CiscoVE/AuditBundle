@@ -19,7 +19,7 @@
                     {% if audit.flag == true %}
                         <div class="text-warning">{{ audit.auditForm.flagLabel }}</div>
                     {% else %}
-                        {{ get_resultforform( audit ) }} %
+                        {{ audit.totalResult }}
                     {% endif %}
                     </td>
                     <td>{{ audit.auditingUser }}</td>
@@ -74,8 +74,8 @@
                     <td>{{ audit.auditForm.flagLabel }}</td>
                     <td></td>
                     {% else %}
-                    <td>{{ get_resultforsection( audit, section ) }} %</td>
-                    <td>{{ get_weightforsection( section ) }}</td>
+                    <td>{{ attribute( audit, 'resultForSection', [ section ] ) }}</td>
+                    <td>{{ section.weight }}</td>
                     {% endif %}
                     <td></td>
                 </tr>
@@ -86,11 +86,10 @@
                 {% if audit.flag == true %}
                     <div class="text-warning">{{ audit.auditForm.flagLabel }}</div>
                 {% else %}
-                    {#{ ladybug_dump( audit ) }#}
-                    {{ get_resultforform( audit ) }} %
+                    {{ audit.totalResult }}
                 {% endif %}
                 </td>
-                <td>{{ get_weightforform( audit ) }}</td>
+                <td>{{ audit.totalWeight }}</td>
                 <td></td>
             </tr>
         </table>
