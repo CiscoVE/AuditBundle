@@ -2,6 +2,7 @@
 
 namespace CiscoSystems\AuditBundle\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -47,6 +48,9 @@ class AuditFormField
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotBlank(message="a weight must be provided.")
+     * @Assert\Type(type="integer", message="the weight must be an integer.")
+     * @Assert\Min(limit="1", message="the value entered must be greater than 0.")
      */
     protected $weight;
 
