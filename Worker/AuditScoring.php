@@ -9,6 +9,13 @@ use CiscoSystems\AuditBundle\Entity\AuditScore;
 
 class AuditScoring
 {
+    /**
+     * Get the weight percentage for a specific score
+     *
+     * @param \CiscoSystems\AuditBundle\Entity\AuditScore $score
+     *
+     * @return integer
+     */
     public function getWeightPercentageForScore( AuditScore $score )
     {
         switch( $score->getScore() )
