@@ -34,7 +34,7 @@ class Score
      *
      * @param \CiscoSystems\AuditBundle\Entity\Audit $audit
      * @param \CiscoSystems\AuditBundle\Entity\AuditFormSection $section
-     *
+     * 
      * @return integer
      */
     public function getResultForSection( \CiscoSystems\AuditBundle\Entity\Audit $audit, \CiscoSystems\AuditBundle\Entity\AuditFormSection $section )
@@ -47,7 +47,7 @@ class Score
 
         foreach ( $fields as $field )
         {
-            $score = $this->getScoreForField( $audit, $field );
+            $score = $audit->getScoreForField( $field );
 
             if ( !$score )
             {
@@ -69,7 +69,7 @@ class Score
     {
         foreach ( $section->getFields() as $field )
         {
-            if ( $field->getFlag() == true &&  $this->getScoreForField( $audit, $field )->getScore() == AuditScore::NO )
+            if ( $field->getFlag() == true &&  $audit->getScoreForField( $field )->getScore() == AuditScore::NO )
             {
                 $section->setFlag( true );
             }
@@ -96,9 +96,9 @@ class Score
 
             foreach ( $sections as $section )
             {
-                $percent = $this->getResultForSection( $audit, $section );
+                $percent = $audit->getResultForSection( $section );
                 $weight = $section->getWeight();
-                $this->findFlagForSection( $audit, $section );
+                $audit->findFlagForSection( $section );
 
                 if ( $section->getFlag() ) $audit->setFlag( true );
 
