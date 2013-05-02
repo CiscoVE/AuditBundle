@@ -62,7 +62,7 @@ class AuditScoring
         $weight = 0;
         foreach( $section->getFields() as $field )
         {
-            $weight +=  ( $field->getFlag() === TRUE ) ?
+            $weight +=  ( $field->getFlag() === TRUE && $field->getWeight() < 1 ) ?
                         1 :
                         $field->getWeight() ;
         }

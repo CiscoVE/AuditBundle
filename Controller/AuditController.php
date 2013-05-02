@@ -15,6 +15,7 @@ class AuditController extends Controller
      * View created audits
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function indexAction()
@@ -31,7 +32,9 @@ class AuditController extends Controller
      * Create new audit
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
+     *
      * @return \Symfony\Component\HttpFoundation\Response
+     *
      * @throws NotFoundException
      */
     public function addAction( Request $request )
@@ -97,11 +100,11 @@ class AuditController extends Controller
     /**
      * find all scores and persist them against the relevant fields
      *
-     * @param type $entityMgr
-     * @param type $audit
-     * @param type $scores
+     * @param \Doctrine\ORM\EntityManager $entityMgr
+     * @param \CiscoSystems\AuditBundle\Entity\Audit $audit
+     * @param array $scores
      */
-    private function setAuditScores( $entityMgr, $audit, $scores )
+    private function setAuditScores( EntityManager $entityMgr, Audit $audit, $scores )
     {
         $fieldRepo = $entityMgr->getRepository( 'CiscoSystemsAuditBundle:AuditFormField' );
         foreach ( $scores as $fieldId => $scoreData )
@@ -120,7 +123,9 @@ class AuditController extends Controller
      * view a single Audit
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
+     *
      * @return \Symfony\Component\HttpFoundation\Response
+     *
      * @throws NotFoundException
      */
     public function viewAction( Request $request )
