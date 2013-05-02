@@ -40,11 +40,46 @@ class AuditScore
     protected $score;
 
     /**
+     * @var interger
+     */
+//    protected $weightPercentage;
+
+    /**
      * @ORM\Column(type="string",nullable=true)
      */
     protected $comment;
 
-    /**
+//    public function getWeightPercentage()
+//    {
+//        $this->weightPercentage = self::getWeightPercentageForScore( $this->score );
+//        return $this->weightPercentage;
+//    }
+
+//    static public function getWeightPercentageForScore( $score )
+//    {
+//        switch( $score )
+//        {
+//            case AuditScore::YES:
+//            case AuditScore::NOT_APPLICABLE: return 100;
+//            case AuditScore::ACCEPTABLE: return 50;
+//            case AuditScore::NO: break;
+//        }
+//        return 0;
+//    }
+
+//    public function calculateWeight()
+//    {
+//        $weight = $this->field->getWeight();
+//        switch( $this->score )
+//        {
+//            case AuditScore::YES:
+//            case AuditScore::NOT_APPLICABLE: return $weight;
+//            case AuditScore::ACCEPTABLE: return $weight / 2;
+//            case AuditScore::NO: return 0;
+//        }
+//    }
+
+        /**
      * Get id
      *
      * @return integer
@@ -58,7 +93,6 @@ class AuditScore
      * Set score
      *
      * @param string $score
-     *
      * @return AuditScore
      */
     public function setScore( $score )
@@ -82,7 +116,6 @@ class AuditScore
      * Set comment
      *
      * @param string $comment
-     *
      * @return AuditScore
      */
     public function setComment( $comment )
@@ -106,7 +139,6 @@ class AuditScore
      * Set audit
      *
      * @param CiscoSystems\AuditBundle\Entity\Audit $audit
-     *
      * @return AuditScore
      */
     public function setAudit( \CiscoSystems\AuditBundle\Entity\Audit $audit )
@@ -130,7 +162,6 @@ class AuditScore
      * Set field
      *
      * @param CiscoSystems\AuditBundle\Entity\AuditFormField $field
-     * 
      * @return AuditScore
      */
     public function setField( \CiscoSystems\AuditBundle\Entity\AuditFormField $field = null )

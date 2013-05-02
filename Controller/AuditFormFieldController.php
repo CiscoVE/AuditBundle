@@ -7,6 +7,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use CiscoSystems\AuditBundle\Entity\AuditFormField;
 use CiscoSystems\AuditBundle\Form\Type\AuditFormFieldType;
+use CiscoSystems\AuditBundle\Entity\AuditScore;
+
 
 class AuditFormFieldController extends Controller
 {
@@ -27,9 +29,7 @@ class AuditFormFieldController extends Controller
 
     /**
      * Edit existing field or create new field
-     *
      * @param \Symfony\Component\HttpFoundation\Request $request
-     *
      * @return twig template
      */
     public function editAction( Request $request )
@@ -81,9 +81,7 @@ class AuditFormFieldController extends Controller
      * View single field
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
-     *
      * @return twig template
-     *
      * @throws type
      */
     public function viewAction( Request $request )
@@ -106,9 +104,7 @@ class AuditFormFieldController extends Controller
      * Delete field and remove all relation to score and section
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
-     *
      * @return twig template
-     *
      * @throws type
      */
     public function deleteAction( Request $request )
@@ -138,9 +134,7 @@ class AuditFormFieldController extends Controller
      * Get weight percentage from $request
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
-     *
      * @return \Symfony\Component\HttpFoundation\Response
-     *
      * @throws type
      */
     public function calculateScoreAction( Request $request )
@@ -156,6 +150,8 @@ class AuditFormFieldController extends Controller
             $repo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditFormField' );
             $field = $repo->find( $score[0] );
             $value = $scoreService->getWeightPercentageForScore( $score[1] );
+
+//                    AuditScore::getWeightPercentageForScore( $score[1] );
             $weight = $field->getWeight();
             $tempScore += $value * $weight;
             $sectionWeight += $weight;
@@ -169,7 +165,6 @@ class AuditFormFieldController extends Controller
      * Load field
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
-     *
      * @return twig template
      */
     public function loadAction( Request $request )
