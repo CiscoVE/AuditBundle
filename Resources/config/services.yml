@@ -1,12 +1,8 @@
 parameters:
-    cisco.formtype.audit.class:       CiscoSystems\AuditBundle\Form\Type\AuditType
-    cisco.worker.audit_score.class:   CiscoSystems\AuditBundle\Worker\Score
+    cisco.formtype.audit.class: CiscoSystems\AuditBundle\Form\Type\AuditType
 
 services:
     cisco.formtype.audit:
         class: %cisco.formtype.audit.class%
         tags:
             - { name: form.type, alias: audit }
-
-    cisco.worker.audit_score:
-        class:  %cisco.worker.audit_score.class%
