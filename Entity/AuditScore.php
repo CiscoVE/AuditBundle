@@ -42,42 +42,42 @@ class AuditScore
     /**
      * @var interger
      */
-    protected $weightPercentage;
+//    protected $weightPercentage;
 
     /**
      * @ORM\Column(type="string",nullable=true)
      */
     protected $comment;
 
-    public function getWeightPercentage()
-    {
-        $this->weightPercentage = self::getWeightPercentageForScore( $this->score );
-        return $this->weightPercentage;
-    }
+//    public function getWeightPercentage()
+//    {
+//        $this->weightPercentage = self::getWeightPercentageForScore( $this->score );
+//        return $this->weightPercentage;
+//    }
 
-    static public function getWeightPercentageForScore( $score )
-    {
-        switch($score)
-        {
-            case AuditScore::YES:
-            case AuditScore::NOT_APPLICABLE: return 100;
-            case AuditScore::ACCEPTABLE: return 50;
-            case AuditScore::NO: break;
-        }
-        return 0;
-    }
+//    static public function getWeightPercentageForScore( $score )
+//    {
+//        switch( $score )
+//        {
+//            case AuditScore::YES:
+//            case AuditScore::NOT_APPLICABLE: return 100;
+//            case AuditScore::ACCEPTABLE: return 50;
+//            case AuditScore::NO: break;
+//        }
+//        return 0;
+//    }
 
-    public function calculateWeight()
-    {
-        $weight = $this->field->getWeight();
-        switch( $this->score )
-        {
-            case AuditScore::YES:
-            case AuditScore::NOT_APPLICABLE: return $weight;
-            case AuditScore::ACCEPTABLE: return $weight / 2;
-            case AuditScore::NO: return 0;
-        }
-    }
+//    public function calculateWeight()
+//    {
+//        $weight = $this->field->getWeight();
+//        switch( $this->score )
+//        {
+//            case AuditScore::YES:
+//            case AuditScore::NOT_APPLICABLE: return $weight;
+//            case AuditScore::ACCEPTABLE: return $weight / 2;
+//            case AuditScore::NO: return 0;
+//        }
+//    }
 
         /**
      * Get id

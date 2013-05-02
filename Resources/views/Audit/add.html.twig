@@ -72,13 +72,14 @@
                     <tr class="cisco-audit-section-score-row">
                         <td colspan="2" style="text-align: right">Section's Score</td>
                         <td class="cisco-audit-section-score">{{ get_resultforsection( audit, section ) }}</td>
-                        <td class="cisco-audit-section-weight">{{ section.weight }}</td>
+                        <td class="cisco-audit-section-weight">{{ get_weightforsection( section ) }}</td>
                         <td class="bar"></td>
                     </tr>
                 {% endfor %}
                     <tr class="cisco-audit-score-row">
                         <td colspan="2" style="text-align: right">Final Score</td>
-                        <td class="cisco-audit-score">{{ get_resultforform( audit ) }}</td>
+                        <td class="cisco-audit-score">100</td>
+                        {#<td class="cisco-audit-score">{{ get_resultforform( audit ) }}</td>#}
                         <td class="cisco-audit-weight">{{ get_weightforform( audit ) }}</td>
                         <td></td>
                     </tr>

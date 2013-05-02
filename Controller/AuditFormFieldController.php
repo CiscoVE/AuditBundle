@@ -14,7 +14,7 @@ class AuditFormFieldController extends Controller
 {
     /**
      * List all fields
-     * 
+     *
      * @return twig template
      */
     public function indexAction()
@@ -69,7 +69,7 @@ class AuditFormFieldController extends Controller
             'edit'  => $edit,
             'field' => $field,
             'form'  => $form->createView(),
-        )); 
+        ));
         else */ return $this->render( 'CiscoSystemsAuditBundle:AuditFormField:edit.html.twig', array(
             'edit'      => $edit,
             'field'     => $field,
@@ -79,7 +79,7 @@ class AuditFormFieldController extends Controller
 
     /**
      * View single field
-     * 
+     *
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @return twig template
      * @throws type
@@ -102,7 +102,7 @@ class AuditFormFieldController extends Controller
 
     /**
      * Delete field and remove all relation to score and section
-     * 
+     *
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @return twig template
      * @throws type
@@ -119,7 +119,7 @@ class AuditFormFieldController extends Controller
             $scores = $scoreRepo->findAll();
             if ( null != $scores = $field->getAuditScores()) $field->removeAllAuditScore();
             if ( null !== $section = $field->getSection()) $section->removeField( $field );
-            
+
             $field->setSection( null );
             $em->remove( $field );
             $em->flush();
@@ -139,28 +139,31 @@ class AuditFormFieldController extends Controller
      */
     public function calculateScoreAction( Request $request )
     {
+        $scoreService = $this->get( 'audit_score' );
         $scores[] = $request->request->get( 'scores' );
         $sectionWeight = 0;
         $tempScore = 0;
         $em = $this->getDoctrine()->getEntityManager();
-        
+
         foreach( $scores[0] as $score )
         {
             $repo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditFormField' );
             $field = $repo->find( $score[0] );
-            $value = AuditScore::getWeightPercentageForScore( $score[1] );
+            $value = $scoreService->getWeightPercentageForScore( $score[1] );
+
+//                    AuditScore::getWeightPercentageForScore( $score[1] );
             $weight = $field->getWeight();
             $tempScore += $value * $weight;
             $sectionWeight += $weight;
         }
-        
+
         $sectionScore = $tempScore / $sectionWeight;
         return new Response( json_encode( $sectionScore ));
     }
 
     /**
      * Load field
-     * 
+     *
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @return twig template
      */
