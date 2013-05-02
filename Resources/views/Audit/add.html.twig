@@ -34,11 +34,7 @@
                     {% for field in section.fields %}
                         <tr class="cisco-audit-field-row" field-id="{{ field.id }}">
                             <td>{{ counter }}</td>
-                            <td>
-                                <a href="#" rel="tooltip" data-placement="top" title="{{ field.description  }}">
-                                    <font color="#333333">{{ field.title }}</font>
-                                </a>
-                            </td>
+                            <td>{{ field.title }}</td>
                             <td class="cisco-audit-field-score">
                             {% set form = craue_cloneForm(scoreform) %}
                                 <select class="span1 cisco-audit-score-selector" name="score[{{ field.id }}][value]"
@@ -71,15 +67,15 @@
                     {% endfor %}
                     <tr class="cisco-audit-section-score-row">
                         <td colspan="2" style="text-align: right">Section's Score</td>
-                        <td class="cisco-audit-section-score">{{ get_resultforsection( audit, section ) }}</td>
+                        <td class="cisco-audit-section-score">{{ attribute( audit, 'resultForSection', [ section ] ) }}</td>
                         <td class="cisco-audit-section-weight">{{ section.weight }}</td>
                         <td class="bar"></td>
                     </tr>
                 {% endfor %}
                     <tr class="cisco-audit-score-row">
                         <td colspan="2" style="text-align: right">Final Score</td>
-                        <td class="cisco-audit-score">{{ get_resultforform( audit ) }}</td>
-                        <td class="cisco-audit-weight">{{ get_weightforform( audit ) }}</td>
+                        <td class="cisco-audit-score"></td>
+                        <td class="cisco-audit-weight">{{ audit.totalWeight }}</td>
                         <td></td>
                     </tr>
                 </tbody>

@@ -2,11 +2,6 @@
 
 namespace CiscoSystems\AuditBundle\Worker;
 
-use CiscoSystems\AuditBundle\Entity\Audit;
-use CiscoSystems\AuditBundle\Entity\AuditFormSection;
-use CiscoSystems\AuditBundle\Entity\AuditFormField;
-use CiscoSystems\AuditBundle\Entity\AuditScore;
-
 class Score
 {
     // calculate score based on the parameters passed to this class
@@ -20,7 +15,7 @@ class Score
      *
      * @return \CiscoSystems\AuditBundle\Entity\AuditScore
      */
-    public function getScoreForField( Audit $audit, AuditFormField $field )
+    public function getScoreForField( \CiscoSystems\AuditBundle\Entity\Audit $audit, \CiscoSystems\AuditBundle\Entity\AuditFormField $field )
     {
         $scores = $audit->getScores();
 
@@ -42,7 +37,7 @@ class Score
      *
      * @return integer
      */
-    public function getResultForSection( Audit $audit, AuditFormSection $section )
+    public function getResultForSection( \CiscoSystems\AuditBundle\Entity\Audit $audit, \CiscoSystems\AuditBundle\Entity\AuditFormSection $section )
     {
         $fields = $section->getFields();
         $fieldCount = count( $fields );
@@ -70,7 +65,7 @@ class Score
      * @param \CiscoSystems\AuditBundle\Entity\Audit $audit
      * @param \CiscoSystems\AuditBundle\Entity\AuditFormSection $section
      */
-    public function findFlagForSection( Audit $audit, AuditFormSection $section )
+    public function findFlagForSection( \CiscoSystems\AuditBundle\Entity\Audit $audit, \CiscoSystems\AuditBundle\Entity\AuditFormSection $section )
     {
         foreach ( $section->getFields() as $field )
         {
@@ -88,7 +83,7 @@ class Score
      *
      * @return integer
      */
-    public function getTotalResult( Audit $audit )
+    public function getTotalResult( \CiscoSystems\AuditBundle\Entity\Audit $audit )
     {
         if ( null !== $auditform = $audit->getAuditForm() )
         {
@@ -127,7 +122,7 @@ class Score
      *
      * @return integer
      */
-    public function getTotalWeight( Audit $audit )
+    public function getTotalWeight( \CiscoSystems\AuditBundle\Entity\Audit $audit )
     {
         $weight = 0;
         $sections = $audit->getAuditForm()->getSections();
