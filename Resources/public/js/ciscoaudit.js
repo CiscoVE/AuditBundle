@@ -59,6 +59,7 @@ $( document ).on( 'change', '.cisco-audit-score-selector', function()
     ( $.inArray( 'N', flaggedArray ) > -1) ? flag = true: flag = false;
     $( scoreRow ).attr( 'data-flag', flag );
 
+// need to recalculate the score value held in the value attribute of the SectionScore.
     var sectionScore = $( scoreRow ).children().next( '.cisco-audit-section-score' );
     var finalRow = $( row ).siblings( ':last' );
     var auditScore = $( finalRow ).children().next( '.cisco-audit-score' );
