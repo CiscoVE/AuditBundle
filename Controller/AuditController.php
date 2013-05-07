@@ -137,7 +137,7 @@ class AuditController extends Controller
 
         foreach( $audit->getAuditForm()->getSections() as $section )
         {
-            $scoreService->findFlagForSection( $audit, $section );
+            $scoreService->setFlagForSection( $audit, $section );
         }
 
         if ( null !== $audit )

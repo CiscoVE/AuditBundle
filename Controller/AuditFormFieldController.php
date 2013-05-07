@@ -145,7 +145,7 @@ class AuditFormFieldController extends Controller
      */
     public function calculateScoreAction( Request $request )
     {
-        $scoreService = $this->get( 'audit_score' );
+//        $scores[] = $request->get( 'scores' );
         $scores[] = $request->request->get( 'scores' );
         $sectionWeight = 0;
         $tempScore = 0;
@@ -155,7 +155,7 @@ class AuditFormFieldController extends Controller
         {
             $repo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditFormField' );
             $field = $repo->find( $score[0] );
-            $value = $scoreService->getWeightPercentageForScore( $score[1] );
+            $value = AuditScore::getWeightPercentageForScore( $score[1] );
             $weight = $field->getWeight();
             $tempScore += $value * $weight;
             $sectionWeight += $weight;

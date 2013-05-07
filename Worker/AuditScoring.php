@@ -82,7 +82,6 @@ class AuditScoring
     {
         $fields = $section->getFields();
         $fieldCount = count( $fields );
-
         if ( 0 == $fieldCount ) return 100;
         $achievedPercentages = 0;
 
@@ -97,7 +96,6 @@ class AuditScoring
             }
 
             $achievedPercentages += $this->getWeightPercentageForScore( $score );
-//            $achievedPercentages += $score->getWeightPercentage();
         }
         return number_format( $achievedPercentages / $fieldCount, 2, '.', '' );
     }
@@ -108,7 +106,7 @@ class AuditScoring
      * @param \CiscoSystems\AuditBundle\Entity\Audit $audit
      * @param \CiscoSystems\AuditBundle\Entity\AuditFormSection $section
      */
-    public function findFlagForSection( Audit $audit, AuditFormSection $section )
+    public function setFlagForSection( Audit $audit, AuditFormSection $section )
     {
         foreach ( $section->getFields() as $field )
         {
@@ -141,10 +139,8 @@ class AuditScoring
             {
                 $percent = $this->getResultForSection( $audit, $section );
                 $weight = $this->getWeightForSection( $section );
-                $this->findFlagForSection( $audit, $section );
-
+                $this->setFlagForSection( $audit, $section );
                 if ( $section->getFlag() ) $audit->setFlag( true );
-
                 $divisor += $weight;
 
                 // check the section for flag not set and section's weight > 0
@@ -153,9 +149,11 @@ class AuditScoring
                     $totalPercent = $totalPercent * ( $divisor - $weight ) / $divisor + $percent * $weight / $divisor;
                 }
             }
+
             return number_format( $totalPercent, 2, '.', '' );
         }
-        else return 0;
+        else
+            return 0;
     }
 
     /**
@@ -168,7 +166,6 @@ class AuditScoring
     public function getWeightForForm( Audit $audit )
     {
         $weight = 0;
-
         foreach ( $audit->getAuditForm()->getSections() as $section )
         {
             $weight += $this->getWeightForSection( $section );

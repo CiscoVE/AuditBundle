@@ -40,6 +40,8 @@ $( document ).on( 'change', '.cisco-audit-score-selector', function()
         index += 1;
     });
 
+    console.log( scores );
+
     ( $.inArray( 'N', flaggedArray ) > -1) ? flag = true: flag = false;
 
     var sectionScore = $( scoreRow ).children().next( '.cisco-audit-section-score' );
