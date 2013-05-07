@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use CiscoSystems\AuditBundle\Entity\AuditFormField;
 use CiscoSystems\AuditBundle\Form\Type\AuditFormFieldType;
+use CiscoSystems\AuditBundle\Entity\AuditScore;
 
 class AuditFormFieldController extends Controller
 {
@@ -145,7 +146,6 @@ class AuditFormFieldController extends Controller
      */
     public function calculateScoreAction( Request $request )
     {
-//        $scores[] = $request->get( 'scores' );
         $scores[] = $request->request->get( 'scores' );
         $sectionWeight = 0;
         $tempScore = 0;

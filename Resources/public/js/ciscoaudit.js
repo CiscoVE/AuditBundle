@@ -40,8 +40,6 @@ $( document ).on( 'change', '.cisco-audit-score-selector', function()
         index += 1;
     });
 
-    console.log( scores );
-
     ( $.inArray( 'N', flaggedArray ) > -1) ? flag = true: flag = false;
 
     var sectionScore = $( scoreRow ).children().next( '.cisco-audit-section-score' );
@@ -52,11 +50,13 @@ $( document ).on( 'change', '.cisco-audit-score-selector', function()
     if( flag )
     {
         $( sectionScore ).text( flagLabel );
-        $( sectionScore ).css( 'background-color', 'red' );
-        $( sectionScore ).css( 'color', 'white' );
+        $( sectionScore ).addClass( 'cisco-audit-flag' );
+//        $( sectionScore ).css( 'background-color', 'red' );
+//        $( sectionScore ).css( 'color', 'white' );
         $( auditScore ).text( flagLabel );
-        $( auditScore ).css( 'background-color', 'red' );
-        $( auditScore ).css( 'color', 'white' );
+        $( auditScore ).addClass( 'cisco-audit-flag' );
+//        $( auditScore ).css( 'background-color', 'red' );
+//        $( auditScore ).css( 'color', 'white' );
     }
     else
     {
@@ -68,6 +68,8 @@ $( document ).on( 'change', '.cisco-audit-score-selector', function()
             dataType: 'text',
             success: function( response )
             {
+                console.log( response );
+
                 var sectionWeight = $( scoreRow ).children().next( '.cisco-audit-section-weight' );
                 var prevSectionRows = $( scoreRow ).prevAll( '.cisco-audit-section-score-row' );
                 var nextSectionRows = $( scoreRow ).nextAll( '.cisco-audit-section-score-row' );
@@ -102,13 +104,11 @@ $( document ).on( 'change', '.cisco-audit-score-selector', function()
 
                 if( !flag )
                 {
-                    $( sectionScore ).text( Math.round( 100*response )/100 );
-                    $( sectionScore ).css( 'background-color', $( sectionScore ).parent().css( 'background-color' ));
-                    $( sectionScore ).css( 'color', $( sectionScore ).parent().css( 'color' ));
+                    $( sectionScore ).text( ( Math.round( response * 100 ) / 100 ).toFixed( 2 ) + ' %' );
+                    $( sectionScore ).removeClass( 'cisco-audit-flag' );
                     var globalScore = sectionTempScore / $( auditWeight ).text();
-                    $( auditScore ).text( Math.round( 100*globalScore )/100 );
-                    $( auditScore ).css( 'background-color', $( auditScore ).parent().css( 'background-color' ));
-                    $( auditScore ).css( 'color', $( auditScore ).parent().css( 'color' ));
+                    $( auditScore ).text( ( Math.round( globalScore * 100 ) / 100 ).toFixed( 2 ) + ' %' );
+                    $( auditScore ).removeClass( 'cisco-audit-flag' );
                 }
             },
             error: function( response )
