@@ -5,13 +5,12 @@
 $( document ).on( 'change', '.cisco-audit-score-selector', function()
 {
     // var flagLabel declared in /views/Audit/add.html.twig
-
     var url = $( this ).attr( 'href' );
     var row = $( this ).closest( 'tr' );
 
     var prevRows = $( row ).prevUntil( '.cisco-audit-section-row', '.cisco-audit-field-row' );
     var nextRows = $( row ).nextUntil( '.cisco-audit-section-score-row', '.cisco-audit-field-row' );
-    var scoreRow = $( row ).nextUntil( '.cisco-audit-section-row', '.cisco-audit-section-score-row' );
+    var thisScoreRow = $( row ).nextUntil( '.cisco-audit-section-row', '.cisco-audit-section-score-row' );
     var rows = $.merge( $.merge( prevRows, row ), nextRows );
 
 //    console.log( scoreRow );
@@ -57,14 +56,16 @@ $( document ).on( 'change', '.cisco-audit-score-selector', function()
     });
 
     ( $.inArray( 'N', flaggedArray ) > -1) ? flag = true: flag = false;
-    $( scoreRow ).attr( 'data-flag', flag );
+    $( thisScoreRow ).attr( 'data-flag', flag );
+
 
 // need to recalculate the score value held in the value attribute of the SectionScore.
-    var sectionScore = $( scoreRow ).children().next( '.cisco-audit-section-score' );
+    var sectionScore = $( thisScoreRow ).find( '.cisco-audit-section-score' );
+    var sectionWeight = $( thisScoreRow ).find( '.cisco-audit-section-weight' );
+//    var sectionScore = $( thisScoreRow ).children().next( '.cisco-audit-section-score' );
     var finalRow = $( row ).siblings( ':last' );
-    var auditScore = $( finalRow ).children().next( '.cisco-audit-score' );
-    var auditWeight = $( finalRow ).children().next( '.cisco-audit-weight' );
-
+    var auditScore = $( finalRow ).find( '.cisco-audit-score' );
+    var auditWeight = $( finalRow ).find( '.cisco-audit-weight' );
 
     $.ajax(
     {
@@ -74,43 +75,37 @@ $( document ).on( 'change', '.cisco-audit-score-selector', function()
         dataType: 'text',
         success: function( response )
         {
-            var sectionWeight = $( scoreRow ).children().next( '.cisco-audit-section-weight' );
-            var prevScoreRows = $( scoreRow ).prevAll( '.cisco-audit-section-score-row' );
-            var nextScoreRows = $( scoreRow ).nextAll( '.cisco-audit-section-score-row' );
-            var sectionRows = $.merge( $.merge( prevScoreRows, scoreRow), nextScoreRows );
-            var sectionTempScore = parseFloat( response ) * $( sectionWeight ).text();
-            var sectionFlag = $( scoreRow ).attr( 'data-flag' );
+            // set this section's score value
+            $( sectionScore ).attr( 'value', parseFloat( response ).toFixed( 2 ) );
+            var sectionTempScore = 0;
+
+            // get all the score rows and merge them in order
+            var prevScoreRows = $( thisScoreRow ).prevAll( '.cisco-audit-section-score-row' );
+            var nextScoreRows = $( thisScoreRow ).nextAll( '.cisco-audit-section-score-row' );
+            var sectionRows = $.merge( $.merge( prevScoreRows, thisScoreRow), nextScoreRows );
+            var sectionFlag = $( thisScoreRow ).attr( 'data-flag' );
             var auditFlag = false;
 
             sectionRows.each( function()
             {
                 var sRow = $( this );
-                var tempScore = 0;
-                var tempWeight = 0;
 
                 if( $( sRow ).attr( 'data-flag' ) === 'true' )
                 {
                     auditFlag = true;
                 }
 
-                $( this ).children().each( function()
-                {
-                    if( $( this ).hasClass( 'cisco-audit-section-score' ))
-                    {
-                        tempScore = parseInt( $( this ).attr( 'value' ));
-                    }
-                    if( $( this ).hasClass( 'cisco-audit-section-weight' ))
-                    {
-                        tempWeight = parseInt( $( this ).text());
-                    }
-                    console.log( 'tempScore: ' +  tempScore );
-                    console.log( 'tempWeight: ' +  tempWeight );
-                });
-//                console.log( 'sectionFlag: ' +  $( sRow ).attr( 'data-flag' ));
-                sectionTempScore += tempScore * tempWeight;
-                console.log( 'sectionTempScore: ' +  sectionTempScore );
+                var sScore = parseFloat( $( sRow ).find( '.cisco-audit-section-score' ).attr( 'value' ));
+                var sWeight = parseFloat( $( sRow ).find( '.cisco-audit-section-weight' ).attr( 'value' ));
+                sectionTempScore += ( sScore * sWeight );
             });
 
+            var newSectionScore = ( Math.round( response * 100 ) / 100 ).toFixed( 2 );
+            var globalScore = sectionTempScore / $( auditWeight ).attr( 'value' );
+            var newAuditScore = ( Math.round( globalScore * 100 ) / 100 ).toFixed( 2 );
+
+            $( sectionScore ).attr( 'value', newSectionScore );
+            $( auditScore ).attr( 'value', newAuditScore );
 //            console.log( 'auditFlag: ' + auditFlag );
             if( sectionFlag === 'true' )
             {
@@ -119,7 +114,7 @@ $( document ).on( 'change', '.cisco-audit-score-selector', function()
             }
             else
             {
-                $( sectionScore ).text( ( Math.round( response * 100 ) / 100 ).toFixed( 2 ) + ' %' );
+                $( sectionScore ).text( newSectionScore + ' %' );
                 $( sectionScore ).removeClass( 'alert alert-error' );
             }
 
@@ -130,13 +125,7 @@ $( document ).on( 'change', '.cisco-audit-score-selector', function()
             }
             else
             {
-                var globalScore = sectionTempScore / $( auditWeight ).text();
-
-                console.log( 'sectionTempScore: ' + sectionTempScore );
-                console.log( 'auditWeight: ' + $( auditWeight ).text() );
-                console.log( 'globalScore ' + globalScore );
-
-                $( auditScore ).text( ( Math.round( globalScore * 100 ) / 100 ).toFixed( 2 ) + ' %' );
+                $( auditScore ).text( newAuditScore + ' %' );
                 $( auditScore ).removeClass( 'alert alert-error' );
             }
         },
