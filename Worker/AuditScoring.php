@@ -51,7 +51,7 @@ class AuditScoring
     }
 
     /**
-     * Get the total weight for the section
+     * Get the total weight for the section. returns 1 IF the weight has been set to 0.
      *
      * @param \CiscoSystems\AuditBundle\Entity\AuditFormSection $section
      *
@@ -118,13 +118,34 @@ class AuditScoring
     }
 
     /**
-     * Get global score
+     * Get the flag value for the section
+     *
+     * @param \CiscoSystems\AuditBundle\Entity\Audit $audit
+     * @param \CiscoSystems\AuditBundle\Entity\AuditFormSection $section
+     *
+     * @return boolean
+     */
+    public function getFlagForSection( Audit $audit, AuditFormSection $section )
+    {
+        foreach( $section->getFields() as $field )
+        {
+            if( $field->getFlag() === true && $this->getScoreForField( $audit, $field )->getScore() === AuditScore::NO )
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Get final score for the audit
      *
      * @param \CiscoSystems\AuditBundle\Entity\Audit $audit
      *
      * @return integer
      */
-    public function getResultForForm( Audit $audit )
+    public function getResultForAudit( Audit $audit )
     {
         if ( null !== $auditform = $audit->getAuditForm() )
         {
@@ -139,12 +160,12 @@ class AuditScoring
             {
                 $percent = $this->getResultForSection( $audit, $section );
                 $weight = $this->getWeightForSection( $section );
-                $this->setFlagForSection( $audit, $section );
-                if ( $section->getFlag() ) $audit->setFlag( true );
-                $divisor += $weight;
+                $sectionFlag = $this->getFlagForSection( $audit, $section );
 
+                if ( $sectionFlag ) $audit->setFlag( true );
+                $divisor += $weight;
                 // check the section for flag not set and section's weight > 0
-                if( $section->getFlag() === false && $divisor > 0 )
+                if( $sectionFlag === false && $divisor > 0 )
                 {
                     $totalPercent = $totalPercent * ( $divisor - $weight ) / $divisor + $percent * $weight / $divisor;
                 }
@@ -157,13 +178,13 @@ class AuditScoring
     }
 
     /**
-     * Get global weight
+     * Get total weight for the audit
      *
      * @param \CiscoSystems\AuditBundle\Entity\Audit $audit
      *
      * @return integer
      */
-    public function getWeightForForm( Audit $audit )
+    public function getWeightForAudit( Audit $audit )
     {
         $weight = 0;
         foreach ( $audit->getAuditForm()->getSections() as $section )
