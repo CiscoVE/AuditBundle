@@ -333,24 +333,31 @@ $( document ).on( 'click', '.cisco-audit-section-view', function()
 /**
  * show menu btn group on row being hovered
  */
-//$( document ).on(
-//{
-//    mouseenter: function()
-//    {
-//        console.log( 'entering: ' + $( this ).parent().html() );
-//        $( this ).prop( 'disabled', false );
-//        $( this ).removeClass( 'disabled' );
-//    },
-//    mouseleave: function()
-//    {
-//        console.log( 'leaving: ' + $( this ).parent().html() );
-//        $( this ).prop( 'disabled', true );
-//        $( this ).addClass( 'disabled' );
-//    }
-//}, 'a:.btn' );
-//
+$( document ).on(
+{
+    mouseenter: function()
+    {
+        $( this ).find( '.cisco-audit-options' ).fadeIn();
+    },
+    mouseleave: function()
+    {
+        $( this ).find( '.cisco-audit-options' ).fadeOut();
 
+    }
+}, '.cisco-audit-field-row' );
 
+$( document ).on(
+{
+    mouseover: function()
+    {
+        $( this ).find( '.cisco-audit-options' ).fadeIn();
+    },
+    mouseleave: function()
+    {
+        $( this ).find( '.cisco-audit-options' ).fadeOut();
+
+    }
+}, '.cisco-audit-section-row' );
 
 //        'hover', '.btn', function()
 //{

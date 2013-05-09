@@ -9,19 +9,19 @@
     {% endif %}
     </td>
     <td>
-        <div class="btn-group pull-right">
+        <div class="btn-group pull-right cisco-audit-options" style="display: none;">
             <a class="btn btn-mini cisco-audit-section-view">
                 <i class="icon-eye-open" title="View"></i>
             </a>
             <a class="btn btn-mini cisco-audit-section-edit" data-section-id="{{ section.id }}"
                 href="{{ path( 'cisco_auditsection_edit', { 'section_id': section.id } ) }}">
-                <i class="icon-wrench" title="Edit"></i> 
+                <i class="icon-wrench" title="Edit"></i>
             </a>
             <a class="btn btn-mini cisco-audit-section-delete" data-section-id="{{ section.id }}"
                 href="{{ path( 'cisco_auditsection_delete', { 'section_id': section.id } ) }}">
-                <i class="icon-trash" title="Delete"></i> 
+                <i class="icon-trash" title="Delete"></i>
             </a>
-        </div>        
+        </div>
     </td>
 </tr>
 <tr class="cisco-audit-desc-row" style="display: none;">
