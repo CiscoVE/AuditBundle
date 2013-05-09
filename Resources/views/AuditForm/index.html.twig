@@ -9,21 +9,21 @@
     <div class="span10">
         <div class="btn-group pull-right">
             <a class="btn btn-mini" href="{{ path( 'cisco_auditform_add' ) }}">
-                Create a new form <i class="icon-plus"></i> 
+                Create a new form <i class="icon-plus"></i>
             </a>
         </div>
         <table class="table table-condensed table-hover">
             <thead>
                 <tr>
-                    <th width=20%>Title</th>
-                    <th width=60%>Description</th>
-                    <th width=20%>Is the form Active?</th>
-                    <th width=20% style="white-space: nowrap;"></th>
+                    <th width="20%">Title</th>
+                    <th width="60%">Description</th>
+                    <th width="10%">Is the form Active?</th>
+                    <th width="30%" style="white-space: nowrap;"></th>
                 </tr>
             </thead>
             <tbody>
                 {% for form in forms %}
-                    <tr>
+                    <tr class="cisco-audit-form">
                         <td>{{ form.title }}</td>
                         <td>{{ form.description }}</td>
                         <td>
@@ -33,12 +33,12 @@
                             <i class="icon-check-empty"/>
                         {% endif %}
                         </td>
-                        <td width=20% style="white-space: nowrap;">
-                            <div class="btn-group pull-right">
+                        <td width=20% style="white-space: nowrap; padding: 0 0 0 0;">
+                            <div class="btn-group pull-right cisco-audit-options" style="display: none">
                                 <a class="btn btn-mini" title="View"
                                    href="{{ path( 'cisco_auditform_view', { 'form_id': form.id } ) }}">
                                     <i class="icon-eye-open"></i>
-                                </a>  
+                                </a>
                                 <a class="btn btn-mini" title="Edit"
                                     href="{{ path( 'cisco_auditform_edit', { 'form_id': form.id } ) }}">
                                     <i class="icon-wrench"></i>
@@ -53,7 +53,7 @@
                 {% else %}
                     <tr class="warning-empty">
                         <td colspan="4">
-                            <i class="icon-warning-sign"></i> 
+                            <i class="icon-warning-sign"></i>
                             No forms yet.
                         </td>
                     </tr>

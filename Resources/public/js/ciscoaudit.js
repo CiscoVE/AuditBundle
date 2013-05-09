@@ -337,11 +337,11 @@ $( document ).on(
 {
     mouseenter: function()
     {
-        $( this ).find( '.cisco-audit-options' ).fadeIn();
+        $( this ).find( '.cisco-audit-options' ).stop(true, true).fadeIn();
     },
     mouseleave: function()
     {
-        $( this ).find( '.cisco-audit-options' ).fadeOut();
+        $( this ).find( '.cisco-audit-options' ).stop(true, true).fadeOut();
 
     }
 }, '.cisco-audit-field-row' );
@@ -350,14 +350,27 @@ $( document ).on(
 {
     mouseover: function()
     {
-        $( this ).find( '.cisco-audit-options' ).fadeIn();
+        $( this ).find( '.cisco-audit-options' ).stop(true, true).fadeIn();
     },
     mouseleave: function()
     {
-        $( this ).find( '.cisco-audit-options' ).fadeOut();
+        $( this ).find( '.cisco-audit-options' ).stop(true, true).fadeOut();
 
     }
 }, '.cisco-audit-section-row' );
+
+$( document ).on(
+{
+    mouseover: function()
+    {
+        $( this ).find( '.cisco-audit-options' ).stop(true, true).fadeIn();
+    },
+    mouseleave: function()
+    {
+        $( this ).find( '.cisco-audit-options' ).stop(true, true).fadeOut();
+
+    }
+}, '.cisco-audit-form' );
 
 //        'hover', '.btn', function()
 //{
