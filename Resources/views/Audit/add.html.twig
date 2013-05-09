@@ -56,12 +56,8 @@
                                     <i class="icon-info-sign"></i>
                                 </a>
                             </td>
-                            <td class="cisco-audit-field-weight">
-                            {% if field.flag == true %}
-                                {{ audit.auditform.flagLabel }}
-                            {% else %}
-                                {{ field.weight }}
-                            {% endif %}
+                            <td class="cisco-audit-field-weight" value="{{ field.weight }}">
+                                <div {% if field.flag == true %}data-field="{{ audit.auditform.flagLabel }}"{% endif %} data-value="{{ field.weight }}">{{ field.weight }}</div>
                             </td>
                             <td>
                                 <textarea class="span4" name="score[{{ field.id }}][comment]"></textarea>
@@ -69,18 +65,24 @@
                         </tr>
                         {% set counter = counter + 1 %}
                     {% endfor %}
-                    <tr class="cisco-audit-section-score-row">
+                    <tr class="cisco-audit-section-score-row" data-flag="false">
+                        {% set sectionScore = get_resultforsection( audit, section ) %}
+                        {% set sectionWeight = get_weightforsection( section )%}
                         <td colspan="2" style="text-align: right">Section's Score</td>
-                        <td class="cisco-audit-section-score">{{ get_resultforsection( audit, section ) }}</td>
-                        <td class="cisco-audit-section-weight">{{ get_weightforsection( section ) }}</td>
+                        <td class="cisco-audit-section-score" value="{{ sectionScore }}">{{ sectionScore }} %</td>
+                        <td></td>
+                        <td class="cisco-audit-section-weight" value="{{ sectionWeight }}">{{ sectionWeight }}</td>
                         <td class="bar"></td>
                     </tr>
                 {% endfor %}
                     <tr class="cisco-audit-score-row">
+                        {#% set auditScore = get_resultforform( audit ) %#}
+                        {% set auditWeight = get_weightforform( audit ) %}
                         <td colspan="2" style="text-align: right">Final Score</td>
-                        <td class="cisco-audit-score">100</td>
-                        {#<td class="cisco-audit-score">{{ get_resultforform( audit ) }}</td>#}
-                        <td class="cisco-audit-weight">{{ get_weightforform( audit ) }}</td>
+                        <!-- auditScore is breaking and needs to be investigated -->
+                        <td class="cisco-audit-score" value="100.00{#{ auditScore }#}">100.00 %{#{ get_resultforform( audit ) }#}</td>
+                        <td></td>
+                        <td class="cisco-audit-weight" value="{{ auditWeight }}">{{ auditWeight }}</td>
                         <td></td>
                     </tr>
                 </tbody>
