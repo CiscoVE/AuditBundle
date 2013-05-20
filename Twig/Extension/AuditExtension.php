@@ -25,8 +25,8 @@ class AuditExtension extends Twig_Extension
         return array(
             'get_resultforsection'  => new Twig_Function_Method( $this, 'getResultForSection' ),
             'get_weightforsection'  => new Twig_Function_Method( $this, 'getWeightForSection' ),
-            'get_resultforaudit'     => new Twig_Function_Method( $this, 'getResultForAudit' ),
-            'get_weightforaudit'     => new Twig_Function_Method( $this, 'getWeightForAudit' ),
+            'get_resultforaudit'    => new Twig_Function_Method( $this, 'getResultForAudit' ),
+            'get_weightforaudit'    => new Twig_Function_Method( $this, 'getWeightForAudit' ),
         );
     }
 
