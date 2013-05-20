@@ -17,7 +17,7 @@
     {% endif %}
     </td>
     <td>
-        <div class="btn-group pull-right">
+        <div class="btn-group pull-right cisco-audit-options" style="display: none;">
             <a class="btn btn-mini cisco-audit-field-view">
                 <i class="icon-eye-open" title="View"></i>
             </a>
@@ -33,20 +33,32 @@
         </div>
     </td>
 </tr>
-<tr class="cisco-audit-desc-row" style="display: none;">
-    <td><i>Description: </i></td>
-    <td colspan="5">{{ field.description }}</td>
-</tr>
-<tr class="cisco-audit-desc-row" style="display: none;">
-    <td><i>Scores: </i></td>
-    <td colspan="5">
-    {% for score, label in field.scores %}
-        <div>
-            {{ score }}: {{ label }}
+<tr class="cisco-audit-desc-row info" style="display: none;">
+    <td>
+        <div class="text-info">
+            <i>Description: </i>
         </div>
-    {% else %}
-        <div>No scores defined</div>
-    {% endfor %}
+    </td>
+    <td colspan="5">
+        <div class="text-info info">
+            {{ field.description }}
+        </div>
+    </td>
+</tr>
+<tr class="cisco-audit-desc-row info" style="display: none;">
+    <td style="padding-left: 50px;">
+        <div class="text-info"><i>Scores: </i></div>
+    </td>
+    <td colspan="5">
+        <div class="info">
+        {% for score, label in field.scores %}
+            <div class="text-info">
+                {{ score }}: {{ label }}
+            </div>
+        {% else %}
+            <div>No scores defined</div>
+        {% endfor %}
+        </div>
     </td>
 </tr>
 {% endblock %}

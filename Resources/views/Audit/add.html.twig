@@ -17,12 +17,11 @@
             <table class="table table-condensed table-hover">
                 <thead>
                     <tr>
-                        <th>S.No.</th>
-                        <th>Field</th>
-                        <th>Score</th>
-                        <th></th>
-                        <th>Weight</th>
-                        <th>Reviewer's Comment</th>
+                        <th style="width: 4%;">S.No.</th>
+                        <th style="width: 36%;">Field</th>
+                        <th style="width: 9%;">Score</th>
+                        <th style="width: 9%;" colspan="2">Weight</th>
+                        <th style="width: 42%;">Reviewer's Comment</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -39,7 +38,7 @@
                             {% set form = craue_cloneForm(scoreform) %}
                                 <select class="span1 cisco-audit-score-selector" name="score[{{ field.id }}][value]"
                                         href="{{ path( 'cisco_auditfield_calculate_score' ) }}">
-                                {% set ret = 'Options:'%}
+                                {% set ret = field.description ~ '\n' %}
                                 {% for score, label in field.scores %}
                                     <option value="{{ score }}">
                                         {{ score }}
@@ -48,34 +47,49 @@
                                 {% endfor %}
                             </td>
                             <td>
-                                <a href="#" rel="tooltip" data-placement="top" title="{{ ret }}">
+                                <a rel="tooltip" data-placement="top" title="{{ ret }}" class="cisco-audit-field-view">
                                     <i class="icon-info-sign"></i>
                                 </a>
                             </td>
-                            <td class="cisco-audit-field-weight">
-                            {% if field.flag == true %}
-                                {{ audit.auditform.flagLabel }}
-                            {% else %}
-                                {{ field.weight }}
-                            {% endif %}
+                            <td class="cisco-audit-field-weight" value="{{ field.weight }}">
+                                <div {% if field.flag == true %}data-field="{{ audit.auditform.flagLabel }}"{% endif %} data-value="{{ field.weight }}">{{ field.weight }}</div>
                             </td>
                             <td>
                                 <textarea class="span4" name="score[{{ field.id }}][comment]"></textarea>
                             </td>
                         </tr>
+                        <tr class="cisco-audit-desc-row info" style="display: none;">
+                            <td></td>
+                            <td colspan="5">
+                                <div class="info">
+                                    <h4 class="text-info">{{ field.description }}</h4>
+                                    {% for score, label in field.scores %}
+                                    <p class="text-info">
+                                        {{ score }} - {{ label }}
+                                    </p>
+                                    {% endfor %}
+                                </div>
+                            </td>
+                        </tr>
                         {% set counter = counter + 1 %}
                     {% endfor %}
-                    <tr class="cisco-audit-section-score-row">
+                    <tr class="cisco-audit-section-score-row" data-flag="false">
+                        {% set sectionScore = get_resultforsection( audit, section ) %}
+                        {% set sectionWeight = get_weightforsection( section )%}
                         <td colspan="2" style="text-align: right">Section's Score</td>
-                        <td class="cisco-audit-section-score">{{ attribute( audit, 'resultForSection', [ section ] ) }}</td>
-                        <td class="cisco-audit-section-weight">{{ section.weight }}</td>
+                        <td class="cisco-audit-section-score" value="{{ sectionScore }}">{{ sectionScore }} %</td>
+                        <td></td>
+                        <td class="cisco-audit-section-weight" value="{{ sectionWeight }}">{{ sectionWeight }}</td>
                         <td class="bar"></td>
                     </tr>
                 {% endfor %}
                     <tr class="cisco-audit-score-row">
+                        {% set auditWeight = get_weightforaudit( audit ) %}
                         <td colspan="2" style="text-align: right">Final Score</td>
-                        <td class="cisco-audit-score"></td>
-                        <td class="cisco-audit-weight">{{ audit.totalWeight }}</td>
+                        <!-- can not get the audit score when first calling the form -->
+                        <td class="cisco-audit-score" value="100.00">100.00 %</td>
+                        <td></td>
+                        <td class="cisco-audit-weight" value="{{ auditWeight }}">{{ auditWeight }}</td>
                         <td></td>
                     </tr>
                 </tbody>
@@ -83,7 +97,7 @@
         </form>
     </div>
 </div>
-<script type="text/javascript" data-foo="{{ audit.auditform.flagLabel }}">
+<script type="text/javascript">
 
     var flagLabel = '{{ audit.auditform.flagLabel }}';
 

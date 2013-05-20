@@ -30,6 +30,7 @@ class AuditFormFieldType extends AbstractType
             'class'         => 'CiscoSystemsAuditBundle:AuditFormSection',
             'property'      => 'title',
             'empty_value'   => '(Choose a Section)',
+            'group_by'      => 'auditForm.title',
         ));
         $builder->add( 'weight', 'integer' );
         $builder->add( 'flag', 'checkbox', array(

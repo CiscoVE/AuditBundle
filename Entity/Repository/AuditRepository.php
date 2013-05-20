@@ -60,7 +60,8 @@ class AuditRepository extends EntityRepository
                 'flag' => $entity->getFlag(),
                 'flagLabel' => $entity->getAuditForm()->getFlagLabel(),
                 'totalScore' => $entity->getTotalScore(),
-                'usedforms' => $uforms[$entity->getAuditReference()->getId()]
+                'usedforms' => $uforms[$entity->getAuditReference()->getId()],
+                'createdAt' => $entity->getCreatedAt(),
             );
             $result[] = $row;
         }

@@ -5,14 +5,15 @@
 $( document ).on( 'change', '.cisco-audit-score-selector', function()
 {
     // var flagLabel declared in /views/Audit/add.html.twig
-
     var url = $( this ).attr( 'href' );
     var row = $( this ).closest( 'tr' );
 
     var prevRows = $( row ).prevUntil( '.cisco-audit-section-row', '.cisco-audit-field-row' );
     var nextRows = $( row ).nextUntil( '.cisco-audit-section-score-row', '.cisco-audit-field-row' );
-    var scoreRow = $( row ).nextUntil( '.cisco-audit-section-row', '.cisco-audit-section-score-row' );
+    var thisScoreRow = $( row ).nextUntil( '.cisco-audit-section-row', '.cisco-audit-section-score-row' );
     var rows = $.merge( $.merge( prevRows, row ), nextRows );
+
+//    console.log( scoreRow );
 
     var scores = [];
     var index = 0;
@@ -30,9 +31,23 @@ $( document ).on( 'change', '.cisco-audit-score-selector', function()
             {
                 score[1] = $( this ).children().val();
             }
-            if( $( this ).hasClass( 'cisco-audit-field-weight' ) && $( this ).text().trim() === flagLabel )
+            if( $( this ).hasClass( 'cisco-audit-field-weight' ) )
             {
-                flaggedArray.push( score[1] );
+                score[2] = $( this ).find( 'div' ).attr( 'data-value' );
+                if( $( this ).find( 'div' ).attr( 'data-field' ) === flagLabel)
+                {
+                    flaggedArray.push( score[1] );
+                    if( score[1] === 'N' )
+                    {
+                        $( this ).find( 'div' ).text( flagLabel );
+                        $( this ).addClass( 'alert alert-error' );
+                    }
+                    else
+                    {
+                        $( this ).find( 'div' ).text( score[2] );
+                        $( this ).removeClass( 'alert alert-error' );
+                    }
+                }
             }
         });
 
@@ -41,137 +56,84 @@ $( document ).on( 'change', '.cisco-audit-score-selector', function()
     });
 
     ( $.inArray( 'N', flaggedArray ) > -1) ? flag = true: flag = false;
+    $( thisScoreRow ).attr( 'data-flag', flag );
 
-    var sectionScore = $( scoreRow ).children().next( '.cisco-audit-section-score' );
+
+// need to recalculate the score value held in the value attribute of the SectionScore.
+    var sectionScore = $( thisScoreRow ).find( '.cisco-audit-section-score' );
+    var sectionWeight = $( thisScoreRow ).find( '.cisco-audit-section-weight' );
+//    var sectionScore = $( thisScoreRow ).children().next( '.cisco-audit-section-score' );
     var finalRow = $( row ).siblings( ':last' );
-    var auditScore = $( finalRow ).children().next( '.cisco-audit-score' );
-    var auditWeight = $( finalRow ).children().next( '.cisco-audit-weight' );
+    var auditScore = $( finalRow ).find( '.cisco-audit-score' );
+    var auditWeight = $( finalRow ).find( '.cisco-audit-weight' );
 
-    if( flag )
+    $.ajax(
     {
-        $( sectionScore ).text( flagLabel );
-        $( sectionScore ).css( 'background-color', 'red' );
-        $( sectionScore ).css( 'color', 'white' );
-        $( auditScore ).text( flagLabel );
-        $( auditScore ).css( 'background-color', 'red' );
-        $( auditScore ).css( 'color', 'white' );
-    }
-    else
-    {
-        $.ajax(
+        url: url,
+        type: "POST",
+        data: { scores: scores },
+        dataType: 'text',
+        success: function( response )
         {
-            url: url,
-            type: "POST",
-            data: { scores: scores },
-            dataType: 'text',
-            success: function( response )
+            // set this section's score value
+            $( sectionScore ).attr( 'value', parseFloat( response ).toFixed( 2 ) );
+            var sectionTempScore = 0;
+
+            // get all the score rows and merge them in order
+            var prevScoreRows = $( thisScoreRow ).prevAll( '.cisco-audit-section-score-row' );
+            var nextScoreRows = $( thisScoreRow ).nextAll( '.cisco-audit-section-score-row' );
+            var sectionRows = $.merge( $.merge( prevScoreRows, thisScoreRow), nextScoreRows );
+            var sectionFlag = $( thisScoreRow ).attr( 'data-flag' );
+            var auditFlag = false;
+
+            sectionRows.each( function()
             {
-                var sectionWeight = $( scoreRow ).children().next( '.cisco-audit-section-weight' );
-                var prevSectionRows = $( scoreRow ).prevAll( '.cisco-audit-section-score-row' );
-                var nextSectionRows = $( scoreRow ).nextAll( '.cisco-audit-section-score-row' );
-                var sectionRows = $.merge( prevSectionRows, nextSectionRows );
-                var sectionTempScore = parseFloat( response ) * $( sectionWeight ).text();
+                var sRow = $( this );
 
-                sectionRows.each( function()
+                if( $( sRow ).attr( 'data-flag' ) === 'true' )
                 {
-                    var tempScore = 0;
-                    var tempWeight = 0;
-
-                    $( this ).children().each( function()
-                    {
-                        if( $( this ).hasClass( 'cisco-audit-section-score' ))
-                        {
-                            if( $( this ).text() === flagLabel )
-                            {
-                                flag = true;
-                            }
-                            else
-                            {
-                                tempScore = parseInt( $( this ).text());
-                            }
-                        }
-                        if( $( this ).hasClass( 'cisco-audit-section-weight' ))
-                        {
-                            tempWeight = parseInt( $( this ).text());
-                        }
-                    });
-                    sectionTempScore += tempScore * tempWeight;
-                });
-
-                if( !flag )
-                {
-                    $( sectionScore ).text( Math.round( 100*response )/100 );
-                    $( sectionScore ).css( 'background-color', $( sectionScore ).parent().css( 'background-color' ));
-                    $( sectionScore ).css( 'color', $( sectionScore ).parent().css( 'color' ));
-                    var globalScore = sectionTempScore / $( auditWeight ).text();
-                    $( auditScore ).text( Math.round( 100*globalScore )/100 );
-                    $( auditScore ).css( 'background-color', $( auditScore ).parent().css( 'background-color' ));
-                    $( auditScore ).css( 'color', $( auditScore ).parent().css( 'color' ));
+                    auditFlag = true;
                 }
-            },
-            error: function( response )
+
+                var sScore = parseFloat( $( sRow ).find( '.cisco-audit-section-score' ).attr( 'value' ));
+                var sWeight = parseFloat( $( sRow ).find( '.cisco-audit-section-weight' ).attr( 'value' ));
+                sectionTempScore += ( sScore * sWeight );
+            });
+
+            var newSectionScore = ( Math.round( response * 100 ) / 100 ).toFixed( 2 );
+            var globalScore = sectionTempScore / $( auditWeight ).attr( 'value' );
+            var newAuditScore = ( Math.round( globalScore * 100 ) / 100 ).toFixed( 2 );
+
+            $( sectionScore ).attr( 'value', newSectionScore );
+            $( auditScore ).attr( 'value', newAuditScore );
+//            console.log( 'auditFlag: ' + auditFlag );
+            if( sectionFlag === 'true' )
             {
-                console.log( 'can not do it .....' );
+                $( sectionScore ).text( flagLabel );
+                $( sectionScore ).addClass( 'alert alert-error' );
             }
-        });
-    }
-});
+            else
+            {
+                $( sectionScore ).text( newSectionScore + ' %' );
+                $( sectionScore ).removeClass( 'alert alert-error' );
+            }
 
-
-$( function()
-{
-    // Delete Field
-    // need modal box to prompt for YES/NO confirmation message
-
-//    $( '.test' ).live( 'click', function()
-//    {
-//        var div = $( this ).parent();
-//        var table = $( this ).closest('table');
-//        var table1 = $( div ).prev('table');
-//        var lastRow = $( table ).children().children().last();
-//        var lastRow1 = $( table1 ).children().children().last();
-//
-////        console.log( div );
-//        console.log( lastRow );
-//        console.log( lastRow1 );
-////        console.log( lastRow );
-////        console.log( $( lastRow ).html() );
-//
-////        $( '<tr>THIS IS BULLSHIT</tr>' ).insertAfter( lastRow );
-//        var temp = $('<tr><td colspan="4">THIS IS NOT WORKING</td><td><a class="btn btn-mini test"><i class="icon-warning-sign"></i> Oy !</td></tr>');
-//        if( table1 !== null ) $( table1 ).append( temp );
-//        else if( table !== null ) $( table ).append( temp );
-////        $( lastRow ).next().show();
-//    });
-
-
-    /**
-     * testing function to color
-     * @param {type} e
-     * @param {type} color
-     * @returns {undefined}
-     */
-//    function colorMe( e, color )
-//    {
-//        switch( color )
-//        {
-//            case 'yellow':
-//                $( e ).css( 'background-color', 'yellow' );
-//                break;
-//            case 'green':
-//                $( e ).css( 'background-color', 'green' );
-//              break;
-//            case 'red':
-//                $( e ).css( 'background-color', 'red' );
-//                break;
-//            case 'blue':
-//                $( e ).css( 'background-color', 'blue' );
-//                break;
-//            default:
-//                var parent = $( e ).parent();
-//                $( e ).css( 'background-color', $( parent ).css( 'background-color' ));
-//        }
-//    };
+            if( auditFlag === true )
+            {
+                $( auditScore ).text( flagLabel );
+                $( auditScore ).addClass( 'alert alert-error' );
+            }
+            else
+            {
+                $( auditScore ).text( newAuditScore + ' %' );
+                $( auditScore ).removeClass( 'alert alert-error' );
+            }
+        },
+        error: function( response )
+        {
+            console.log( 'can not do it .....' );
+        }
+    });
 });
 
 
@@ -371,24 +333,44 @@ $( document ).on( 'click', '.cisco-audit-section-view', function()
 /**
  * show menu btn group on row being hovered
  */
-//$( document ).on(
-//{
-//    mouseenter: function()
-//    {
-//        console.log( 'entering: ' + $( this ).parent().html() );
-//        $( this ).prop( 'disabled', false );
-//        $( this ).removeClass( 'disabled' );
-//    },
-//    mouseleave: function()
-//    {
-//        console.log( 'leaving: ' + $( this ).parent().html() );
-//        $( this ).prop( 'disabled', true );
-//        $( this ).addClass( 'disabled' );
-//    }
-//}, 'a:.btn' );
-//
+$( document ).on(
+{
+    mouseenter: function()
+    {
+        $( this ).find( '.cisco-audit-options' ).stop(true, true).fadeIn();
+    },
+    mouseleave: function()
+    {
+        $( this ).find( '.cisco-audit-options' ).stop(true, true).fadeOut();
 
+    }
+}, '.cisco-audit-field-row' );
 
+$( document ).on(
+{
+    mouseover: function()
+    {
+        $( this ).find( '.cisco-audit-options' ).stop(true, true).fadeIn();
+    },
+    mouseleave: function()
+    {
+        $( this ).find( '.cisco-audit-options' ).stop(true, true).fadeOut();
+
+    }
+}, '.cisco-audit-section-row' );
+
+$( document ).on(
+{
+    mouseover: function()
+    {
+        $( this ).find( '.cisco-audit-options' ).stop(true, true).fadeIn();
+    },
+    mouseleave: function()
+    {
+        $( this ).find( '.cisco-audit-options' ).stop(true, true).fadeOut();
+
+    }
+}, '.cisco-audit-form' );
 
 //        'hover', '.btn', function()
 //{

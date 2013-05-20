@@ -49,15 +49,9 @@ class AuditScore
      */
     protected $comment;
 
-    public function getWeightPercentage()
-    {
-        $this->weightPercentage = self::getWeightPercentageForScore( $this->score );
-        return $this->weightPercentage;
-    }
-
     static public function getWeightPercentageForScore( $score )
     {
-        switch($score)
+        switch( $score )
         {
             case AuditScore::YES:
             case AuditScore::NOT_APPLICABLE: return 100;
@@ -67,19 +61,7 @@ class AuditScore
         return 0;
     }
 
-    public function calculateWeight()
-    {
-        $weight = $this->field->getWeight();
-        switch( $this->score )
-        {
-            case AuditScore::YES:
-            case AuditScore::NOT_APPLICABLE: return $weight;
-            case AuditScore::ACCEPTABLE: return $weight / 2;
-            case AuditScore::NO: return 0;
-        }
-    }
-
-        /**
+    /**
      * Get id
      *
      * @return integer
@@ -162,6 +144,7 @@ class AuditScore
      * Set field
      *
      * @param CiscoSystems\AuditBundle\Entity\AuditFormField $field
+     *
      * @return AuditScore
      */
     public function setField( \CiscoSystems\AuditBundle\Entity\AuditFormField $field = null )
