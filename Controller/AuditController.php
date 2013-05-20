@@ -39,6 +39,7 @@ class AuditController extends Controller
      */
     public function addAction( Request $request )
     {
+        $scoreService = $this->get( 'cisco.worker.audit_score' );
         // Grab the entity manager from the container
         $em = $this->getDoctrine()->getEntityManager();
         // Check for audit form data to be used
@@ -56,7 +57,7 @@ class AuditController extends Controller
         $form = $this->createForm( $this->container->get( 'cisco.formtype.audit' ), $audit );
         if ( 'POST' == $request->getMethod() )
         {
-            $this->get( 'logger' )->debug( '## POST request received' );
+            $this->get( 'ladybug' )->log( '## POST request received' );
             // bind request for form object
             $form->bind( $request );
             $scores = $request->get( 'score' );
@@ -64,7 +65,7 @@ class AuditController extends Controller
             {
                 $this->setUser( $audit );
                 $this->setAuditScores( $em, $audit, $scores );
-                $audit->setTotalScore( $audit->getTotalResult() );
+                $audit->setTotalScore( $scoreService->getResultForAudit( $audit ));
                 $em->persist( $audit );
                 $em->flush();
                 return $this->redirect( $this->generateUrl( 'cisco_audits' ) );
@@ -103,7 +104,7 @@ class AuditController extends Controller
      * @param \CiscoSystems\AuditBundle\Entity\Audit $audit
      * @param array $scores
      */
-    private function setAuditScores( EntityManager $entityMgr, Audit $audit, $scores )
+    private function setAuditScores( $entityMgr, Audit $audit, $scores )
     {
         $fieldRepo = $entityMgr->getRepository( 'CiscoSystemsAuditBundle:AuditFormField' );
         foreach ( $scores as $fieldId => $scoreData )
@@ -129,6 +130,7 @@ class AuditController extends Controller
      */
     public function viewAction( Request $request )
     {
+        $scoreService = $this->get( 'cisco.worker.audit_score' );
         $em = $this->getDoctrine()->getEntityManager();
         $auditrepo = $em->getRepository( 'CiscoSystemsAuditBundle:Audit' );
         $audit = $auditrepo->find( $request->get( 'id' ) );
