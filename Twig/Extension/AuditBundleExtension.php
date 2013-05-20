@@ -6,7 +6,7 @@ use Twig_Extension;
 use Twig_Function_Method;
 use CiscoSystems\AuditBundle\Worker\AuditScoring;
 
-class AuditExtension extends Twig_Extension
+class AuditBundleExtension extends Twig_Extension
 {
     protected $scoring;
 
@@ -17,7 +17,7 @@ class AuditExtension extends Twig_Extension
 
     public function getName()
     {
-        return 'audit_extension';
+        return 'auditbundle_extension';
     }
 
     public function getFunctions()
