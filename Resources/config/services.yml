@@ -1,6 +1,6 @@
 parameters:
     cisco.formtype.audit.class:           CiscoSystems\AuditBundle\Form\Type\AuditType
-    cisco.twig.auditbundle_extension.class:    CiscoSystems\AuditBundle\Twig\Extension\AuditBundleExtension
+    cisco.twig.audit_extension.class:    CiscoSystems\AuditBundle\Twig\Extension\AuditExtension
     cisco.worker.audit_score.class:      CiscoSystems\AuditBundle\Worker\AuditScoring
 
 services:
@@ -9,8 +9,8 @@ services:
         tags:
             - { name: form.type, alias: audit }
 
-    cisco.twig.auditbundle_extension:
-        class: %cisco.twig.auditbundle_extension.class%
+    cisco.twig.audit_extension:
+        class: %cisco.twig.audit_extension.class%
         arguments:
             - '@cisco.worker.audit_score'
         tags:

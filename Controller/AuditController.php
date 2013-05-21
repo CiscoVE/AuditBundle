@@ -57,7 +57,7 @@ class AuditController extends Controller
         $form = $this->createForm( $this->container->get( 'cisco.formtype.audit' ), $audit );
         if ( 'POST' == $request->getMethod() )
         {
-            $this->get( 'ladybug' )->log( '## POST request received' );
+//            $this->get( 'ladybug' )->log( '## POST request received' );
             // bind request for form object
             $form->bind( $request );
             $scores = $request->get( 'score' );

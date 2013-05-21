@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use CiscoSystems\AuditBundle\Entity\AuditFormField;
+use CiscoSystems\AuditBundle\Entity\AuditFormSection;
 use CiscoSystems\AuditBundle\Form\Type\AuditFormFieldType;
 use CiscoSystems\AuditBundle\Entity\AuditScore;
 
@@ -42,12 +43,14 @@ class AuditFormFieldController extends Controller
             $edit = true;
             $field = $repo->find( $request->get( 'field_id' ));
         }
+        $section = new AuditFormSection();
         if( $request->get( 'section_id' ) )
         {
             $sectionRepo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditFormSection' );
             $section = $sectionRepo->find( $request->get( 'section_id' ));
             $field->setSection( $section );
         }
+        $this->get('ladybug')->log( $field );
         $form = $this->createForm( new AuditFormFieldType(), $field );
         if ( null !== $values = $request->get( $form->getName() ))
         {

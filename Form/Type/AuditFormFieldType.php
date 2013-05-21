@@ -30,7 +30,11 @@ class AuditFormFieldType extends AbstractType
             'class'         => 'CiscoSystemsAuditBundle:AuditFormSection',
             'property'      => 'title',
             'empty_value'   => '(Choose a Section)',
-            'group_by'      => 'auditForm.title',
+//            TODO: need to double check how the section are loaded as the
+//            following is not being valid and returns the error:
+//            Expected argument of type "object or array", "NULL" given
+//            
+//            'group_by'      => 'auditForm.title',
         ));
         $builder->add( 'weight', 'integer' );
         $builder->add( 'flag', 'checkbox', array(
