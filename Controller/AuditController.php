@@ -84,7 +84,7 @@ class AuditController extends Controller
      *
      * @param type $audit
      */
-    private function setUser( $audit )
+    protected function setUser( $audit )
     {
         $token = $this->container->get( 'security.context' )->getToken();
         if ( $token )
@@ -104,7 +104,7 @@ class AuditController extends Controller
      * @param \CiscoSystems\AuditBundle\Entity\Audit $audit
      * @param array $scores
      */
-    private function setAuditScores( $entityMgr, Audit $audit, $scores )
+    protected function setAuditScores( $entityMgr, Audit $audit, $scores )
     {
         $fieldRepo = $entityMgr->getRepository( 'CiscoSystemsAuditBundle:AuditFormField' );
         foreach ( $scores as $fieldId => $scoreData )
