@@ -50,7 +50,6 @@ class AuditFormFieldController extends Controller
             $section = $sectionRepo->find( $request->get( 'section_id' ));
             $field->setSection( $section );
         }
-        $this->get('ladybug')->log( $field );
         $form = $this->createForm( new AuditFormFieldType(), $field );
         if ( null !== $values = $request->get( $form->getName() ))
         {
