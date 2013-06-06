@@ -1,7 +1,7 @@
 {% block pagecontent %}
 <tr class="cisco-audit-section-row">
     <td colspan="4">
-        <strong>Section {{ section.id }}: {{ section.title }}</strong> 
+        <strong>Section {{ loop.index }}: {{ section.title }}</strong>
         {% if section.description is not empty %}
              - {{ section.description }}
         {%  else %}
@@ -11,15 +11,15 @@
     <td style="padding: 0 0 0 0 ">
         <div class="btn-group pull-right cisco-audit-options" style="display: none;">
             <a class="btn btn-mini cisco-audit-section-view">
-                <i class="icon-eye-open" title="View"></i> 
-            </a>  
+                <i class="icon-eye-open" title="View"></i>
+            </a>
             <a class="btn btn-mini cisco-audit-section-edit"
                 href="{{ path( 'cisco_auditsection_edit', { 'section_id': section.id } ) }}">
-                <i class="icon-wrench" title="Edit"></i> 
-            </a>  
-            <a class="btn btn-mini cisco-audit-section-remove" data-section-id="{{ section.id }}" 
+                <i class="icon-wrench" title="Edit"></i>
+            </a>
+            <a class="btn btn-mini cisco-audit-section-remove" data-section-id="{{ section.id }}"
                href="{{ path( 'cisco_auditform_remove', { 'form_id' : auditform.id ,'section_id': section.id } ) }}">
-                <i class="icon-minus" title="Remove"></i> 
+                <i class="icon-minus" title="Remove"></i>
             </a>
         </div>
     </td>
@@ -29,7 +29,7 @@
 {% else %}
     <tr class="warning-empty">
         <td colspan="6">
-            <i class="icon-warning-sign"></i> 
+            <i class="icon-warning-sign"></i>
             No field assigned to this section.
         </td>
     </tr>

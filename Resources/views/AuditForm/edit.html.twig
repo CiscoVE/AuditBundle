@@ -51,6 +51,7 @@
                     </tr>
                 </thead>
                 <tbody>
+                {% set counter = 1 %}
                 {% for section in auditform.sections %}
                     {% include 'CiscoSystemsAuditBundle:AuditFormSection:_load.html.twig' %}
                 {% else %}
