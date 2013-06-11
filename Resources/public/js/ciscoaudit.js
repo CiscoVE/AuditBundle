@@ -331,17 +331,24 @@ $( document ).on( 'click', '.cisco-audit-section-view', function()
 });
 
 /**
+ * add Class disable to cisco-audit-options buttons
+ */
+$( document ).ready( function(){
+    $( '.cisco-audit-options' ).find( '.btn' ).addClass( 'disabled' );
+});
+
+/**
  * show menu btn group on row being hovered
  */
 $( document ).on(
 {
     mouseenter: function()
     {
-        $( this ).find( '.cisco-audit-options' ).stop(true, true).fadeIn();
+        $( this ).find( '.cisco-audit-options' ).children( '.btn' ).removeClass( 'disabled' );
     },
     mouseleave: function()
     {
-        $( this ).find( '.cisco-audit-options' ).stop(true, true).fadeOut();
+        $( this ).find( '.cisco-audit-options' ).children( '.btn' ).addClass( 'disabled' );
 
     }
 }, '.cisco-audit-field-row' );
@@ -350,11 +357,11 @@ $( document ).on(
 {
     mouseover: function()
     {
-        $( this ).find( '.cisco-audit-options' ).stop(true, true).fadeIn();
+        $( this ).find( '.cisco-audit-options' ).children( '.btn' ).removeClass( 'disabled' );
     },
     mouseleave: function()
     {
-        $( this ).find( '.cisco-audit-options' ).stop(true, true).fadeOut();
+        $( this ).find( '.cisco-audit-options' ).children( '.btn' ).addClass( 'disabled' );
 
     }
 }, '.cisco-audit-section-row' );
@@ -363,11 +370,11 @@ $( document ).on(
 {
     mouseover: function()
     {
-        $( this ).find( '.cisco-audit-options' ).stop(true, true).fadeIn();
+        $( this ).find( '.cisco-audit-options' ).children( '.btn' ).removeClass( 'disabled' );
     },
     mouseleave: function()
     {
-        $( this ).find( '.cisco-audit-options' ).stop(true, true).fadeOut();
+        $( this ).find( '.cisco-audit-options' ).children( '.btn' ).addClass( 'disabled' );
 
     }
 }, '.cisco-audit-form' );

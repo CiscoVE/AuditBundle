@@ -190,11 +190,16 @@ class AuditFormFieldController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $repo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditFormField' );
-//        $sectionform = $this->createForm( new SectionType( $em ));
-//        $this->get('ladybug')->log( $sectionform );
-        $sectionform = $this->createFormBuilder()->add( 'audit_section', new SectionType( $em ) )->getForm();
+        $fieldId = $request->get( 'fieldId' );
+        $field = $repo->findBy( array( 'id' => $fieldId ));
+        $this->get( 'ladybug' )->log( $field );
+//        $section = $field->getSection();
+//        $this->get( 'ladybug' )->log( $field->getSection() );
+        $sectionform = $this->createFormBuilder()->add( 'audit_section', new SectionType( $em ), array(
+//            'section' => $field->getSection()->getId(),
+        ))->getForm();
 
-        return $this->render( 'CiscoSystemsAuditBundle:AuditFormField:_list.html.twig', array(
+        return $this->render( 'CiscoSystemsAuditBundle:AuditFormSection:_select.html.twig', array(
             'fields' => $repo->findAll(),
             'form'   => $sectionform->createView(),
         ));

@@ -8,8 +8,9 @@
         {{ section.auditform }}
     {% endif %}
     </td>
-    <td>
-        <div class="btn-group pull-right cisco-audit-options" style="display: none;">
+    <td>{{ section.fields | length }}</td>
+    <td width=20% style="white-space: nowrap;">
+        <div class="btn-group pull-right cisco-audit-options">
             <a class="btn btn-mini cisco-audit-section-view">
                 <i class="icon-eye-open" title="View"></i>
             </a>
@@ -24,7 +25,11 @@
         </div>
     </td>
 </tr>
-<tr class="cisco-audit-desc-row" style="display: none;">
-    <td colspan="3"><i>Description: </i>{{ section.description }}</td>
+<tr class="cisco-audit-desc-row info" style="display: none;">
+    <td colspan="4">
+        <div class="text-info">
+            <i>Description: </i>{{ section.description }}
+        </div>
+    </td>
 </tr>
 {% endblock %}

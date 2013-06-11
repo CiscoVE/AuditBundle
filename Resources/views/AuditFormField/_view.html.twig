@@ -11,17 +11,17 @@
     <td>{{ field.weight }}</td>
     <td>
     {% if field.flag == 1 %}
-        <i class="icon-check"/> {#{ field.flagText }#} {{ get_trigger( field ) }}
+        <i class="icon-check" title="{{ get_trigger( field ) }}"/>
     {% else %}
         <i class="icon-check-empty"/>
     {% endif %}
     </td>
-    <td>
-        <div class="btn-group pull-right cisco-audit-options" style="display: none;">
+    <td width=20% style="white-space: nowrap;">
+        <div class="btn-group pull-right cisco-audit-options">
             <a class="btn btn-mini cisco-audit-field-view">
                 <i class="icon-eye-open" title="View"></i>
             </a>
-            <a class="btn btn-mini cisco-audit-field-view" data-field-id="{{ field.id }}"
+            <a class="btn btn-mini cisco-audit-field-edit" data-field-id="{{ field.id }}"
                 href="{{ path( 'cisco_auditfield_edit', { 'field_id': field.id } ) }}"
                 title="Edit">
                  <i class="icon-wrench"></i>
