@@ -13,6 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
 class AuditFormField
 {
     /**
+     * @var integer Id for the AuditField
+     *
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -20,33 +22,44 @@ class AuditFormField
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AuditFormSection", inversedBy="fields")
+     * @var \CiscoSystems\AuditBundle\Entity\AuditSection AuditSection to which the AuditField belongs
+     *
+     * @ORM\ManyToOne(targetEntity="CiscoSystems\AuditBundle\Entity\AuditFormSection", inversedBy="fields")
      * @ORM\JoinColumn(name="section_id", referencedColumnName="id", nullable=true)
      */
     protected $section;
 
     /**
+     * @var string Title for the AuditField
+     *
      * @ORM\Column(type="string")
      */
     protected $title;
 
     /**
+     * @var string Description for the AuditField
+     *
      * @ORM\Column(type="string",nullable=true)
      */
     protected $description;
 
     /**
-     * array of string values: settable scores
+     * @var array Array of string values: settable scores
+     *
      * @ORM\Column(type="array")
      */
     protected $scores;
 
     /**
+     * @var \CiscoSystems\AuditBundle\Entity\AuditScore AuditScore associated with the AuditField
+     *
      * @ORM\OneToMany(targetEntity="CiscoSystems\AuditBundle\Entity\AuditScore", mappedBy="field")
      */
     protected $auditscores;
 
     /**
+     * @var integer Weight for the AuditField
+     *
      * @ORM\Column(type="integer")
      * @Assert\NotBlank(message="a weight must be provided.")
      * @Assert\Type(type="integer", message="the weight must be an integer.")
@@ -55,21 +68,34 @@ class AuditFormField
     protected $weight;
 
     /**
+     * @var boolean Flag/Trigger for the AuditField
+     *
      * @ORM\Column(type="boolean")
      */
     protected $flag;
 
     /**
+     * @var integer position of the AuditField in the associated AuditSection
+     *
      * @Gedmo\SortablePosition
      * @ORM\Column(name="position",type="integer")
      */
     protected $position;
 
     /**
+     * @var string Slug for the AuditField
+     *
      * @Gedmo\Slug(fields={"title"})
      * @ORM\Column(length=127, unique=true)
      */
     protected $slug;
+
+    /**
+     * @var boolean enabled/diabled AuditField check
+     *
+     * @ORM\Column(type="boolean")
+     */
+    protected $disabled;
 
     /**
      * Get id
@@ -85,6 +111,7 @@ class AuditFormField
      * Set title
      *
      * @param string $title
+     *
      * @return \CiscoSystems\AuditBundle\Entity\AuditFormField
      */
     public function setTitle( $title )
@@ -108,6 +135,7 @@ class AuditFormField
      * Set description
      *
      * @param string $description
+     *
      * @return \CiscoSystems\AuditBundle\Entity\AuditFormField
      */
     public function setDescription( $description )
@@ -131,6 +159,7 @@ class AuditFormField
      * Set scores
      *
      * @param \Doctrine\Common\Collections\ArrayCollection $scores
+     *
      * @return \Doctrine\Common\Collections\ArrayCollection
      */
     public function setScores( $scores )
@@ -145,6 +174,7 @@ class AuditFormField
      *
      * @param string $score
      * @param string $label
+     *
      * @return AuditField
      */
     public function addScore( $score, $label )
@@ -178,6 +208,7 @@ class AuditFormField
      * Add an auditscore
      *
      * @param \CiscoSystems\AuditBundle\Entity\AuditScore $score
+     *
      * @return \CiscoSystems\AuditBundle\Entity\AuditFormField
      */
     public function addAuditScore( \CiscoSystems\AuditBundle\Entity\AuditScore $score )
@@ -187,6 +218,7 @@ class AuditFormField
             $score->setField( $this );
             $this->auditscores->add( $score );
         }
+
         return $this;
     }
 
@@ -221,6 +253,7 @@ class AuditFormField
      * Set weight
      *
      * @param integer $weight
+     *
      * @return \CiscoSystems\AuditBundle\Entity\uditFormField
      */
     public function setWeight( $weight )
@@ -244,6 +277,7 @@ class AuditFormField
      * Set flag
      *
      * @param boolean $flag
+     *
      * @return AuditFormField
      */
     public function setFlag( $flag )
@@ -267,6 +301,7 @@ class AuditFormField
      * Set position
      *
      * @param integer $position
+     *
      * @return AuditFormField
      */
     public function setPosition( $position )
@@ -290,6 +325,7 @@ class AuditFormField
      * Set section
      *
      * @param CiscoSystems\AuditBundle\Entity\AuditFormSection $section
+     *
      * @return AuditFormField
      */
     public function setSection( \CiscoSystems\AuditBundle\Entity\AuditFormSection $section = null )
@@ -313,6 +349,7 @@ class AuditFormField
      * Set slug
      *
      * @param string $slug
+     *
      * @return AuditFormField
      */
     public function setSlug( $slug )
@@ -330,5 +367,22 @@ class AuditFormField
     public function getSlug()
     {
         return $this->slug;
+    }
+
+    /**
+     * check if AuditField is disabled
+     *
+     * @param boolean $boolean OPTIONAL set disabled to true
+     *
+     * @return boolean
+     */
+    public function isDisabled( $boolean = null )
+    {
+        if( $boolean === TRUE && $this->disabled === FALSE )
+        {
+            $this->disabled = TRUE;
+        }
+        else
+            return $this->disabled;
     }
 }

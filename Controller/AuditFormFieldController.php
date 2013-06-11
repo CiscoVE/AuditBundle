@@ -9,6 +9,7 @@ use CiscoSystems\AuditBundle\Entity\AuditFormField;
 use CiscoSystems\AuditBundle\Entity\AuditFormSection;
 use CiscoSystems\AuditBundle\Form\Type\AuditFormFieldType;
 use CiscoSystems\AuditBundle\Entity\AuditScore;
+use CiscoSystems\AuditBundle\Form\Type\SectionType;
 
 class AuditFormFieldController extends Controller
 {
@@ -50,7 +51,9 @@ class AuditFormFieldController extends Controller
             $section = $sectionRepo->find( $request->get( 'section_id' ));
             $field->setSection( $section );
         }
-        $form = $this->createForm( new AuditFormFieldType(), $field );
+        $form = $this->createForm( new AuditFormFieldType(), $field, array(
+            'section' => $field->getSection(),
+        ));
         if ( null !== $values = $request->get( $form->getName() ))
         {
             $form->bind( $request );
@@ -135,7 +138,9 @@ class AuditFormFieldController extends Controller
      * Get weight percentage from $request
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
+     *
      * @return \Symfony\Component\HttpFoundation\Response
+     *
      * @throws type
      */
     public function calculateScoreAction( Request $request )
@@ -156,6 +161,7 @@ class AuditFormFieldController extends Controller
         }
 
         $sectionScore = $tempScore / $sectionWeight;
+
         return new Response( json_encode( $sectionScore ));
     }
 
@@ -163,6 +169,7 @@ class AuditFormFieldController extends Controller
      * Load field
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
+     *
      * @return twig template
      */
     public function loadAction( Request $request )
@@ -177,5 +184,29 @@ class AuditFormFieldController extends Controller
             'field' => $field,
             'section' => $section,
         ));
+    }
+
+    public function listAction( Request $request )
+    {
+        $em = $this->getDoctrine()->getManager();
+        $repo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditFormField' );
+//        $sectionform = $this->createForm( new SectionType( $em ));
+//        $this->get('ladybug')->log( $sectionform );
+        $sectionform = $this->createFormBuilder()->add( 'audit_section', new SectionType( $em ) )->getForm();
+
+        return $this->render( 'CiscoSystemsAuditBundle:AuditFormField:_list.html.twig', array(
+            'fields' => $repo->findAll(),
+            'form'   => $sectionform->createView(),
+        ));
+    }
+
+    public function disableAction( Request $request )
+    {
+
+    }
+
+    public function changeSectionAction( Request $request )
+    {
+
     }
 }

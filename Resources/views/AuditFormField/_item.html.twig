@@ -2,16 +2,18 @@
 <tr class="cisco-audit-field-row">
     <td colspan="2">{{ field.title }}</td>
     <td>
+        {{ form_widget( form ) }}
+    
     {% if field.section is empty %}
         <i>No Section assigned.</i>
     {% else %}
         {{ field.section }}
-    {% endif %}
+    {% endif %}<a href="#" class="cisco-audit-options" style="display: none;"><i class="icon-cog"></i></a>
     </td>
     <td>{{ field.weight }}</td>
     <td>
     {% if field.flag == 1 %}
-        <i class="icon-check"/> {#{ field.flagText }#} {{ get_trigger( field ) }}
+        <i class="icon-check" title="{{ get_trigger( field ) }}"></i>
     {% else %}
         <i class="icon-check-empty"/>
     {% endif %}
@@ -46,7 +48,7 @@
     </td>
 </tr>
 <tr class="cisco-audit-desc-row info" style="display: none;">
-    <td style="padding-left: 50px;">
+    <td>
         <div class="text-info"><i>Scores: </i></div>
     </td>
     <td colspan="5">

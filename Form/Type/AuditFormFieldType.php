@@ -25,16 +25,8 @@ class AuditFormFieldType extends AbstractType
             'attr'          => array( 'placeholder'=> 'Title for this field'),
             'required'      => true,
         ));
-        $builder->add( 'section', 'entity', array(
-            'required'      => false,
-            'class'         => 'CiscoSystemsAuditBundle:AuditFormSection',
-            'property'      => 'title',
-            'empty_value'   => '(Choose a Section)',
-//            TODO: need to double check how the section are loaded as the
-//            following is not being valid and returns the error:
-//            Expected argument of type "object or array", "NULL" given
-//            
-//            'group_by'      => 'auditForm.title',
+        $builder->add( 'section', 'audit_section', array(
+            'data' => $options['section']->getId(),
         ));
         $builder->add( 'weight', 'integer' );
         $builder->add( 'flag', 'checkbox', array(
@@ -81,6 +73,7 @@ class AuditFormFieldType extends AbstractType
     {
         $resolver->setDefaults( array(
             'data_class' => 'CiscoSystems\AuditBundle\Entity\AuditFormField',
+            'section'    => null,
         ));
     }
 
