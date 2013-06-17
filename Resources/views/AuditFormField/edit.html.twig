@@ -17,7 +17,7 @@
                 <button type="submit" class="btn btn-mini">
                     Save Field <i class="icon-ok"></i>
                 </button>
-                {% if field.section is defined %}
+                {% if field.section.id is defined %}
                     <a class="btn btn-mini"
                         href="{{ path( 'cisco_auditsection_edit', { 'section_id': field.section.id } ) }}">
                          Cancel <i class="icon-remove"></i>

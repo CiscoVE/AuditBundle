@@ -26,7 +26,7 @@ class AuditFormFieldType extends AbstractType
             'required'      => true,
         ));
         $builder->add( 'section', 'audit_section', array(
-            'data' => $options['section']->getId(),
+            'data' => ( isset($options['section']) ) ? $options['section']->getId() : null,
         ));
         $builder->add( 'weight', 'integer' );
         $builder->add( 'flag', 'checkbox', array(

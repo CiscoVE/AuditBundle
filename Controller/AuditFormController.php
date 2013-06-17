@@ -82,12 +82,23 @@ class AuditFormController extends Controller
         $uSectionRepo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditFormSection' );
         $uSections = $uSectionRepo->findBy( array ( 'auditForm' => null ));
 
-        return $this->render( 'CiscoSystemsAuditBundle:AuditForm:edit.html.twig', array(
-            'edit'                  => $edit,
-            'auditform'             => $auditform,
-            'usections'             => $uSections,
-            'form'                  => $form->createView(),
-        ));
+        if ( $request->isXmlHttpRequest())
+        {
+            return $this->render( 'CiscoSystemsAuditBundle:AuditFormField:_edit.html.twig', array(
+                'edit'  => $edit,
+                'field' => $field,
+                'form'  => $form->createView(),
+            ));
+        }
+        else
+        {
+            return $this->render( 'CiscoSystemsAuditBundle:AuditForm:edit.html.twig', array(
+                'edit'                  => $edit,
+                'auditform'             => $auditform,
+                'usections'             => $uSections,
+                'form'                  => $form->createView(),
+            ));
+        }
     }
 
     public function deleteAction( Request $request )

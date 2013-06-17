@@ -4,8 +4,8 @@ namespace CiscoSystems\AuditBundle\Twig\Extension;
 
 use Twig_Extension;
 use Twig_Function_Method;
-use CiscoSystems\AuditBundle\Worker\AuditScoring;
 use Doctrine\Common\Persistence\ObjectManager;
+use CiscoSystems\AuditBundle\Worker\AuditScoring;
 
 class AuditExtension extends Twig_Extension
 {

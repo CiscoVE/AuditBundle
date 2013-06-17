@@ -21,24 +21,39 @@ class AuditForm
     protected $id;
 
     /**
+     * @var string Title of the auditform
+     *
      * @ORM\Column(type="string")
      */
     protected $title;
 
     /**
+     * @var string Description of the auditform
+     *
      * @ORM\Column(type="string",nullable=true)
      */
     protected $description;
 
     /**
+     * @var boolean Is the auditform active
+     *
      * @ORM\Column(type="boolean")
      */
     protected $active;
 
     /**
+     * @var string Label for the trigger flag
+     *
      * @ORM\Column(type="string")
      */
     protected $flagLabel;
+
+    /**
+     * @var boolean Are multiple answer allowed on flagged questions
+     *
+     * @ORM\Column(type="boolean")
+     */
+    protected $binaryFlagOnly;
 
     /**
      * @ORM\Column(name="created_at",type="datetime")
@@ -47,16 +62,22 @@ class AuditForm
     protected $createdAt;
 
     /**
+     * @var DoctrineCommon\Collections\ArrayCollection sections that belong to this auditform
+     *
      * @ORM\OneToMany(targetEntity="CiscoSystems\AuditBundle\Entity\AuditFormSection", mappedBy="auditForm")
      */
     protected $sections;
 
     /**
+     * @var DoctrineCommon\Collections\ArrayCollection audits that are using this auditform
+     *
      * @ORM\OneToMany(targetEntity="CiscoSystems\AuditBundle\Entity\Audit", mappedBy="auditForm")
      */
     protected $audits;
 
     /**
+     * @var CiscoSystems\AuditBundle\Model\MetadataInterface metadata for this auditform
+     *
      * @ORM\OneToOne(targetEntity="CiscoSystems\AuditBundle\Model\MetadataInterface", mappedBy="form")
      */
     protected $metadata;
@@ -64,6 +85,7 @@ class AuditForm
     public function __construct()
     {
         $this->active = true;
+        $this->binaryFlagOnly = false;
         $this->sections = new ArrayCollection();
         $this->audits = new ArrayCollection();
     }
@@ -82,13 +104,10 @@ class AuditForm
      * Set title
      *
      * @param string $title
-     * @return AuditForm
      */
     public function setTitle( $title )
     {
         $this->title = $title;
-
-        return $this;
     }
 
     /**
@@ -105,13 +124,10 @@ class AuditForm
      * Set description
      *
      * @param string $description
-     * @return AuditForm
      */
     public function setDescription( $description )
     {
         $this->description = $description;
-
-        return $this;
     }
 
     /**
@@ -128,13 +144,10 @@ class AuditForm
      * Set active
      *
      * @param boolean $active
-     * @return AuditForm
      */
-    public function setActive( $active )
+    public function setActive( $boolean )
     {
-        $this->active = $active;
-
-        return $this;
+        $this->active = $boolean;
     }
 
     /**
@@ -161,26 +174,40 @@ class AuditForm
      * Set flagText
      *
      * @param string $flagLabel
-     * @return \CiscoSystems\AuditBundle\Entity\Audit
      */
     public function setFlagLabel( $flagLabel )
     {
         $this->flagLabel = $flagLabel;
+    }
 
-        return $this;
+    /**
+     * Get binaryFlagOnly
+     *
+     * @return type
+     */
+    public function getBinaryFlagOnly()
+    {
+        return $this->binaryFlagOnly;
+    }
+
+    /**
+     * Set binaryFlagOnly
+     *
+     * @param boolean $boolean
+     */
+    public function setBinaryFlagOnly( $boolean )
+    {
+        $this->binaryFlagOnly = $boolean;
     }
 
     /**
      * Set createdAt
      *
      * @param \DateTime $createdAt
-     * @return AuditForm
      */
     public function setCreatedAt( $createdAt )
     {
         $this->createdAt = $createdAt;
-
-        return $this;
     }
 
     /**
@@ -197,7 +224,8 @@ class AuditForm
      * Add a section
      *
      * @param CiscoSystems\AuditBundle\Entity\AuditFormSection $section
-     * @return AuditForm
+     *
+     * @return CiscoSystems\AuditBundle\Entity\AuditForm
      */
     public function addSection( \CiscoSystems\AuditBundle\Entity\AuditFormSection $section )
     {
@@ -238,6 +266,9 @@ class AuditForm
         }
     }
 
+    /**
+     * Remove all sections
+     */
     public function removeAllSection()
     {
         foreach( $this->sections as $section )
@@ -260,7 +291,8 @@ class AuditForm
      * Add an Audit to ArrayColletion audits
      *
      * @param \CiscoSystems\AuditBundle\Entity\Audit $audit
-     * @return AuditForm
+     *
+     * @return CiscoSystems\AuditBundle\Entity\AuditForm
      */
     public function addAudit( \CiscoSystems\AuditBundle\Entity\Audit $audit )
     {
@@ -288,7 +320,7 @@ class AuditForm
     /**
      * Remove Audit from ArrayColletion audits
      *
-     * @param \CiscoSystems\AuditBundle\Entity\Audit $audit
+     * @param CiscoSystems\AuditBundle\Entity\Audit $audit
      */
     public function removeAudit( \CiscoSystems\AuditBundle\Entity\Audit $audit )
     {
@@ -325,8 +357,9 @@ class AuditForm
     /**
      * Set metadata
      *
-     * @param \CiscoSystems\AuditBundle\Model\MetadataInterface $metadata
-     * @return \CiscoSystems\AuditBundle\Entity\Audit
+     * @param CiscoSystems\AuditBundle\Model\MetadataInterface $metadata
+     *
+     * @return CiscoSystems\AuditBundle\Entity\Audit
      */
     public function setMetadata( \CiscoSystems\AuditBundle\Model\MetadataInterface $metadata )
     {
@@ -338,7 +371,7 @@ class AuditForm
     /**
      * Get metadata
      *
-     * @return \CiscoSystems\AuditBundle\Model\MetadataInterface
+     * @return CiscoSystems\AuditBundle\Model\MetadataInterface
      */
     public function getMetadata()
     {

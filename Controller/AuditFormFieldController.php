@@ -69,16 +69,23 @@ class AuditFormFieldController extends Controller
         }
         /**
          * NO currently used: planned to load into a modal box
-        if ( $request->isXmlHttpRequest()) return $this->render( 'CiscoSystemsAuditBundle:AuditFormField:_edit.html.twig', array(
-            'edit'  => $edit,
-            'field' => $field,
-            'form'  => $form->createView(),
-        ));
-        else */ return $this->render( 'CiscoSystemsAuditBundle:AuditFormField:edit.html.twig', array(
-            'edit'      => $edit,
-            'field'     => $field,
-            'form'      => $form->createView(),
-        ));
+         */
+        if ( $request->isXmlHttpRequest())
+        {
+            return $this->render( 'CiscoSystemsAuditBundle:AuditFormField:_edit.html.twig', array(
+                'edit'  => $edit,
+                'field' => $field,
+                'form'  => $form->createView(),
+            ));
+        }
+        else
+        {
+            return $this->render( 'CiscoSystemsAuditBundle:AuditFormField:edit.html.twig', array(
+                'edit'      => $edit,
+                'field'     => $field,
+                'form'      => $form->createView(),
+            ));
+        }
     }
 
     /**
@@ -207,11 +214,11 @@ class AuditFormFieldController extends Controller
 
     public function disableAction( Request $request )
     {
-
+        return $this->render( 'Action not implemented yet.' );
     }
 
     public function changeSectionAction( Request $request )
     {
-
+        return $this->render( 'Action not implemented yet.' );
     }
 }

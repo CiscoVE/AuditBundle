@@ -19,20 +19,33 @@ class AuditFormType extends AbstractType
             'mapped' => false
         ) );
         $builder->add( 'title', null, array(
-            'attr' => array( 'placeholder' => 'Title for this form' ),
+            'attr'      => array(
+                'placeholder'   => 'Title for this form',
+                'title'         => 'The field doesn\'t have to be unique but it is highly recommended never the less.',
+            ),
         ));
         $builder->add( 'description', 'textarea', array(
-            'attr' => array( 'placeholder' => 'Description for the field. This should be as clear as possible' ),
+            'attr'      => array(
+                'placeholder'   => 'Description for the field. This should be as clear as possible'
+            ),
         ));
         $builder->add( 'active', 'checkbox', array(
-            'label' => 'Is the form active?',
-            'required' => false,
+            'label'     => 'Is the form active?',
+            'required'  => false,
         ));
         $builder->add( 'flagLabel', 'text', array(
-            'label' => 'Wording for trigger',
-            'required' => false,
-            'attr' => array(
-                'placeholder' => 'Warning / Failed.'
+            'label'     => 'Wording for trigger',
+            'required'  => false,
+            'attr'      => array(
+                'placeholder'   => 'Warning / Failed.',
+                'title'         => 'This has only to be specified if you have flagged questions. (see field editing)',
+            ),
+        ));
+        $builder->add( 'binaryFlagOnly', 'checkbox', array(
+            'label'     => 'Are multiple answer allowed on flagged question?',
+            'required'  => false,
+            'attr'      => array(
+                'title'         => 'By selecting this option you will allow flagged questions to have more than YES and No as answer.',
             ),
         ));
     }
