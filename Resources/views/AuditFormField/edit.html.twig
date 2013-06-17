@@ -12,6 +12,8 @@
 {% block pagecontent %}
 <div class="container">
     <div class="span11">
+    {{ ladybug_dump( field.section.auditform.binaryFlagOnly ) }}
+    {{ ladybug_dump( field.flag ) }}
         <form class="form-horizontal" method="POST" action="">
             <div class="pull-right">
                 <button type="submit" class="btn btn-mini">
@@ -51,20 +53,20 @@
                 </div>
                 <div class="control-group">
                     <div class="control-label">
-                        {{ form_label( form.weight ) }}
-                    </div>
-                    <div class="controls">
-                        {{ form_widget( form.weight ) }}
-                        {{ form_errors( form.weight ) }}
-                    </div>
-                </div>
-                <div class="control-group">
-                    <div class="control-label">
                         {{ form_label( form.flag ) }}
                     </div>
                     <div class="controls">
                         {{ form_widget( form.flag ) }}
                         {{ form_errors( form.flag ) }}
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label">
+                        {{ form_label( form.weight ) }}
+                    </div>
+                    <div class="controls">
+                        {{ form_widget( form.weight ) }}
+                        {{ form_errors( form.weight ) }}
                     </div>
                 </div>
             </div>
@@ -124,6 +126,36 @@
                 </div>
             </div>
         </form>
+    <script type="text/javascript">
+        var multipleAllowed = {{ field.section.auditform.binaryFlagOnly | json_encode() }};
+        var flagged = {{ field.flag | json_encode()}};
+        $( '.cisco-audit-flag-ckbox' ).on( 'click', function()
+        {
+            toggleBinaryAnswer();
+        });
+
+        $( document ).ready( function()
+        {
+            toggleBinaryAnswer();
+        });
+
+        function toggleBinaryAnswer()
+        {
+            if( $( '.cisco-audit-flag-ckbox' ).is( ':checked' ) &&  multipleAllowed === false )
+            {
+                $( '#field_answer_acceptable' ).parents( '.control-group' ).hide();
+                $( '#field_answer_not_applicable' ).parents( '.control-group' ).hide();
+                $( '#field_weight' ).parents( '.control-group' ).hide();
+            }
+            else
+            {
+                $( '#field_answer_acceptable' ).parents( '.control-group' ).show();
+                $( '#field_answer_not_applicable' ).parents( '.control-group' ).show();
+                $( '#field_weight' ).parents( '.control-group' ).show();
+            }
+
+        };
+    </script>
     </div>
 </div>
 {% endblock %}

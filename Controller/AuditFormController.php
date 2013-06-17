@@ -85,9 +85,9 @@ class AuditFormController extends Controller
         if ( $request->isXmlHttpRequest())
         {
             return $this->render( 'CiscoSystemsAuditBundle:AuditFormField:_edit.html.twig', array(
-                'edit'  => $edit,
-                'field' => $field,
-                'form'  => $form->createView(),
+                'edit'          => $edit,
+                'auditform'     => $auditform,
+                'form'          => $form->createView(),
             ));
         }
         else

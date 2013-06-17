@@ -22,7 +22,9 @@ class AuditFormFieldType extends AbstractType
             'mapped'        => false
         ));
         $builder->add( 'title', 'textarea', array(
-            'attr'          => array( 'placeholder'=> 'Title for this field'),
+            'attr'          => array(
+                'placeholder'   => 'Title for this field'
+            ),
             'required'      => true,
         ));
         $builder->add( 'section', 'audit_section', array(
@@ -32,34 +34,47 @@ class AuditFormFieldType extends AbstractType
         $builder->add( 'flag', 'checkbox', array(
             'label'         => 'Should this field raise a flag?',
             'required'      => false,
+            'attr'          => array(
+                'class'         => 'cisco-audit-flag-ckbox',
+            ),
         ));
         $builder->add( 'description', 'textarea', array(
-            'attr'          => array( 'placeholder' => 'Description for the field. This should be as clear as possible' ),
+            'attr'          => array(
+                'placeholder'   => 'Description for the field. This should be as clear as possible'
+            ),
         ));
         $builder->add( self::SCORE_YES, 'textarea', array(
             'mapped'        => false,
             'required'      => false,
             'data'          => isset( $scores[AuditScore::YES] ) ? $scores[AuditScore::YES] : '',
-            'attr'          => array( 'placeholder' => 'Correct answer definition' ),
+            'attr'          => array(
+                'placeholder'   => 'Correct answer definition'
+            ),
         ));
         $builder->add( self::SCORE_NO, 'textarea', array(
             'mapped'        => false,
             'required'      => false,
             'data'          => isset( $scores[AuditScore::NO] ) ? $scores[AuditScore::NO] : '',
-            'attr'          => array( 'placeholder'=> 'Incorrect answer definition' ),
+            'attr'          => array(
+                'placeholder'   => 'Incorrect answer definition'
+            ),
         ));
         $builder->add( self::SCORE_ACCEPTABLE, 'textarea', array(
             'mapped'        => false,
             'required'      => false,
             'data'          => isset( $scores[AuditScore::ACCEPTABLE] ) ? $scores[AuditScore::ACCEPTABLE] : '',
-            'attr'          => array( 'placeholder'=> 'Partially correct answer definition' ),
+            'attr'          => array(
+                'placeholder'   => 'Partially correct answer definition'
+            ),
             'label'         => 'Acceptable',
         ));
         $builder->add( self::SCORE_NOT_APPLICABLE, 'textarea', array(
             'mapped'        => false,
             'required'      => false,
             'data'          => isset( $scores[AuditScore::NOT_APPLICABLE] ) ? $scores[AuditScore::NOT_APPLICABLE] : '',
-            'attr'          => array( 'placeholder'=> 'Answer not applicable' ),
+            'attr'          => array(
+                'placeholder'   => 'Answer not applicable'
+            ),
             'label'         => 'N/A',
         ));
     }

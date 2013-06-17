@@ -97,6 +97,12 @@ class AuditFormField
      */
     protected $disabled;
 
+    public function __construct()
+    {
+        $this->disabled = FALSE;
+        $this->weight = 1;
+    }
+
     /**
      * Get id
      *
@@ -370,19 +376,22 @@ class AuditFormField
     }
 
     /**
-     * check if AuditField is disabled
+     * Set disabled
      *
-     * @param boolean $boolean OPTIONAL set disabled to true
+     * @param boolean $boolean
+     */
+    public function setDisabled( $boolean = FALSE )
+    {
+        $this->disabled = $boolean;
+    }
+
+    /**
+     * Get disabled
      *
      * @return boolean
      */
-    public function isDisabled( $boolean = null )
+    public function getDisabled()
     {
-        if( $boolean === TRUE && $this->disabled === FALSE )
-        {
-            $this->disabled = TRUE;
-        }
-        else
-            return $this->disabled;
+        return $this->disabled;
     }
 }
