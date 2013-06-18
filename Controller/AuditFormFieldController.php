@@ -59,11 +59,13 @@ class AuditFormFieldController extends Controller
             $form->bind( $request );
             if ( $form->isValid() )
             {
-                AuditFormFieldType::mapScores( $field, $values );
+                $flaggedField = $field->getFlag();
+                $allowMultipleAnswer = $field->getSection()->getAuditForm()->getAllowMultipleAnswer();
+                $this->mapScores( $field, $values, $flaggedField, $allowMultipleAnswer );
                 $em->persist( $field );
                 $em->flush();
                 return $this->redirect( $this->generateUrl( 'cisco_auditsection_edit', array(
-                    'section_id'  => $field->getSection()->getId(),
+                    'section_id'    => $field->getSection()->getId(),
                 )));
             }
         }
@@ -86,6 +88,37 @@ class AuditFormFieldController extends Controller
                 'form'      => $form->createView(),
             ));
 //        }
+    }
+
+    /**
+     * Convenience method for setting a non-mapped field from the form data
+     *
+     * @param CiscoSystems\AuditBundle\Entity\AuditFormField $entity
+     * @param array $values
+     */
+    private function mapScores( AuditFormField $entity, $values, $triggerFlag, $multipleAnswer )
+    {
+        $extraFields = array(
+            AuditScore::YES => AuditFormFieldType::SCORE_YES,
+            AuditScore::NO => AuditFormFieldType::SCORE_NO,
+        );
+
+        $flaggedFields = array();
+        if( !( $triggerFlag === TRUE && $multipleAnswer === FALSE ))
+        {
+            $flaggedFields = array(
+                AuditScore::ACCEPTABLE => AuditFormFieldType::SCORE_ACCEPTABLE,
+                AuditScore::NOT_APPLICABLE => AuditFormFieldType::SCORE_NOT_APPLICABLE,
+            );
+        }
+        $entity->setScores( NULL );
+        foreach ( array_merge( $extraFields, $flaggedFields ) as $key => $field )
+        {
+            if ( isset( $values[ $field ] ) && $values[ $field ] )
+            {
+                $entity->addScore( $key, $values[ $field ] );
+            }
+        }
     }
 
     /**

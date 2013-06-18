@@ -41,6 +41,9 @@
 </style>
 <div class="container">
     <div class="span11">
+    {{ ladybug_dump( field.section.auditform.allowMultipleAnswer ) }}
+    {{ ladybug_dump( field.flag ) }}
+    {{ ladybug_dump( field ) }}
         <form class="form-horizontal" method="POST" action="">
             <div class="pull-right">
                 <button type="submit" class="btn btn-mini">
@@ -156,29 +159,44 @@
             </div>
         </form>
     <script type="text/javascript">
-        var multipleAllowed = {{ field.section.auditform.binaryFlagOnly | json_encode() }};
+        var multipleAllowed = {{ field.section.auditform.allowMultipleAnswer | json_encode() }};
         var flagged = {{ field.flag | json_encode()}};
-        var disabledLabel = 'the form does not allow for the weight to be set or for more than YES/NO answers to be defined';
+        var disabledFieldLabel = 'the form does not allow for more than YES/NO answers to be defined';
+        var disabledWeightLabel = 'No weight can be set for a Field with a flag/trigger';
         $( '.cisco-audit-flag-ckbox' ).on( 'click', function()
         {
+            toggleWeightAnswer();
             toggleBinaryAnswer();
         });
 
         $( document ).ready( function()
         {
+            toggleWeightAnswer();
             toggleBinaryAnswer();
         });
+
+        function toggleWeightAnswer()
+        {
+            if( $( '.cisco-audit-flag-ckbox' ).is( ':checked' ))
+            {
+                $( '#field_weight' ).attr('disabled', 'disabled');
+                $( '#field_weight:disabled' ).attr( 'title', disabledWeightLabel );
+            }
+            else
+            {
+                $( '#field_weight' ).removeAttr('disabled');
+                $( '#field_weight' ).removeAttr('title');
+            }
+        }
 
         function toggleBinaryAnswer()
         {
             if( $( '.cisco-audit-flag-ckbox' ).is( ':checked' ) &&  multipleAllowed === false )
             {
                 $( '#field_answer_acceptable' ).attr('disabled', 'disabled');
-                $( '#field_answer_acceptable:disabled' ).attr( 'title', disabledLabel );
+                $( '#field_answer_acceptable:disabled' ).attr( 'title', disabledFieldLabel );
                 $( '#field_answer_not_applicable' ).attr('disabled', 'disabled');
-                $( '#field_answer_not_applicable:disabled' ).attr( 'title', disabledLabel );
-                $( '#field_weight' ).attr('disabled', 'disabled');
-                $( '#field_weight:disabled' ).attr( 'title', disabledLabel );
+                $( '#field_answer_not_applicable:disabled' ).attr( 'title', disabledFieldLabel );
                 /**
                 $( '#field_answer_acceptable' ).parents( '.control-group' ).hide();
                 $( '#field_answer_not_applicable' ).parents( '.control-group' ).hide();
@@ -191,8 +209,6 @@
                 $( '#field_answer_acceptable' ).removeAttr('title');
                 $( '#field_answer_not_applicable' ).removeAttr('disabled');
                 $( '#field_answer_not_applicable' ).removeAttr('title');
-                $( '#field_weight' ).removeAttr('disabled');
-                $( '#field_weight' ).removeAttr('title');
                 /**
                 $( '#field_answer_acceptable' ).parents( '.control-group' ).show();
                 $( '#field_answer_not_applicable' ).parents( '.control-group' ).show();

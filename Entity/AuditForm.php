@@ -53,7 +53,7 @@ class AuditForm
      *
      * @ORM\Column(type="boolean")
      */
-    protected $binaryFlagOnly;
+    protected $allowMultipleAnswer;
 
     /**
      * @ORM\Column(name="created_at",type="datetime")
@@ -84,8 +84,8 @@ class AuditForm
 
     public function __construct()
     {
-        $this->active = true;
-        $this->binaryFlagOnly = false;
+        $this->active = TRUE;
+        $this->allowMultipleAnswer = FALSE;
         $this->sections = new ArrayCollection();
         $this->audits = new ArrayCollection();
     }
@@ -181,23 +181,23 @@ class AuditForm
     }
 
     /**
-     * Get binaryFlagOnly
+     * Get allowMultipleAnswer
      *
      * @return type
      */
-    public function getBinaryFlagOnly()
+    public function getAllowMultipleAnswer()
     {
-        return $this->binaryFlagOnly;
+        return $this->allowMultipleAnswer;
     }
 
     /**
-     * Set binaryFlagOnly
+     * Set allowMultipleAnswer
      *
      * @param boolean $boolean
      */
-    public function setBinaryFlagOnly( $boolean )
+    public function setAllowMultipleAnswer( $boolean )
     {
-        $this->binaryFlagOnly = $boolean;
+        $this->allowMultipleAnswer = $boolean;
     }
 
     /**
