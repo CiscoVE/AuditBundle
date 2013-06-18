@@ -100,7 +100,7 @@ class AuditFormField
     public function __construct()
     {
         $this->disabled = FALSE;
-        $this->weight = 1;
+        $this->weight = 5;
     }
 
     /**
