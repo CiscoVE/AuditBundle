@@ -14,6 +14,11 @@ class AuditFormFieldType extends AbstractType
     const SCORE_NO = 'answer_no';
     const SCORE_ACCEPTABLE = 'answer_acceptable';
     const SCORE_NOT_APPLICABLE = 'answer_not_applicable';
+    const TOOLTIP = 'Always available.';
+    const TOOLTIPFLAG = '<i class="icon-exclamation-sign icon-white"/> If this is enable, some of the fields below will not be editable.';
+    const TOOLTIPOPTIONAL = '<i class="icon-exclamation-sign icon-white"/> Only available when the form is allowing for multiple answers and the field is not set to raise a flag.';
+    const TOOLTIPWEIGHT = '<i class="icon-exclamation-sign icon-white"/> Only available when the field does not raise a flag.<br/>Increase|decrease value to reflect the importance of this field in calculating the section and final score (Default value is 5).';
+
 
     public function buildForm( FormBuilderInterface $builder, array $options )
     {
@@ -30,12 +35,21 @@ class AuditFormFieldType extends AbstractType
         $builder->add( 'section', 'audit_section', array(
             'data' => ( isset($options['section']) ) ? $options['section']->getId() : null,
         ));
-        $builder->add( 'weight', 'integer' );
+        $builder->add( 'weight', 'integer', array(
+            'attr'          => array(
+                'title'                 => self::TOOLTIPWEIGHT,
+//                'data-original-title'   => self::TOOLTIPWEIGHT,
+                'data-toggle'           => 'tooltip',
+            ),
+        ));
         $builder->add( 'flag', 'checkbox', array(
             'label'         => 'Should this field raise a flag?',
             'required'      => false,
             'attr'          => array(
-                'class'         => 'cisco-audit-flag-ckbox',
+                'class'                 => 'cisco-audit-flag-ckbox',
+                'title'                 => self::TOOLTIPFLAG,
+//                'data-original-title'   => self::TOOLTIPFLAG,
+                'data-toggle'           => 'tooltip',
             ),
         ));
         $builder->add( 'description', 'textarea', array(
@@ -48,7 +62,7 @@ class AuditFormFieldType extends AbstractType
             'required'      => false,
             'data'          => isset( $scores[AuditScore::YES] ) ? $scores[AuditScore::YES] : '',
             'attr'          => array(
-                'placeholder'   => 'Correct answer definition'
+                'placeholder'            => 'Correct answer definition',
             ),
         ));
         $builder->add( self::SCORE_NO, 'textarea', array(
@@ -56,7 +70,7 @@ class AuditFormFieldType extends AbstractType
             'required'      => false,
             'data'          => isset( $scores[AuditScore::NO] ) ? $scores[AuditScore::NO] : '',
             'attr'          => array(
-                'placeholder'   => 'Incorrect answer definition'
+                'placeholder'           => 'Incorrect answer definition',
             ),
         ));
         $builder->add( self::SCORE_ACCEPTABLE, 'textarea', array(
@@ -64,7 +78,10 @@ class AuditFormFieldType extends AbstractType
             'required'      => false,
             'data'          => isset( $scores[AuditScore::ACCEPTABLE] ) ? $scores[AuditScore::ACCEPTABLE] : '',
             'attr'          => array(
-                'placeholder'   => 'Partially correct answer definition'
+                'placeholder'           => 'Partially correct answer definition',
+                'title'                 => self::TOOLTIPOPTIONAL,
+//                'data-original-title'   => self::TOOLTIPOPTIONAL,
+                'data-toggle'           => 'tooltip',
             ),
             'label'         => 'Acceptable',
         ));
@@ -73,7 +90,10 @@ class AuditFormFieldType extends AbstractType
             'required'      => false,
             'data'          => isset( $scores[AuditScore::NOT_APPLICABLE] ) ? $scores[AuditScore::NOT_APPLICABLE] : '',
             'attr'          => array(
-                'placeholder'   => 'Answer not applicable'
+                'placeholder'           => 'Answer not applicable',
+                'title'                 => self::TOOLTIPOPTIONAL,
+//                'data-original-title'   => self::TOOLTIPOPTIONAL,
+                'data-toggle'           => 'tooltip',
             ),
             'label'         => 'N/A',
         ));

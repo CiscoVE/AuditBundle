@@ -11,7 +11,7 @@
 
 {% block pagecontent %}
 <style type=text/css>
-.bs-docs-questions
+.bs-docs-answers
 {
     position: relative;
     margin: 15px 0;
@@ -23,8 +23,8 @@
     border-radius: 4px;
 }
 
-.bs-docs-questions::after {
-    content: "Questions";
+.bs-docs-answers::after {
+    content: "Answers";
     position: absolute;
     top: -1px;
     left: -1px;
@@ -38,12 +38,13 @@
     -moz-border-radius: 4px 0 4px 0;
     border-radius: 4px 0 4px 0;
 }
+.shadow-element {
+    opacity: .5;
+    background-color: red;
+}
 </style>
 <div class="container">
     <div class="span11">
-    {{ ladybug_dump( field.section.auditform.allowMultipleAnswer ) }}
-    {{ ladybug_dump( field.flag ) }}
-    {{ ladybug_dump( field ) }}
         <form class="form-horizontal" method="POST" action="">
             <div class="pull-right">
                 <button type="submit" class="btn btn-mini">
@@ -111,7 +112,7 @@
                     </div>
                 </div>
             </div>
-            <div class="bs-docs-questions">
+            <div class="bs-docs-answers">
                 <div class="controls controls-row">
                     <div class="control-group">
                         <div class="control-label">
@@ -163,29 +164,17 @@
         var flagged = {{ field.flag | json_encode()}};
         var disabledFieldLabel = 'the form does not allow for more than YES/NO answers to be defined';
         var disabledWeightLabel = 'No weight can be set for a Field with a flag/trigger';
-        $( '.cisco-audit-flag-ckbox' ).on( 'click', function()
-        {
-            toggleWeightAnswer();
-            toggleBinaryAnswer();
-        });
-
-        $( document ).ready( function()
-        {
-            toggleWeightAnswer();
-            toggleBinaryAnswer();
-        });
 
         function toggleWeightAnswer()
         {
             if( $( '.cisco-audit-flag-ckbox' ).is( ':checked' ))
             {
                 $( '#field_weight' ).attr('disabled', 'disabled');
-                $( '#field_weight:disabled' ).attr( 'title', disabledWeightLabel );
             }
             else
             {
                 $( '#field_weight' ).removeAttr('disabled');
-                $( '#field_weight' ).removeAttr('title');
+                $( '.controls' ).children().remove( '.shadow-element' );
             }
         }
 
@@ -194,29 +183,68 @@
             if( $( '.cisco-audit-flag-ckbox' ).is( ':checked' ) &&  multipleAllowed === false )
             {
                 $( '#field_answer_acceptable' ).attr('disabled', 'disabled');
-                $( '#field_answer_acceptable:disabled' ).attr( 'title', disabledFieldLabel );
                 $( '#field_answer_not_applicable' ).attr('disabled', 'disabled');
-                $( '#field_answer_not_applicable:disabled' ).attr( 'title', disabledFieldLabel );
-                /**
-                $( '#field_answer_acceptable' ).parents( '.control-group' ).hide();
-                $( '#field_answer_not_applicable' ).parents( '.control-group' ).hide();
-                $( '#field_weight' ).parents( '.control-group' ).hide();
-                **/
             }
             else
             {
                 $( '#field_answer_acceptable' ).removeAttr('disabled');
-                $( '#field_answer_acceptable' ).removeAttr('title');
                 $( '#field_answer_not_applicable' ).removeAttr('disabled');
-                $( '#field_answer_not_applicable' ).removeAttr('title');
-                /**
-                $( '#field_answer_acceptable' ).parents( '.control-group' ).show();
-                $( '#field_answer_not_applicable' ).parents( '.control-group' ).show();
-                $( '#field_weight' ).parents( '.control-group' ).show();
-                **/
             }
-
         };
+
+        /**
+         * http://jsfiddle.net/BbspX/
+         * @returns {undefined}
+         */
+        function tooltipOnDisabled()
+        {
+            $( 'textarea:disabled, input[type=number]:disabled' ).before( function (e)
+            {
+                var that = $( this );
+                if( $( that ).prev( 'div' ).hasClass( 'shadow-element' ))
+                {
+                    $( that ).prev( 'div' ).remove();
+                }
+                var pos = that.position();
+                var width = that.outerWidth();
+                var newElement = $( '<div>' );
+                newElement.addClass( 'shadow-element' );
+                newElement.css({
+                    top: that.position().top + 'px',
+                    /**left: ( pos.left + width ) + 'px',**/
+                    height: that.outerHeight(),
+                    width: that.outerWidth(),
+                    position: 'absolue'
+                });
+                newElement.css( that.offset());
+                newElement.attr( 'data-toggle', 'tooltip' );
+                newElement.attr( 'title', '' );
+                newElement.attr( 'data-original-title', that.attr( 'data-original-title' ));
+                /**newElement.attr( 'title', that.attr( 'title' ));**/
+                newElement.tooltip({ trigger: 'hover', html: 'true', placement: 'right' });
+                return newElement;
+            });
+        };
+
+        $( '.cisco-audit-flag-ckbox' ).on( 'click', function()
+        {
+            toggleWeightAnswer();
+            toggleBinaryAnswer();
+            tooltipOnDisabled();
+        });
+
+        $( document ).ready( function()
+        {
+            toggleWeightAnswer();
+            toggleBinaryAnswer();
+            tooltipOnDisabled();
+
+            $( '#field_flag' ).tooltip({ html: 'true', placement: 'right' });
+            $( '#field_weight' ).tooltip({ html: 'true', placement: 'right' });
+            $( '#field_answer_acceptable' ).tooltip({ html: 'true', placement: 'right' });
+            $( '#field_answer_not_applicable' ).tooltip({ html: 'true', placement: 'right' });
+        });
+
     </script>
     </div>
 </div>
