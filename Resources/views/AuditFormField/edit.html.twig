@@ -40,7 +40,7 @@
 }
 .shadow-element {
     opacity: .5;
-    background-color: red;
+    background-color: #B9C2DA;
     padding-: 4px 6px
 }
 </style>
@@ -180,7 +180,7 @@
             }
             else
             {
-                $( '#field_weight' ).removeAttr('disabled');
+                $( '#field_weight' ).removeAttr( 'disabled' );
                 $( '.controls' ).children().remove( '.shadow-element' );
             }
         }
@@ -189,13 +189,15 @@
         {
             if( $( '.cisco-audit-flag-ckbox' ).is( ':checked' ) &&  multipleAllowed === false )
             {
-                $( '#field_answer_acceptable' ).attr('disabled', 'disabled');
-                $( '#field_answer_not_applicable' ).attr('disabled', 'disabled');
+                $( '#field_answer_acceptable' ).attr( 'disabled', 'disabled' );
+                $( '#field_answer_not_applicable' ).attr( 'disabled', 'disabled' );
             }
             else
             {
-                $( '#field_answer_acceptable' ).removeAttr('disabled');
-                $( '#field_answer_not_applicable' ).removeAttr('disabled');
+                $( '#field_answer_acceptable' ).removeAttr( 'disabled' );
+                $( '#field_answer_acceptable' ).removeAttr( 'style' );
+                $( '#field_answer_not_applicable' ).removeAttr('disabled' );
+                $( '#field_answer_not_applicable' ).removeAttr( 'style' );
                 $( '.controls' ).children().remove( '.shadow-element' );
             }
         };
@@ -246,9 +248,9 @@
 
         $( document ).ready( function()
         {
+            tooltipOnDisabled();
             toggleWeightAnswer();
             toggleBinaryAnswer();
-            tooltipOnDisabled();
 
             $( '#field_flag' ).tooltip({ html: 'true', placement: 'right' });
             $( '#field_weight' ).tooltip({ html: 'true', placement: 'right' });
