@@ -41,7 +41,7 @@ class AuditFormType extends AbstractType
                 'title'         => 'This has only to be specified if you have flagged questions. (see field editing)',
             ),
         ));
-        $builder->add( 'binaryFlagOnly', 'checkbox', array(
+        $builder->add( 'allowMultipleAnswer', 'checkbox', array(
             'label'     => 'Are multiple answer allowed on flagged question?',
             'required'  => false,
             'attr'      => array(
