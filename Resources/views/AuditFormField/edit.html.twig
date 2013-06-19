@@ -41,6 +41,7 @@
 .shadow-element {
     opacity: .5;
     background-color: red;
+    padding-: 4px 6px
 }
 </style>
 <div class="container">
@@ -73,6 +74,8 @@
                         {{ form_errors( form.title ) }}
                     </div>
                 </div>
+            </div>
+            <div class="controls controls-row">
                 <div class="control-group">
                     <div class="control-label">
                         {{ form_label( form.section ) }}
@@ -82,6 +85,8 @@
                         {{ form_errors( form.section ) }}
                     </div>
                 </div>
+            </div>
+            <div class="controls controls-row">
                 <div class="control-group">
                     <div class="control-label">
                         {{ form_label( form.flag ) }}
@@ -91,6 +96,8 @@
                         {{ form_errors( form.flag ) }}
                     </div>
                 </div>
+            </div>
+            <div class="controls controls-row">
                 <div class="control-group">
                     <div class="control-label">
                         {{ form_label( form.weight ) }}
@@ -189,38 +196,42 @@
             {
                 $( '#field_answer_acceptable' ).removeAttr('disabled');
                 $( '#field_answer_not_applicable' ).removeAttr('disabled');
+                $( '.controls' ).children().remove( '.shadow-element' );
             }
         };
 
         /**
-         * http://jsfiddle.net/BbspX/
+         * http://jsfiddle.net/BbspX/1/
          * @returns {undefined}
          */
         function tooltipOnDisabled()
         {
-            $( 'textarea:disabled, input[type=number]:disabled' ).before( function (e)
+            $( 'textarea:disabled, input[type=number]:disabled' ).after( function( e )
             {
-                var that = $( this );
-                if( $( that ).prev( 'div' ).hasClass( 'shadow-element' ))
+                if( $( this ).next( 'div' ).hasClass( 'shadow-element' ))
                 {
-                    $( that ).prev( 'div' ).remove();
+                    $( this ).next( 'div' ).remove();
                 }
-                var pos = that.position();
-                var width = that.outerWidth();
+                var that = $( this );
+                var top = that.position().top + 'px';
+                var left = that.position().left + 'px';
+                that.css({ top: top, left: left, position: 'absolute' });
                 var newElement = $( '<div>' );
                 newElement.addClass( 'shadow-element' );
                 newElement.css({
-                    top: that.position().top + 'px',
-                    /**left: ( pos.left + width ) + 'px',**/
+                    /**top: that.position().top + 'px',
+                    left: that.position().left + 'px',**/
+                    top: 0,
+                    left: 0,
                     height: that.outerHeight(),
                     width: that.outerWidth(),
-                    position: 'absolue'
+                    zIndex: 5000,
+                    /**position: 'absolute'**/
                 });
                 newElement.css( that.offset());
                 newElement.attr( 'data-toggle', 'tooltip' );
                 newElement.attr( 'title', '' );
                 newElement.attr( 'data-original-title', that.attr( 'data-original-title' ));
-                /**newElement.attr( 'title', that.attr( 'title' ));**/
                 newElement.tooltip({ trigger: 'hover', html: 'true', placement: 'right' });
                 return newElement;
             });
