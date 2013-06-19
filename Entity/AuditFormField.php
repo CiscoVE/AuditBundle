@@ -262,7 +262,9 @@ class AuditFormField
      */
     public function setWeight( $weight )
     {
-        $this->weight = ( $weight < 1 ) ? self::DEFAULTWEIGHTVALUE : $weight ;
+        $this->weight = ( $this->flag === FALSE ) ?
+                        (( $weight > 0 ) ? $weight : self::DEFAULTWEIGHTVALUE ) :
+                        self::DEFAULTWEIGHTVALUE ;
 
         return $this;
     }

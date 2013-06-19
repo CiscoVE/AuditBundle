@@ -65,11 +65,12 @@ class AuditFormSection
         foreach ( $this->fields as $field )
         {
 //            The following was in place to restrict the weight for non flagged field
-            if( !$field->getFlag() == true )
+            if( !$field->getFlag() === true )
             {
                 $weight += $field->getWeight();
             }
         }
+
         return $weight;
     }
 
@@ -87,6 +88,7 @@ class AuditFormSection
      * Set Flag
      *
      * @param boolean $flag
+     *
      * @return \CiscoSystems\AuditBundle\Entity\AuditFormSection
      */
     public function setFlag( $flag )
@@ -110,6 +112,7 @@ class AuditFormSection
      * Set auditForm
      *
      * @param string $auditForm
+     *
      * @return \CiscoSystems\AuditBundle\Entity\AuditFormSection
      */
     public function setAuditForm( $auditForm )
@@ -133,6 +136,7 @@ class AuditFormSection
      * Set title
      *
      * @param string $title
+     *
      * @return \CiscoSystems\AuditBundle\Entity\AuditFormSection
      */
     public function setTitle( $title )
@@ -156,6 +160,7 @@ class AuditFormSection
      * Set description
      *
      * @param string $description
+     *
      * @return \CiscoSystems\AuditBundle\Entity\AuditFormSection
      */
     public function setDescription( $description )
@@ -179,6 +184,7 @@ class AuditFormSection
      * Set position
      *
      * @param integer $position
+     *
      * @return \CiscoSystems\AuditBundle\Entity\AuditFormSection
      */
     public function setPosition( $position )
@@ -212,6 +218,7 @@ class AuditFormSection
      * Add a field to ArrayCollection $this->fields
      *
      * @param CiscoSystems\AuditBundle\Entity\AuditFormField $field
+     *
      * @return \CiscoSystems\AuditBundle\Entity\AuditFormSection
      */
     public function addField( \CiscoSystems\AuditBundle\Entity\AuditFormField $field )
@@ -221,6 +228,7 @@ class AuditFormSection
             $field->setSection( $this );
             $this->fields->add( $field );
         }
+
         return $this;
     }
 
