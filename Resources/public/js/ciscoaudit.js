@@ -372,8 +372,9 @@ $( document ).on(
     }
 }, '.cisco-audit-form' );
 
-
-
+/**
+ * enable/disable edit of weight on formfield:edit template
+ */
 function toggleWeightAnswer()
 {
     if( $( '.cisco-audit-flag-ckbox' ).is( ':checked' ))
@@ -387,6 +388,11 @@ function toggleWeightAnswer()
     }
 }
 
+/**
+ * enable/disable edit of answer_acceptable/answer_not_applicable on formfield:edit template
+ *
+ * @param {boolean} _check
+ */
 function toggleBinaryAnswer( _check )
 {
     if( $( '.cisco-audit-flag-ckbox' ).is( ':checked' ) &&  _check === false )
@@ -405,8 +411,12 @@ function toggleBinaryAnswer( _check )
 };
 
 /**
- * http://jsfiddle.net/BbspX/1/
- * @returns {undefined}
+ * Inspired by http://jsfiddle.net/BbspX/1/
+ *
+ * create a DIV element on top of the disabled field and assign the same title
+ * data-original-title attribute
+ *
+ * @returns {DOM}
  */
 function tooltipOnDisabled()
 {
@@ -441,6 +451,9 @@ function tooltipOnDisabled()
     });
 };
 
+/**
+ * call the 3 above methord on checkbox
+ */
 $( document ).on( 'click', '.cisco-audit-flag-ckbox', function()
 {
     toggleWeightAnswer();
@@ -450,6 +463,9 @@ $( document ).on( 'click', '.cisco-audit-flag-ckbox', function()
 
 /**
  * add Class disable to cisco-audit-options buttons
+ *
+ * call the 3 above methord on checkbox
+ * call bootstrap tooltip
  */
 $( document ).ready( function(){
     $( '.cisco-audit-options' ).find( '.btn' ).addClass( 'disabled' );
