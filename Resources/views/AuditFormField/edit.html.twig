@@ -9,7 +9,7 @@
     {% endif %}
 {% endblock %}
 
-{% block pagecontent %}
+{% block pagecontent %}{#
 <style type=text/css>
 .bs-docs-answers
 {
@@ -43,7 +43,7 @@
     background-color: #B9C2DA;
     padding-: 4px 6px
 }
-</style>
+</style>#}
 <div class="container">
     <div class="span11">
         <form class="form-horizontal" method="POST" action="">
@@ -169,95 +169,6 @@
     <script type="text/javascript">
         var multipleAllowed = {{ field.section.auditform.allowMultipleAnswer | json_encode() }};
         var flagged = {{ field.flag | json_encode()}};
-        var disabledFieldLabel = 'the form does not allow for more than YES/NO answers to be defined';
-        var disabledWeightLabel = 'No weight can be set for a Field with a flag/trigger';
-
-        function toggleWeightAnswer()
-        {
-            if( $( '.cisco-audit-flag-ckbox' ).is( ':checked' ))
-            {
-                $( '#field_weight' ).attr('disabled', 'disabled');
-            }
-            else
-            {
-                $( '#field_weight' ).removeAttr( 'disabled' );
-                $( '.controls' ).children().remove( '.shadow-element' );
-            }
-        }
-
-        function toggleBinaryAnswer()
-        {
-            if( $( '.cisco-audit-flag-ckbox' ).is( ':checked' ) &&  multipleAllowed === false )
-            {
-                $( '#field_answer_acceptable' ).attr( 'disabled', 'disabled' );
-                $( '#field_answer_not_applicable' ).attr( 'disabled', 'disabled' );
-            }
-            else
-            {
-                $( '#field_answer_acceptable' ).removeAttr( 'disabled' );
-                $( '#field_answer_acceptable' ).removeAttr( 'style' );
-                $( '#field_answer_not_applicable' ).removeAttr('disabled' );
-                $( '#field_answer_not_applicable' ).removeAttr( 'style' );
-                $( '.controls' ).children().remove( '.shadow-element' );
-            }
-        };
-
-        /**
-         * http://jsfiddle.net/BbspX/1/
-         * @returns {undefined}
-         */
-        function tooltipOnDisabled()
-        {
-            $( 'textarea:disabled, input[type=number]:disabled' ).after( function( e )
-            {
-                if( $( this ).next( 'div' ).hasClass( 'shadow-element' ))
-                {
-                    $( this ).next( 'div' ).remove();
-                }
-                var that = $( this );
-                var top = that.position().top + 'px';
-                var left = that.position().left + 'px';
-                that.css({ top: top, left: left, position: 'absolute' });
-                var newElement = $( '<div>' );
-                newElement.addClass( 'shadow-element' );
-                newElement.css({
-                    /**top: that.position().top + 'px',
-                    left: that.position().left + 'px',**/
-                    top: 0,
-                    left: 0,
-                    height: that.outerHeight(),
-                    width: that.outerWidth(),
-                    zIndex: 5000,
-                    /**position: 'absolute'**/
-                });
-                newElement.css( that.offset());
-                newElement.attr( 'data-toggle', 'tooltip' );
-                newElement.attr( 'title', '' );
-                newElement.attr( 'data-original-title', that.attr( 'data-original-title' ));
-                newElement.tooltip({ trigger: 'hover', html: 'true', placement: 'right' });
-                return newElement;
-            });
-        };
-
-        $( '.cisco-audit-flag-ckbox' ).on( 'click', function()
-        {
-            toggleWeightAnswer();
-            toggleBinaryAnswer();
-            tooltipOnDisabled();
-        });
-
-        $( document ).ready( function()
-        {
-            toggleWeightAnswer();
-            toggleBinaryAnswer();
-            tooltipOnDisabled();
-
-            $( '#field_flag' ).tooltip({ html: 'true', placement: 'right' });
-            $( '#field_weight' ).tooltip({ html: 'true', placement: 'right' });
-            $( '#field_answer_acceptable' ).tooltip({ html: 'true', placement: 'right' });
-            $( '#field_answer_not_applicable' ).tooltip({ html: 'true', placement: 'right' });
-        });
-
     </script>
     </div>
 </div>

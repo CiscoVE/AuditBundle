@@ -331,13 +331,6 @@ $( document ).on( 'click', '.cisco-audit-section-view', function()
 });
 
 /**
- * add Class disable to cisco-audit-options buttons
- */
-$( document ).ready( function(){
-    $( '.cisco-audit-options' ).find( '.btn' ).addClass( 'disabled' );
-});
-
-/**
  * show menu btn group on row being hovered
  */
 $( document ).on(
@@ -378,6 +371,98 @@ $( document ).on(
 
     }
 }, '.cisco-audit-form' );
+
+
+
+function toggleWeightAnswer()
+{
+    if( $( '.cisco-audit-flag-ckbox' ).is( ':checked' ))
+    {
+        $( '#field_weight' ).attr('disabled', 'disabled');
+    }
+    else
+    {
+        $( '#field_weight' ).removeAttr( 'disabled' );
+        $( '.controls' ).children().remove( '.shadow-element' );
+    }
+}
+
+function toggleBinaryAnswer( _check )
+{
+    if( $( '.cisco-audit-flag-ckbox' ).is( ':checked' ) &&  _check === false )
+    {
+        $( '#field_answer_acceptable' ).attr( 'disabled', 'disabled' );
+        $( '#field_answer_not_applicable' ).attr( 'disabled', 'disabled' );
+    }
+    else
+    {
+        $( '#field_answer_acceptable' ).removeAttr( 'disabled' );
+        $( '#field_answer_acceptable' ).removeAttr( 'style' );
+        $( '#field_answer_not_applicable' ).removeAttr('disabled' );
+        $( '#field_answer_not_applicable' ).removeAttr( 'style' );
+        $( '.controls' ).children().remove( '.shadow-element' );
+    }
+};
+
+/**
+ * http://jsfiddle.net/BbspX/1/
+ * @returns {undefined}
+ */
+function tooltipOnDisabled()
+{
+    $( 'textarea:disabled, input[type=number]:disabled' ).after( function( e )
+    {
+        if( $( this ).next( 'div' ).hasClass( 'shadow-element' ))
+        {
+            $( this ).next( 'div' ).remove();
+        }
+        var that = $( this );
+        var top = that.position().top + 'px';
+        var left = that.position().left + 'px';
+        that.css({ top: top, left: left, position: 'absolute' });
+        var newElement = $( '<div>' );
+        newElement.addClass( 'shadow-element' );
+        newElement.css({
+            /**top: that.position().top + 'px',
+            left: that.position().left + 'px',**/
+            top: 0,
+            left: 0,
+            height: that.outerHeight(),
+            width: that.outerWidth(),
+            zIndex: 5000,
+            /**position: 'absolute'**/
+        });
+        newElement.css( that.offset());
+        newElement.attr( 'data-toggle', 'tooltip' );
+        newElement.attr( 'title', '' );
+        newElement.attr( 'data-original-title', that.attr( 'data-original-title' ));
+        newElement.tooltip({ trigger: 'hover', html: 'true', placement: 'right' });
+        return newElement;
+    });
+};
+
+$( document ).on( 'click', '.cisco-audit-flag-ckbox', function()
+{
+    toggleWeightAnswer();
+    toggleBinaryAnswer( multipleAllowed );
+    tooltipOnDisabled();
+});
+
+/**
+ * add Class disable to cisco-audit-options buttons
+ */
+$( document ).ready( function(){
+    $( '.cisco-audit-options' ).find( '.btn' ).addClass( 'disabled' );
+
+    toggleWeightAnswer();
+    toggleBinaryAnswer( multipleAllowed );
+    tooltipOnDisabled();
+
+    $( '#field_flag' ).tooltip({ html: 'true', placement: 'right' });
+    $( '#field_weight' ).tooltip({ html: 'true', placement: 'right' });
+    $( '#field_answer_acceptable' ).tooltip({ html: 'true', placement: 'right' });
+    $( '#field_answer_not_applicable' ).tooltip({ html: 'true', placement: 'right' });
+});
 
 //        'hover', '.btn', function()
 //{
