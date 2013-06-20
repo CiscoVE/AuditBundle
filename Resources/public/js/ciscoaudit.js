@@ -427,9 +427,10 @@ function tooltipOnDisabled()
             $( this ).next( 'div' ).remove();
         }
         var that = $( this );
-        var top = that.position().top + 'px';
-        var left = that.position().left + 'px';
-        that.css({ top: top, left: left, position: 'absolute' });
+        var _top = that.position().top + 'px';
+        var _left = that.position().left + 'px';
+        var _title = that.attr( 'data-original-title' );
+        that.css({ top: _top, left: _left, position: 'absolute' });
         var newElement = $( '<div>' );
         newElement.addClass( 'shadow-element' );
         newElement.css({
@@ -445,7 +446,7 @@ function tooltipOnDisabled()
         newElement.css( that.offset());
         newElement.attr( 'data-toggle', 'tooltip' );
         newElement.attr( 'title', '' );
-        newElement.attr( 'data-original-title', that.attr( 'data-original-title' ));
+        newElement.attr( 'data-original-title', _title );
         newElement.tooltip({ trigger: 'hover', html: 'true', placement: 'right' });
         return newElement;
     });
@@ -472,12 +473,13 @@ $( document ).ready( function(){
 
     toggleWeightAnswer();
     toggleBinaryAnswer( multipleAllowed );
-    tooltipOnDisabled();
 
     $( '#field_flag' ).tooltip({ html: 'true', placement: 'right' });
     $( '#field_weight' ).tooltip({ html: 'true', placement: 'right' });
     $( '#field_answer_acceptable' ).tooltip({ html: 'true', placement: 'right' });
     $( '#field_answer_not_applicable' ).tooltip({ html: 'true', placement: 'right' });
+
+    tooltipOnDisabled();
 });
 
 //        'hover', '.btn', function()
