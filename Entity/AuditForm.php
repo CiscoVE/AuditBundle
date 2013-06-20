@@ -44,14 +44,14 @@ class AuditForm
     /**
      * @var string Label for the trigger flag
      *
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string",name="flag_label")
      */
     protected $flagLabel;
 
     /**
      * @var boolean Are multiple answer allowed on flagged questions
      *
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean",name="allow_multi_answer")
      */
     protected $allowMultipleAnswer;
 
