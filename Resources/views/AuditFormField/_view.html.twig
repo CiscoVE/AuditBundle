@@ -1,4 +1,5 @@
 {% block pagecontent %}
+{#{ ladybug_dump( get_trigger( field )) }#}
 <tr class="cisco-audit-field-row">
     <td colspan="2">{{ field.title }}</td>
     <td>
@@ -8,14 +9,17 @@
         {{ field.section }}
     {% endif %}
     </td>
+    {% if field.flag == 1 %}
+    <td>default</td>
+    <td>
+        <i class="icon-check" title="{{ get_trigger( field ) }}"/>
+    </td>
+    {% else %}
     <td>{{ field.weight }}</td>
     <td>
-    {% if field.flag == 1 %}
-        <i class="icon-check" title="{{ get_trigger( field ) }}"/>
-    {% else %}
         <i class="icon-check-empty"/>
-    {% endif %}
     </td>
+    {% endif %}
     <td width=20% style="white-space: nowrap;">
         <div class="btn-group pull-right cisco-audit-options">
             <a class="btn btn-mini cisco-audit-field-view">
