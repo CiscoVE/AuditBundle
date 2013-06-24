@@ -458,7 +458,7 @@ function tooltipOnDisabled()
 $( document ).on( 'click', '.cisco-audit-flag-ckbox', function()
 {
     toggleWeightAnswer();
-    toggleBinaryAnswer( multipleAllowed );
+    if(typeof multipleAllowed !== 'undefined') { toggleBinaryAnswer( multipleAllowed ); };
     tooltipOnDisabled();
 });
 
@@ -472,7 +472,7 @@ $( document ).ready( function(){
     $( '.cisco-audit-options' ).find( '.btn' ).addClass( 'disabled' );
 
     toggleWeightAnswer();
-    toggleBinaryAnswer( multipleAllowed );
+    if(typeof multipleAllowed !== 'undefined') { toggleBinaryAnswer( multipleAllowed ); };
 
     $( '#field_flag' ).tooltip({ html: 'true', placement: 'right' });
     $( '#field_weight' ).tooltip({ html: 'true', placement: 'right' });
