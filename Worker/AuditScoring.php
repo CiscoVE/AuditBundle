@@ -62,9 +62,7 @@ class AuditScoring
         $weight = 0;
         foreach( $section->getFields() as $field )
         {
-            $weight +=  ( $field->getFlag() === TRUE && $field->getWeight() < 1 ) ?
-                        1 :
-                        $field->getWeight() ;
+            $weight += $field->getWeight() ;
         }
 
         return $weight;
@@ -164,8 +162,7 @@ class AuditScoring
 
                 if ( $sectionFlag ) $audit->setFlag( true );
                 $divisor += $weight;
-                // check the section for flag not set and section's weight > 0
-                if( $sectionFlag === false && $divisor > 0 )
+                if( $divisor > 0 )
                 {
                     $totalPercent = $totalPercent * ( $divisor - $weight ) / $divisor + $percent * $weight / $divisor;
                 }
