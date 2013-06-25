@@ -260,6 +260,8 @@ class Audit
     }
 
     /**
+     * @deprecated use the scoring service instead
+     *
      * Get Score for Field
      *
      * @param \CiscoSystems\AuditBundle\Entity\AuditFormField $field
@@ -280,6 +282,8 @@ class Audit
     }
 
     /**
+     * @deprecated use the scoring service instead
+     *
      * Get Score for Section
      *
      * @param \CiscoSystems\AuditBundle\Entity\AuditFormSection $section
@@ -319,6 +323,8 @@ class Audit
     }
 
     /**
+     * @deprecated use the scoring service instead
+     *
      * Get global score
      *
      * @return integer
@@ -356,6 +362,8 @@ class Audit
     }
 
     /**
+     * @deprecated use the scoring service instead
+     *
      * Get global weight
      *
      * @return integer
