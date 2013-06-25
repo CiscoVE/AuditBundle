@@ -123,10 +123,22 @@ Those are:
 * cisco_audit__field
 * cisco_audit__score
 
+### command
+
+if you have saved (somehow) some audit with a totalscore of 0 (zero), you can regenerate those
+with the following command:
+
+```
+    php app/console audit:score:regenerate
+```
+ * Option: 'id' as the audit id to process.
+ * Option: '--override' to regenerate all the total score and not just the one with value of 0.
+
 ## TODO
 
  * Allow a section to be assigned to more than one Form
  * Allow a Field to be assigned to more than one Section
+ * Implement functional and unit testing
 
 ## Issues
 
