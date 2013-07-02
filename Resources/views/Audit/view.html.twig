@@ -24,6 +24,9 @@
                     </td>
                     <td>{{ audit.auditingUser }}</td>
                     <td>{{ audit.auditForm }}</td>
+                    <td>
+                        <a class="btn btn-small" href="{{ path( 'cisco_audit_export', { 'id': audit.id } ) }}">export</a>
+                    </td>
                 </tr>
             </tbody>
         </table>

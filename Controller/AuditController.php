@@ -154,4 +154,110 @@ class AuditController extends Controller
         }
         else throw $this->createNotFoundException( 'Audit not found' );
     }
+
+    public function exportAction( Request $request )
+    {
+        $caseId = $request->get( 'id' );
+
+        $em = $this->getDoctrine()->getManager();
+        $repo = $em->getRepository( 'CiscoSystemsAuditBundle:Audit' );
+        $audit = $repo->findOneBy( array( 'id' => $caseId ));
+        $scorerepo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditScore' );
+        $scores = $scorerepo->findBy( array( 'audit' => $audit ) );
+
+        $scoringService = $this->get( 'cisco.worker.audit_score' );
+
+        // ask the service for a Excel5
+        $excelService = $this->get( 'xls.service_xls5' );
+
+        // create the object see http://phpexcel.codeplex.com documentation
+        $properties = $excelService->excelObj->getProperties();
+        $properties->setCreator( 'Cisco Systems' );
+        $properties->setLastModifiedBy( 'Cisco Systems' );
+        $properties->setTitle( 'Audit Bundle Export File' );
+        $properties->setSubject( 'Audit Bundle Export File' );
+        $properties->setDescription( 'Audit Review spreadsheet automatically exported.' );
+        $properties->setKeywords( 'audit review spreadsheet' );
+        $properties->setCategory( 'audit Review Export' );
+
+        $rowCounter = 2;
+        $seCounter = 1;
+        $fiCounter = 1;
+        $excelService->excelObj->setActiveSheetIndex(0);
+        $sheet = $excelService->excelObj->getActiveSheet();
+
+        /**
+         * Header
+         */
+        $sheet->setCellValue( 'B2', 'Case #' . $audit->getAuditReference() );
+        $sheet->setCellValue( 'C2', 'Engineer ' . $audit->getAuditingUser() );
+        $sheet->setCellValue( 'D2', 'Score' );
+        $sheet->setCellValue( 'B3', 'S.No.' );
+        $sheet->setCellValue( 'E3', 'Weight' );
+        $sheet->setCellValue( 'F3', 'Reviewer\'s Comment' );
+        $rowCounter++;
+
+        /**
+         * content for the audit
+         */
+        foreach( $audit->getAuditForm()->getSections() as $section )
+        {
+            $sheet->setCellValue( 'C' . $rowCounter, 'Section ' . $seCounter . ': ' . $section->getTitle());
+            $rowCounter++;
+
+            foreach( $section->getFields() as $field )
+            {
+                $sheet->setCellValue( 'B' . $rowCounter, $fiCounter );
+                $sheet->setCellValue( 'C' . $rowCounter, $field->getTitle() );
+                $value = null;
+
+                foreach( $scores as $score )
+                {
+                    if( $score->getField() === $field )
+                    {
+                        $sheet->setCellValue( 'D' . $rowCounter, $score->getScore());
+                        $sheet->setCellValue( 'F' . $rowCounter, $score->getComment());
+
+                        $value = ( $field->getFlag() && $score->getScore()  === 'N' ) ?
+                                 $audit->getAuditForm()->getFlagLabel() :
+                                 $field->getWeight() ;
+                    }
+                }
+
+                $sheet->setCellValue( 'E' . $rowCounter, $value );
+                $fiCounter++; $rowCounter++;
+            }
+
+            $sheet->setCellValue( 'D' . $rowCounter, $scoringService->getResultForSection( $audit, $section ));
+            $sheet->setCellValue( 'E' . $rowCounter, $scoringService->getWeightForSection( $section ));
+
+            $seCounter++; $rowCounter++;
+        }
+
+        $sheet->setCellValue( 'C' . $rowCounter, 'Final Score on the Case' );
+
+        $result = ( $audit->getFlag() ) ?
+                  $audit->getAuditForm()->getFlagLabel() :
+                  $scoringService->getResultForAudit( $audit ) ;
+
+        $sheet->setCellValue( 'D' . $rowCounter, $result );
+        $sheet->setCellValue( 'E' . $rowCounter, $scoringService->getWeightForAudit( $audit ));
+
+        $sheet->setTitle( 'Case #' . $caseId );
+        // Set active sheet index to the first sheet, so Excel opens this as the first sheet
+        $excelService->excelObj->setActiveSheetIndex(0);
+
+        //create the response
+        $response = $excelService->getResponse();
+        $response->headers->set( 'Content-Type', 'text/vnd.ms-excel; charset=utf-8' );
+        $filename = 'case-review-' . $audit->getId() .'.xls' ;
+
+        $response->headers->set( 'Content-Disposition', 'attachment;filename=' . $filename );
+
+        // If you are using a https connection, you have to set those two headers for compatibility with IE <9
+        $response->headers->set( 'Pragma', 'public' );
+        $response->headers->set( 'Cache-Control', 'maxage=1' );
+
+        return $response;
+    }
 }

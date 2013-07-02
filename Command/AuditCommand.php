@@ -50,11 +50,11 @@ class AuditCommand extends ContainerAwareCommand
     protected function execute( InputInterface $input, OutputInterface $output )
     {
         $dialog = $this->getHelperSet()->get( 'dialog' );
-        if(!$dialog->askConfirmation( $output, '<question>Do you want to regenerate the audit\'s total score?</question>', false ))
+        if( !$dialog->askConfirmation( $output, '<question>Do you want to regenerate the audit\'s total score?</question>', false ))
         {
             return;
         }
-        $output->writeln('<comment>Starting score regeneration process</comment>');
+        $output->writeln( '<comment>Starting score regeneration process</comment>' );
 
         $id = $input->getArgument( 'id' );
         $override = $input->getOption( 'override' );
@@ -73,33 +73,33 @@ class AuditCommand extends ContainerAwareCommand
                 if( $override )
                 {
                     $audit->setTotalScore( $this->scoreService->getResultForAudit( $audit ));
-                    $output->writeln('<comment>Audit #' . $audit->getId() . ' processed, with final score: ' . $audit->getTotalScore() . '%</comment>');
+                    $output->writeln( '<comment>Audit #' . $audit->getId() . ' processed, with final score: ' . $audit->getTotalScore() . '%</comment>' );
                 }
                 else
                 {
                     if( $audit->getTotalScore() === 0.00 )
                     {
                         $audit->setTotalScore( $this->scoreService->getResultForAudit( $audit ));
-                        $output->writeln('<comment>[Processed]Audit #' . $audit->getId() . ' processed, with final score: ' . $audit->getTotalScore() . '%</comment>');
+                        $output->writeln( '<comment>[Processed]Audit #' . $audit->getId() . ' processed, with final score: ' . $audit->getTotalScore() . '%</comment>' );
                     }
                     else
                     {
-                        $output->writeln('<comment>[Skipped]Audit #' . $audit->getId() . ' allready had a score set ( ' . $audit->getTotalScore() . '% )</comment>');
+                        $output->writeln( '<comment>[Skipped]Audit #' . $audit->getId() . ' allready had a score set ( ' . $audit->getTotalScore() . '% )</comment>' );
                     }
                 }
             }
         }
-        $dialog = $this->getHelperSet()->get( 'dialog' );
+//        $dialog = $this->getHelperSet()->get( 'dialog' );
         if( !$dialog->askConfirmation( $output, '<question>Do you want to flush those score to the database?</question>', false ))
         {
             return;
         }
-        $output->writeln('<comment>Starting flushing process</comment>');
+        $output->writeln( '<comment>Starting flushing process</comment>' );
         foreach( $audits as $audit )
         {
             $this->em->persist( $audit );
         }
         $this->em->flush();
-        $output->writeln('<info>Audit\'s total score regenerated succesfully for ' . count( $audits ) . ' audit(s).</info>');
+        $output->writeln( '<info>Audit\'s total score regenerated succesfully for ' . count( $audits ) . ' audit(s).</info>' );
     }
 }
