@@ -85,6 +85,7 @@ class AuditFormField
      * Set title
      *
      * @param string $title
+     *
      * @return \CiscoSystems\AuditBundle\Entity\AuditFormField
      */
     public function setTitle( $title )
@@ -108,6 +109,7 @@ class AuditFormField
      * Set description
      *
      * @param string $description
+     *
      * @return \CiscoSystems\AuditBundle\Entity\AuditFormField
      */
     public function setDescription( $description )
@@ -131,25 +133,12 @@ class AuditFormField
      * Set scores
      *
      * @param \Doctrine\Common\Collections\ArrayCollection $scores
+     *
      * @return \Doctrine\Common\Collections\ArrayCollection
      */
     public function setScores( $scores )
     {
         $this->scores = $scores;
-
-        return $this;
-    }
-
-    /**
-     * Add score and its label
-     *
-     * @param string $score
-     * @param string $label
-     * @return AuditField
-     */
-    public function addScore( $score, $label )
-    {
-        $this->scores[ $score ] = $label;
 
         return $this;
     }
@@ -162,6 +151,21 @@ class AuditFormField
     public function getScores()
     {
         return $this->scores;
+    }
+
+    /**
+     * Add score and its label
+     *
+     * @param string $score
+     * @param string $label
+     *
+     * @return AuditField
+     */
+    public function addScore( $score, $label )
+    {
+        $this->scores[ $score ] = $label;
+
+        return $this;
     }
 
     /**
@@ -178,6 +182,7 @@ class AuditFormField
      * Add an auditscore
      *
      * @param \CiscoSystems\AuditBundle\Entity\AuditScore $score
+     *
      * @return \CiscoSystems\AuditBundle\Entity\AuditFormField
      */
     public function addAuditScore( \CiscoSystems\AuditBundle\Entity\AuditScore $score )
@@ -221,6 +226,7 @@ class AuditFormField
      * Set weight
      *
      * @param integer $weight
+     *
      * @return \CiscoSystems\AuditBundle\Entity\uditFormField
      */
     public function setWeight( $weight )
@@ -244,6 +250,7 @@ class AuditFormField
      * Set flag
      *
      * @param boolean $flag
+     *
      * @return AuditFormField
      */
     public function setFlag( $flag )
@@ -267,6 +274,7 @@ class AuditFormField
      * Set position
      *
      * @param integer $position
+     *
      * @return AuditFormField
      */
     public function setPosition( $position )
@@ -290,6 +298,7 @@ class AuditFormField
      * Set section
      *
      * @param CiscoSystems\AuditBundle\Entity\AuditFormSection $section
+     *
      * @return AuditFormField
      */
     public function setSection( \CiscoSystems\AuditBundle\Entity\AuditFormSection $section = null )
@@ -313,6 +322,7 @@ class AuditFormField
      * Set slug
      *
      * @param string $slug
+     *
      * @return AuditFormField
      */
     public function setSlug( $slug )
