@@ -68,53 +68,6 @@ class Audit
     }
 
     /**
-     * Get scores
-     *
-     * @return \Doctrine\Common\Collections\ArrayCollection
-     */
-    public function getScores()
-    {
-        return $this->scores;
-    }
-
-    /**
-     * Add a score to collection scores and set audit in the score instance
-     *
-     * @param \CiscoSystems\AuditBundle\Entity\AuditScore $score
-     * @return \CiscoSystems\AuditBundle\Entity\Audit
-     */
-    public function addScore( \CiscoSystems\AuditBundle\Entity\AuditScore $score )
-    {
-        if( !$this->scores->contains( $score ) )
-        {
-            $score->setAudit( $this );
-            $this->scores->add( $score );
-        }
-        return $this;
-    }
-
-    /**
-     * Remove score
-     *
-     * @param \CiscoSystems\AuditBundle\Entity\AuditScore $score
-     */
-    public function removeScore( \CiscoSystems\AuditBundle\Entity\AuditScore $score )
-    {
-        $this->scores->removeElement( $score );
-    }
-
-    /**
-     * Remove all score from ArrayCollection $this->scores
-     */
-    public function removeAllScores()
-    {
-        foreach( $this->scores as $score )
-        {
-            $this->removeScore( $score );
-        }
-    }
-
-    /**
      * Get total score
      *
      * @return integer
@@ -148,13 +101,10 @@ class Audit
      * Set auditForm
      *
      * @param string $auditForm
-     * @return \CiscoSystems\AuditBundle\Entity\Audit
      */
     public function setAuditForm( \CiscoSystems\AuditBundle\Entity\AuditForm $auditForm = null)
     {
         $this->auditForm = $auditForm;
-
-        return $this;
     }
 
     /**
@@ -171,13 +121,10 @@ class Audit
      * Set auditReference
      *
      * @param \CiscoSystems\AuditBundle\Model\ReferenceInterface $auditReference
-     * @return \CiscoSystems\AuditBundle\Entity\Audit
      */
     public function setAuditReference( \CiscoSystems\AuditBundle\Model\ReferenceInterface $auditReference )
     {
         $this->auditReference = $auditReference;
-
-        return $this;
     }
 
     /**
@@ -194,13 +141,10 @@ class Audit
      * Set auditingUser
      *
      * @param \CiscoSystems\AuditBundle\Model\UserInterface $auditingUser
-     * @return \CiscoSystems\AuditBundle\Entity\Audit
      */
     public function setAuditingUser( \CiscoSystems\AuditBundle\Model\UserInterface $auditingUser )
     {
         $this->auditingUser = $auditingUser;
-
-        return $this;
     }
 
     /**
@@ -227,26 +171,20 @@ class Audit
      * Set flag
      *
      * @param boolean $flag
-     * @return \CiscoSystems\AuditBundle\Entity\Audit
      */
     public function setFlag( $flag )
     {
         $this->flag = $flag;
-
-        return $this;
     }
 
     /**
      * Set createdAt
      *
      * @param \DateTime $createdAt
-     * @return \CiscoSystems\AuditBundle\Entity\Audit
      */
     public function setCreatedAt( \DateTime $createdAt )
     {
         $this->createdAt = $createdAt;
-
-        return $this;
     }
 
     /**
@@ -260,24 +198,91 @@ class Audit
     }
 
     /**
+     * Set scores
+     *
+     * @param \Doctrine\Common\Collections\ArrayCollection $scores
+     */
+    public function setScores( \Doctrine\Common\Collections\ArrayCollection $scores = NULL )
+    {
+        $this->scores = $scores;
+    }
+
+    /**
+     * Get scores
+     *
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getScores()
+    {
+        return $this->scores;
+    }
+
+    /**
+     * Add a score to collection scores and set audit in the score instance
+     *
+     * @param \CiscoSystems\AuditBundle\Entity\AuditScore $score
+     */
+    public function addScore( \CiscoSystems\AuditBundle\Entity\AuditScore $score )
+    {
+        if( !$this->scores->contains( $score ) )
+        {
+            $score->setAudit( $this );
+            $this->scores->add( $score );
+
+            return TRUE;
+        }
+
+        return FALSE;
+    }
+
+    /**
+     * Remove score
+     *
+     * @param \CiscoSystems\AuditBundle\Entity\AuditScore $score
+     */
+    public function removeScore( \CiscoSystems\AuditBundle\Entity\AuditScore $score )
+    {
+        if( $this->scores->contains( $score ))
+        {
+            $this->scores->removeElement( $score );
+
+            return TRUE;
+        }
+
+        return FALSE;
+    }
+
+    /**
+     * Remove all score from ArrayCollection $this->scores
+     */
+    public function removeAllScores()
+    {
+        foreach( $this->scores as $score )
+        {
+            $this->removeScore( $score );
+        }
+    }
+
+    /**
      * Get Score for Field
      *
      * @param \CiscoSystems\AuditBundle\Entity\AuditFormField $field
      * @return \CiscoSystems\AuditBundle\Entity\AuditScore
      */
-    public function getScoreForField( \CiscoSystems\AuditBundle\Entity\AuditFormField $field )
-    {
-        $scores = $this->getScores();
-
-        foreach ( $scores as $score )
-        {
-            if ( null !== $score->getField() && $field === $score->getField() )
-            {
-                return $score;
-            }
-        }
-        return false;
-    }
+//    public function getScoreForField( \CiscoSystems\AuditBundle\Entity\AuditFormField $field )
+//    {
+//        $scores = $this->getScores();
+//
+//        foreach ( $scores as $score )
+//        {
+//            if ( null !== $score->getField() && $field === $score->getField() )
+//            {
+//                return $score;
+//            }
+//        }
+//
+//        return FALSE;
+//    }
 
     /**
      * Get Score for Section
@@ -285,90 +290,90 @@ class Audit
      * @param \CiscoSystems\AuditBundle\Entity\AuditFormSection $section
      * @return integer
      */
-    public function getResultForSection( \CiscoSystems\AuditBundle\Entity\AuditFormSection $section )
-    {
-        $fields = $section->getFields();
-        $fieldCount = count( $fields );
+//    public function getResultForSection( \CiscoSystems\AuditBundle\Entity\AuditFormSection $section )
+//    {
+//        $fields = $section->getFields();
+//        $fieldCount = count( $fields );
+//
+//        if ( 0 == $fieldCount ) return 100;
+//        $achievedPercentages = 0;
+//
+//        foreach ( $fields as $field )
+//        {
+//            $score = $this->getScoreForField( $field );
+//
+//            if ( !$score )
+//            {
+//                $score = new AuditScore();
+//                $score->setScore( AuditScore::YES );
+//            }
+//            $achievedPercentages += $score->getWeightPercentage();
+//        }
+//        return number_format( $achievedPercentages / $fieldCount, 2, '.', '' );
+//    }
 
-        if ( 0 == $fieldCount ) return 100;
-        $achievedPercentages = 0;
-
-        foreach ( $fields as $field )
-        {
-            $score = $this->getScoreForField( $field );
-
-            if ( !$score )
-            {
-                $score = new AuditScore();
-                $score->setScore( AuditScore::YES );
-            }
-            $achievedPercentages += $score->getWeightPercentage();
-        }
-        return number_format( $achievedPercentages / $fieldCount, 2, '.', '' );
-    }
-
-    public function findFlagForSection( \CiscoSystems\AuditBundle\Entity\AuditFormSection $section )
-    {
-        foreach ( $section->getFields() as $field )
-        {
-            if ( $field->getFlag() == true &&  $this->getScoreForField( $field )->getScore() == AuditScore::NO )
-            {
-                $section->setFlag( true );
-            }
-        }
-    }
+//    public function findFlagForSection( \CiscoSystems\AuditBundle\Entity\AuditFormSection $section )
+//    {
+//        foreach ( $section->getFields() as $field )
+//        {
+//            if ( $field->getFlag() == true &&  $this->getScoreForField( $field )->getScore() == AuditScore::NO )
+//            {
+//                $section->setFlag( true );
+//            }
+//        }
+//    }
 
     /**
      * Get global score
      *
      * @return integer
      */
-    public function getTotalResult()
-    {
-        if ( null !== $auditform = $this->getAuditForm() )
-        {
-            $sections = $auditform->getSections();
-            $count = count( $sections );
-            if ( 0 == $count ) return 100;
-            $totalPercent = 0;
-            $divisor = 0;
-            $this->setFlag( false );
-
-            foreach ( $sections as $section )
-            {
-                $percent = $this->getResultForSection( $section );
-                $weight = $section->getWeight();
-                $this->findFlagForSection( $section );
-
-                if ( $section->getFlag() ) $this->setFlag( true );
-
-                $divisor += $weight;
-
-                // check the section for flag not set and section's weight > 0
-                if( $section->getFlag() === false && $divisor > 0 )
-                {
-                    $totalPercent = $totalPercent * ( $divisor - $weight ) / $divisor + $percent * $weight / $divisor;
-                }
-            }
-            return number_format( $totalPercent, 2, '.', '' );
-        }
-        else return 0;
-    }
+//    public function getTotalResult()
+//    {
+//        if ( null !== $auditform = $this->getAuditForm() )
+//        {
+//            $sections = $auditform->getSections();
+//            $count = count( $sections );
+//            if ( 0 == $count ) return 100;
+//            $totalPercent = 0;
+//            $divisor = 0;
+//            $this->setFlag( false );
+//
+//            foreach ( $sections as $section )
+//            {
+//                $percent = $this->getResultForSection( $section );
+//                $weight = $section->getWeight();
+//                $this->findFlagForSection( $section );
+//
+//                if ( $section->getFlag() ) $this->setFlag( true );
+//
+//                $divisor += $weight;
+//
+//                // check the section for flag not set and section's weight > 0
+//                if( $section->getFlag() === false && $divisor > 0 )
+//                {
+//                    $totalPercent = $totalPercent * ( $divisor - $weight ) / $divisor + $percent * $weight / $divisor;
+//                }
+//            }
+//            return number_format( $totalPercent, 2, '.', '' );
+//        }
+//        else return 0;
+//    }
 
     /**
      * Get global weight
      *
      * @return integer
      */
-    public function getTotalWeight()
-    {
-        $weight = 0;
-        $sections = $this->getAuditForm()->getSections();
-
-        foreach ( $sections as $section )
-        {
-            $weight += $section->getWeight();
-        }
-        return $weight;
-    }
+//    public function getTotalWeight()
+//    {
+//        $weight = 0;
+//        $sections = $this->getAuditForm()->getSections();
+//
+//        foreach ( $sections as $section )
+//        {
+//            $weight += $section->getWeight();
+//        }
+//        return $weight;
+//    }
 }

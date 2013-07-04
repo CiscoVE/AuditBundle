@@ -109,7 +109,8 @@ class AuditFormSectionTest extends \PHPUnit_Framework_TestCase
         $this->section->addField( $field );
         $actualFields = $this->section->getFields();
 
-        $this->assertEquals( $field, $actualFields[( count( $actualFields ) -1 )] );
+        $this->assertEquals( $fields, $this->section->getFields() );
+        $this->assertContains( $field, $this->section->getFields() );
     }
 
     /**
@@ -126,6 +127,7 @@ class AuditFormSectionTest extends \PHPUnit_Framework_TestCase
         $this->section->removeField( $field3 );
         $fields->removeElement( $field3 );
 
+        $this->assertEquals( $fields, $this->section->getFields() );
         $this->assertNotContains( $field3, $this->section->getFields() );
     }
 

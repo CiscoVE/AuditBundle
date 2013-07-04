@@ -94,9 +94,8 @@ class AuditFormTest extends \PHPUnit_Framework_TestCase
         $section = new AuditFormSection();
         $this->form->addSection( $section );
 
-        $actualSections = $this->form->getSections();
-
-        $this->assertEquals( $section, $actualSections[( count( $actualSections ) - 1 )] );
+        $this->assertEquals( $sections, $this->form->getSections() );
+        $this->assertContains( $section, $this->form->getSections() );
     }
 
     /**
@@ -145,9 +144,9 @@ class AuditFormTest extends \PHPUnit_Framework_TestCase
 
         $audit = new Audit();
         $this->form->addAudit( $audit );
-        $actualAudits = $this->form->getAudits();
 
-        $this->assertEquals( $audit, $actualAudits[( count( $actualAudits ) - 1 )] );
+        $this->assertEquals( $audits, $this->form->getAudits() );
+        $this->assertContains( $audit, $this->form->getAudits() );
     }
 
     /**
@@ -160,12 +159,12 @@ class AuditFormTest extends \PHPUnit_Framework_TestCase
         $audit3 = new Audit();
         $audits = new ArrayCollection( array( $audit1, $audit2, $audit3 ));
         $this->form->setAudits( $audits );
-        
+
         $this->form->removeAudit( $audit3 );
         $audits->removeElement( $audit3 );
 
-        $this->assertNotContains( $audit3, $this->form->getAudits() );
         $this->assertEquals( $audits, $this->form->getAudits() );
+        $this->assertNotContains( $audit3, $this->form->getAudits() );
     }
 
     /**
@@ -174,6 +173,6 @@ class AuditFormTest extends \PHPUnit_Framework_TestCase
      */
     public function testMetadata()
     {
-
+        // not implemented as Metadata is an interface
     }
 }
