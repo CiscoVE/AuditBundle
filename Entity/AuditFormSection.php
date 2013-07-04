@@ -147,7 +147,6 @@ class AuditFormSection
      * Set description
      *
      * @param string $description
-     * @return \CiscoSystems\AuditBundle\Entity\AuditFormSection
      */
     public function setDescription( $description )
     {

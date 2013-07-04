@@ -7,11 +7,23 @@ Symfony 2 bundle for auditing processes, employees, etc.
 
 ## Features
 
-This bundle offers the use of form (as in spreadsheet) for a user to audit a 
+This bundle offers the use of form (as in spreadsheet) for a user to audit a
 process and the management of these forms. Each form is divided in sections and
 fields and offers four choices of answer possible. Each of the elements can be
-modified at will through the administration part. (`No user management is 
+modified at will through the administration part. (`No user management is
 included in this bundle`).
+
+In order to help you customize your template, the four twig extensions are available:
+
+```twig
+    {{ get_resultforsection() }}
+    {{ get_weightforsection() }}
+    {{ get_resultforaudit() }}
+    {{ get_weightforaudit() }}
+```
+
+Currently the forms are fairly static: Each Section is attached to one and only one
+Form and each Field is attached to one and only one Section.
 
 ## Configuration
 
@@ -43,11 +55,11 @@ cisco_audit:
 
 For now the following need to be added to the composer.json file of the project:
 
-```yaml   
+```yaml
     "repositories": [
         { "type": "vcs", "url": "http://github.com/WrittenGames/AuditBundle" }
     ]
-    
+
     ...
 
     "require": {
@@ -68,7 +80,7 @@ And add the bundle in the AppKernel:
 
 Add as well the Bundle to the routing.yml:
 
-```yaml    
+```yaml
     CiscoSystemsAuditBundle:
         resource: "@CiscoSystemsAuditBundle/Resources/config/routing.yml"
         prefix:   /cisco_audit
@@ -91,9 +103,10 @@ And the orm bundle for the user interface:
 ```yaml
     doctrine:
         orm:
-            resolve_target_entities: 
+            resolve_target_entities:
                 CiscoSystems\AuditBundle\Model\UserInterface: Acme\UserBundle\Entity\User
                 CiscoSystems\AuditBundle\Model\ReferenceInterface: Acme\UserBundle\Entity\Reference
+                CiscoSystems\AuditBundle\Model\MetadataInterface: Acme\AuditBundle\Entity\Metadata
 ```
 
 Once this all done, generate the five tables needed:
@@ -109,6 +122,23 @@ Those are:
 * cisco_audit__section
 * cisco_audit__field
 * cisco_audit__score
+
+### command
+
+if you have saved (somehow) some audit with a totalscore of 0 (zero), you can regenerate those
+with the following command:
+
+```
+    php app/console audit:score:regenerate
+```
+ * Option: 'id' as the audit id to process.
+ * Option: '--override' to regenerate all the total score and not just the one with value of 0.
+
+## TODO
+
+ * Allow a section to be assigned to more than one Form
+ * Allow a Field to be assigned to more than one Section
+ * Implement functional and unit testing
 
 ## Issues
 

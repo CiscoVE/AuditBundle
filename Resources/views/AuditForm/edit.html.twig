@@ -1,16 +1,30 @@
 {% extends 'CiscoSystemsAuditBundle::base.html.twig' %}
 
+{% block pagetitle %}
+    {{ parent() }}:
+            {% if edit == true %}
+                Edit existing form
+            {% else %}
+                Add new form
+            {% endif %}
+{% endblock %}
+
 {% block pagecontent %}
 <div class="container">
     <div class="span10">
         <form class="form-horizontal" method="POST" action="">
-            <div class="btn-group pull-right">
-                <a type="submit" class="btn btn-mini">
-                    <i class="icon-ok"></i> Save Form
+            <div class="pull-right">
+                <button type="submit" class="btn btn-mini">
+                    Save Form <i class="icon-ok"></i>
+                </button>
+                <a class="btn btn-mini"
+                   href="{{ path( 'cisco_auditforms' ) }}">
+                    Cancel <i class="icon-remove"></i>
                 </a>
                 {% if edit == true %}
-                <a class="btn btn-mini" href="#" title="TO BE IMPLEMENTED">
-                    <i class="icon-trash"></i> Delete Form
+                <a class="btn btn-mini"
+                   href="{{ path( 'cisco_auditform_delete', { 'form_id' : auditform.id } ) }}">
+                    Delete Form <i class="icon-trash"></i>
                 </a>
                 {% endif %}
             </div>
@@ -21,6 +35,22 @@
                     </div>
                     <div class="controls">
                         {{ form_widget(form.title) }}
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label">
+                        {{ form_label(form.flagLabel) }}
+                    </div>
+                    <div class="controls">
+                        {{ form_widget(form.flagLabel) }}
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label">
+                        {{ form_label(form.allowMultipleAnswer) }}
+                    </div>
+                    <div class="controls">
+                        {{ form_widget(form.allowMultipleAnswer) }}
                     </div>
                 </div>
                 <div class="control-group">
@@ -40,33 +70,34 @@
                     </div>
                 </div>
             </div>
-            <table class="table table-condensed table-hover cisco-audit-table">
-                <thead>
-                    <tr>
-                        <th width="20%">Title</th>
-                        <th width="65%"></th>
-                        <th width="5%">Weight</th>
-                        <th width="5%">Flag</th>
-                        <th width="5%"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                {% for section in auditform.sections %}
-                    {% include 'CiscoSystemsAuditBundle:AuditFormSection:_load.html.twig' %}
-                {% else %}
-                    <tr class="warning-empty">
-                        <td colspan="6">
-                            <i class="icon-warning-sign"></i>
-                            No section assigned to this form.
-                        </td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
+        </form>
+
+        <table class="table table-condensed table-hover cisco-audit-table">
+            <thead>
+                <tr>
+                    <th width="20%">Title</th>
+                    <th width="60%"></th>
+                    <th width="5%">Weight</th>
+                    <th width="5%">Flag</th>
+                    <th width="10%"></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for section in auditform.sections %}
+                {% include 'CiscoSystemsAuditBundle:AuditFormSection:_load.html.twig' %}
+            {% else %}
+                <tr class="warning-empty">
+                    <td colspan="6">
+                        <i class="icon-warning-sign"></i>
+                        No section assigned to this form.
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
         {% if edit == true %}
             {% include 'CiscoSystemsAuditBundle:AuditFormSection:_ulist.html.twig' %}
         {% endif %}
-        </form>
     </div>
 </div>
 {% endblock %}

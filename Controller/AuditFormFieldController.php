@@ -9,6 +9,7 @@ use CiscoSystems\AuditBundle\Entity\AuditFormField;
 use CiscoSystems\AuditBundle\Entity\AuditFormSection;
 use CiscoSystems\AuditBundle\Form\Type\AuditFormFieldType;
 use CiscoSystems\AuditBundle\Entity\AuditScore;
+use CiscoSystems\AuditBundle\Form\Type\SectionType;
 
 class AuditFormFieldController extends Controller
 {
@@ -50,33 +51,74 @@ class AuditFormFieldController extends Controller
             $section = $sectionRepo->find( $request->get( 'section_id' ));
             $field->setSection( $section );
         }
-        $this->get('ladybug')->log( $field );
-        $form = $this->createForm( new AuditFormFieldType(), $field );
+        $form = $this->createForm( new AuditFormFieldType(), $field, array(
+            'section' => $field->getSection(),
+        ));
         if ( null !== $values = $request->get( $form->getName() ))
         {
             $form->bind( $request );
             if ( $form->isValid() )
             {
-                AuditFormFieldType::mapScores( $field, $values );
+                $flaggedField = $field->getFlag();
+                $allowMultipleAnswer = $field->getSection()->getAuditForm()->getAllowMultipleAnswer();
+                $this->mapScores( $field, $values, $flaggedField, $allowMultipleAnswer );
                 $em->persist( $field );
                 $em->flush();
                 return $this->redirect( $this->generateUrl( 'cisco_auditsection_edit', array(
-                    'section_id'  => $field->getSection()->getId(),
+                    'section_id'    => $field->getSection()->getId(),
                 )));
             }
         }
         /**
          * NO currently used: planned to load into a modal box
-        if ( $request->isXmlHttpRequest()) return $this->render( 'CiscoSystemsAuditBundle:AuditFormField:_edit.html.twig', array(
-            'edit'  => $edit,
-            'field' => $field,
-            'form'  => $form->createView(),
-        ));
-        else */ return $this->render( 'CiscoSystemsAuditBundle:AuditFormField:edit.html.twig', array(
-            'edit'      => $edit,
-            'field'     => $field,
-            'form'      => $form->createView(),
-        ));
+         */
+//        if ( $request->isXmlHttpRequest())
+//        {
+//            return $this->render( 'CiscoSystemsAuditBundle:AuditFormField:_edit.html.twig', array(
+//                'edit'  => $edit,
+//                'field' => $field,
+//                'form'  => $form->createView(),
+//            ));
+//        }
+//        else
+//        {
+            return $this->render( 'CiscoSystemsAuditBundle:AuditFormField:edit.html.twig', array(
+                'edit'      => $edit,
+                'field'     => $field,
+                'form'      => $form->createView(),
+            ));
+//        }
+    }
+
+    /**
+     * Convenience method for setting a non-mapped field from the form data
+     *
+     * @param CiscoSystems\AuditBundle\Entity\AuditFormField $entity
+     * @param array $values
+     */
+    private function mapScores( AuditFormField $entity, $values, $triggerFlag, $multipleAnswer )
+    {
+        $extraFields = array(
+            AuditScore::YES => AuditFormFieldType::SCORE_YES,
+            AuditScore::NO => AuditFormFieldType::SCORE_NO,
+        );
+
+        $flaggedFields = array();
+        if( !( $triggerFlag === TRUE && $multipleAnswer === FALSE ))
+        {
+            $flaggedFields = array(
+                AuditScore::ACCEPTABLE => AuditFormFieldType::SCORE_ACCEPTABLE,
+                AuditScore::NOT_APPLICABLE => AuditFormFieldType::SCORE_NOT_APPLICABLE,
+            );
+        }
+        $entity->setScores( NULL );
+        foreach ( array_merge( $extraFields, $flaggedFields ) as $key => $field )
+        {
+            if ( isset( $values[ $field ] ) && $values[ $field ] )
+            {
+                $entity->addScore( $key, $values[ $field ] );
+            }
+        }
     }
 
     /**
@@ -136,7 +178,9 @@ class AuditFormFieldController extends Controller
      * Get weight percentage from $request
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
+     *
      * @return \Symfony\Component\HttpFoundation\Response
+     *
      * @throws type
      */
     public function calculateScoreAction( Request $request )
@@ -157,6 +201,7 @@ class AuditFormFieldController extends Controller
         }
 
         $sectionScore = $tempScore / $sectionWeight;
+
         return new Response( json_encode( $sectionScore ));
     }
 
@@ -164,6 +209,7 @@ class AuditFormFieldController extends Controller
      * Load field
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
+     *
      * @return twig template
      */
     public function loadAction( Request $request )
@@ -178,5 +224,34 @@ class AuditFormFieldController extends Controller
             'field' => $field,
             'section' => $section,
         ));
+    }
+
+    public function listAction( Request $request )
+    {
+        $em = $this->getDoctrine()->getManager();
+        $repo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditFormField' );
+        $fieldId = $request->get( 'fieldId' );
+        $field = $repo->findBy( array( 'id' => $fieldId ));
+        $this->get( 'ladybug' )->log( $field );
+//        $section = $field->getSection();
+//        $this->get( 'ladybug' )->log( $field->getSection() );
+        $sectionform = $this->createFormBuilder()->add( 'audit_section', new SectionType( $em ), array(
+//            'section' => $field->getSection()->getId(),
+        ))->getForm();
+
+        return $this->render( 'CiscoSystemsAuditBundle:AuditFormSection:_select.html.twig', array(
+            'fields' => $repo->findAll(),
+            'form'   => $sectionform->createView(),
+        ));
+    }
+
+    public function disableAction( Request $request )
+    {
+        return $this->render( 'Action not implemented yet.' );
+    }
+
+    public function changeSectionAction( Request $request )
+    {
+        return $this->render( 'Action not implemented yet.' );
     }
 }

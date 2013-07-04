@@ -2,7 +2,6 @@
 
 namespace CiscoSystems\AuditBundle\Entity;
 
-use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -13,7 +12,11 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class AuditFormField
 {
+    const DEFAULTWEIGHTVALUE = 5;
+
     /**
+     * @var integer Id for the AuditField
+     *
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -21,61 +24,84 @@ class AuditFormField
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AuditFormSection", inversedBy="fields")
+     * @var \CiscoSystems\AuditBundle\Entity\AuditSection AuditSection to which the AuditField belongs
+     *
+     * @ORM\ManyToOne(targetEntity="CiscoSystems\AuditBundle\Entity\AuditFormSection", inversedBy="fields")
      * @ORM\JoinColumn(name="section_id", referencedColumnName="id", nullable=true)
      */
     protected $section;
 
     /**
+     * @var string Title for the AuditField
+     *
      * @ORM\Column(type="string")
      */
     protected $title;
 
     /**
+     * @var string Description for the AuditField
+     *
      * @ORM\Column(type="string",nullable=true)
      */
     protected $description;
 
     /**
-     * array of string values: settable scores
+     * @var array Array of string values: settable scores
+     *
      * @ORM\Column(type="array")
      */
     protected $scores;
 
     /**
+     * @var \CiscoSystems\AuditBundle\Entity\AuditScore AuditScore associated with the AuditField
+     *
      * @ORM\OneToMany(targetEntity="CiscoSystems\AuditBundle\Entity\AuditScore", mappedBy="field")
      */
     protected $auditscores;
 
     /**
+     * @var integer Weight for the AuditField
+     *
      * @ORM\Column(type="integer")
-     * @Assert\NotBlank(message="a weight must be provided.")
-     * @Assert\Type(type="integer", message="the weight must be an integer.")
-     * @Assert\Min(limit="1", message="the value entered must be greater than 0.")
      */
     protected $weight;
 
     /**
+     * @var boolean Flag/Trigger for the AuditField
+     *
      * @ORM\Column(type="boolean")
      */
     protected $flag;
 
     /**
+     * @var integer position of the AuditField in the associated AuditSection
+     *
      * @Gedmo\SortablePosition
      * @ORM\Column(name="position",type="integer")
      */
     protected $position;
 
     /**
+     * @var string Slug for the AuditField
+     *
      * @Gedmo\Slug(fields={"title"})
      * @ORM\Column(length=127, unique=true)
      */
     protected $slug;
 
+    /**
+     * @var boolean enabled/diabled AuditField check
+     *
+     * @ORM\Column(type="boolean")
+     */
+    protected $disabled;
+
     public function __construct()
     {
         $this->flag = FALSE;
         $this->auditscores = new ArrayCollection();
+        $this->disabled = FALSE;
+        $this->weight = self::DEFAULTWEIGHTVALUE;
     }
 
     /**
@@ -160,13 +186,98 @@ class AuditFormField
     }
 
     /**
+     * Set auditscores
+     *
+     * @param \Doctrine\Common\Collections\ArrayCollection $auditscores
+     */
+    public function setAuditScores( \Doctrine\Common\Collections\ArrayCollection $auditscores = NULL )
+    {
+        $this->auditscores = $auditscores;
+    }
+
+    /**
+     * Get auditscore
+     *
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getAuditscores()
+    {
+        return $this->auditscores;
+    }
+
+    /**
+     * Add an auditscore
+     *
+     * @param \CiscoSystems\AuditBundle\Entity\AuditScore $score
+     *
+     * @return \CiscoSystems\AuditBundle\Entity\AuditFormField
+     */
+    public function addAuditScore( \CiscoSystems\AuditBundle\Entity\AuditScore $score )
+    {
+        if( count( $this->auditscores ) > 0 && !$this->auditscores->contains( $score ))
+        {
+            $this->auditscores->add( $score );
+            $score->setField( $this );
+
+            return TRUE;
+        }
+
+        return FALSE;
+    }
+
+    /**
+     * Add auditscores
+     *
+     * @param array $auditscores
+     */
+    public function addAuditScores( array $auditscores )
+    {
+        foreach( $auditscores as $auditscore )
+        {
+            $this->addAuditScore( $auditscore );
+        }
+    }
+
+    /**
+     * Remove auditscores
+     *
+     * @param \CiscoSystems\AuditBundle\Entity\AuditScore $auditscore
+     */
+    public function removeAuditScore( \CiscoSystems\AuditBundle\Entity\AuditScore $auditscore )
+    {
+        if( $this->auditscores->contains( $auditscore ) )
+        {
+            $index = $this->auditscores->indexOf( $auditscore );
+            $rem = $this->auditscores->get( $index );
+            $rem->setField( NULL );
+            $this->auditscores->removeElement( $auditscore );
+
+            return TRUE;
+        }
+
+        return FALSE;
+    }
+
+    /**
+     * Remove all auditscores
+     */
+    public function removeAllAuditScore()
+    {
+        foreach ( $this->auditscores as $auditscore )
+        {
+            $this->removeAuditScore( $auditscore );
+        }
+    }
+    /**
      * Set weight
      *
      * @param integer $weight
      */
     public function setWeight( $weight )
     {
-        $this->weight = $weight;
+        $this->weight = ( $this->flag === FALSE ) ?
+                        (( $weight > 0 ) ? $weight : self::DEFAULTWEIGHTVALUE ) :
+                        self::DEFAULTWEIGHTVALUE ;
     }
 
     /**
@@ -260,84 +371,22 @@ class AuditFormField
     }
 
     /**
-     * Set auditscores
+     * Set disabled
      *
-     * @param \Doctrine\Common\Collections\ArrayCollection $auditscores
+     * @param boolean $boolean
      */
-    public function setAuditScores( \Doctrine\Common\Collections\ArrayCollection $auditscores = NULL )
+    public function setDisabled( $boolean = FALSE )
     {
-        $this->auditscores = $auditscores;
+        $this->disabled = $boolean;
     }
 
     /**
-     * Get auditscores
+     * Get disabled
      *
-     * @return \Doctrine\Common\Collections\ArrayCollection
+     * @return boolean
      */
-    public function getAuditscores()
+    public function getDisabled()
     {
-        return $this->auditscores ;
-    }
-
-    /**
-     * Add an auditscore
-     *
-     * @param \CiscoSystems\AuditBundle\Entity\AuditScore $auditscore
-     */
-    public function addAuditScore( \CiscoSystems\AuditBundle\Entity\AuditScore $auditscore )
-    {
-        if( count( $this->auditscores ) > 0 && !$this->auditscores->contains( $auditscore ))
-        {
-            $this->auditscores->add( $auditscore );
-            $auditscore->setField( $this );
-
-            return TRUE;
-        }
-
-        return FALSE;
-    }
-
-    /**
-     * Add auditscores
-     *
-     * @param array $auditscores
-     */
-    public function addAuditScores( array $auditscores )
-    {
-        foreach( $auditscores as $auditscore )
-        {
-            $this->addAuditScore( $auditscore );
-        }
-    }
-
-    /**
-     * Remove auditscores
-     *
-     * @param \CiscoSystems\AuditBundle\Entity\AuditScore $auditscore
-     */
-    public function removeAuditScore( \CiscoSystems\AuditBundle\Entity\AuditScore $auditscore )
-    {
-        if( $this->auditscores->contains( $auditscore ) )
-        {
-            $index = $this->auditscores->indexOf( $auditscore );
-            $rem = $this->auditscores->get( $index );
-            $rem->setField( NULL );
-            $this->auditscores->removeElement( $auditscore );
-
-            return TRUE;
-        }
-        
-        return FALSE;
-    }
-
-    /**
-     * Remove all auditscores
-     */
-    public function removeAllAuditScore()
-    {
-        foreach ( $this->auditscores as $auditscore )
-        {
-            $this->removeAuditScore( $auditscore );
-        }
+        return $this->disabled;
     }
 }

@@ -49,6 +49,12 @@ class AuditScore
      */
     protected $comment;
 
+    public function getWeightPercentage()
+    {
+        $this->weightPercentage = self::getWeightPercentageForScore( $this->score );
+        return $this->weightPercentage;
+    }
+
     static public function getWeightPercentageForScore( $score )
     {
         switch( $score )

@@ -47,12 +47,12 @@ class Audit
     protected $flag;
 
     /**
-     * @ORM\Column(type="float", nullable=true)
+     * @ORM\Column(type="float",nullable=true,name="total_score")
      */
     protected $totalScore;
 
     /**
-     * @ORM\OneToMany(targetEntity="CiscoSystems\AuditBundle\Entity\AuditScore", mappedBy="audit")
+     * @ORM\OneToMany(targetEntity="CiscoSystems\AuditBundle\Entity\AuditScore",mappedBy="audit")
      */
     protected $scores;
 

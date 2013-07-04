@@ -7,7 +7,7 @@
     <div class="span10 offset1">
         <legend>Audit Form
             <div class="btn-group pull-right">
-                <a class="btn btn-mini" 
+                <a class="btn btn-mini"
                    href="{{ path( 'cisco_auditform_edit', { 'form_id': form.id } ) }}" style="font-size: 10px">
                     <i class="icon-wrench"></i> Edit
                 </a>
@@ -45,10 +45,11 @@
                 </tr>
             </thead>
             <tbody>
+            {% set counter = 1 %}
             {% for section in form.sections %}
                 <tr>
                     <td colspan=4>
-                        <strong>Section {{section.id}}: {{ section.title }}</strong> - {{ section.description }}
+                        <strong>Section {{ loop.index }}: {{ section.title }}</strong> - {{ section.description }}
                     </td>
                 </tr>
                 {% for field in section.fields %}
@@ -60,14 +61,14 @@
                 {% else %}
                     <tr class="warning-empty">
                         <td colspan="6">
-                            <i class="icon-warning-sign"></i> 
+                            <i class="icon-warning-sign"></i>
                             No field assigned to this section.
                         </td>
                     </tr>
                 {% endfor %}
                     <tr class="warning-empty">
                         <td colspan="6">
-                            <i class="icon-warning-sign"></i> 
+                            <i class="icon-warning-sign"></i>
                             No section assigned to this form.
                         </td>
                     </tr>

@@ -1,16 +1,15 @@
 {% block pagecontent %}
 <tr class="cisco-audit-field-row">
     <td colspan="2" style="padding-left: 50px;">{{ field.title }}</td>
-    <td>{{ field.weight }}</td>
-    <td>
     {% if field.flag == 1 %}
-        <i class="icon-check"/>
+    <td title="not applicable">default</td>
+    <td><i class="icon-check"/></td>
     {% else %}
-        <i class="icon-check-empty"/>
+    <td>{{ field.weight }}</td>
+    <td><i class="icon-check-empty"/></td>
     {% endif %}
-    </td>
     <td style="padding: 0 0 0 0 ">
-        <div class="btn-group pull-right cisco-audit-options" style="display: none;">
+        <div class="btn-group pull-right cisco-audit-options">
             <a class="btn btn-mini cisco-audit-field-view">
                 <i class="icon-eye-open" title="View"></i>
             </a>

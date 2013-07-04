@@ -4,15 +4,18 @@ namespace CiscoSystems\AuditBundle\Twig\Extension;
 
 use Twig_Extension;
 use Twig_Function_Method;
+use Doctrine\Common\Persistence\ObjectManager;
 use CiscoSystems\AuditBundle\Worker\AuditScoring;
 
 class AuditExtension extends Twig_Extension
 {
     protected $scoring;
+    protected $objectManager;
 
-    public function __construct( AuditScoring $scoring )
+    public function __construct( AuditScoring $scoring, ObjectManager $objectManager )
     {
         $this->scoring = $scoring;
+        $this->objectManager = $objectManager;
     }
 
     public function getName()
@@ -27,6 +30,7 @@ class AuditExtension extends Twig_Extension
             'get_weightforsection'  => new Twig_Function_Method( $this, 'getWeightForSection' ),
             'get_resultforaudit'    => new Twig_Function_Method( $this, 'getResultForAudit' ),
             'get_weightforaudit'    => new Twig_Function_Method( $this, 'getWeightForAudit' ),
+            'get_trigger'           => new Twig_Function_Method( $this, 'getTrigger' ),
         );
     }
 
@@ -48,5 +52,12 @@ class AuditExtension extends Twig_Extension
     public function getWeightForAudit( $audit )
     {
         return $this->scoring->getWeightForAudit( $audit );
+    }
+
+    public function getTrigger( $field )
+    {
+        $repo = $this->objectManager->getRepository( 'CiscoSystemsAuditBundle:AuditFormField' );
+
+        return $repo->getTrigger( $field );
     }
 }

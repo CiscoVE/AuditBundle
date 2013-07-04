@@ -13,3 +13,9 @@ cisco_audit_view:
 cisco_audits:
     pattern:  /
     defaults: { _controller: CiscoSystemsAuditBundle:Audit:index }
+
+cisco_audit_export:
+    pattern:  /{id}/export
+    defaults: { _controller: CiscoSystemsAuditBundle:Audit:export }
+    requirements:
+        id: \d+

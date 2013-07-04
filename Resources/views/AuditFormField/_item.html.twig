@@ -1,36 +1,34 @@
 {% block pagecontent %}
-{#{ ladybug_dump( get_trigger( field )) }#}
 <tr class="cisco-audit-field-row">
     <td colspan="2">{{ field.title }}</td>
     <td>
+        {#{% render 'CiscoSystemsAuditBundle:AuditFormField:list' with { 'fieldId': field.id } %}
+        {#{ form_widget( form ) }#}
     {% if field.section is empty %}
         <i>No Section assigned.</i>
     {% else %}
         {{ field.section }}
-    {% endif %}
+    {% endif %}<a href="#" class="cisco-audit-options" style="display: none;"><i class="icon-cog"></i></a>
     </td>
-    {% if field.flag == 1 %}
-    <td>default</td>
-    <td>
-        <i class="icon-check" title="{{ get_trigger( field ) }}"/>
-    </td>
-    {% else %}
     <td>{{ field.weight }}</td>
     <td>
+    {% if field.flag == 1 %}
+        <i class="icon-check" title="{{ get_trigger( field ) }}"></i>
+    {% else %}
         <i class="icon-check-empty"/>
-    </td>
     {% endif %}
-    <td width=20% style="white-space: nowrap;">
+    </td>
+    <td>
         <div class="btn-group pull-right cisco-audit-options">
-            <a class="btn btn-mini cisco-audit-field-view">
+            <a class="btn btn-mini cisco-audit-field-view disabled">
                 <i class="icon-eye-open" title="View"></i>
             </a>
-            <a class="btn btn-mini cisco-audit-field-edit" data-field-id="{{ field.id }}"
+            <a class="btn btn-mini cisco-audit-field-edit disabled" data-field-id="{{ field.id }}"
                 href="{{ path( 'cisco_auditfield_edit', { 'field_id': field.id } ) }}"
                 title="Edit">
                  <i class="icon-wrench"></i>
             </a>
-            <a class="btn btn-mini cisco-audit-field-delete" title="Delete"
+            <a class="btn btn-mini cisco-audit-field-delete disabled" title="Delete"
                 href="{{ path( 'cisco_auditfield_delete', { 'field_id': field.id } ) }}">
                 <i class="icon-trash"></i>
             </a>
@@ -50,7 +48,7 @@
     </td>
 </tr>
 <tr class="cisco-audit-desc-row info" style="display: none;">
-    <td style="padding-left: 50px;">
+    <td>
         <div class="text-info"><i>Scores: </i></div>
     </td>
     <td colspan="5">
