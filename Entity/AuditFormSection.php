@@ -87,13 +87,10 @@ class AuditFormSection
      * Set Flag
      *
      * @param boolean $flag
-     * @return \CiscoSystems\AuditBundle\Entity\AuditFormSection
      */
     public function setFlag( $flag )
     {
         $this->flag = $flag;
-
-        return $this;
     }
 
     /**
@@ -109,14 +106,11 @@ class AuditFormSection
     /**
      * Set auditForm
      *
-     * @param string $auditForm
-     * @return \CiscoSystems\AuditBundle\Entity\AuditFormSection
+     * @param string $form
      */
-    public function setAuditForm( $auditForm )
+    public function setAuditForm( \CiscoSystems\AuditBundle\Entity\AuditForm $form )
     {
-        $this->auditForm = $auditForm;
-
-        return $this;
+        $this->auditForm = $form;
     }
 
     /**
@@ -133,13 +127,10 @@ class AuditFormSection
      * Set title
      *
      * @param string $title
-     * @return \CiscoSystems\AuditBundle\Entity\AuditFormSection
      */
     public function setTitle( $title )
     {
         $this->title = $title;
-
-        return $this;
     }
 
     /**
@@ -161,8 +152,6 @@ class AuditFormSection
     public function setDescription( $description )
     {
         $this->description = $description;
-
-        return $this;
     }
 
     /**
@@ -179,13 +168,10 @@ class AuditFormSection
      * Set position
      *
      * @param integer $position
-     * @return \CiscoSystems\AuditBundle\Entity\AuditFormSection
      */
     public function setPosition( $position )
     {
         $this->position = $position;
-
-        return $this;
     }
 
     /**
@@ -196,6 +182,16 @@ class AuditFormSection
     public function getPosition()
     {
         return $this->position;
+    }
+
+    /**
+     * Set fields
+     *
+     * @param \Doctrine\Common\Collections\ArrayCollection $fields
+     */
+    public function setFields( \Doctrine\Common\Collections\ArrayCollection $fields )
+    {
+        $this->fields = $fields;
     }
 
     /**
@@ -212,7 +208,6 @@ class AuditFormSection
      * Add a field to ArrayCollection $this->fields
      *
      * @param CiscoSystems\AuditBundle\Entity\AuditFormField $field
-     * @return \CiscoSystems\AuditBundle\Entity\AuditFormSection
      */
     public function addField( \CiscoSystems\AuditBundle\Entity\AuditFormField $field )
     {
@@ -221,7 +216,6 @@ class AuditFormSection
             $field->setSection( $this );
             $this->fields->add( $field );
         }
-        return $this;
     }
 
     /**
