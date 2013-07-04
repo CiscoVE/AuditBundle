@@ -63,7 +63,7 @@ class AuditForm
 
     public function __construct()
     {
-        $this->active = true;
+        $this->active = TRUE;
         $this->sections = new ArrayCollection();
         $this->audits = new ArrayCollection();
     }
@@ -194,10 +194,29 @@ class AuditForm
     }
 
     /**
+     * Set sections
+     *
+     * @param \Doctrine\Common\Collections\ArrayCollection $sections
+     */
+    public function setSections( \Doctrine\Common\Collections\ArrayCollection $sections = NULL )
+    {
+        $this->sections = $sections;
+    }
+
+    /**
+     * Get sections
+     *
+     * @return Doctrine\Common\Collections\Collection
+     */
+    public function getSections()
+    {
+        return $this->sections;
+    }
+
+    /**
      * Add a section
      *
      * @param CiscoSystems\AuditBundle\Entity\AuditFormSection $section
-     * @return AuditForm
      */
     public function addSection( \CiscoSystems\AuditBundle\Entity\AuditFormSection $section )
     {
@@ -205,8 +224,11 @@ class AuditForm
         {
             $section->setAuditform( $this );
             $this->sections->add( $section );
+
+            return TRUE;
         }
-        return $this;
+
+        return FALSE;
     }
 
     /**
@@ -233,9 +255,13 @@ class AuditForm
         {
             $index = $this->sections->indexOf( $section );
             $rem = $this->sections->get( $index );
+            $rem->setAuditForm( NULL );
             $this->sections->removeElement($section);
-            $rem->setAuditForm( null );
+
+            return TRUE;
         }
+
+        return FALSE;
     }
 
     public function removeAllSection()
@@ -247,20 +273,29 @@ class AuditForm
     }
 
     /**
-     * Get sections
+     * Set audits
+     *
+     * @param \Doctrine\Common\Collections\Collection $audits
+     */
+    public function setAudits( \Doctrine\Common\Collections\Collection $audits = NULL )
+    {
+        $this->audits = $audits;
+    }
+
+    /**
+     * Get audits
      *
      * @return Doctrine\Common\Collections\Collection
      */
-    public function getSections()
+    public function getAudits()
     {
-        return $this->sections;
+        return $this->audits;
     }
 
     /**
      * Add an Audit to ArrayColletion audits
      *
      * @param \CiscoSystems\AuditBundle\Entity\Audit $audit
-     * @return AuditForm
      */
     public function addAudit( \CiscoSystems\AuditBundle\Entity\Audit $audit )
     {
@@ -268,8 +303,11 @@ class AuditForm
         {
             $audit->setAuditForm( $this );
             $this->audits->add( $audit );
+
+            return TRUE;
         }
-        return $this;
+
+        return FALSE;
     }
 
     /*
@@ -296,9 +334,13 @@ class AuditForm
         {
             $index = $this->audits->indexOf( $audit );
             $rem = $this->audits->get( $index );
-            $this->audits->removeElement( $audit );
             $rem->setAuditForm( NULL );
+            $this->audits->removeElement( $audit );
+
+            return TRUE;
         }
+
+        return FALSE;
     }
 
     /**
@@ -313,26 +355,13 @@ class AuditForm
     }
 
     /**
-     * Get audits
-     *
-     * @return Doctrine\Common\Collections\Collection
-     */
-    public function getAudits()
-    {
-        return $this->audits;
-    }
-
-    /**
      * Set metadata
      *
      * @param \CiscoSystems\AuditBundle\Model\MetadataInterface $metadata
-     * @return \CiscoSystems\AuditBundle\Entity\Audit
      */
-    public function setMetadata( \CiscoSystems\AuditBundle\Model\MetadataInterface $metadata )
+    public function setMetadata( \CiscoSystems\AuditBundle\Model\MetadataInterface $metadata = NULL )
     {
         $this->metadata = $metadata;
-
-        return $this;
     }
 
     /**

@@ -216,14 +216,14 @@ class AuditFormFieldTest extends \PHPUnit_Framework_TestCase
         $auditscore2 = new AuditScore();
         $auditscore3 = new AuditScore();
         $auditscores = new ArrayCollection( array( $auditscore1, $auditscore2, $auditscore3 ));
-
         $this->field->setAuditScores( $auditscores );
+
         $this->field->removeAuditScore( $auditscore3 );
         $auditscores->removeElement( $auditscore3 );
 
         $actual = count( $this->field->getAuditscores() );
         $expected = count( $auditscores );
 
-        $this->assertEquals( $expected, $actual );
+        $this->assertNotContains( $auditscore3, $this->field->getAuditscores() );
     }
 }

@@ -46,7 +46,7 @@ class AuditFormSection
      */
     protected $fields;
 
-    protected $flag = false;
+    protected $flag = FALSE;
 
     public function __construct()
     {
@@ -64,8 +64,8 @@ class AuditFormSection
         $weight = 0;
         foreach ( $this->fields as $field )
         {
-//            The following was in place to restrict the weight for non flagged field
-            if( !$field->getFlag() == true )
+            // The following was in place to restrict the weight for non flagged field
+            if( !$field->getFlag() == TRUE )
             {
                 $weight += $field->getWeight();
             }
@@ -108,7 +108,7 @@ class AuditFormSection
      *
      * @param string $form
      */
-    public function setAuditForm( \CiscoSystems\AuditBundle\Entity\AuditForm $form )
+    public function setAuditForm( \CiscoSystems\AuditBundle\Entity\AuditForm $form = NULL )
     {
         $this->auditForm = $form;
     }
@@ -189,7 +189,7 @@ class AuditFormSection
      *
      * @param \Doctrine\Common\Collections\ArrayCollection $fields
      */
-    public function setFields( \Doctrine\Common\Collections\ArrayCollection $fields )
+    public function setFields( \Doctrine\Common\Collections\ArrayCollection $fields = NULL )
     {
         $this->fields = $fields;
     }
@@ -215,7 +215,11 @@ class AuditFormSection
         {
             $field->setSection( $this );
             $this->fields->add( $field );
+
+            return TRUE;
         }
+
+        return FALSE;
     }
 
     /**
@@ -242,9 +246,13 @@ class AuditFormSection
         {
             $index = $this->fields->indexOf( $field );
             $rem = $this->fields->get( $index );
+            $rem->setSection( NULL );
             $this->fields->removeElement( $field );
-            $rem->setSection( null );
+
+            return TRUE;
         }
+
+        return FALSE;
     }
 
     /**

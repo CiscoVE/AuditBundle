@@ -136,7 +136,7 @@ class AuditScore
      *
      * @param CiscoSystems\AuditBundle\Entity\AuditFormField $field
      */
-    public function setField( \CiscoSystems\AuditBundle\Entity\AuditFormField $field = null )
+    public function setField( \CiscoSystems\AuditBundle\Entity\AuditFormField $field = NULL )
     {
         if( null == $this->field ) $this->field = $field;
     }

@@ -5,6 +5,7 @@ namespace CiscoSystems\AuditBundle\Entity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="CiscoSystems\AuditBundle\Entity\Repository\AuditFormFieldRepository")
@@ -70,6 +71,12 @@ class AuditFormField
      * @ORM\Column(length=127, unique=true)
      */
     protected $slug;
+
+    public function __construct()
+    {
+        $this->flag = FALSE;
+        $this->auditscores = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -153,80 +160,6 @@ class AuditFormField
     }
 
     /**
-     * Set auditscores
-     *
-     * @param \Doctrine\Common\Collections\ArrayCollection $auditscores
-     */
-    public function setAuditScores( \Doctrine\Common\Collections\ArrayCollection $auditscores )
-    {
-        $this->auditscores = $auditscores;
-    }
-
-    /**
-     * Get auditscores
-     *
-     * @return \Doctrine\Common\Collections\ArrayCollection
-     */
-    public function getAuditscores()
-    {
-        return $this->auditscores;
-    }
-
-    /**
-     * Add an auditscore
-     *
-     * @param \CiscoSystems\AuditBundle\Entity\AuditScore $auditscore
-     */
-    public function addAuditScore( \CiscoSystems\AuditBundle\Entity\AuditScore $auditscore )
-    {
-        if( count( $this->auditscores ) > 0 && !$this->auditscores->contains( $auditscore ))
-        {
-            $this->auditscores->add( $auditscore );
-            $auditscore->setField( $this );
-        }
-    }
-
-    /**
-     * Add auditscores
-     *
-     * @param array $auditscores
-     */
-    public function addAuditScores( $auditscores )
-    {
-        foreach( $auditscores as $auditscore )
-        {
-            $this->addAuditScore( $auditscore );
-        }
-    }
-
-    /**
-     * Remove auditscores
-     *
-     * @param \CiscoSystems\AuditBundle\Entity\AuditScore $auditscore
-     */
-    public function removeAuditScore( \CiscoSystems\AuditBundle\Entity\AuditScore $auditscore )
-    {
-        if ( $this->auditscores->contains( $auditscore ) )
-        {
-            $index = $this->auditscores->indexOf( $auditscore );
-            $rem = $this->auditscores->get( $index );
-            $rem->setField( null );
-        }
-        $this->auditscores->removeElement( $auditscore );
-    }
-
-    /**
-     * Remove all auditscores
-     */
-    public function removeAllAuditScore()
-    {
-        foreach ( $this->auditscores as $auditscore )
-        {
-            $this->removeAuditScore( $auditscore );
-        }
-    }
-
-    /**
      * Set weight
      *
      * @param integer $weight
@@ -291,7 +224,7 @@ class AuditFormField
      *
      * @param CiscoSystems\AuditBundle\Entity\AuditFormSection $section
      */
-    public function setSection( \CiscoSystems\AuditBundle\Entity\AuditFormSection $section = null )
+    public function setSection( \CiscoSystems\AuditBundle\Entity\AuditFormSection $section = NULL )
     {
         $this->section = $section;
     }
@@ -324,5 +257,87 @@ class AuditFormField
     public function getSlug()
     {
         return $this->slug;
+    }
+
+    /**
+     * Set auditscores
+     *
+     * @param \Doctrine\Common\Collections\ArrayCollection $auditscores
+     */
+    public function setAuditScores( \Doctrine\Common\Collections\ArrayCollection $auditscores = NULL )
+    {
+        $this->auditscores = $auditscores;
+    }
+
+    /**
+     * Get auditscores
+     *
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getAuditscores()
+    {
+        return $this->auditscores ;
+    }
+
+    /**
+     * Add an auditscore
+     *
+     * @param \CiscoSystems\AuditBundle\Entity\AuditScore $auditscore
+     */
+    public function addAuditScore( \CiscoSystems\AuditBundle\Entity\AuditScore $auditscore )
+    {
+        if( count( $this->auditscores ) > 0 && !$this->auditscores->contains( $auditscore ))
+        {
+            $this->auditscores->add( $auditscore );
+            $auditscore->setField( $this );
+
+            return TRUE;
+        }
+
+        return FALSE;
+    }
+
+    /**
+     * Add auditscores
+     *
+     * @param array $auditscores
+     */
+    public function addAuditScores( array $auditscores )
+    {
+        foreach( $auditscores as $auditscore )
+        {
+            $this->addAuditScore( $auditscore );
+        }
+    }
+
+    /**
+     * Remove auditscores
+     *
+     * @param \CiscoSystems\AuditBundle\Entity\AuditScore $auditscore
+     */
+    public function removeAuditScore( \CiscoSystems\AuditBundle\Entity\AuditScore $auditscore )
+    {
+        if( $this->auditscores->contains( $auditscore ) )
+        {
+            $index = $this->auditscores->indexOf( $auditscore );
+            $rem = $this->auditscores->get( $index );
+            $rem->setField( NULL );
+            $this->auditscores->removeElement( $auditscore );
+
+            return TRUE;
+        }
+        
+        return FALSE;
+    }
+
+    /**
+     * Remove all auditscores
+     */
+    public function removeAllAuditScore()
+    {
+        foreach ( $this->auditscores as $auditscore )
+        {
+            $this->removeAuditScore( $auditscore );
+        }
     }
 }

@@ -95,6 +95,24 @@ class AuditFormSectionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @covers CiscoSystems\AuditBundle\Entity\AuditFormSection::setFields
+     * @covers CiscoSystems\AuditBundle\Entity\AuditFormSection::getFields
+     */
+    public function testFields()
+    {
+        $field1 = new AuditFormField();
+        $field2 = new AuditFormField();
+        $field3 = new AuditFormField();
+        $fields = new ArrayCollection( array( $field1, $field2, $field3 ));
+        $this->section->setFields( $fields );
+
+        $actual = $this->section->getFields();
+        $expected = $fields;
+
+        $this->assertEquals( $expected, $actual );
+    }
+
+    /**
      * @covers CiscoSystems\AuditBundle\Entity\AuditFormSection::addField
      */
     public function testAddField()
@@ -124,13 +142,34 @@ class AuditFormSectionTest extends \PHPUnit_Framework_TestCase
         $field2 = new AuditFormField();
         $field3 = new AuditFormField();
         $fields = new ArrayCollection( array( $field1, $field2, $field3 ));
-
         $this->section->setFields( $fields );
+
         $this->section->removeField( $field3 );
         $fields->removeElement( $field3 );
 
-        $actual = count( $this->section->getFields() );
-        $expected = count( $fields );
+        $actual = $this->section->getFields();
+        $expected = $field3;
+
+        $this->assertNotContains( $expected, $actual );
+    }
+
+    /**
+     * @covers CiscoSystems\AuditBundle\Entity\AuditFormSection::getWeight
+     */
+    public function testGetWeight()
+    {
+        $weight = 5;
+        $field1 = new AuditFormField();
+        $field1->setWeight( $weight );
+        $field2 = new AuditFormField();
+        $field2->setWeight( $weight );
+        $field3 = new AuditFormField();
+        $field3->setWeight( $weight );
+        $fields = new ArrayCollection( array( $field1, $field2, $field3 ));
+        $this->section->setFields( $fields );
+
+        $actual = $this->section->getWeight();
+        $expected = ( $weight * 3 );
 
         $this->assertEquals( $expected, $actual );
     }
