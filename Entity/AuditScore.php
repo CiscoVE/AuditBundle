@@ -75,13 +75,10 @@ class AuditScore
      * Set score
      *
      * @param string $score
-     * @return AuditScore
      */
     public function setScore( $score )
     {
         $this->score = $score;
-
-        return $this;
     }
 
     /**
@@ -98,13 +95,10 @@ class AuditScore
      * Set comment
      *
      * @param string $comment
-     * @return AuditScore
      */
     public function setComment( $comment )
     {
         $this->comment = $comment;
-
-        return $this;
     }
 
     /**
@@ -121,13 +115,10 @@ class AuditScore
      * Set audit
      *
      * @param CiscoSystems\AuditBundle\Entity\Audit $audit
-     * @return AuditScore
      */
     public function setAudit( \CiscoSystems\AuditBundle\Entity\Audit $audit )
     {
         if ( null == $this->audit ) $this->audit = $audit;
-
-        return $this;
     }
 
     /**
@@ -144,14 +135,10 @@ class AuditScore
      * Set field
      *
      * @param CiscoSystems\AuditBundle\Entity\AuditFormField $field
-     *
-     * @return AuditScore
      */
-    public function setField( \CiscoSystems\AuditBundle\Entity\AuditFormField $field = null )
+    public function setField( \CiscoSystems\AuditBundle\Entity\AuditFormField $field )
     {
         if ( null == $this->field ) $this->field = $field;
-
-        return $this;
     }
 
     /**

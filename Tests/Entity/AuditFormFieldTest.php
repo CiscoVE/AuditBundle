@@ -4,6 +4,7 @@ namespace CiscoSystems\AuditBundle\Tests\Entity;
 
 use CiscoSystems\AuditBundle\Entity\AuditFormField;
 use CiscoSystems\AuditBundle\Entity\AuditFormSection;
+use CiscoSystems\AuditBundle\Entity\AuditScore;
 
 class AuditFormFieldTest extends \PHPUnit_Framework_TestCase
 {
@@ -59,7 +60,7 @@ class AuditFormFieldTest extends \PHPUnit_Framework_TestCase
         $actual = $this->field->getWeight();
         $expected = $weight;
 
-        $this->asserEquals( $expected, $actual );
+        $this->assertEquals( $expected, $actual );
     }
 
     /**
@@ -104,7 +105,7 @@ class AuditFormFieldTest extends \PHPUnit_Framework_TestCase
         $actual = $this->field->getSection();
         $expected = $section;
 
-        $this->asserEquals( $expected, $actual );
+        $this->assertEquals( $expected, $actual );
     }
 
     /**
@@ -119,7 +120,7 @@ class AuditFormFieldTest extends \PHPUnit_Framework_TestCase
         $actual = $this->field->getSlug();
         $expected = $slug;
 
-        $this->asserEquals( $expected, $actual );
+        $this->assertEquals( $expected, $actual );
     }
 
     /**
@@ -139,7 +140,7 @@ class AuditFormFieldTest extends \PHPUnit_Framework_TestCase
         $actual = $this->field->getScores();
         $expected = $scores;
 
-        $this->asserEquals( $expected, $actual );
+        $this->assertEquals( $expected, $actual );
     }
 
     /**
@@ -159,9 +160,15 @@ class AuditFormFieldTest extends \PHPUnit_Framework_TestCase
         $this->field->addScore( $score, $label );
 
         $actualScores = $this->field->getScores();
-        $actual = $actualScores[count( $actualScores ) - 1];
-        $expected = $scores;
+//        $scoresCount = count( $actualScores );
+        $actual = $actualScores[$score];
+        $expected = $label;
 
-        $this->asserEquals( $expected, $actual );
+        $this->assertEquals( $expected, $actual );
+    }
+
+    public function testAuditScores()
+    {
+        $auditscore = new AuditScore();
     }
 }
