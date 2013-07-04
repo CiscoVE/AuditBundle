@@ -5,6 +5,7 @@ namespace CiscoSystems\AuditBundle\Tests\Entity;
 use CiscoSystems\AuditBundle\Entity\AuditFormField;
 use CiscoSystems\AuditBundle\Entity\AuditFormSection;
 use CiscoSystems\AuditBundle\Entity\AuditScore;
+use Doctrine\Common\Collections\ArrayCollection;
 
 class AuditFormFieldTest extends \PHPUnit_Framework_TestCase
 {
@@ -167,8 +168,62 @@ class AuditFormFieldTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals( $expected, $actual );
     }
 
+    /**
+     * @covers CiscoSystems\AuditBundle\Entity\AuditFormField::setAuditScores
+     * @covers CiscoSystems\AuditBundle\Entity\AuditFormField::getAuditScores
+     */
     public function testAuditScores()
     {
+        $auditscore1 = new AuditScore();
+        $auditscore2 = new AuditScore();
+        $auditscore3 = new AuditScore();
+        $auditscores = new ArrayCollection( array( $auditscore1, $auditscore2, $auditscore3 ));
+        $this->field->setAuditScores( $auditscores );
+
+        $actual = count( $this->field->getAuditscores());
+        $expected = count( $auditscores );
+
+        $this->assertEquals( $expected, $actual );
+    }
+
+    /**
+     * @covers CiscoSystems\AuditBundle\Entity\AuditFormField::addAuditScore
+     */
+    public function testAddAuditScore()
+    {
+        $auditscore1 = new AuditScore();
+        $auditscore2 = new AuditScore();
+        $auditscore3 = new AuditScore();
+        $auditscores = new ArrayCollection( array( $auditscore1, $auditscore2, $auditscore3 ));
+        $this->field->setAuditScores( $auditscores );
+
         $auditscore = new AuditScore();
+        $this->field->addAuditScore( $auditscore );
+
+        $actualScores = $this->field->getAuditscores();
+        $actual = $actualScores[( count( $actualScores ) -1 )];
+        $expected = $auditscore;
+
+        $this->assertEquals( $expected, $actual );
+    }
+
+    /**
+     * @covers CiscoSystems\AuditBundle\Entity\AuditFormField::removeAuditScore
+     */
+    public function testRemoveAuditScore()
+    {
+        $auditscore1 = new AuditScore();
+        $auditscore2 = new AuditScore();
+        $auditscore3 = new AuditScore();
+        $auditscores = new ArrayCollection( array( $auditscore1, $auditscore2, $auditscore3 ));
+
+        $this->field->setAuditScores( $auditscores );
+        $this->field->removeAuditScore( $auditscore3 );
+        $auditscores->removeElement( $auditscore3 );
+
+        $actual = count( $this->field->getAuditscores() );
+        $expected = count( $auditscores );
+
+        $this->assertEquals( $expected, $actual );
     }
 }

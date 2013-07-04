@@ -85,14 +85,10 @@ class AuditFormField
      * Set title
      *
      * @param string $title
-     *
-     * @return \CiscoSystems\AuditBundle\Entity\AuditFormField
      */
     public function setTitle( $title )
     {
         $this->title = $title;
-
-        return $this;
     }
 
     /**
@@ -109,14 +105,10 @@ class AuditFormField
      * Set description
      *
      * @param string $description
-     *
-     * @return \CiscoSystems\AuditBundle\Entity\AuditFormField
      */
     public function setDescription( $description )
     {
         $this->description = $description;
-
-        return $this;
     }
 
     /**
@@ -133,14 +125,10 @@ class AuditFormField
      * Set scores
      *
      * @param \Doctrine\Common\Collections\ArrayCollection $scores
-     *
-     * @return \Doctrine\Common\Collections\ArrayCollection
      */
     public function setScores( $scores )
     {
         $this->scores = $scores;
-
-        return $this;
     }
 
     /**
@@ -158,18 +146,24 @@ class AuditFormField
      *
      * @param string $score
      * @param string $label
-     *
-     * @return AuditField
      */
     public function addScore( $score, $label )
     {
         $this->scores[ $score ] = $label;
-
-        return $this;
     }
 
     /**
-     * Get auditscore
+     * Set auditscores
+     *
+     * @param \Doctrine\Common\Collections\ArrayCollection $auditscores
+     */
+    public function setAuditScores( \Doctrine\Common\Collections\ArrayCollection $auditscores )
+    {
+        $this->auditscores = $auditscores;
+    }
+
+    /**
+     * Get auditscores
      *
      * @return \Doctrine\Common\Collections\ArrayCollection
      */
@@ -181,34 +175,44 @@ class AuditFormField
     /**
      * Add an auditscore
      *
-     * @param \CiscoSystems\AuditBundle\Entity\AuditScore $score
-     *
-     * @return \CiscoSystems\AuditBundle\Entity\AuditFormField
+     * @param \CiscoSystems\AuditBundle\Entity\AuditScore $auditscore
      */
-    public function addAuditScore( \CiscoSystems\AuditBundle\Entity\AuditScore $score )
+    public function addAuditScore( \CiscoSystems\AuditBundle\Entity\AuditScore $auditscore )
     {
-        if( $this->auditscores->contains( $score ))
+        if( count( $this->auditscores ) > 0 && !$this->auditscores->contains( $auditscore ))
         {
-            $score->setField( $this );
-            $this->auditscores->add( $score );
+            $this->auditscores->add( $auditscore );
+            $auditscore->setField( $this );
         }
-        return $this;
+    }
+
+    /**
+     * Add auditscores
+     *
+     * @param array $auditscores
+     */
+    public function addAuditScores( $auditscores )
+    {
+        foreach( $auditscores as $auditscore )
+        {
+            $this->addAuditScore( $auditscore );
+        }
     }
 
     /**
      * Remove auditscores
      *
-     * @param \CiscoSystems\AuditBundle\Entity\AuditScore $score
+     * @param \CiscoSystems\AuditBundle\Entity\AuditScore $auditscore
      */
-    public function removeAuditScore( \CiscoSystems\AuditBundle\Entity\AuditScore $score )
+    public function removeAuditScore( \CiscoSystems\AuditBundle\Entity\AuditScore $auditscore )
     {
-        if ( $this->auditscores->contains( $score ) )
+        if ( $this->auditscores->contains( $auditscore ) )
         {
-            $index = $this->auditscores->indexOf( $score );
+            $index = $this->auditscores->indexOf( $auditscore );
             $rem = $this->auditscores->get( $index );
             $rem->setField( null );
         }
-        $this->auditscores->removeElement( $score );
+        $this->auditscores->removeElement( $auditscore );
     }
 
     /**
@@ -226,14 +230,10 @@ class AuditFormField
      * Set weight
      *
      * @param integer $weight
-     *
-     * @return \CiscoSystems\AuditBundle\Entity\uditFormField
      */
     public function setWeight( $weight )
     {
         $this->weight = $weight;
-
-        return $this;
     }
 
     /**
@@ -250,14 +250,10 @@ class AuditFormField
      * Set flag
      *
      * @param boolean $flag
-     *
-     * @return AuditFormField
      */
     public function setFlag( $flag )
     {
         $this->flag = $flag;
-
-        return $this;
     }
 
     /**
@@ -274,14 +270,10 @@ class AuditFormField
      * Set position
      *
      * @param integer $position
-     *
-     * @return AuditFormField
      */
     public function setPosition( $position )
     {
         $this->position = $position;
-
-        return $this;
     }
 
     /**
@@ -298,14 +290,10 @@ class AuditFormField
      * Set section
      *
      * @param CiscoSystems\AuditBundle\Entity\AuditFormSection $section
-     *
-     * @return AuditFormField
      */
     public function setSection( \CiscoSystems\AuditBundle\Entity\AuditFormSection $section = null )
     {
         $this->section = $section;
-
-        return $this;
     }
 
     /**
@@ -322,14 +310,10 @@ class AuditFormField
      * Set slug
      *
      * @param string $slug
-     *
-     * @return AuditFormField
      */
     public function setSlug( $slug )
     {
         $this->slug = $slug;
-
-        return $this;
     }
 
     /**

@@ -118,7 +118,7 @@ class AuditScore
      */
     public function setAudit( \CiscoSystems\AuditBundle\Entity\Audit $audit )
     {
-        if ( null == $this->audit ) $this->audit = $audit;
+        if( null == $this->audit ) $this->audit = $audit;
     }
 
     /**
@@ -136,9 +136,9 @@ class AuditScore
      *
      * @param CiscoSystems\AuditBundle\Entity\AuditFormField $field
      */
-    public function setField( \CiscoSystems\AuditBundle\Entity\AuditFormField $field )
+    public function setField( \CiscoSystems\AuditBundle\Entity\AuditFormField $field = null )
     {
-        if ( null == $this->field ) $this->field = $field;
+        if( null == $this->field ) $this->field = $field;
     }
 
     /**
