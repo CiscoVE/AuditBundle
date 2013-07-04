@@ -28,10 +28,7 @@ class AuditFormFieldTest extends \PHPUnit_Framework_TestCase
         $title = 'test title string';
         $this->field->setTitle( $title );
 
-        $actual = $this->field->getTitle();
-        $expected = $title;
-
-        $this->assertEquals( $expected, $actual );
+        $this->assertEquals( $title, $this->field->getTitle() );
     }
 
     /**
@@ -43,10 +40,7 @@ class AuditFormFieldTest extends \PHPUnit_Framework_TestCase
         $description = 'test description string';
         $this->field->setDescription( $description );
 
-        $actual = $this->field->getDescription();
-        $expected = $description;
-
-        $this->assertEquals( $expected, $actual );
+        $this->assertEquals( $description, $this->field->getDescription() );
     }
 
     /**
@@ -58,10 +52,7 @@ class AuditFormFieldTest extends \PHPUnit_Framework_TestCase
         $weight = 5;
         $this->field->setWeight( $weight );
 
-        $actual = $this->field->getWeight();
-        $expected = $weight;
-
-        $this->assertEquals( $expected, $actual );
+        $this->assertEquals( $weight, $this->field->getWeight() );
     }
 
     /**
@@ -73,10 +64,7 @@ class AuditFormFieldTest extends \PHPUnit_Framework_TestCase
         $flag = true;
         $this->field->setFlag( $flag );
 
-        $actual = $this->field->getFlag();
-        $expected = $flag;
-
-        $this->assertEquals( $expected, $actual );
+        $this->assertEquals( $flag, $this->field->getFlag() );
     }
 
     /**
@@ -88,10 +76,7 @@ class AuditFormFieldTest extends \PHPUnit_Framework_TestCase
         $position = 1;
         $this->field->setPosition( $position );
 
-        $actual = $this->field->getPosition();
-        $expected = $position;
-
-        $this->assertEquals( $expected, $actual );
+        $this->assertEquals( $position, $this->field->getPosition() );
     }
 
     /**
@@ -103,10 +88,7 @@ class AuditFormFieldTest extends \PHPUnit_Framework_TestCase
         $section = $this->section;
         $this->field->setSection( $section );
 
-        $actual = $this->field->getSection();
-        $expected = $section;
-
-        $this->assertEquals( $expected, $actual );
+        $this->assertEquals( $section, $this->field->getSection() );
     }
 
     /**
@@ -118,10 +100,7 @@ class AuditFormFieldTest extends \PHPUnit_Framework_TestCase
         $slug = 'test-field-slug';
         $this->field->setSlug( $slug );
 
-        $actual = $this->field->getSlug();
-        $expected = $slug;
-
-        $this->assertEquals( $expected, $actual );
+        $this->assertEquals( $slug, $this->field->getSlug() );
     }
 
     /**
@@ -138,10 +117,7 @@ class AuditFormFieldTest extends \PHPUnit_Framework_TestCase
         );
         $this->field->setScores( $scores );
 
-        $actual = $this->field->getScores();
-        $expected = $scores;
-
-        $this->assertEquals( $expected, $actual );
+        $this->assertEquals( $scores, $this->field->getScores() );
     }
 
     /**
@@ -161,11 +137,8 @@ class AuditFormFieldTest extends \PHPUnit_Framework_TestCase
         $this->field->addScore( $score, $label );
 
         $actualScores = $this->field->getScores();
-//        $scoresCount = count( $actualScores );
-        $actual = $actualScores[$score];
-        $expected = $label;
 
-        $this->assertEquals( $expected, $actual );
+        $this->assertEquals( $label, $actualScores[$score] );
     }
 
     /**
@@ -180,10 +153,7 @@ class AuditFormFieldTest extends \PHPUnit_Framework_TestCase
         $auditscores = new ArrayCollection( array( $auditscore1, $auditscore2, $auditscore3 ));
         $this->field->setAuditScores( $auditscores );
 
-        $actual = count( $this->field->getAuditscores());
-        $expected = count( $auditscores );
-
-        $this->assertEquals( $expected, $actual );
+        $this->assertEquals( count( $auditscores ), count( $this->field->getAuditscores()) );
     }
 
     /**
@@ -199,12 +169,9 @@ class AuditFormFieldTest extends \PHPUnit_Framework_TestCase
 
         $auditscore = new AuditScore();
         $this->field->addAuditScore( $auditscore );
-
         $actualScores = $this->field->getAuditscores();
-        $actual = $actualScores[( count( $actualScores ) -1 )];
-        $expected = $auditscore;
 
-        $this->assertEquals( $expected, $actual );
+        $this->assertEquals( $auditscore, $actualScores[( count( $actualScores ) -1 )] );
     }
 
     /**
@@ -221,9 +188,7 @@ class AuditFormFieldTest extends \PHPUnit_Framework_TestCase
         $this->field->removeAuditScore( $auditscore3 );
         $auditscores->removeElement( $auditscore3 );
 
-        $actual = count( $this->field->getAuditscores() );
-        $expected = count( $auditscores );
-
         $this->assertNotContains( $auditscore3, $this->field->getAuditscores() );
+        $this->assertEquals( $auditscores, $this->field->getAuditscores() );
     }
 }

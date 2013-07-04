@@ -26,10 +26,7 @@ class AuditFormTest extends \PHPUnit_Framework_TestCase
         $title = 'test title string';
         $this->form->setTitle( $title );
 
-        $actual = $this->form->getTitle();
-        $expected = $title;
-
-        $this->assertEquals( $expected, $actual );
+        $this->assertEquals( $title, $this->form->getTitle() );
     }
 
     /**
@@ -41,10 +38,7 @@ class AuditFormTest extends \PHPUnit_Framework_TestCase
         $description = 'test description string';
         $this->form->setDescription( $description );
 
-        $actual = $this->form->getDescription();
-        $expected = $description;
-
-        $this->assertEquals( $expected, $actual );
+        $this->assertEquals( $description, $this->form->getDescription() );
     }
 
     /**
@@ -56,10 +50,7 @@ class AuditFormTest extends \PHPUnit_Framework_TestCase
         $active = TRUE;
         $this->form->setActive( $active );
 
-        $actual = $this->form->getActive();
-        $expected = $active;
-
-        $this->assertEquals( $expected, $actual );
+        $this->assertEquals( $active, $this->form->getActive() );
     }
 
     /**
@@ -71,10 +62,7 @@ class AuditFormTest extends \PHPUnit_Framework_TestCase
         $label = 'test label string';
         $this->form->setFlagLabel( $label );
 
-        $actual = $this->form->getFlagLabel();
-        $expected = $label;
-
-        $this->assertEquals( $expected, $actual );
+        $this->assertEquals( $label, $this->form->getFlagLabel() );
     }
 
     /**
@@ -89,10 +77,7 @@ class AuditFormTest extends \PHPUnit_Framework_TestCase
         $sections = new ArrayCollection( array( $section1, $section2, $section3 ));
         $this->form->setSections( $sections );
 
-        $actual = count( $this->form->getSections());
-        $expected = count( $sections );
-
-        $this->assertEquals( $expected, $actual );
+        $this->assertEquals( count( $sections ), count( $this->form->getSections()) );
     }
 
     /**
@@ -110,10 +95,8 @@ class AuditFormTest extends \PHPUnit_Framework_TestCase
         $this->form->addSection( $section );
 
         $actualSections = $this->form->getSections();
-        $actual = $actualSections[( count( $actualSections ) - 1 )];
-        $expected = $section;
 
-        $this->assertEquals( $expected, $actual );
+        $this->assertEquals( $section, $actualSections[( count( $actualSections ) - 1 )] );
     }
 
     /**
@@ -130,10 +113,8 @@ class AuditFormTest extends \PHPUnit_Framework_TestCase
         $this->form->removeSection( $section3 );
         $sections->removeElement( $section3 );
 
-        $actual = $this->form->getSections();
-        $expected = $section3;
-
-        $this->assertNotContains( $expected, $actual );
+        $this->assertEquals( $sections, $this->form->getSections() );
+        $this->assertNotContains( $section3, $this->form->getSections() );
     }
 
     /**
@@ -148,9 +129,51 @@ class AuditFormTest extends \PHPUnit_Framework_TestCase
         $audits = new ArrayCollection( array( $audit1, $audit2, $audit3 ));
         $this->form->setAudits( $audits );
 
-        $actual = $this->form->getAudits();
-        $expected = $audits;
+        $this->assertEquals( $audits, $this->form->getAudits() );
+    }
 
-        $this->assertEquals( $expected, $actual );
+    /**
+     * @covers CiscoSystems\AuditBundle\Entity\AuditForm::addAudit
+     */
+    public function testAddAudit()
+    {
+        $audit1 = new Audit();
+        $audit2 = new Audit();
+        $audit3 = new Audit();
+        $audits = new ArrayCollection( array( $audit1, $audit2, $audit3 ));
+        $this->form->setAudits( $audits );
+
+        $audit = new Audit();
+        $this->form->addAudit( $audit );
+        $actualAudits = $this->form->getAudits();
+
+        $this->assertEquals( $audit, $actualAudits[( count( $actualAudits ) - 1 )] );
+    }
+
+    /**
+     * @covers CiscoSystems\AuditBundle\Entity\AuditForm::removeAudit
+     */
+    public function testRemoveAudit()
+    {
+        $audit1 = new Audit();
+        $audit2 = new Audit();
+        $audit3 = new Audit();
+        $audits = new ArrayCollection( array( $audit1, $audit2, $audit3 ));
+        $this->form->setAudits( $audits );
+        
+        $this->form->removeAudit( $audit3 );
+        $audits->removeElement( $audit3 );
+
+        $this->assertNotContains( $audit3, $this->form->getAudits() );
+        $this->assertEquals( $audits, $this->form->getAudits() );
+    }
+
+    /**
+     * @covers CiscoSystems\AuditBundle\Entity\AuditForm::setMetadata
+     * @covers CiscoSystems\AuditBundle\Entity\AuditForm::getMetadata
+     */
+    public function testMetadata()
+    {
+
     }
 }

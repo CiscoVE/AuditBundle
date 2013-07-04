@@ -29,10 +29,7 @@ class AuditScoreTest extends \PHPUnit_Framework_TestCase
         $score = 'test score string';
         $this->auditscore->setScore( $score );
 
-        $actual = $this->auditscore->getScore();
-        $expected = $score;
-
-        $this->assertEquals( $expected, $actual );
+        $this->assertEquals( $score, $this->auditscore->getScore() );
     }
 
     /**
@@ -44,10 +41,7 @@ class AuditScoreTest extends \PHPUnit_Framework_TestCase
         $comment = 'test comment string';
         $this->auditscore->setComment( $comment );
 
-        $actual = $this->auditscore->getComment();
-        $expected = $comment;
-
-        $this->assertEquals( $expected, $actual );
+        $this->assertEquals( $comment, $this->auditscore->getComment() );
     }
 
     /**
@@ -59,10 +53,7 @@ class AuditScoreTest extends \PHPUnit_Framework_TestCase
         $audit = $this->audit;
         $this->auditscore->setAudit( $audit );
 
-        $actual = $this->auditscore->getAudit();
-        $expected = $audit;
-
-        $this->assertEquals( $expected, $actual );
+        $this->assertEquals( $audit, $this->auditscore->getAudit() );
     }
 
     /**
@@ -74,10 +65,7 @@ class AuditScoreTest extends \PHPUnit_Framework_TestCase
         $field = $this->field;
         $this->auditscore->setField( $field );
 
-        $actual = $this->auditscore->getField();
-        $expected = $field;
-
-        $this->assertEquals( $expected, $actual );
+        $this->assertEquals( $field, $this->auditscore->getField() );
     }
 
     /**

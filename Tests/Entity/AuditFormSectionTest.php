@@ -28,10 +28,7 @@ class AuditFormSectionTest extends \PHPUnit_Framework_TestCase
         $title = 'test title string';
         $this->section->setTitle( $title );
 
-        $actual = $this->section->getTitle();
-        $expected = $title;
-
-        $this->assertEquals( $expected, $actual );
+        $this->assertEquals( $title, $this->section->getTitle() );
     }
 
     /**
@@ -43,10 +40,7 @@ class AuditFormSectionTest extends \PHPUnit_Framework_TestCase
         $description = 'test description string';
         $this->section->setDescription( $description );
 
-        $actual = $this->section->getDescription();
-        $expected = $description;
-
-        $this->assertEquals( $expected, $actual );
+        $this->assertEquals( $description, $this->section->getDescription() );
     }
 
     /**
@@ -58,10 +52,7 @@ class AuditFormSectionTest extends \PHPUnit_Framework_TestCase
         $position = 1;
         $this->section->setPosition( $position );
 
-        $actual = $this->section->getPosition();
-        $expected = $position;
-
-        $this->assertEquals( $expected, $actual );
+        $this->assertEquals( $position, $this->section->getPosition() );
     }
 
     /**
@@ -73,10 +64,7 @@ class AuditFormSectionTest extends \PHPUnit_Framework_TestCase
         $flag = true;
         $this->section->setFlag( $flag );
 
-        $actual = $this->section->getFlag();
-        $expected = $flag;
-
-        $this->assertEquals( $expected, $actual );
+        $this->assertEquals( $flag, $this->section->getFlag() );
     }
 
     /**
@@ -88,10 +76,7 @@ class AuditFormSectionTest extends \PHPUnit_Framework_TestCase
         $form = $this->form;
         $this->section->setAuditForm( $form );
 
-        $actual = $this->section->getAuditForm();
-        $expected = $form;
-
-        $this->assertEquals( $expected, $actual );
+        $this->assertEquals( $form, $this->section->getAuditForm() );
     }
 
     /**
@@ -106,10 +91,7 @@ class AuditFormSectionTest extends \PHPUnit_Framework_TestCase
         $fields = new ArrayCollection( array( $field1, $field2, $field3 ));
         $this->section->setFields( $fields );
 
-        $actual = $this->section->getFields();
-        $expected = $fields;
-
-        $this->assertEquals( $expected, $actual );
+        $this->assertEquals( $fields, $this->section->getFields() );
     }
 
     /**
@@ -125,12 +107,9 @@ class AuditFormSectionTest extends \PHPUnit_Framework_TestCase
 
         $field = new AuditFormField();
         $this->section->addField( $field );
-
         $actualFields = $this->section->getFields();
-        $actual = $actualFields[( count( $actualFields ) -1 )];
-        $expected = $field;
 
-        $this->assertEquals( $expected, $actual );
+        $this->assertEquals( $field, $actualFields[( count( $actualFields ) -1 )] );
     }
 
     /**
@@ -147,10 +126,7 @@ class AuditFormSectionTest extends \PHPUnit_Framework_TestCase
         $this->section->removeField( $field3 );
         $fields->removeElement( $field3 );
 
-        $actual = $this->section->getFields();
-        $expected = $field3;
-
-        $this->assertNotContains( $expected, $actual );
+        $this->assertNotContains( $field3, $this->section->getFields() );
     }
 
     /**
@@ -168,9 +144,6 @@ class AuditFormSectionTest extends \PHPUnit_Framework_TestCase
         $fields = new ArrayCollection( array( $field1, $field2, $field3 ));
         $this->section->setFields( $fields );
 
-        $actual = $this->section->getWeight();
-        $expected = ( $weight * 3 );
-
-        $this->assertEquals( $expected, $actual );
+        $this->assertEquals( ( $weight * 3 ), $this->section->getWeight() );
     }
 }
