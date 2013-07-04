@@ -17,6 +17,10 @@ class AuditTest extends \PHPUnit_Framework_TestCase
         $this->audit = new Audit();
     }
 
+    /**
+     * @covers CiscoSystems\AuditBundle\Entity\Audit::setAuditForm
+     * @covers CiscoSystems\AuditBundle\Entity\Audit::getAuditForm
+     */
     public function testAuditForm()
     {
         $form = new AuditForm();
@@ -25,16 +29,28 @@ class AuditTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals( $form, $this->audit->getAuditForm() );
     }
 
+    /**
+     * @covers CiscoSystems\AuditBundle\Entity\Audit::setAuditReference
+     * @covers CiscoSystems\AuditBundle\Entity\Audit::getAuditReference
+     */
     public function testAuditReference()
     {
         // need to be tested on implementation of the ReferenceInterface
     }
 
+    /**
+     * @covers CiscoSystems\AuditBundle\Entity\Audit::setAuditingUser
+     * @covers CiscoSystems\AuditBundle\Entity\Audit::getAuditingUser
+     */
     public function testAuditingUser()
     {
         // need to be tested on implementation of the UserInterface
     }
 
+    /**
+     * @covers CiscoSystems\AuditBundle\Entity\Audit::setFlag
+     * @covers CiscoSystems\AuditBundle\Entity\Audit::getFlag
+     */
     public function testFlag()
     {
         $flag = TRUE;
@@ -43,6 +59,10 @@ class AuditTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals( $flag, $this->audit->getFlag() );
     }
 
+    /**
+     * @covers CiscoSystems\AuditBundle\Entity\Audit::setTotalScore
+     * @covers CiscoSystems\AuditBundle\Entity\Audit::getTotalScore
+     */
     public function testTotalScore()
     {
         $score = 75.50;
@@ -51,6 +71,10 @@ class AuditTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals( $score, $this->audit->getTotalScore() );
     }
 
+    /**
+     * @covers CiscoSystems\AuditBundle\Entity\Audit::setScores
+     * @covers CiscoSystems\AuditBundle\Entity\Audit::getScores
+     */
     public function testScores()
     {
         $score1 = new AuditScore();
@@ -63,6 +87,9 @@ class AuditTest extends \PHPUnit_Framework_TestCase
 
     }
 
+    /**
+     * @covers CiscoSystems\AuditBundle\Entity\Audit::addScore
+     */
     public function testAddScore()
     {
         $score1 = new AuditScore();
@@ -78,6 +105,9 @@ class AuditTest extends \PHPUnit_Framework_TestCase
         $this->assertContains( $score, $this->audit->getScores() );
     }
 
+    /**
+     * @covers CiscoSystems\AuditBundle\Entity\Audit::removeScore
+     */
     public function testRemoveScore()
     {
         $score1 = new AuditScore();
