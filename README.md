@@ -139,6 +139,8 @@ with the following command:
  * Allow a section to be assigned to more than one Form
  * Allow a Field to be assigned to more than one Section
  * Implement functional and unit testing
+    * Entity done
+    * maybe use [ICBaseTestBundle] (https://github.com/instaclick/ICBaseTestBundle)
 
 ## Issues
 
