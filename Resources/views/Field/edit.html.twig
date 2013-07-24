@@ -1,0 +1,141 @@
+{% extends 'CiscoSystemsAuditBundle::base.html.twig' %}
+
+{% block pagetitle %}
+    {{ parent() }}:
+    {% if edit == true %}
+        Field id: #{{ field.id }}
+    {% else %}
+        new Field
+    {% endif %}
+{% endblock %}
+
+{% block pagecontent %}
+<div class="container">
+    <div class="span11">
+        <form class="form-horizontal" method="POST" action="">
+            <div class="pull-right">
+                <button type="submit" class="btn btn-mini">
+                    Save Field <i class="icon-ok"></i>
+                </button>
+                {% if field.section.id is defined %}
+                    <a class="btn btn-mini"
+                        href="{{ path( 'audit_section_edit', { 'section_id': field.section.id } ) }}">
+                         Cancel <i class="icon-remove"></i>
+                    </a>
+                {% endif %}
+                {% if edit == true %}
+                    <a class="btn btn-mini"
+                        href="{{ path( 'audit_field_delete', { 'field_id': field.id } ) }}">
+                         Delete Field <i class="icon-trash"></i>
+                    </a>
+                {% endif %}
+            </div>
+            <div class="controls controls-row">
+                <div class="control-group">
+                    <div class="control-label">
+                        {{ form_label( form.title ) }}
+                    </div>
+                    <div class="controls" required="required">
+                        {{ form_widget( form.title ) }}
+                        {{ form_errors( form.title ) }}
+                    </div>
+                </div>
+            </div>
+            <div class="controls controls-row">
+                <div class="control-group">
+                    <div class="control-label">
+                        {{ form_label( form.section ) }}
+                    </div>
+                    <div class="controls">
+                        {{ form_widget( form.section ) }}
+                        {{ form_errors( form.section ) }}
+                    </div>
+                </div>
+            </div>
+            <div class="controls controls-row">
+                <div class="control-group">
+                    <div class="control-label">
+                        {{ form_label( form.flag ) }}
+                    </div>
+                    <div class="controls">
+                        {{ form_widget( form.flag ) }}
+                        {{ form_errors( form.flag ) }}
+                    </div>
+                </div>
+            </div>
+            <div class="controls controls-row">
+                <div class="control-group">
+                    <div class="control-label">
+                        {{ form_label( form.weight ) }}
+                    </div>
+                    <div class="controls">
+                        {{ form_widget( form.weight ) }}
+                        {{ form_errors( form.weight ) }}
+                    </div>
+                </div>
+            </div>
+            <div class="controls controls-row">
+                <div class="control-group">
+                    <div class="control-label">
+                        {{ form_label( form.description ) }}
+                    </div>
+                    <div class="controls">
+                        {{ form_widget( form.description, { 'attr': { 'class': 'input-xxlarge' }}) }}
+                        {{ form_errors( form.description ) }}
+                    </div>
+                </div>
+            </div>
+            <div class="bs-docs-answers">
+                <div class="controls controls-row">
+                    <div class="control-group">
+                        <div class="control-label">
+                            {{ form_label( form.answer_yes ) }}
+                        </div>
+                        <div class="controls">
+                            {{ form_widget( form.answer_yes, { 'attr': {'class': 'input-xxlarge' }}) }}
+                            {{ form_errors( form.answer_yes ) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="controls controls-row">
+                    <div class="control-group">
+                        <div class="control-label">
+                            {{ form_label( form.answer_no ) }}
+                        </div>
+                        <div class="controls">
+                            {{ form_widget( form.answer_no, { 'attr': { 'class': 'input-xxlarge' }}) }}
+                            {{ form_errors( form.answer_no ) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="controls controls-row">
+                    <div class="control-group">
+                        <div class="control-label">
+                            {{ form_label( form.answer_acceptable ) }}
+                        </div>
+                        <div class="controls">
+                            {{ form_widget( form.answer_acceptable, { 'attr': {  'class': 'input-xxlarge' }}) }}
+                            {{ form_errors( form.answer_acceptable ) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="controls controls-row">
+                    <div class="control-group">
+                        <div class="control-label">
+                            {{ form_label( form.answer_not_applicable) }}
+                        </div>
+                        <div class="controls">
+                            {{ form_widget( form.answer_not_applicable, { 'attr': {'class': 'input-xxlarge' }}) }}
+                            {{ form_errors( form.answer_not_applicable ) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    <script type="text/javascript">
+        var multipleAllowed = {{ field.section.form.allowMultipleAnswer | json_encode() }};
+        var flagged = {{ field.flag | json_encode()}};
+    </script>
+    </div>
+</div>
+{% endblock %}

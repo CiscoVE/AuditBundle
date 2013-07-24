@@ -3,61 +3,41 @@
 namespace CiscoSystems\AuditBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\ChoiceList\SimpleChoiceList;
-use Symfony\Component\OptionsResolver\Options;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Doctrine\Common\Persistence\ObjectManager;
 
 class SectionType extends AbstractType
 {
-    private $repository;
-
-    public function __construct( ObjectManager $objectManager )
+    public function buildForm( FormBuilderInterface $builder, array $options )
     {
-        $this->repository = $objectManager->getRepository( 'CiscoSystemsAuditBundle:AuditFormSection' );
-    }
-
-    public function setDefaultOptions( OptionsResolverInterface $resolver )
-    {
-        $type = $this;
-        $choiceList = function( Options $options ) use ( $type )
-        {
-            return new SimpleChoiceList( $type->getSections( $options['auditform']) );
-        };
-
-        $resolver->setDefaults( array(
-            'choice_list'   => $choiceList,
-            'virtual'       => true,
-            'empty_value'   => '(Select Section)',
-            'empty_data'    => null,
-            'auditform'     => null,
+        $builder->add( 'id', 'hidden', array(
+            'mapped' => false
         ));
-    }
-
-    public function getSections( $auditform = null )
-    {
-        $array = array();
-
-        foreach( $this->repository->getSections( $auditform ) as $set )
-        {
-            if( !$set->getAuditForm() ) { continue; }
-            if( !array_key_exists( $set->getAuditForm()->getTitle(), $array ))
-            {
-                $array[$set->getAuditForm()->getTitle()] = array();
-            }
-            $array[$set->getAuditForm()->getTitle()][$set->getId()] = $set;
-        }
-
-        return $array;
-    }
-
-    public function getParent()
-    {
-        return 'choice';
+        $builder->add( 'title', null, array(
+            'attr' => array( 'placeholder' => 'Section\'s title ' ),
+        ));
+        $builder->add( 'form', 'entity', array(
+            'empty_data'    => null,
+            'empty_value'   => '(Choose a Form)',
+            'required'      => false,
+            'class'         => 'CiscoSystemsAuditBundle:Form',
+            'property'      => 'title',
+            'label'         => 'Audit',
+        ));
+        $builder->add( 'description', 'textarea', array(
+            'attr' => array( 'placeholder' => 'Section\'s description. This should be as clear as possible' ),
+        ));
     }
 
     public function getName()
     {
-        return 'audit_section';
+        return 'section';
+    }
+
+    public function setDefaultOptions( OptionsResolverInterface $resolver )
+    {
+        $resolver->setDefaults( array(
+            'data_class' => 'CiscoSystems\AuditBundle\Entity\Section',
+        ));
     }
 }

@@ -1,0 +1,98 @@
+{% extends 'CiscoSystemsAuditBundle::base.html.twig' %}
+
+{% block pagetitle %}
+    {{ parent() }}:
+    {% if edit == true %}
+        Section: {{ section.title }}
+    {% else %}
+        new Section
+    {% endif %}
+{% endblock %}
+
+{% block pagecontent %}
+<div class="container">
+    <div class="span10">
+        <form class="form-horizontal" method="POST" action="">
+            <div class="pull-right">
+                <button type="submit" class="btn btn-mini">
+                    Save Section <i class="icon-ok"></i>
+                </button>
+            {% if section.auditform %}
+                <a class="btn btn-mini"
+                    href="{{ path( 'audit_form_edit', { 'form_id': section.form.id } ) }}">
+                     Cancel <i class="icon-remove"></i>
+                </a>
+            {% endif %}
+            {% if edit == true %}
+                <a class="btn btn-mini"
+                   href="{{ path( 'audit_section_delete', { 'section_id': section.id } ) }}">
+                    Delete section <i class="icon-trash"></i>
+                </a>
+            {% endif %}
+            </div>
+            <div class="controls controls-row">
+                <div class="control-group">
+                    <div class="control-label">
+                        {{ form_label( form.title ) }}
+                    </div>
+                    <div class="controls">
+                        {{ form_widget( form.title ) }}
+                        {{ form_errors( form.title ) }}
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label">
+                        {{ form_label( form.form ) }}
+                    </div>
+                    <div class="controls">
+                        {{ form_widget( form.form ) }}
+                        {{ form_errors( form.form ) }}
+                    </div>
+                </div>
+            </div>
+            <div class="controls controls-row">
+                <div class="control-group">
+                    <div class="control-label">
+                        {{ form_label( form.description ) }}
+                    </div>
+                    <div class="controls">
+                        {{ form_widget( form.description, { 'attr': { 'class': 'input-xxlarge' }}) }}
+                        {{ form_errors( form.description ) }}
+                    </div>
+                </div>
+                <div class="controls">
+                    {{ form_rest( form ) }}
+                </div>
+            </div>
+        </form>
+
+        <table class="table table-condensed cisco-audit-table">
+            <caption>List of fields contained in this section</caption>
+            <thead>
+                <tr>
+                    <th width=20%>Title</th>
+                    <th width=60%></th>
+                    <th width=5%>Weight</th>
+                    <th width=5%>Flag</th>
+                    <th width=10%></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for field in section.fields %}
+                {% include 'CiscoSystemsAuditBundle:Field:_load.html.twig' %}
+            {% else %}
+                <tr class="warning-empty">
+                    <td colspan="6">
+                        <i class="icon-warning-sign"></i>
+                        No field assigned to this section.
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% if edit == true %}
+            {% include 'CiscoSystemsAuditBundle:Field:_ulist.html.twig' %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends 'CiscoSystemsAuditBundle::base.html.twig' %}
+
+{% block pagetitle %}
+    {{ parent() }}: List of existing Fields
+{% endblock %}
+
+{% block pagecontent %}
+<div class="container">
+    <div class="span10">
+        <div class="btn-group pull-right">
+            <a class="btn btn-mini" href="{{ path( 'audit_field_add' ) }}">
+                Create new Field <i class="icon-plus"></i>
+            </a>
+        </div>
+        <table class="table table-condensed table-hover cisco-audit-table">
+            <thead>
+                <tr>
+                    <th width=20%>Title</th>
+                    <th width=35%></th>
+                    <th width=30%>Section</th>
+                    <th width=5%>Weight</th>
+                    <th width=5%>Flag</th>
+                    <th width=5%></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for field in fields %}
+                {% include 'CiscoSystemsAuditBundle:Field:_view.html.twig' %}
+            {% else %}
+                <tr class="warning-empty">
+                    <td colspan="6">
+                        <i class="icon-warning-sign"></i> No existing field to list
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

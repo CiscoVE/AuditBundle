@@ -3,8 +3,8 @@
 namespace CiscoSystems\AuditBundle\Tests\Entity;
 
 use CiscoSystems\AuditBundle\Entity\Audit;
-use CiscoSystems\AuditBundle\Entity\AuditFormField;
-use CiscoSystems\AuditBundle\Entity\AuditScore;
+use CiscoSystems\AuditBundle\Entity\Field;
+use CiscoSystems\AuditBundle\Entity\Score;
 
 class AuditScoreTest extends \PHPUnit_Framework_TestCase
 {
@@ -16,25 +16,25 @@ class AuditScoreTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
         $this->audit = new Audit();
-        $this->field = new AuditFormField();
-        $this->auditscore = new AuditScore();
+        $this->field = new Field();
+        $this->auditscore = new Score();
     }
 
     /**
-     * @covers CiscoSystems\AuditBundle\Entity\AuditFormField::setScore
-     * @covers CiscoSystems\AuditBundle\Entity\AuditFormField::getScore
+     * @covers CiscoSystems\AuditBundle\Entity\Field::setMark
+     * @covers CiscoSystems\AuditBundle\Entity\Field::getMark
      */
     public function testScore()
     {
         $score = 'test score string';
-        $this->auditscore->setScore( $score );
+        $this->auditscore->setMark( $score );
 
-        $this->assertEquals( $score, $this->auditscore->getScore() );
+        $this->assertEquals( $score, $this->auditscore->getMark() );
     }
 
     /**
-     * @covers CiscoSystems\AuditBundle\Entity\AuditFormField::setComment
-     * @covers CiscoSystems\AuditBundle\Entity\AuditFormField::getComment
+     * @covers CiscoSystems\AuditBundle\Entity\Field::setComment
+     * @covers CiscoSystems\AuditBundle\Entity\Field::getComment
      */
     public function testComment()
     {
@@ -45,8 +45,8 @@ class AuditScoreTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers CiscoSystems\AuditBundle\Entity\AuditFormField::setAudit
-     * @covers CiscoSystems\AuditBundle\Entity\AuditFormField::getAudit
+     * @covers CiscoSystems\AuditBundle\Entity\Field::setAudit
+     * @covers CiscoSystems\AuditBundle\Entity\Field::getAudit
      */
     public function testAudit()
     {
@@ -57,8 +57,8 @@ class AuditScoreTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers CiscoSystems\AuditBundle\Entity\AuditFormField::setField
-     * @covers CiscoSystems\AuditBundle\Entity\AuditFormField::getField
+     * @covers CiscoSystems\AuditBundle\Entity\Field::setField
+     * @covers CiscoSystems\AuditBundle\Entity\Field::getField
      */
     public function testField()
     {
@@ -69,20 +69,20 @@ class AuditScoreTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers CiscoSystems\AuditBundle\Entity\AuditFormField::getWeightPercentageForScore
+     * @covers CiscoSystems\AuditBundle\Entity\Field::getWeightPercentageForScore
      */
     public function testWeightPercentage()
     {
-        $this->auditscore->setScore( AuditScore::ACCEPTABLE );
-        $this->assertEquals( 50,    AuditScore::getWeightPercentageForScore( AuditScore::ACCEPTABLE ));
+        $this->auditscore->setMark( Score::ACCEPTABLE );
+        $this->assertEquals( 50,    Score::getWeightPercentageForScore( Score::ACCEPTABLE ));
 
-        $this->auditscore->setScore( AuditScore::NO );
-        $this->assertEquals( 0,     AuditScore::getWeightPercentageForScore( AuditScore::NO ));
+        $this->auditscore->setMark( Score::NO );
+        $this->assertEquals( 0,     Score::getWeightPercentageForScore( Score::NO ));
 
-        $this->auditscore->setScore( AuditScore::NOT_APPLICABLE );
-        $this->assertEquals( 100,   AuditScore::getWeightPercentageForScore( AuditScore::NOT_APPLICABLE ));
+        $this->auditscore->setMark( Score::NOT_APPLICABLE );
+        $this->assertEquals( 100,   Score::getWeightPercentageForScore( Score::NOT_APPLICABLE ));
 
-        $this->auditscore->setScore( AuditScore::YES );
-        $this->assertEquals( 100,   AuditScore::getWeightPercentageForScore( AuditScore::YES ));
+        $this->auditscore->setMark( Score::YES );
+        $this->assertEquals( 100,   Score::getWeightPercentageForScore( Score::YES ));
     }
 }

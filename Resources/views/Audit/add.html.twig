@@ -11,7 +11,7 @@
             </legend>
 
             <div class="form-inline row input">
-                {{ form_row( form.auditReference ) }}
+                {{ form_row( form.reference ) }}
             </div>
 
             <table class="table table-condensed table-hover">
@@ -25,25 +25,24 @@
                     </tr>
                 </thead>
                 <tbody>
-                {% set counter = 1 %}
-                {% for section in audit.auditform.sections %}
+                {% for section in audit.form.sections %}
                     <tr class="cisco-audit-section-row" section-id="{{ section.id }}">
-                        <td colspan="6">Section {{ loop.index }}: {{ section.title }}</td>
+                        <td colspan="6">Section {{ section.position }}: {{ section.title }}</td>
                     </tr>
                     {% for field in section.fields %}
                         <tr class="cisco-audit-field-row" field-id="{{ field.id }}">
-                            <td>{{ counter }}</td>
+                            <td>{{ field.position }}</td>
                             <td>{{ field.title }}</td>
                             <td class="cisco-audit-field-score">
                             {% set form = craue_cloneForm(scoreform) %}
                                 <select class="span1 cisco-audit-score-selector" name="score[{{ field.id }}][value]"
-                                        href="{{ path( 'cisco_auditfield_calculate_score' ) }}">
+                                        href="{{ path( 'audit_field_calculate_score' ) }}">
                                 {% set ret = field.description ~ '\n' %}
-                                {% for score, label in field.scores %}
-                                    <option value="{{ score }}">
-                                        {{ score }}
+                                {% for choice, label in field.choices %}
+                                    <option value="{{ choice }}">
+                                        {{ choice }}
                                     </option>
-                                    {% set ret = ret ~ '\n' ~ score ~ ' - ' ~ label %}
+                                    {% set ret = ret ~ '\n' ~ choice ~ ' - ' ~ label %}
                                 {% endfor %}
                             </td>
                             <td>
@@ -52,7 +51,7 @@
                                 </a>
                             </td>
                             <td class="cisco-audit-field-weight" value="{{ field.weight }}">
-                                <div {% if field.flag == true %}data-field="{{ audit.auditform.flagLabel }}"{% endif %} data-value="{{ field.weight }}">{{ field.weight }}</div>
+                                <div {% if field.flag == true %}data-field="{{ audit.form.flagLabel }}"{% endif %} data-value="{{ field.weight }}">{{ field.weight }}</div>
                             </td>
                             <td>
                                 <textarea class="span4" name="score[{{ field.id }}][comment]"></textarea>
@@ -63,15 +62,14 @@
                             <td colspan="5">
                                 <div class="info">
                                     <h4 class="text-info">{{ field.description }}</h4>
-                                    {% for score, label in field.scores %}
+                                    {% for choice, label in field.choices %}
                                     <p class="text-info">
-                                        {{ score }} - {{ label }}
+                                        {{ choice }} - {{ label }}
                                     </p>
                                     {% endfor %}
                                 </div>
                             </td>
                         </tr>
-                        {% set counter = counter + 1 %}
                     {% endfor %}
                     <tr class="cisco-audit-section-score-row" data-flag="false">
                         {% set sectionScore = get_resultforsection( audit, section ) %}
@@ -99,7 +97,7 @@
 </div>
 <script type="text/javascript">
 
-    var flagLabel = '{{ audit.auditform.flagLabel }}';
+    var flagLabel = '{{ audit.form.flagLabel }}';
 
 </script>
 {% endblock %}

@@ -6,7 +6,7 @@
     <div class="span10 offset1">
         <legend>Audits
             <a class="btn btn-mini pull-right"
-               href="{{ path( 'cisco_auditform_list' ) }}">
+               href="{{ path( 'audit_form_list' ) }}">
                 <i class="icon-plus"></i> Create new Audit
             </a>
         </legend>
@@ -25,19 +25,19 @@
             {% set result = audit.totalResult %}
             <tbody>
                 <tr>
-                    <td>{{ audit.auditReference }}</td>
-                    <td>{{ audit.auditingUser }}</td>
-                    <td>{{ audit.auditForm }}</td>
+                    <td>{{ audit.reference }}</td>
+                    <td>{{ audit.auditor }}</td>
+                    <td>{{ audit.form }}</td>
                     <td>
                     {% if audit.flag == true %}
-                        <div class="text-warning">{{ audit.auditForm.flagLabel }}</div>
+                        <div class="text-warning">{{ audit.form.flagLabel }}</div>
                     {% else %}
                         {{ result }}
                     {% endif %}
                     </td>
                     <td width="10%">
                         <a class="btn btn-mini"
-                            href="{{ path( 'cisco_audit_view', { 'id': audit.id } ) }}">
+                            href="{{ path( 'audit_view', { 'id': audit.id } ) }}">
                             <i class="icon-eye-open"></i> View
                         </a>
                     </td>

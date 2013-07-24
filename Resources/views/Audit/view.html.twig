@@ -14,18 +14,18 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>{{ audit.auditReference }}</td>
+                    <td>{{ audit.reference }}</td>
                     <td>
                     {% if audit.flag == true %}
-                        <div class="text-warning">{{ audit.auditForm.flagLabel }}</div>
+                        <div class="text-warning">{{ audit.form.flagLabel }}</div>
                     {% else %}
                         {{ get_resultforaudit( audit ) }} %
                     {% endif %}
                     </td>
-                    <td>{{ audit.auditingUser }}</td>
-                    <td>{{ audit.auditForm }}</td>
+                    <td>{{ audit.auditor }}</td>
+                    <td>{{ audit.form }}</td>
                     <td>
-                        <a class="btn btn-small" href="{{ path( 'cisco_audit_export', { 'id': audit.id } ) }}">export</a>
+                        <a class="btn btn-small" href="{{ path( 'audit_export', { 'id': audit.id } ) }}">export</a>
                     </td>
                 </tr>
             </tbody>
@@ -42,9 +42,9 @@
                 </tr>
             </thead>
             {% set counter = 1 %}
-            {% for section in audit.auditform.sections %}
+            {% for section in audit.form.sections %}
                 <tr>
-                    <td colspan="5"><strong>Section {{ loop.index }}: {{ section.title }}</strong></td>
+                    <td colspan="5"><strong>Section {{ section.position }}: {{ section.title }}</strong></td>
                 </tr>
                 {% for field in section.fields %}
                     {% for score in scores %}
@@ -52,10 +52,10 @@
                         <tr>
                             <td>{{ counter }}</td>
                             <td>{{ field.title }}</td>
-                            <td>{{ score.score }}</td>
+                            <td>{{ score.mark }}</td>
                             <td>
                             {% if field.flag == true %}
-                                {{ audit.auditForm.flagLabel }}
+                                {{ audit.form.flagLabel }}
                             {% else %}
                                 {{ field.weight }}
                             {% endif %}
@@ -74,7 +74,7 @@
                         {{ section.weight }}
                     </td>#}
                     {% if section.flag == true %}
-                    <td>{{ audit.auditForm.flagLabel }}</td>
+                    <td>{{ audit.form.flagLabel }}</td>
                     <td></td>
                     {% else %}
                     <td>{{ get_resultforsection( audit, section ) }} %</td>
@@ -87,7 +87,7 @@
                 <td colspan="2" style="text-align: right">Final Score</td>
                 <td>
                 {% if audit.flag == true %}
-                    <div class="text-warning">{{ audit.auditForm.flagLabel }}</div>
+                    <div class="text-warning">{{ audit.form.flagLabel }}</div>
                 {% else %}
                     {{ get_resultforaudit( audit ) }} %
                 {% endif %}

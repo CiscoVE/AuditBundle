@@ -1,51 +1,51 @@
-cisco_auditsection_add:
+audit_section_add:
     pattern:  /add
-    defaults: { _controller: CiscoSystemsAuditBundle:AuditFormSection:edit }
+    defaults: { _controller: CiscoSystemsAuditBundle:Section:edit }
 
-cisco_auditsection_edit:
+audit_section_edit:
     pattern:  /{section_id}/edit
-    defaults: { _controller: CiscoSystemsAuditBundle:AuditFormSection:edit }
+    defaults: { _controller: CiscoSystemsAuditBundle:Section:edit }
     requirements:
         section_id: \d+
 
-cisco_auditsection_delete:
+audit_section_delete:
     pattern:  /{section_id}/delete
-    defaults: { _controller: CiscoSystemsAuditBundle:AuditFormSection:delete }
+    defaults: { _controller: CiscoSystemsAuditBundle:Section:delete }
     requirements:
         section_id: \d+
 
-cisco_auditsection_add_field:
+audit_section_add_field:
     pattern:  /{section_id}/field/{field_id}/add
-    defaults: { _controller: CiscoSystemsAuditBundle:AuditFormSection:add }
+    defaults: { _controller: CiscoSystemsAuditBundle:Section:add }
     requirements:
         section_id: \d+
         field_id: \d+
 
-cisco_auditsection_new_field:
+audit_section_new_field:
     pattern:  /{section_id}/add
-    defaults: { _controller: CiscoSystemsAuditBundle:AuditFormField:edit }
+    defaults: { _controller: CiscoSystemsAuditBundle:Field:edit }
     requirements:
         section_id: \d+
-        
-cisco_auditsection_remove:
+
+audit_section_remove:
     pattern:  /{section_id}/field/{field_id}/remove
-    defaults: { _controller: CiscoSystemsAuditBundle:AuditFormSection:remove }
+    defaults: { _controller: CiscoSystemsAuditBundle:Section:remove }
     requirements:
         section_id: \d+
         field_id: \d+
 
-cisco_auditsection_view:
+audit_section_view:
     pattern:  /{section_id}
-    defaults: { _controller: CiscoSystemsAuditBundle:AuditFormSection:view }
+    defaults: { _controller: CiscoSystemsAuditBundle:Section:view }
     requirements:
         section_id: \d+
 
-cisco_auditsection_load:
+audit_section_load:
     pattern:  /{section_id}
-    defaults: { _controller: CiscoSystemsAuditBundle:AuditFormSection:load }
+    defaults: { _controller: CiscoSystemsAuditBundle:Section:load }
     requirements:
         section_id: \d+
 
-cisco_auditsections:
+audit_sections:
     pattern:  /
-    defaults: { _controller: CiscoSystemsAuditBundle:AuditFormSection:index }
+    defaults: { _controller: CiscoSystemsAuditBundle:Section:index }

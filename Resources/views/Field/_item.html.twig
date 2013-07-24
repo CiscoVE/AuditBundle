@@ -1,0 +1,66 @@
+{% block pagecontent %}
+<tr class="cisco-audit-field-row">
+    <td colspan="2">{{ field.title }}</td>
+    <td>
+        {#{% render 'CiscoSystemsAuditBundle:Field:list' with { 'fieldId': field.id } %}
+        {#{ form_widget( form ) }#}
+    {% if field.section is empty %}
+        <i>No Section assigned.</i>
+    {% else %}
+        {{ field.section }}
+    {% endif %}<a href="#" class="cisco-audit-options" style="display: none;"><i class="icon-cog"></i></a>
+    </td>
+    <td>{{ field.weight }}</td>
+    <td>
+    {% if field.flag == 1 %}
+        <i class="icon-check" title="{{ get_trigger( field ) }}"></i>
+    {% else %}
+        <i class="icon-check-empty"/>
+    {% endif %}
+    </td>
+    <td>
+        <div class="btn-group pull-right cisco-audit-options">
+            <a class="btn btn-mini cisco-audit-field-view disabled">
+                <i class="icon-eye-open" title="View"></i>
+            </a>
+            <a class="btn btn-mini cisco-audit-field-edit disabled" data-field-id="{{ field.id }}"
+                href="{{ path( 'audit_field_edit', { 'field_id': field.id } ) }}"
+                title="Edit">
+                 <i class="icon-wrench"></i>
+            </a>
+            <a class="btn btn-mini cisco-audit-field-delete disabled" title="Delete"
+                href="{{ path( 'audit_field_delete', { 'field_id': field.id } ) }}">
+                <i class="icon-trash"></i>
+            </a>
+        </div>
+    </td>
+</tr>
+<tr class="cisco-audit-desc-row info" style="display: none;">
+    <td>
+        <div class="text-info">
+            <i>Description: </i>
+        </div>
+    </td>
+    <td colspan="5">
+        <div class="text-info info">
+            {{ field.description }}
+        </div>
+    </td>
+</tr>
+<tr class="cisco-audit-desc-row info" style="display: none;">
+    <td>
+        <div class="text-info"><i>Scores: </i></div>
+    </td>
+    <td colspan="5">
+        <div class="info">
+        {% for choice, label in field.choices %}
+            <div class="text-info">
+                {{ choice }}: {{ label }}
+            </div>
+        {% else %}
+            <div>No choices defined</div>
+        {% endfor %}
+        </div>
+    </td>
+</tr>
+{% endblock %}

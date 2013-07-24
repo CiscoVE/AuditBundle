@@ -72,19 +72,19 @@ class AuditCommand extends ContainerAwareCommand
             {
                 if( $override )
                 {
-                    $audit->setTotalScore( $this->scoreService->getResultForAudit( $audit ));
-                    $output->writeln( '<comment>Audit #' . $audit->getId() . ' processed, with final score: ' . $audit->getTotalScore() . '%</comment>' );
+                    $audit->setMark( $this->scoreService->getResultForAudit( $audit ));
+                    $output->writeln( '<comment>Audit #' . $audit->getId() . ' processed, with final score: ' . $audit->getMark() . '%</comment>' );
                 }
                 else
                 {
-                    if( $audit->getTotalScore() === 0.00 )
+                    if( $audit->getMark() === 0.00 )
                     {
-                        $audit->setTotalScore( $this->scoreService->getResultForAudit( $audit ));
-                        $output->writeln( '<comment>[Processed]Audit #' . $audit->getId() . ' processed, with final score: ' . $audit->getTotalScore() . '%</comment>' );
+                        $audit->setMark( $this->scoreService->getResultForAudit( $audit ));
+                        $output->writeln( '<comment>[Processed]Audit #' . $audit->getId() . ' processed, with final score: ' . $audit->getMark() . '%</comment>' );
                     }
                     else
                     {
-                        $output->writeln( '<comment>[Skipped]Audit #' . $audit->getId() . ' allready had a score set ( ' . $audit->getTotalScore() . '% )</comment>' );
+                        $output->writeln( '<comment>[Skipped]Audit #' . $audit->getId() . ' allready had a score set ( ' . $audit->getMark() . '% )</comment>' );
                     }
                 }
             }

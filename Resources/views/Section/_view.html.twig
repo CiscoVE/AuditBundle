@@ -1,0 +1,33 @@
+<tr class="cisco-audit-section-row">
+    <td>{{ section.title }}</td>
+    <td>
+    {% if section.form is empty %}
+        <i>No form assigned.</i>
+    {% else %}
+        {{ section.form }}
+    {% endif %}
+    </td>
+    <td>{{ section.fields | length }}</td>
+    <td width=20% style="white-space: nowrap;">
+        <div class="btn-group pull-right cisco-audit-options">
+            <a class="btn btn-mini cisco-audit-section-view">
+                <i class="icon-eye-open" title="View"></i>
+            </a>
+            <a class="btn btn-mini cisco-audit-section-edit" data-section-id="{{ section.id }}"
+                href="{{ path( 'audit_section_edit', { 'section_id': section.id } ) }}">
+                <i class="icon-wrench" title="Edit"></i>
+            </a>
+            <a class="btn btn-mini cisco-audit-section-delete" data-section-id="{{ section.id }}"
+                href="{{ path( 'audit_section_delete', { 'section_id': section.id } ) }}">
+                <i class="icon-trash" title="Delete"></i>
+            </a>
+        </div>
+    </td>
+</tr>
+<tr class="cisco-audit-desc-row info" style="display: none;">
+    <td colspan="4">
+        <div class="text-info">
+            <i>Description: </i>{{ section.description }}
+        </div>
+    </td>
+</tr>

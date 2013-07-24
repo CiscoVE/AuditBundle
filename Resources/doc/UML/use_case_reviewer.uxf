@@ -44,7 +44,7 @@
       <w>220</w>
       <h>40</h>
     </coordinates>
-    <panel_attributes>View list of AuditForm
+    <panel_attributes>View list of Form
 </panel_attributes>
     <additional_attributes/>
   </element>
@@ -56,7 +56,7 @@
       <w>220</w>
       <h>40</h>
     </coordinates>
-    <panel_attributes>View single AuditForm
+    <panel_attributes>View single Form
 </panel_attributes>
     <additional_attributes/>
   </element>
@@ -112,8 +112,8 @@
       <w>220</w>
       <h>90</h>
     </coordinates>
-    <panel_attributes>Cases are requested from 
-the database and 
+    <panel_attributes>Cases are requested from
+the database and
 the Auditor score them
 during the review
 bg=yellow</panel_attributes>

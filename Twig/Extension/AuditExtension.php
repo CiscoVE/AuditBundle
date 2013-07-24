@@ -56,7 +56,7 @@ class AuditExtension extends Twig_Extension
 
     public function getTrigger( $field )
     {
-        $repo = $this->objectManager->getRepository( 'CiscoSystemsAuditBundle:AuditFormField' );
+        $repo = $this->objectManager->getRepository( 'CiscoSystemsAuditBundle:Field' );
 
         return $repo->getTrigger( $field );
     }

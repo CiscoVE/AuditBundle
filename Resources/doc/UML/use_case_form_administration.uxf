@@ -20,7 +20,7 @@
       <w>240</w>
       <h>40</h>
     </coordinates>
-    <panel_attributes>View list of AuditForm</panel_attributes>
+    <panel_attributes>View list of Form</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -31,7 +31,7 @@
       <w>240</w>
       <h>40</h>
     </coordinates>
-    <panel_attributes>View single AuditForm</panel_attributes>
+    <panel_attributes>View single Form</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -42,7 +42,7 @@
       <w>240</w>
       <h>40</h>
     </coordinates>
-    <panel_attributes>Edit AuditForm</panel_attributes>
+    <panel_attributes>Edit Form</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -53,7 +53,7 @@
       <w>240</w>
       <h>40</h>
     </coordinates>
-    <panel_attributes>Delete AuditForm</panel_attributes>
+    <panel_attributes>Delete Form</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -64,7 +64,7 @@
       <w>240</w>
       <h>40</h>
     </coordinates>
-    <panel_attributes>Add AuditForm</panel_attributes>
+    <panel_attributes>Add Form</panel_attributes>
     <additional_attributes/>
   </element>
   <element>

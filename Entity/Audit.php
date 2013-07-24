@@ -5,8 +5,8 @@ namespace CiscoSystems\AuditBundle\Entity;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-use CiscoSystems\AuditBundle\Entity\AuditFormField;
-use CiscoSystems\AuditBundle\Entity\AuditScore;
+use CiscoSystems\AuditBundle\Entity\Field;
+use CiscoSystems\AuditBundle\Entity\Score;
 use CiscoSystems\AuditBundle\Model\UserInterface;
 use CiscoSystems\AuditBundle\Model\ReferenceInterface;
 
@@ -24,22 +24,22 @@ class Audit
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="CiscoSystems\AuditBundle\Entity\AuditForm", inversedBy="audits")
+     * @ORM\ManyToOne(targetEntity="CiscoSystems\AuditBundle\Entity\Form", inversedBy="audits")
      * @ORM\JoinColumn(name="audit_form_id",referencedColumnName="id")
      */
-    protected $auditForm;
+    protected $form;
 
     /**
      * @ORM\ManyToOne(targetEntity="CiscoSystems\AuditBundle\Model\ReferenceInterface")
      * @ORM\JoinColumn(name="reference_id",referencedColumnName="id")
      */
-    protected $auditReference;
+    protected $reference;
 
     /**
      * @ORM\ManyToOne(targetEntity="CiscoSystems\AuditBundle\Model\UserInterface")
      * @ORM\JoinColumn(name="auditing_user_id",referencedColumnName="id")
      */
-    protected $auditingUser;
+    protected $auditor;
 
     /**
      * @ORM\Column(type="boolean")
@@ -47,12 +47,12 @@ class Audit
     protected $flag;
 
     /**
-     * @ORM\Column(type="float",nullable=true,name="total_score")
+     * @ORM\Column(type="float",nullable=true,name="mark")
      */
-    protected $totalScore;
+    protected $mark;
 
     /**
-     * @ORM\OneToMany(targetEntity="CiscoSystems\AuditBundle\Entity\AuditScore",mappedBy="audit")
+     * @ORM\OneToMany(targetEntity="CiscoSystems\AuditBundle\Entity\Score",mappedBy="audit")
      */
     protected $scores;
 
@@ -72,19 +72,19 @@ class Audit
      *
      * @return integer
      */
-    public function getTotalScore()
+    public function getMark()
     {
-        return $this->totalScore;
+        return $this->mark;
     }
 
     /**
      * Set total score
      *
-     * @param integer $totalScore
+     * @param integer $mark
      */
-    public function setTotalScore( $totalScore )
+    public function setMark( $mark )
     {
-        $this->totalScore = $totalScore;
+        $this->mark = $mark;
     }
 
     /**
@@ -100,11 +100,11 @@ class Audit
     /**
      * Set auditForm
      *
-     * @param string $auditForm
+     * @param string $form
      */
-    public function setAuditForm( \CiscoSystems\AuditBundle\Entity\AuditForm $auditForm = null)
+    public function setForm( \CiscoSystems\AuditBundle\Entity\Form $form = null)
     {
-        $this->auditForm = $auditForm;
+        $this->form = $form;
     }
 
     /**
@@ -112,39 +112,39 @@ class Audit
      *
      * @return string
      */
-    public function getAuditForm()
+    public function getForm()
     {
-        return $this->auditForm;
+        return $this->form;
     }
 
     /**
-     * Set auditReference
+     * Set reference
      *
-     * @param \CiscoSystems\AuditBundle\Model\ReferenceInterface $auditReference
+     * @param \CiscoSystems\AuditBundle\Model\ReferenceInterface $reference
      */
-    public function setAuditReference( \CiscoSystems\AuditBundle\Model\ReferenceInterface $auditReference )
+    public function setReference( \CiscoSystems\AuditBundle\Model\ReferenceInterface $reference )
     {
-        $this->auditReference = $auditReference;
+        $this->reference = $reference;
     }
 
     /**
-     * Get auditReference
+     * Get reference
      *
      * @return \CiscoSystems\AuditBundle\Model\ReferenceInterface
      */
-    public function getAuditReference()
+    public function getReference()
     {
-        return $this->auditReference;
+        return $this->reference;
     }
 
     /**
      * Set auditingUser
      *
-     * @param \CiscoSystems\AuditBundle\Model\UserInterface $auditingUser
+     * @param \CiscoSystems\AuditBundle\Model\UserInterface $auditor
      */
-    public function setAuditingUser( \CiscoSystems\AuditBundle\Model\UserInterface $auditingUser )
+    public function setAuditor( \CiscoSystems\AuditBundle\Model\UserInterface $auditor )
     {
-        $this->auditingUser = $auditingUser;
+        $this->auditor = $auditor;
     }
 
     /**
@@ -152,9 +152,9 @@ class Audit
      *
      * @return \CiscoSystems\AuditBundle\Model\UserInterface
      */
-    public function getAuditingUser()
+    public function getAuditor()
     {
-        return $this->auditingUser;
+        return $this->auditor;
     }
 
     /**
@@ -220,9 +220,9 @@ class Audit
     /**
      * Add a score to collection scores and set audit in the score instance
      *
-     * @param \CiscoSystems\AuditBundle\Entity\AuditScore $score
+     * @param \CiscoSystems\AuditBundle\Entity\Score $score
      */
-    public function addScore( \CiscoSystems\AuditBundle\Entity\AuditScore $score )
+    public function addScore( \CiscoSystems\AuditBundle\Entity\Score $score )
     {
         if( !$this->scores->contains( $score ) )
         {
@@ -238,9 +238,9 @@ class Audit
     /**
      * Remove score
      *
-     * @param \CiscoSystems\AuditBundle\Entity\AuditScore $score
+     * @param \CiscoSystems\AuditBundle\Entity\Score $score
      */
-    public function removeScore( \CiscoSystems\AuditBundle\Entity\AuditScore $score )
+    public function removeScore( \CiscoSystems\AuditBundle\Entity\Score $score )
     {
         if( $this->scores->contains( $score ))
         {
@@ -266,10 +266,10 @@ class Audit
     /**
      * Get Score for Field
      *
-     * @param \CiscoSystems\AuditBundle\Entity\AuditFormField $field
-     * @return \CiscoSystems\AuditBundle\Entity\AuditScore
+     * @param \CiscoSystems\AuditBundle\Entity\Field $field
+     * @return \CiscoSystems\AuditBundle\Entity\Score
      */
-//    public function getScoreForField( \CiscoSystems\AuditBundle\Entity\AuditFormField $field )
+//    public function getScoreForField( \CiscoSystems\AuditBundle\Entity\Field $field )
 //    {
 //        $scores = $this->getScores();
 //
@@ -287,10 +287,10 @@ class Audit
     /**
      * Get Score for Section
      *
-     * @param \CiscoSystems\AuditBundle\Entity\AuditFormSection $section
+     * @param \CiscoSystems\AuditBundle\Entity\Section $section
      * @return integer
      */
-//    public function getResultForSection( \CiscoSystems\AuditBundle\Entity\AuditFormSection $section )
+//    public function getResultForSection( \CiscoSystems\AuditBundle\Entity\Section $section )
 //    {
 //        $fields = $section->getFields();
 //        $fieldCount = count( $fields );
@@ -304,19 +304,19 @@ class Audit
 //
 //            if ( !$score )
 //            {
-//                $score = new AuditScore();
-//                $score->setScore( AuditScore::YES );
+//                $score = new Score();
+//                $score->setScore( Score::YES );
 //            }
 //            $achievedPercentages += $score->getWeightPercentage();
 //        }
 //        return number_format( $achievedPercentages / $fieldCount, 2, '.', '' );
 //    }
 
-//    public function findFlagForSection( \CiscoSystems\AuditBundle\Entity\AuditFormSection $section )
+//    public function findFlagForSection( \CiscoSystems\AuditBundle\Entity\Section $section )
 //    {
 //        foreach ( $section->getFields() as $field )
 //        {
-//            if ( $field->getFlag() == true &&  $this->getScoreForField( $field )->getScore() == AuditScore::NO )
+//            if ( $field->getFlag() == true &&  $this->getScoreForField( $field )->getMark() == Score::NO )
 //            {
 //                $section->setFlag( true );
 //            }
@@ -330,7 +330,7 @@ class Audit
      */
 //    public function getTotalResult()
 //    {
-//        if ( null !== $auditform = $this->getAuditForm() )
+//        if ( null !== $auditform = $this->getForm() )
 //        {
 //            $sections = $auditform->getSections();
 //            $count = count( $sections );
@@ -368,7 +368,7 @@ class Audit
 //    public function getTotalWeight()
 //    {
 //        $weight = 0;
-//        $sections = $this->getAuditForm()->getSections();
+//        $sections = $this->getForm()->getSections();
 //
 //        foreach ( $sections as $section )
 //        {

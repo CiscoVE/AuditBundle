@@ -31,8 +31,8 @@ class AuditRepository extends EntityRepository
         // find all used forms
         foreach ( $entities as $entity )
         {
-            $refId = $entity->getAuditReference()->getId();
-            $formId = $entity->getAuditForm()->getId();
+            $refId = $entity->reference()->getId();
+            $formId = $entity->getForm()->getId();
 
             // if key $refId does NOT exist in uforms
             if( !array_key_exists( $refId, $uforms ) )
@@ -53,14 +53,14 @@ class AuditRepository extends EntityRepository
         foreach ( $entities as $entity )
         {
             $row = array(
-                'id' => $entity->getId(),
-                'auditReference' => $entity->getAuditReference()->getId(),
-                'auditForm' => $entity->getAuditForm()->getTitle(),
-                'auditingUser' => $entity->getAuditingUser()->getUsername(),
-                'flag' => $entity->getFlag(),
-                'flagLabel' => $entity->getAuditForm()->getFlagLabel(),
-                'totalScore' => $entity->getTotalScore(),
-                'usedforms' => $uforms[$entity->getAuditReference()->getId()],
+                'id'        => $entity->getId(),
+                'reference' => $entity->reference()->getId(),
+                'auditForm' => $entity->getForm()->getTitle(),
+                'auditor'   => $entity->getAuditor()->getUsername(),
+                'flag'      => $entity->getFlag(),
+                'flagLabel' => $entity->getForm()->getFlagLabel(),
+                'mark'      => $entity->getMark(),
+                'usedforms' => $uforms[$entity->reference()->getId()],
                 'createdAt' => $entity->getCreatedAt(),
             );
             $result[] = $row;

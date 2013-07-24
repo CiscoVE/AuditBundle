@@ -1,0 +1,69 @@
+{% extends 'CiscoSystemsAuditBundle::base.html.twig' %}
+
+{% block pagecontent %}
+<div class="container">
+    <div class="span10 offset1">
+        <legend>Field view
+            <div class="btn-group pull-right">
+                <a class="btn btn-mini cisco-audit-field-view" data-field-id="{{ field.id }}"
+                   href="{{ path( 'audit_field_edit', { 'field_id': field.id } ) }}">
+                    <i class="icon-wrench"></i> Edit
+                </a>
+                <noscript>
+                    <a class="btn btn-mini"
+                        href="{{ path( 'audit_field_delete', { 'field_id': field.id } ) }}">
+                        <i class="icon-trash"></i> Delete
+                    </a>
+                </noscript>
+                <a class="btn btn-mini dropdown-toggle"
+                   data-toggle="dropdown" href="#">
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a class="cisco-audit-field-delete" data-field-id="{{ field.id }}"
+                            href="{{ path( 'audit_field_delete', { 'field_id': field.id } ) }}">
+                            <i class="icon-trash"></i> Delete
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </legend>
+        <table class="table table-condensed table-hover">
+            <caption>Field ID number: {{ field.id }}</caption>
+            <tbody>
+                <tr>
+                    <td><strong>Title: </strong></td>
+                    <td>{{ field.title }}</td>
+                    <td><strong>Section: </strong></td>
+                    <td>{{ field.section }}</td>
+                    <td><strong>Weight: </strong></td>
+                    <td>{{ field.weight }}</td>
+                    <td><strong>Flag: </strong></td>
+                    <td>{% if field.flag == 1 %}
+                            <i class="icon-check"/> {{ field.flagText }}
+                        {% else %}
+                            <i class="icon-check-empty"/>
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Description: </strong></td>
+                    <td colspan="7">{{ field.description }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Scores: </strong></td>
+                    <td colspan="7">{% for choice, label in field.choices %}
+                            <div>
+                                {{ choice }}: {{ label }}
+                            </div>
+                        {% else %}
+                            <div>No scores defined</div>
+                        {% endfor %}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

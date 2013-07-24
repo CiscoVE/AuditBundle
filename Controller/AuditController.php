@@ -5,9 +5,9 @@ namespace CiscoSystems\AuditBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use CiscoSystems\AuditBundle\Form\Type\AuditType;
-use CiscoSystems\AuditBundle\Form\Type\AuditScoreType;
+use CiscoSystems\AuditBundle\Form\Type\ScoreType;
 use CiscoSystems\AuditBundle\Entity\Audit;
-use CiscoSystems\AuditBundle\Entity\AuditScore;
+use CiscoSystems\AuditBundle\Entity\Score;
 
 class AuditController extends Controller
 {
@@ -23,6 +23,7 @@ class AuditController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
         $repo = $em->getRepository( 'CiscoSystemsAuditBundle:Audit' );
         $audits = $repo->findAll();
+
         return $this->render( 'CiscoSystemsAuditBundle:Audit:index.html.twig', array(
             'audits' => $audits,
         ));
@@ -43,7 +44,7 @@ class AuditController extends Controller
         // Grab the entity manager from the container
         $em = $this->getDoctrine()->getEntityManager();
         // Check for audit form data to be used
-        $repo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditForm' );
+        $repo = $em->getRepository( 'CiscoSystemsAuditBundle:Form' );
         $auditform = $repo->find( $request->get( 'form' ) );
         if ( null === $auditform )
         {
@@ -52,7 +53,7 @@ class AuditController extends Controller
         }
         // Create new audit instance
         $audit = new Audit();
-        $audit->setAuditForm( $auditform );
+        $audit->setForm( $auditform );
         // Create form object for audit
         $form = $this->createForm( $this->container->get( 'cisco.formtype.audit' ), $audit );
         if ( 'POST' == $request->getMethod() )
@@ -64,13 +65,15 @@ class AuditController extends Controller
             {
                 $this->setUser( $audit );
                 $this->setAuditScores( $em, $audit, $scores );
-                $audit->setTotalScore( $scoreService->getResultForAudit( $audit ));
+                $audit->setMark( $scoreService->getResultForAudit( $audit ));
                 $em->persist( $audit );
                 $em->flush();
-                return $this->redirect( $this->generateUrl( 'cisco_audits' ) );
+
+                return $this->redirect( $this->generateUrl( 'audits' ) );
             }
         }
-        $scoreform = $this->createForm( new AuditScoreType() );
+        $scoreform = $this->createForm( new ScoreType() );
+
         return $this->render( 'CiscoSystemsAuditBundle:Audit:add.html.twig', array(
             'audit'                      => $audit,
             'form'                       => $form->createView(),
@@ -91,7 +94,7 @@ class AuditController extends Controller
             $user = $token->getUser();
             if ( $user )
             {
-                $audit->setAuditingUser( $user );
+                $audit->setAuditor( $user );
             }
         }
     }
@@ -105,13 +108,13 @@ class AuditController extends Controller
      */
     protected function setAuditScores( $entityMgr, Audit $audit, $scores )
     {
-        $fieldRepo = $entityMgr->getRepository( 'CiscoSystemsAuditBundle:AuditFormField' );
+        $fieldRepo = $entityMgr->getRepository( 'CiscoSystemsAuditBundle:Field' );
         foreach ( $scores as $fieldId => $scoreData )
         {
             $field = $fieldRepo->find( $fieldId );
-            $score = new AuditScore();
+            $score = new Score();
             $score->setField( $field );
-            $score->setScore( $scoreData[ 'value' ] );
+            $score->setMark( $scoreData[ 'value' ] );
             $score->setComment( $scoreData[ 'comment' ] );
             $audit->addScore( $score );
             $entityMgr->persist( $score );
@@ -134,25 +137,28 @@ class AuditController extends Controller
         $auditrepo = $em->getRepository( 'CiscoSystemsAuditBundle:Audit' );
         $audit = $auditrepo->find( $request->get( 'id' ) );
 
-        foreach( $audit->getAuditForm()->getSections() as $section )
+        foreach( $audit->getForm()->getSections() as $section )
         {
             $scoreService->setFlagForSection( $audit, $section );
         }
 
         if ( null !== $audit )
         {
-            if ( null !== $audit->getAuditForm() )
+            if ( null !== $audit->getForm() )
             {
-                $scorerepo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditScore' );
-                $scores = $scorerepo->findBy( array( 'audit' => $audit ) );
+                $scores = $em->getRepository( 'CiscoSystemsAuditBundle:Score' )
+                             ->findBy( array( 'audit' => $audit ));
+
                 return $this->render( 'CiscoSystemsAuditBundle:Audit:view.html.twig', array(
                     'audit'  => $audit,
                     'scores' => $scores,
                 ));
             }
-            else return $this->redirect( $this->generateUrl( 'cisco_audits' ) );
+            else
+                return $this->redirect( $this->generateUrl( 'audits' ) );
         }
-        else throw $this->createNotFoundException( 'Audit not found' );
+        else
+            throw $this->createNotFoundException( 'Audit not found' );
     }
 
     public function exportAction( Request $request )
@@ -160,10 +166,10 @@ class AuditController extends Controller
         $caseId = $request->get( 'id' );
 
         $em = $this->getDoctrine()->getManager();
-        $repo = $em->getRepository( 'CiscoSystemsAuditBundle:Audit' );
-        $audit = $repo->findOneBy( array( 'id' => $caseId ));
-        $scorerepo = $em->getRepository( 'CiscoSystemsAuditBundle:AuditScore' );
-        $scores = $scorerepo->findBy( array( 'audit' => $audit ) );
+        $audit = $em->getRepository( 'CiscoSystemsAuditBundle:Audit' )
+                    ->findOneBy( array( 'id' => $caseId ));
+        $scores = $em->getRepository( 'CiscoSystemsAuditBundle:Score' )
+                     ->findBy( array( 'audit' => $audit ) );
 
         $scoringService = $this->get( 'cisco.worker.audit_score' );
 
@@ -189,8 +195,8 @@ class AuditController extends Controller
         /**
          * Header
          */
-        $sheet->setCellValue( 'B2', 'Case #' . $audit->getAuditReference() );
-        $sheet->setCellValue( 'C2', 'Engineer ' . $audit->getAuditingUser() );
+        $sheet->setCellValue( 'B2', 'Case #' . $audit->getReference() );
+        $sheet->setCellValue( 'C2', 'Engineer ' . $audit->getAuditor() );
         $sheet->setCellValue( 'D2', 'Score' );
         $sheet->setCellValue( 'B3', 'S.No.' );
         $sheet->setCellValue( 'E3', 'Weight' );
@@ -200,7 +206,7 @@ class AuditController extends Controller
         /**
          * content for the audit
          */
-        foreach( $audit->getAuditForm()->getSections() as $section )
+        foreach( $audit->getForm()->getSections() as $section )
         {
             $sheet->setCellValue( 'C' . $rowCounter, 'Section ' . $seCounter . ': ' . $section->getTitle());
             $rowCounter++;
@@ -215,11 +221,11 @@ class AuditController extends Controller
                 {
                     if( $score->getField() === $field )
                     {
-                        $sheet->setCellValue( 'D' . $rowCounter, $score->getScore());
+                        $sheet->setCellValue( 'D' . $rowCounter, $score->getMark());
                         $sheet->setCellValue( 'F' . $rowCounter, $score->getComment());
 
-                        $value = ( $field->getFlag() && $score->getScore()  === 'N' ) ?
-                                 $audit->getAuditForm()->getFlagLabel() :
+                        $value = ( $field->getFlag() && $score->getMark()  === 'N' ) ?
+                                 $audit->getForm()->getFlagLabel() :
                                  $field->getWeight() ;
                     }
                 }
@@ -237,7 +243,7 @@ class AuditController extends Controller
         $sheet->setCellValue( 'C' . $rowCounter, 'Final Score on the Case' );
 
         $result = ( $audit->getFlag() ) ?
-                  $audit->getAuditForm()->getFlagLabel() :
+                  $audit->getForm()->getFlagLabel() :
                   $scoringService->getResultForAudit( $audit ) ;
 
         $sheet->setCellValue( 'D' . $rowCounter, $result );

@@ -1,0 +1,32 @@
+<tr class="cisco-audit-form">
+    <td>{{ form.title }}</td>
+    <td>{{ form.description }}</td>
+    <td>
+    {% if  form.active == 1 %}
+        <i class="icon-check"/>
+    {% else %}
+        <i class="icon-check-empty"/>
+    {% endif %}
+    </td>
+    <td>
+    {% if form.metadata != null %}
+        {{ access_level_role( form.metadata.accessLevel, 'audit_add' ) }}
+    {% endif %}
+    </td>
+    <td width=20% style="white-space: nowrap;">
+        <div class="btn-group pull-right cisco-audit-options">
+            <a class="btn btn-mini cisco-audit-form-view" title="View"
+               href="{{ path( 'audit_form_view', { 'form_id': form.id } ) }}">
+                <i class="icon-eye-open"></i>
+            </a>
+            <a class="btn btn-mini cisco-audit-form-edit" title="Edit"
+                href="{{ path( 'audit_form_edit', { 'form_id': form.id } ) }}">
+                <i class="icon-wrench"></i>
+            </a>
+            <a class="btn btn-mini cisco-audit-form-delete" title="Delete"
+               href="{{ path( 'audit_form_delete', { 'form_id': form.id } ) }}">
+                <i class="icon-trash"></i>
+            </a>
+        </div>
+    </td>
+</tr>

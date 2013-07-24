@@ -3,8 +3,8 @@
 namespace CiscoSystems\AuditBundle\Tests\Entity;
 
 use CiscoSystems\AuditBundle\Entity\Audit;
-use CiscoSystems\AuditBundle\Entity\AuditForm;
-use CiscoSystems\AuditBundle\Entity\AuditScore;
+use CiscoSystems\AuditBundle\Entity\Form;
+use CiscoSystems\AuditBundle\Entity\Score;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class AuditTest extends \PHPUnit_Framework_TestCase
@@ -18,20 +18,20 @@ class AuditTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers CiscoSystems\AuditBundle\Entity\Audit::setAuditForm
-     * @covers CiscoSystems\AuditBundle\Entity\Audit::getAuditForm
+     * @covers CiscoSystems\AuditBundle\Entity\Audit::setForm
+     * @covers CiscoSystems\AuditBundle\Entity\Audit::getForm
      */
     public function testAuditForm()
     {
-        $form = new AuditForm();
-        $this->audit->setAuditForm( $form );
+        $form = new Form();
+        $this->audit->setForm( $form );
 
-        $this->assertEquals( $form, $this->audit->getAuditForm() );
+        $this->assertEquals( $form, $this->audit->getForm() );
     }
 
     /**
-     * @covers CiscoSystems\AuditBundle\Entity\Audit::setAuditReference
-     * @covers CiscoSystems\AuditBundle\Entity\Audit::getAuditReference
+     * @covers CiscoSystems\AuditBundle\Entity\Audit::setReference
+     * @covers CiscoSystems\AuditBundle\Entity\Audit::reference
      */
     public function testAuditReference()
     {
@@ -39,8 +39,8 @@ class AuditTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers CiscoSystems\AuditBundle\Entity\Audit::setAuditingUser
-     * @covers CiscoSystems\AuditBundle\Entity\Audit::getAuditingUser
+     * @covers CiscoSystems\AuditBundle\Entity\Audit::setAuditor
+     * @covers CiscoSystems\AuditBundle\Entity\Audit::getAuditor
      */
     public function testAuditingUser()
     {
@@ -60,15 +60,15 @@ class AuditTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers CiscoSystems\AuditBundle\Entity\Audit::setTotalScore
-     * @covers CiscoSystems\AuditBundle\Entity\Audit::getTotalScore
+     * @covers CiscoSystems\AuditBundle\Entity\Audit::setMark
+     * @covers CiscoSystems\AuditBundle\Entity\Audit::getMark
      */
     public function testTotalScore()
     {
         $score = 75.50;
-        $this->audit->setTotalScore( $score );
+        $this->audit->setMark( $score );
 
-        $this->assertEquals( $score, $this->audit->getTotalScore() );
+        $this->assertEquals( $score, $this->audit->getMark() );
     }
 
     /**
@@ -77,9 +77,9 @@ class AuditTest extends \PHPUnit_Framework_TestCase
      */
     public function testScores()
     {
-        $score1 = new AuditScore();
-        $score2 = new AuditScore();
-        $score3 = new AuditScore();
+        $score1 = new Score();
+        $score2 = new Score();
+        $score3 = new Score();
         $scores = new ArrayCollection( array( $score1, $score2, $score3 ));
         $this->audit->setScores( $scores );
 
@@ -92,13 +92,13 @@ class AuditTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddScore()
     {
-        $score1 = new AuditScore();
-        $score2 = new AuditScore();
-        $score3 = new AuditScore();
+        $score1 = new Score();
+        $score2 = new Score();
+        $score3 = new Score();
         $scores = new ArrayCollection( array( $score1, $score2, $score3 ));
         $this->audit->setScores( $scores );
 
-        $score = new AuditScore();
+        $score = new Score();
         $this->audit->addScore( $score );
 
         $this->assertEquals( $scores, $this->audit->getScores() );
@@ -110,9 +110,9 @@ class AuditTest extends \PHPUnit_Framework_TestCase
      */
     public function testRemoveScore()
     {
-        $score1 = new AuditScore();
-        $score2 = new AuditScore();
-        $score3 = new AuditScore();
+        $score1 = new Score();
+        $score2 = new Score();
+        $score3 = new Score();
         $scores = new ArrayCollection( array( $score1, $score2, $score3 ));
         $this->audit->setScores( $scores );
 

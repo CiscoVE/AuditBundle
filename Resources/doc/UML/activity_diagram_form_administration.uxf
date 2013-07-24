@@ -21,7 +21,7 @@
       <h>20</h>
     </coordinates>
     <panel_attributes>View list of
-AuditForm</panel_attributes>
+Form</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -246,7 +246,7 @@ Form</panel_attributes>
       <w>345</w>
       <h>230</h>
     </coordinates>
-    <panel_attributes>topcenter:AuditForm Action
+    <panel_attributes>topcenter:Form Action
 </panel_attributes>
     <additional_attributes/>
   </element>
@@ -924,7 +924,7 @@ this Section?</panel_attributes>
       <h>46</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
-Finished editing 
+Finished editing
 this Form?</panel_attributes>
     <additional_attributes>15;25;140;25</additional_attributes>
   </element>
