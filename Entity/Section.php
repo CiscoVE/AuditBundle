@@ -5,35 +5,20 @@ namespace CiscoSystems\AuditBundle\Entity;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use CiscoSystems\AuditBundle\Entity\Element;
 
 /**
  * @ORM\Entity(repositoryClass="CiscoSystems\AuditBundle\Entity\Repository\AuditFormSectionRepository")
  * @ORM\Table(name="cisco_audit__section")
  */
-class Section
+class Section extends Element
 {
     /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
-
-    /**
+     * @Gedmo\SortableGroup
      * @ORM\ManyToOne(targetEntity="CiscoSystems\AuditBundle\Entity\Form", inversedBy="sections")
      * @ORM\JoinColumn(name="form_id",referencedColumnName="id")
      */
     protected $form;
-
-    /**
-     * @ORM\Column(type="string")
-     */
-    protected $title;
-
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    protected $description;
 
     /**
      * @Gedmo\SortablePosition
@@ -52,16 +37,6 @@ class Section
     {
         $this->fields = new ArrayCollection();
         $this->weightPercentage = 0;
-    }
-
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 
     /**
@@ -127,54 +102,6 @@ class Section
     public function setForm( \CiscoSystems\AuditBundle\Entity\Form $form = NULL )
     {
         $this->form = $form;
-
-        return $this;
-    }
-
-    /**
-     * Get title
-     *
-     * @return string
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
-     * Set title
-     *
-     * @param string $title
-     *
-     * @return CiscoSystems\AuditBundle\Entity\Section
-     */
-    public function setTitle( $title )
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    /**
-     * Get description
-     *
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
-     * Set description
-     *
-     * @param string $description
-     *
-     * @return CiscoSystems\AuditBundle\Entity\Section
-     */
-    public function setDescription( $description )
-    {
-        $this->description = $description;
 
         return $this;
     }

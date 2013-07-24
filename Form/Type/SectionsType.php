@@ -8,7 +8,7 @@ use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
-class SectionType extends AbstractType
+class SectionsType extends AbstractType
 {
     private $repository;
 

@@ -25,7 +25,7 @@ class Audit
 
     /**
      * @ORM\ManyToOne(targetEntity="CiscoSystems\AuditBundle\Entity\Form", inversedBy="audits")
-     * @ORM\JoinColumn(name="audit_form_id",referencedColumnName="id")
+     * @ORM\JoinColumn(name="form_id",referencedColumnName="id")
      */
     protected $form;
 
@@ -37,17 +37,17 @@ class Audit
 
     /**
      * @ORM\ManyToOne(targetEntity="CiscoSystems\AuditBundle\Model\UserInterface")
-     * @ORM\JoinColumn(name="auditing_user_id",referencedColumnName="id")
+     * @ORM\JoinColumn(name="auditor_id",referencedColumnName="id")
      */
     protected $auditor;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(name="flag",type="boolean")
      */
     protected $flag;
 
     /**
-     * @ORM\Column(type="float",nullable=true,name="mark")
+     * @ORM\Column(name="mark",type="float",nullable=true)
      */
     protected $mark;
 

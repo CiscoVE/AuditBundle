@@ -29,7 +29,7 @@ class Score
     protected $audit;
 
     /**
-     * @ORM\ManyToOne(targetEntity="CiscoSystems\AuditBundle\Entity\Field", inversedBy="auditscores")
+     * @ORM\ManyToOne(targetEntity="CiscoSystems\AuditBundle\Entity\Field", inversedBy="scores")
      * @ORM\JoinColumn(name="field_id",referencedColumnName="id")
      */
     protected $field;
@@ -52,6 +52,7 @@ class Score
     public function getWeightPercentage()
     {
         $this->weightPercentage = self::getWeightPercentageForScore( $this->score );
+        
         return $this->weightPercentage;
     }
 

@@ -6,34 +6,14 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use CiscoSystems\AuditBundle\Model\MetadataInterface;
+use CiscoSystems\AuditBundle\Entity\Element;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="cisco_audit__form")
  */
-class Form
+class Form extends Element
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
-
-    /**
-     * @var string Title of the form
-     *
-     * @ORM\Column(type="string")
-     */
-    protected $title;
-
-    /**
-     * @var string Description of the form
-     *
-     * @ORM\Column(type="string",nullable=true)
-     */
-    protected $description;
-
     /**
      * @var boolean Is the form active
      *
@@ -88,64 +68,6 @@ class Form
         $this->allowMultipleAnswer = FALSE;
         $this->sections = new ArrayCollection();
         $this->audits = new ArrayCollection();
-    }
-
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Get title
-     *
-     * @return string
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
-     * Set title
-     *
-     * @param string $title
-     *
-     * @return CiscoSystems\AuditBundle\Entity\Form $this
-     */
-    public function setTitle( $title )
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    /**
-     * Get description
-     *
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
-     * Set description
-     *
-     * @param string $description
-     *
-     * @return CiscoSystems\AuditBundle\Entity\Form $this
-     */
-    public function setDescription( $description )
-    {
-        $this->description = $description;
-
-        return $this;
     }
 
     /**
@@ -279,7 +201,7 @@ class Form
     {
         if( !$this->sections->contains( $section ))
         {
-            $section->setAuditform( $this );
+            $section->setForm( $this );
             $this->sections->add( $section );
 
             return $this;

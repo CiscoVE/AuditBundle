@@ -5,45 +5,24 @@ namespace CiscoSystems\AuditBundle\Entity;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use CiscoSystems\AuditBundle\Entity\Element;
 
 /**
  * @ORM\Entity(repositoryClass="CiscoSystems\AuditBundle\Entity\Repository\AuditFormFieldRepository")
  * @ORM\Table(name="cisco_audit__field")
  */
-class Field
+class Field extends Element
 {
     const DEFAULTWEIGHTVALUE = 5;
 
     /**
-     * @var integer Id for the AuditField
-     *
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
-
-    /**
      * @var \CiscoSystems\AuditBundle\Entity\AuditSection AuditSection to which the AuditField belongs
      *
+     * @Gedmo\SortableGroup
      * @ORM\ManyToOne(targetEntity="CiscoSystems\AuditBundle\Entity\Section", inversedBy="fields")
      * @ORM\JoinColumn(name="section_id", referencedColumnName="id", nullable=true)
      */
     protected $section;
-
-    /**
-     * @var string Title for the AuditField
-     *
-     * @ORM\Column(name="title",type="string")
-     */
-    protected $title;
-
-    /**
-     * @var string Description for the AuditField
-     *
-     * @ORM\Column(name="description",type="string",nullable=true)
-     */
-    protected $description;
 
     /**
      * @var array Array of string values: settable choices
@@ -102,64 +81,6 @@ class Field
         $this->auditscores = new ArrayCollection();
         $this->disabled = FALSE;
         $this->weight = self::DEFAULTWEIGHTVALUE;
-    }
-
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Get title
-     *
-     * @return string
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
-     * Set title
-     *
-     * @param string $title
-     *
-     * @return \CiscoSystems\AuditBundle\Entity\Field
-     */
-    public function setTitle( $title )
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    /**
-     * Get description
-     *
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
-     * Set description
-     *
-     * @param string $description
-     *
-     * @return \CiscoSystems\AuditBundle\Entity\Field
-     */
-    public function setDescription( $description )
-    {
-        $this->description = $description;
-
-        return $this;
     }
 
     /**
