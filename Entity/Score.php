@@ -35,7 +35,7 @@ class Score
     protected $field;
 
     /**
-     * @ORM\Column(name="mark",type="string")
+     * @ORM\Column(name="mark",type="string",length=10)
      */
     protected $mark;
 
@@ -52,7 +52,7 @@ class Score
     public function getWeightPercentage()
     {
         $this->weightPercentage = self::getWeightPercentageForScore( $this->score );
-        
+
         return $this->weightPercentage;
     }
 

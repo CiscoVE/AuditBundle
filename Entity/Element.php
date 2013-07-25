@@ -22,7 +22,7 @@ abstract class Element
     /**
      * @var string title
      *
-     * @ORM\Column(name="title",type="string")
+     * @ORM\Column(name="title",type="string",length=50)
      */
     protected $title;
 
