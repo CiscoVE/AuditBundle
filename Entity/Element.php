@@ -40,6 +40,11 @@ abstract class Element
      */
     protected $archived;
 
+    public function __construct()
+    {
+        $this->archived = FALSE;
+    }
+
     /**
      * Get id
      *

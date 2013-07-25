@@ -77,6 +77,7 @@ class Field extends Element
 
     public function __construct()
     {
+        parent::__construct();
         $this->flag = FALSE;
         $this->auditscores = new ArrayCollection();
         $this->disabled = FALSE;

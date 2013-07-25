@@ -11,7 +11,7 @@ use CiscoSystems\AuditBundle\Form\Type\FieldType;
 use CiscoSystems\AuditBundle\Entity\Score;
 use CiscoSystems\AuditBundle\Form\Type\SectionType;
 
-class AuditFormFieldController extends Controller
+class FieldController extends Controller
 {
     /**
      * List all fields

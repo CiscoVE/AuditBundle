@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use CiscoSystems\AuditBundle\Entity\Section;
 use CiscoSystems\AuditBundle\Form\Type\SectionType;
 
-class AuditFormSectionController extends Controller
+class SectionController extends Controller
 {
     public function indexAction()
     {

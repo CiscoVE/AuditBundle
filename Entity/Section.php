@@ -35,6 +35,7 @@ class Section extends Element
 
     public function __construct()
     {
+        parent::__construct();
         $this->fields = new ArrayCollection();
         $this->weightPercentage = 0;
     }

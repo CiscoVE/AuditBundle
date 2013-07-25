@@ -64,6 +64,7 @@ class Form extends Element
 
     public function __construct()
     {
+        parent::__construct();
         $this->active = TRUE;
         $this->allowMultipleAnswer = FALSE;
         $this->sections = new ArrayCollection();
