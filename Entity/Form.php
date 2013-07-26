@@ -9,7 +9,7 @@ use CiscoSystems\AuditBundle\Model\MetadataInterface;
 use CiscoSystems\AuditBundle\Entity\Element;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="CiscoSystems\AuditBundle\Entity\Repository\FormRepository")
  * @ORM\Table(name="cisco_audit__form")
  */
 class Form extends Element

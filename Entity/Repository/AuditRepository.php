@@ -97,8 +97,8 @@ class AuditRepository extends EntityRepository
     public function qbReferences()
     {
         return $this->createQueryBuilder( 'c' )
-                    ->select( 'c.reference' )
-                    ->from( 'CiscoSystemsAuditBundle:Audit', 'c' )
+                    ->select( 'IDENTITY( c.reference )' )
+//                    ->from( 'CiscoSystemsAuditBundle:Audit', 'c' )
                     ->orderBy( 'c.reference', 'DESC' );
     }
 

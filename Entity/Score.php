@@ -5,7 +5,7 @@ namespace CiscoSystems\AuditBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="CiscoSystems\AuditBundle\Entity\Repository\ScoreRepository")
  * @ORM\Table(name="cisco_audit__score")
  */
 class Score

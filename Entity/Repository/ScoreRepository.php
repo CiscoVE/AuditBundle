@@ -5,30 +5,30 @@ use Doctrine\ORM\EntityRepository;
 
 class ScoreRepository extends EntityRepository
 {
-    public function qbScoreForAudit( $audit )
+    public function qbScoresForAudit( $audit )
     {
         return $this->createQueryBuilder( 's' )
                     ->where( 's.audit = :audit' )
                     ->setParameter( 'audit', $audit );
     }
 
-    public function getScoreForAudit( $audit )
+    public function getScoresForAudit( $audit )
     {
-        return $this->qbScoreForAudit( $audit )
+        return $this->qbScoresForAudit( $audit )
                     ->getQuery()
                     ->getResult();
     }
 
-    public function qbScoreForField( $field )
+    public function qbScoresForField( $field )
     {
         return $this->createQueryBuilder( 's' )
                     ->where( 's.field = :field' )
                     ->setParameter( 'field', $field );
     }
 
-    public function getScoreForField( $field )
+    public function getScoresForField( $field )
     {
-        return $this->qbScoreForField( $field )
+        return $this->qbScoresForField( $field )
                     ->getQuery()
                     ->getResult();
     }

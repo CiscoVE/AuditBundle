@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use CiscoSystems\AuditBundle\Entity\Element;
 
 /**
- * @ORM\Entity(repositoryClass="CiscoSystems\AuditBundle\Entity\Repository\AuditFormFieldRepository")
+ * @ORM\Entity(repositoryClass="CiscoSystems\AuditBundle\Entity\Repository\FieldRepository")
  * @ORM\Table(name="cisco_audit__field")
  */
 class Field extends Element

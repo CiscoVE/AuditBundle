@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use CiscoSystems\AuditBundle\Entity\Element;
 
 /**
- * @ORM\Entity(repositoryClass="CiscoSystems\AuditBundle\Entity\Repository\AuditFormSectionRepository")
+ * @ORM\Entity(repositoryClass="CiscoSystems\AuditBundle\Entity\Repository\SectionRepository")
  * @ORM\Table(name="cisco_audit__section")
  */
 class Section extends Element

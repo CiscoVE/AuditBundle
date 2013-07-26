@@ -4,8 +4,9 @@ namespace CiscoSystems\AuditBundle\Tests\Entity\Repository;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class AuditRepositoryTest extends WebTestCase
+class AuditRepositoryFunctionalTest extends WebTestCase
 {
+    private $em;
     private $repo;
 
     /**
@@ -16,9 +17,9 @@ class AuditRepositoryTest extends WebTestCase
     {
         $kernel = static::createKernel();
         $kernel->boot();
-        $this->repo = $kernel->getContainer()
-                             ->get('doctrine.orm.entity_manager')
-                             ->getRepository('CiscoSystemsAuditBundle:Audit');
+        $this->em = $kernel->getContainer()
+                           ->get('doctrine.orm.entity_manager');
+        $this->repo = $this->em->getRepository('CiscoSystemsAuditBundle:Audit');
     }
 
     /**
@@ -46,7 +47,7 @@ class AuditRepositoryTest extends WebTestCase
     {
         $this->assertEquals(
                 $this->repo->qbReferences()->getDql(),
-                'SELECT c.reference ' .
+                'SELECT IDENTITY( c.reference ) ' .
                 'FROM CiscoSystems\AuditBundle\Entity\Audit c ' .
                 'ORDER BY c.reference DESC'
         );
