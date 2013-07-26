@@ -7,7 +7,7 @@ use Gedmo\Sortable\Entity\Repository\SortableRepository;
 /**
  * Custom query repository for SFC REview
  */
-class AuditFormFieldRepository extends SortableRepository
+class FieldRepository extends SortableRepository
 {
     /**
      * Get the flag label for the given Field

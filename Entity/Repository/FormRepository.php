@@ -7,7 +7,7 @@ use Gedmo\Sortable\Entity\Repository\SortableRepository;
 /**
  * Custom query repository for SFC REview
  */
-class AuditFormRepository extends SortableRepository
+class FormRepository extends SortableRepository
 {
 
 }

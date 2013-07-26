@@ -123,4 +123,23 @@ class AuditRepository extends EntityRepository
 
         return $return;
     }
+
+    public function qbAuditByFormAndReference( $form, $reference )
+    {
+        return $this->createQueryBuilder( 'a' )
+//                    ->join( 'CiscoSystemsAuditBundle\Modle\ReferenceInterface', 'r', 'WITH', 'a.reference = r' )
+                    ->where( 'a.form = :form' )
+                    ->andWhere( 'a.reference = :refid' )
+                    ->setParameters( array(
+                        'form'      => $form,
+                        'refid'     => $reference
+                    ));
+    }
+
+    public function getAuditByFormAndReference( $form, $refId )
+    {
+        return $this->qbAuditByFormAndReference( $form, $refId )
+                    ->getQuery()
+                    ->getResult();
+    }
 }

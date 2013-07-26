@@ -5,14 +5,14 @@ namespace CiscoSystems\AuditBundle\Twig\Extension;
 use Twig_Extension;
 use Twig_Function_Method;
 use Doctrine\Common\Persistence\ObjectManager;
-use CiscoSystems\AuditBundle\Worker\AuditScoring;
+use CiscoSystems\AuditBundle\Worker\Scoring;
 
 class AuditExtension extends Twig_Extension
 {
     protected $scoring;
     protected $objectManager;
 
-    public function __construct( AuditScoring $scoring, ObjectManager $objectManager )
+    public function __construct( Scoring $scoring, ObjectManager $objectManager )
     {
         $this->scoring = $scoring;
         $this->objectManager = $objectManager;

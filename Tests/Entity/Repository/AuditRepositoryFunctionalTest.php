@@ -52,4 +52,17 @@ class AuditRepositoryFunctionalTest extends WebTestCase
                 'ORDER BY c.reference DESC'
         );
     }
+
+//    public function testGetAuditByFormAndReference()
+//    {
+//        $form = new \CiscoSystems\AuditBundle\Entity\Form();
+//        $refId = 25560;
+//        $this->assertEquals(
+//                $this->repo->qbAuditByFormAndReference( $form, $refId ),
+//                'SELECT a ' .
+//                'FROM CiscoSystemsAuditBundle:Audit a ' .
+//                'WHERE a.reference.id = :refid ' .
+//                'AND a.form = :form'
+//        );
+//    }
 }
