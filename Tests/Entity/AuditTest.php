@@ -21,7 +21,7 @@ class AuditTest extends \PHPUnit_Framework_TestCase
      * @covers CiscoSystems\AuditBundle\Entity\Audit::setForm
      * @covers CiscoSystems\AuditBundle\Entity\Audit::getForm
      */
-    public function testAuditForm()
+    public function testForm()
     {
         $form = new Form();
         $this->audit->setForm( $form );
@@ -33,7 +33,7 @@ class AuditTest extends \PHPUnit_Framework_TestCase
      * @covers CiscoSystems\AuditBundle\Entity\Audit::setReference
      * @covers CiscoSystems\AuditBundle\Entity\Audit::reference
      */
-    public function testAuditReference()
+    public function testReference()
     {
         // need to be tested on implementation of the ReferenceInterface
     }
@@ -42,7 +42,7 @@ class AuditTest extends \PHPUnit_Framework_TestCase
      * @covers CiscoSystems\AuditBundle\Entity\Audit::setAuditor
      * @covers CiscoSystems\AuditBundle\Entity\Audit::getAuditor
      */
-    public function testAuditingUser()
+    public function testAuditor()
     {
         // need to be tested on implementation of the UserInterface
     }
@@ -63,7 +63,7 @@ class AuditTest extends \PHPUnit_Framework_TestCase
      * @covers CiscoSystems\AuditBundle\Entity\Audit::setMark
      * @covers CiscoSystems\AuditBundle\Entity\Audit::getMark
      */
-    public function testTotalScore()
+    public function testMark()
     {
         $score = 75.50;
         $this->audit->setMark( $score );

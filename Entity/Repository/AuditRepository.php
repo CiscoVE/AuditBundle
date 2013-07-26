@@ -19,7 +19,7 @@ class AuditRepository extends EntityRepository
      *
      * @return array
      */
-    public function getAuditsWithAuditFormsUsage()
+    public function getAuditsWithFormsUsage()
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select( 'a' )->from( 'CiscoSystemsAuditBundle:Audit', 'a' );
@@ -66,5 +66,27 @@ class AuditRepository extends EntityRepository
             $result[] = $row;
         }
         return $result;
+    }
+
+    /**
+     * Get an array of all reference
+     *
+     * @return array reference
+     */
+    public function getCaseId()
+    {
+        $qb = $this->getEntityManager()->createQuery( '
+                    SELECT IDENTITY( c.reference )
+                    FROM CiscoSystemsAuditBundle:Audit c
+                    ORDER BY c.reference DESC
+                ');
+
+        $return = array();
+        foreach( $qb->getScalarResult() as $id )
+        {
+            foreach( $id as $v ) { $return[] = intval( $v ); }
+        }
+
+        return $return;
     }
 }

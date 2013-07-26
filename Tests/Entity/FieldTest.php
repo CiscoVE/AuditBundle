@@ -107,38 +107,38 @@ class AuditFormFieldTest extends \PHPUnit_Framework_TestCase
      * @covers CiscoSystems\AuditBundle\Entity\Field::setChoices
      * @covers CiscoSystems\AuditBundle\Entity\Field::getChoices
      */
-    public function testScores()
+    public function testChoices()
     {
-        $scores = array(
+        $choices = array(
             'Y'     => 'correct answer',
             'N'     => 'incorrect answer',
             'A'     => 'acceptable answer',
             'N\A'   => 'non-applicable answer'
         );
-        $this->field->setChoices( $scores );
+        $this->field->setChoices( $choices );
 
-        $this->assertEquals( $scores, $this->field->getChoices() );
+        $this->assertEquals( $choices, $this->field->getChoices() );
     }
 
     /**
      * @covers CiscoSystems\AuditBundle\Entity\Field::addChoice
      */
-    public function testScore()
+    public function testChoice()
     {
-        $scores = array(
+        $choices = array(
             'Y'     => 'correct answer',
             'N'     => 'incorrect answer',
             'A'     => 'acceptable answer',
             'N\A'   => 'non-applicable answer'
         );
-        $score = 'T';
+        $mark = 'T';
         $label = 'test answer item';
-        $this->field->setChoices( $scores );
-        $this->field->addChoice( $score, $label );
+        $this->field->setChoices( $choices );
+        $this->field->addChoice( $mark, $label );
 
-        $actualScores = $this->field->getChoices();
+        $actualChoices = $this->field->getChoices();
 
-        $this->assertEquals( $label, $actualScores[$score] );
+        $this->assertEquals( $label, $actualChoices[$mark] );
     }
 
     /**
@@ -147,13 +147,13 @@ class AuditFormFieldTest extends \PHPUnit_Framework_TestCase
      */
     public function testAuditScores()
     {
-        $auditscore1 = new Score();
-        $auditscore2 = new Score();
-        $auditscore3 = new Score();
-        $auditscores = new ArrayCollection( array( $auditscore1, $auditscore2, $auditscore3 ));
-        $this->field->setScores( $auditscores );
+        $score1 = new Score();
+        $score2 = new Score();
+        $score3 = new Score();
+        $scores = new ArrayCollection( array( $score1, $score2, $score3 ));
+        $this->field->setScores( $scores );
 
-        $this->assertEquals( count( $auditscores ), count( $this->field->getAuditscores()) );
+        $this->assertEquals( count( $scores ), count( $this->field->getScores()) );
     }
 
     /**
@@ -161,17 +161,17 @@ class AuditFormFieldTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddAuditScore()
     {
-        $auditscore1 = new Score();
-        $auditscore2 = new Score();
-        $auditscore3 = new Score();
-        $auditscores = new ArrayCollection( array( $auditscore1, $auditscore2, $auditscore3 ));
-        $this->field->setScores( $auditscores );
+        $score1 = new Score();
+        $score2 = new Score();
+        $score3 = new Score();
+        $scores = new ArrayCollection( array( $score1, $score2, $score3 ));
+        $this->field->setScores( $scores );
 
-        $auditscore = new Score();
-        $this->field->addAuditScore( $auditscore );
-        $actualScores = $this->field->getAuditscores();
+        $score = new Score();
+        $this->field->addScore( $score );
+        $actualScore = $this->field->getScores();
 
-        $this->assertEquals( $auditscore, $actualScores[( count( $actualScores ) -1 )] );
+        $this->assertEquals( $score, $actualScore[( count( $actualScore ) -1 )] );
     }
 
     /**
@@ -179,16 +179,16 @@ class AuditFormFieldTest extends \PHPUnit_Framework_TestCase
      */
     public function testRemoveAuditScore()
     {
-        $auditscore1 = new Score();
-        $auditscore2 = new Score();
-        $auditscore3 = new Score();
-        $auditscores = new ArrayCollection( array( $auditscore1, $auditscore2, $auditscore3 ));
-        $this->field->setScores( $auditscores );
+        $score1 = new Score();
+        $score2 = new Score();
+        $score3 = new Score();
+        $scores = new ArrayCollection( array( $score1, $score2, $score3 ));
+        $this->field->setScores( $scores );
 
-        $this->field->removeAuditScore( $auditscore3 );
-        $auditscores->removeElement( $auditscore3 );
+        $this->field->removeScore( $score3 );
+        $scores->removeElement( $score3 );
 
-        $this->assertNotContains( $auditscore3, $this->field->getAuditscores() );
-        $this->assertEquals( $auditscores, $this->field->getAuditscores() );
+        $this->assertNotContains( $score3, $this->field->getScores() );
+        $this->assertEquals( $scores, $this->field->getScores() );
     }
 }
