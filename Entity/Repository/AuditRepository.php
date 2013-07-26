@@ -14,16 +14,38 @@ class AuditRepository extends EntityRepository
         return $qb->getQuery()->execute();
     }
 
+    public function qbAudits( $auditor = null )
+    {
+        $qb = $this->createQueryBuilder( 'a' );
+        if( $auditor !== null )
+        {
+            $qb->add( 'where', $qb->expr()->eq( 'a.auditor', ':user' ))
+               ->setParameter( 'user', $auditor );
+        }
+
+        return $qb;
+    }
+
+    public function getAuditsPerAuditor( $auditor = null )
+    {
+        return $this->qbAudits( $auditor )->getQuery()->getResult();
+    }
+
     /**
      * get audits as an array with the auditforms used
      *
      * @return array
      */
-    public function getAuditsWithFormsUsage()
+    public function getAuditsWithFormsUsage( $auditor = null )
     {
-        $qb = $this->getEntityManager()->createQueryBuilder();
-        $qb->select( 'a' )->from( 'CiscoSystemsAuditBundle:Audit', 'a' );
-        $entities = $qb->getQuery()->getResult();
+//        $qb = $this->getEntityManager()->createQueryBuilder();
+//        $qb->select( 'a' )->from( 'CiscoSystemsAuditBundle:Audit', 'a' );
+//        if( $auditor !== null )
+//        {
+//            $qb->add( 'where', $qb->expr()->eq( 'a.auditor', ':user' ));
+//            $qb->setParameter( 'user', $auditor );
+//        }
+        $entities = $this->qbAudits( $auditor )->getQuery()->getResult();
 
         $uforms = array();
         $result = array();
@@ -31,7 +53,7 @@ class AuditRepository extends EntityRepository
         // find all used forms
         foreach ( $entities as $entity )
         {
-            $refId = $entity->reference()->getId();
+            $refId = $entity->getReference()->getId();
             $formId = $entity->getForm()->getId();
 
             // if key $refId does NOT exist in uforms
@@ -52,20 +74,32 @@ class AuditRepository extends EntityRepository
 
         foreach ( $entities as $entity )
         {
+            $form = $entity->getForm();
+            $metadata = $form->getMetadata();
+            $formAccessLevel = $metadata ? $metadata->getAccessLevel() : 1;
             $row = array(
-                'id'        => $entity->getId(),
-                'reference' => $entity->reference()->getId(),
-                'auditForm' => $entity->getForm()->getTitle(),
-                'auditor'   => $entity->getAuditor()->getUsername(),
-                'flag'      => $entity->getFlag(),
-                'flagLabel' => $entity->getForm()->getFlagLabel(),
-                'mark'      => $entity->getMark(),
-                'usedforms' => $uforms[$entity->reference()->getId()],
-                'createdAt' => $entity->getCreatedAt(),
+                'id'            => $entity->getId(),
+                'reference'     => $entity->getReference()->getId(),
+                'form'          => $entity->getForm()->getTitle(),
+                'auditor'       => $entity->getAuditor()->getUsername(),
+                'flag'          => $entity->getFlag(),
+                'flagLabel'     => $entity->getForm()->getFlagLabel(),
+                'mark'          => $entity->getMark(),
+                'usedforms'     => $uforms[$entity->getReference()->getId()],
+                'createdAt'     => $entity->getCreatedAt(),
+                'accessLevel'   => $formAccessLevel,
             );
             $result[] = $row;
         }
         return $result;
+    }
+
+    public function qbReferences()
+    {
+        return $this->createQueryBuilder( 'c' )
+                    ->select( 'c.reference' )
+                    ->from( 'CiscoSystemsAuditBundle:Audit', 'c' )
+                    ->orderBy( 'c.reference', 'DESC' );
     }
 
     /**

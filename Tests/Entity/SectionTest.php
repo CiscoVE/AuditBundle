@@ -107,7 +107,6 @@ class AuditFormSectionTest extends \PHPUnit_Framework_TestCase
 
         $field = new Field();
         $this->section->addField( $field );
-        $actualFields = $this->section->getFields();
 
         $this->assertEquals( $fields, $this->section->getFields() );
         $this->assertContains( $field, $this->section->getFields() );

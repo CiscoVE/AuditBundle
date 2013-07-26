@@ -2,7 +2,7 @@ parameters:
     cisco.formtype.audit.class:           CiscoSystems\AuditBundle\Form\Type\AuditType
     cisco.formtype.section.class:         CiscoSystems\AuditBundle\Form\Type\SectionsType
     cisco.twig.audit_extension.class:    CiscoSystems\AuditBundle\Twig\Extension\AuditExtension
-    cisco.worker.audit_score.class:      CiscoSystems\AuditBundle\Worker\AuditScoring
+    cisco.worker.audit_score.class:      CiscoSystems\AuditBundle\Worker\Scoring
 
 services:
     cisco.formtype.audit:

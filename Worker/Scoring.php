@@ -7,7 +7,7 @@ use CiscoSystems\AuditBundle\Entity\Section;
 use CiscoSystems\AuditBundle\Entity\Field;
 use CiscoSystems\AuditBundle\Entity\Score;
 
-class AuditScoring
+class Scoring
 {
     /**
      * Get the weight percentage for a specific score
@@ -47,7 +47,7 @@ class AuditScoring
             }
         }
 
-        return false;
+        return FALSE;
     }
 
     /**
@@ -108,9 +108,12 @@ class AuditScoring
     {
         foreach ( $section->getFields() as $field )
         {
-            if ( $field->getFlag() == true &&  $this->getScoreForField( $audit, $field )->getMark() == Score::NO )
+//            echo($field->getTitle()); die;
+//            echo($audit->getId()); die;
+            $mark = $this->getScoreForField( $audit, $field )->getMark();
+            if ( $field->getFlag() === TRUE && $mark === Score::NO )
             {
-                $section->setFlag( true );
+                $section->setFlag( TRUE );
             }
         }
     }
@@ -127,13 +130,13 @@ class AuditScoring
     {
         foreach( $section->getFields() as $field )
         {
-            if( $field->getFlag() === true && $this->getScoreForField( $audit, $field )->getMark() === Score::NO )
+            if( $field->getFlag() === TRUE && $this->getScoreForField( $audit, $field )->getMark() === Score::NO )
             {
-                return true;
+                return TRUE;
             }
         }
 
-        return false;
+        return FALSE;
     }
 
     /**
@@ -152,7 +155,7 @@ class AuditScoring
             if ( 0 == $count ) return 100;
             $totalPercent = 0;
             $divisor = 0;
-            $audit->setFlag( false );
+            $audit->setFlag( FALSE );
 
             foreach ( $sections as $section )
             {
@@ -160,7 +163,7 @@ class AuditScoring
                 $weight = $this->getWeightForSection( $section );
                 $sectionFlag = $this->getFlagForSection( $audit, $section );
 
-                if ( $sectionFlag ) $audit->setFlag( true );
+                if ( $sectionFlag ) $audit->setFlag( TRUE );
                 $divisor += $weight;
                 if( $divisor > 0 )
                 {
