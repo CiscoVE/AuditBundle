@@ -114,7 +114,7 @@ class Section extends Element
      */
     public function getPosition()
     {
-        return $this->position;
+        return $this->position + 1;
     }
 
     /**
