@@ -19,10 +19,9 @@ class Field extends Element
      * @var \CiscoSystems\AuditBundle\Entity\AuditSection AuditSection to which the AuditField belongs
      *
      * @Gedmo\SortableGroup
-     * @ORM\ManyToOne(targetEntity="CiscoSystems\AuditBundle\Entity\Section", inversedBy="fields")
-     * @ORM\JoinColumn(name="section_id", referencedColumnName="id", nullable=true)
+     * @ORM\OneToMany(targetEntity="CiscoSystems\AuditBundle\Entity\SectionField", mappedBy="field")
      */
-    protected $section;
+    protected $sections;
 
     /**
      * @var array Array of string values: settable choices
@@ -295,26 +294,21 @@ class Field extends Element
         return $this;
     }
 
-    /**
-     * Get section
-     *
-     * @return CiscoSystems\AuditBundle\Entity\Section
-     */
-    public function getSection()
+    public function getSections()
     {
-        return $this->section;
+        return $this->sections;
     }
 
-    /**
-     * Set section
-     *
-     * @param CiscoSystems\AuditBundle\Entity\Section $section
-     *
-     * @return \CiscoSystems\AuditBundle\Entity\Field
-     */
-    public function setSection( \CiscoSystems\AuditBundle\Entity\Section $section = NULL )
+    public function addSection( \CiscoSystems\AuditBundle\Entity\Section $section = NULL )
     {
-        $this->section = $section;
+        $this->sectionField->addSection( $section );
+
+        return $this;
+    }
+
+    public function removeSection( \CiscoSystems\AuditBundle\Entity\Section $section = NULL )
+    {
+        $this->sectionField->setArchived( TRUE );
 
         return $this;
     }

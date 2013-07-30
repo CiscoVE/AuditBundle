@@ -27,7 +27,8 @@ class Section extends Element
     protected $position;
 
     /**
-     * @ORM\OneToMany(targetEntity="CiscoSystems\AuditBundle\Entity\Field", mappedBy="section")
+     * @Gedmo\SortableGroup
+     * @ORM\OneToMany(targetEntity="CiscoSystems\AuditBundle\Entity\SectionField", mappedBy="section")
      */
     protected $fields;
 
@@ -134,7 +135,7 @@ class Section extends Element
     /**
      * Get \Doctrine\Common\Collections\ArrayCollection
      *
-     * @return \CiscoSystems\AuditBundle\Entity\Field
+     * @return \Doctrine\Common\Collections\ArrayCollection
      */
     public function getFields()
     {
