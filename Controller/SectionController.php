@@ -40,7 +40,7 @@ class SectionController extends Controller
                             ->find( $request->get( 'form_id' ) );
             $section->setForm( $auditForm );
         }
-        $form = $this->createForm( new AuditFormSectionType(), $section);
+        $form = $this->createForm( new SectionType(), $section);
         if ( null !== $request->get( $form->getName() ))
         {
             $form->bind( $request );

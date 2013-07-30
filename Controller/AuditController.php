@@ -106,7 +106,7 @@ class AuditController extends Controller
      * @param \CiscoSystems\AuditBundle\Entity\Audit $audit
      * @param array $scores
      */
-    protected function setAuditScores( $entityMgr, Audit $audit, $scores )
+    protected function setScores( $entityMgr, Audit $audit, $scores )
     {
         $fieldRepo = $entityMgr->getRepository( 'CiscoSystemsAuditBundle:Field' );
         foreach ( $scores as $fieldId => $scoreData )

@@ -17,7 +17,7 @@
                 <button type="submit" class="btn btn-mini">
                     Save Section <i class="icon-ok"></i>
                 </button>
-            {% if section.auditform %}
+            {% if section.form %}
                 <a class="btn btn-mini"
                     href="{{ path( 'audit_form_edit', { 'form_id': section.form.id } ) }}">
                      Cancel <i class="icon-remove"></i>
