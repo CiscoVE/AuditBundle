@@ -12,13 +12,13 @@ use CiscoSystems\AuditBundle\Entity\Relation;
 class FormSection extends Relation
 {
     /**
-     * @ORM\ManyToOne(targetEntity="CiscoSystems\AuditBundle\Entity\Form", inversedBy="sections")
+     * @ORM\ManyToOne(targetEntity="CiscoSystems\AuditBundle\Entity\Form", inversedBy="sectionRelations")
      * @ORM\JoinColumn(name="form_id", referencedColumnName="id", nullable=true)
      */
     private $form;
 
     /**
-     * @ORM\ManyToOne(targetEntity="CiscoSystems\AuditBundle\Entity\Section", inversedBy="forms")
+     * @ORM\ManyToOne(targetEntity="CiscoSystems\AuditBundle\Entity\Section", inversedBy="formRelations")
      * @ORM\JoinColumn(name="section_id", referencedColumnName="id", nullable=true)
      */
     private $section;
@@ -45,5 +45,10 @@ class FormSection extends Relation
         $this->section = $section;
 
         return $this;
+    }
+
+    public function getType()
+    {
+        return parent::TYPE_FORMSECTION;
     }
 }

@@ -16,14 +16,14 @@ class SectionType extends AbstractType
         $builder->add( 'title', null, array(
             'attr' => array( 'placeholder' => 'Section\'s title ' ),
         ));
-        $builder->add( 'form', 'entity', array(
-            'empty_data'    => null,
-            'empty_value'   => '(Choose a Form)',
-            'required'      => false,
-            'class'         => 'CiscoSystemsAuditBundle:Form',
-            'property'      => 'title',
-            'label'         => 'Audit',
-        ));
+//        $builder->add( 'form', 'entity', array(
+//            'empty_data'    => null,
+//            'empty_value'   => '(Choose a Form)',
+//            'required'      => false,
+//            'class'         => 'CiscoSystemsAuditBundle:Form',
+//            'property'      => 'title',
+//            'label'         => 'Audit',
+//        ));
         $builder->add( 'description', 'textarea', array(
             'attr' => array( 'placeholder' => 'Section\'s description. This should be as clear as possible' ),
         ));

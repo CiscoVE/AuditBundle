@@ -9,6 +9,16 @@ use Gedmo\Sortable\Entity\Repository\SortableRepository;
  */
 class FieldRepository extends SortableRepository
 {
+    public function qbTrigger( $field )
+    {
+        return $this->createQueryBuilder( 'fo.flagLabel' )
+                    ->from( 'CiscoSystemsAuditBundle:Field',  'fi' )
+                    ->join( 'CiscoSystemsAuditBundle:Section', 's', 'with', 's = fi.section' )
+                    ->join( 'CiscoSystemsAuditBundle:Form', 'fo', 'with', 'fo = s.form' )
+                    ->where( 'fi = :field' )
+                    ->setParameter( 'field', $field );
+    }
+
     /**
      * Get the flag label for the given Field
      *
@@ -18,13 +28,9 @@ class FieldRepository extends SortableRepository
      */
     public function getTrigger( $field )
     {
-        $qb = $this->getEntityManager()->createQueryBuilder();
-        $qb->select( 'form.flagLabel' )->from( 'CiscoSystemsAuditBundle:Field',  'field' );
-        $qb->join( 'CiscoSystemsAuditBundle:Section', 'section', 'with', 'section = field.section' );
-        $qb->join( 'CiscoSystemsAuditBundle:Form', 'form', 'with', 'form = section.form' );
-        $qb->add( 'where', $qb->expr()->eq( 'field', ':field' ));
-        $qb->setParameter( 'field', $field );
-        $array = $qb->getQuery()->getOneOrNullResult();
+        $array = $this->qbTrigger( $field )
+                      ->getQuery()
+                      ->getOneOrNullResult();
 
         return $array['flagLabel'];
     }

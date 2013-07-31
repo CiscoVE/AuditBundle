@@ -17,12 +17,12 @@
                 <button type="submit" class="btn btn-mini">
                     Save Section <i class="icon-ok"></i>
                 </button>
-            {% if section.form %}
+            {#% if section.form %}
                 <a class="btn btn-mini"
                     href="{{ path( 'audit_form_edit', { 'form_id': section.form.id } ) }}">
                      Cancel <i class="icon-remove"></i>
                 </a>
-            {% endif %}
+            {% endif %#}
             {% if edit == true %}
                 <a class="btn btn-mini"
                    href="{{ path( 'audit_section_delete', { 'section_id': section.id } ) }}">
@@ -40,14 +40,14 @@
                         {{ form_errors( form.title ) }}
                     </div>
                 </div>
-                <div class="control-group">
+                <div class="control-group">{#
                     <div class="control-label">
                         {{ form_label( form.form ) }}
                     </div>
                     <div class="controls">
                         {{ form_widget( form.form ) }}
                         {{ form_errors( form.form ) }}
-                    </div>
+                    </div>#}
                 </div>
             </div>
             <div class="controls controls-row">
@@ -78,7 +78,8 @@
                 </tr>
             </thead>
             <tbody>
-            {% for field in section.fields %}
+            {% for rel in section.fieldRelations %}
+                {% set field = rel.field %}
                 {% include 'CiscoSystemsAuditBundle:Field:_load.html.twig' %}
             {% else %}
                 <tr class="warning-empty">

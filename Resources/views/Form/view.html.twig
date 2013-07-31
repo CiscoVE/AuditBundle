@@ -46,13 +46,13 @@
             </thead>
             <tbody>
             {% set counter = 1 %}
-            {% for section in form.sections %}
+            {% for section in form.sectionRelations %}
                 <tr>
                     <td colspan=4>
                         <strong>Section {{ section.position }}: {{ section.title }}</strong> - {{ section.description }}
                     </td>
                 </tr>
-                {% for field in section.fields %}
+                {% for field in section.fieldRelations %}
                 <tr>
                     <td>{{ field.title }}</td>
                     <td>{{ field.description }}</td>

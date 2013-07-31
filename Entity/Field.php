@@ -18,10 +18,9 @@ class Field extends Element
     /**
      * @var \CiscoSystems\AuditBundle\Entity\AuditSection AuditSection to which the AuditField belongs
      *
-     * @Gedmo\SortableGroup
      * @ORM\OneToMany(targetEntity="CiscoSystems\AuditBundle\Entity\SectionField", mappedBy="field")
      */
-    protected $sections;
+    protected $sectionRelations;
 
     /**
      * @var array Array of string values: settable choices
@@ -54,7 +53,6 @@ class Field extends Element
     /**
      * @var integer position of the AuditField in the associated AuditSection
      *
-     * @Gedmo\SortablePosition
      * @ORM\Column(name="position",type="integer")
      */
     protected $position;
@@ -81,6 +79,7 @@ class Field extends Element
         $this->auditscores = new ArrayCollection();
         $this->disabled = FALSE;
         $this->weight = self::DEFAULTWEIGHTVALUE;
+        $this->sectionRelations = new ArrayCollection();
     }
 
     /**
@@ -294,25 +293,6 @@ class Field extends Element
         return $this;
     }
 
-    public function getSections()
-    {
-        return $this->sections;
-    }
-
-    public function addSection( \CiscoSystems\AuditBundle\Entity\Section $section = NULL )
-    {
-        $this->sectionField->addSection( $section );
-
-        return $this;
-    }
-
-    public function removeSection( \CiscoSystems\AuditBundle\Entity\Section $section = NULL )
-    {
-        $this->sectionField->setArchived( TRUE );
-
-        return $this;
-    }
-
     /**
      * Get slug
      *
@@ -359,5 +339,34 @@ class Field extends Element
         $this->disabled = $boolean;
 
         return $this;
+    }
+
+    public function getSectionRelations()
+    {
+        return $this->sectionRelations;
+    }
+
+    public function addSectionRelation( \CiscoSystems\AuditBundle\Entity\SectionField $relation )
+    {
+        if( !$this->sectionRelations->contains( $relation ))
+        {
+            $this->sectionRelations->add( $relation );
+
+            return $this;
+        }
+
+        return FALSE;
+    }
+
+    public function removeSectionRelation( \CiscoSystems\AuditBundle\Entity\SectionField $relation )
+    {
+        if( $this->sectionRelations->contains( $relation ))
+        {
+            $relation->setArchived( TRUE );
+
+            return $this;
+        }
+
+        return FALSE;
     }
 }

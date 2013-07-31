@@ -3,7 +3,6 @@
 namespace CiscoSystems\AuditBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
 use CiscoSystems\AuditBundle\Entity\Relation;
 
 /**
@@ -13,55 +12,45 @@ use CiscoSystems\AuditBundle\Entity\Relation;
 class SectionField extends Relation
 {
     /**
-     * @ORM\ManyToOne(targetEntity="CiscoSystems\AuditBundle\Entity\Field", inversedBy="sections")
+     * @ORM\ManyToOne(targetEntity="CiscoSystems\AuditBundle\Entity\Field", inversedBy="sectionRelations")
      * @ORM\JoinColumn(name="field_id", referencedColumnName="id", nullable=true)
      */
     private $field;
 
     /**
-     * @ORM\ManyToOne(targetEntity="CiscoSystems\AuditBundle\Entity\Section", inversedBy="fields")
+     * @ORM\ManyToOne(targetEntity="CiscoSystems\AuditBundle\Entity\Section", inversedBy="fieldRelations")
      * @ORM\JoinColumn(name="section_id", referencedColumnName="id", nullable=true)
      */
     private $section;
-
-    public function __construct()
-    {
-//        $this->fields = new ArrayCollection();
-//        $this->sections = new ArrayCollection();
-    }
 
     public function getField()
     {
         return $this->field;
     }
 
-//    public function addField( \CiscoSystems\AuditBundle\Entity\Field $field = NULL )
-//    {
-//        if( !$this->fields->contains( $field ) && $field !== NULL )
-//        {
-//            $this->fields->add( $field );
-//
-//            return $this;
-//        }
-//        return FALSE;
-//    }
+    public function setField( $field )
+    {
+        $this->field = $field;
+
+        return $this;
+    }
 
     public function getSection()
     {
         return $this->section;
     }
 
-//    public function addSection( \CiscoSystems\AuditBundle\Entity\Section $section = NULL )
-//    {
-//        if( !$this->sections->contains( $section ) && $section !== NULL )
-//        {
-//            $this->sections->add( $section );
-//
-//            return $this;
-//        }
-//        return FALSE;
-//    }
+    public function setSection( $section )
+    {
+        $this->section = $section;
 
+        return $this;
+    }
+
+    public function getType()
+    {
+        return parent::TYPE_SECTIONFIELD;
+    }
 }
 
 // see http://stackoverflow.com/questions/14947080/doctrine2-many-to-many-with-extra-columns-in-reference-table-add-record

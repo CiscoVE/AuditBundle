@@ -6,6 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use CiscoSystems\AuditBundle\Entity\Section;
+use CiscoSystems\AuditBundle\Entity\FormSection;
+use CiscoSystems\AuditBundle\Entity\SectionField;
 use CiscoSystems\AuditBundle\Form\Type\SectionType;
 
 class SectionController extends Controller
@@ -27,6 +29,7 @@ class SectionController extends Controller
         $edit = false;
         $em = $this->getDoctrine()->getEntityManager();
         $section = new Section();
+        $relation = new FormSection();
         if ( $request->get( 'section_id' ) )
         {
             $edit = true;
@@ -38,7 +41,9 @@ class SectionController extends Controller
         {
             $auditForm = $em->getRepository( 'CiscoSystemsAuditBundle:Form' )
                             ->find( $request->get( 'form_id' ) );
-            $section->setForm( $auditForm );
+            $relation->setForm( $auditForm );
+            $relation->setSection( $section );
+            $auditForm->AddSectionRelation( $relation );
         }
         $form = $this->createForm( new SectionType(), $section);
         if ( null !== $request->get( $form->getName() ))
@@ -46,16 +51,17 @@ class SectionController extends Controller
             $form->bind( $request );
             if ( $form->isValid() )
             {
+                $em->persist( $relation );
                 $em->persist( $section );
                 $em->flush();
 
                 return $this->redirect( $this->generateUrl( 'audit_form_edit', array(
-                    'form_id'  => $section->getForm()->getId(),
+                    'form_id'  => $auditForm->getId(),
                 )));
             }
         }
-        $uFieldRepo = $em->getRepository( 'CiscoSystemsAuditBundle:Field' );
-        $uFields = $uFieldRepo->findBy( array ( 'section' => null ));
+//        $uFieldRepo = $em->getRepository( 'CiscoSystemsAuditBundle:Field' );
+//        $uFields = $uFieldRepo->findBy( array ( 'section' => null ));
 
         /**
          * Performed for ajax request; Planned to be used with a modal box
@@ -71,7 +77,7 @@ class SectionController extends Controller
         else*/ return $this->render( 'CiscoSystemsAuditBundle:Section:edit.html.twig', array(
             'edit'          => $edit,
             'section'       => $section,
-            'ufields'       => $uFields,
+//            'ufields'       => $uFields,
             'form'          => $form->createView(),
         ));
     }

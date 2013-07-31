@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use CiscoSystems\AuditBundle\Model\MetadataInterface;
 use CiscoSystems\AuditBundle\Entity\Element;
+use CiscoSystems\AuditBundle\Entity\FormSection;
 
 /**
  * @ORM\Entity(repositoryClass="CiscoSystems\AuditBundle\Entity\Repository\FormRepository")
@@ -44,9 +45,9 @@ class Form extends Element
     /**
      * @var DoctrineCommon\Collections\ArrayCollection sections that belong to this form
      *
-     * @ORM\OneToMany(targetEntity="CiscoSystems\AuditBundle\Entity\Section", mappedBy="form")
+     * @ORM\OneToMany(targetEntity="CiscoSystems\AuditBundle\Entity\FormSection", mappedBy="form")
      */
-    protected $sections;
+    protected $sectionRelations;
 
     /**
      * @var DoctrineCommon\Collections\ArrayCollection audits that are using this form
@@ -67,7 +68,7 @@ class Form extends Element
         parent::__construct();
         $this->active = TRUE;
         $this->allowMultipleAnswer = FALSE;
-        $this->sections = new ArrayCollection();
+        $this->sectionRelations = new ArrayCollection();
         $this->audits = new ArrayCollection();
     }
 
@@ -163,104 +164,6 @@ class Form extends Element
     public function setCreatedAt( $createdAt )
     {
         $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    /**
-     * Get sections
-     *
-     * @return Doctrine\Common\Collections\Collection
-     */
-    public function getSections()
-    {
-        return $this->sections;
-    }
-
-    /**
-     * Set sections
-     *
-     * @param \Doctrine\Common\Collections\ArrayCollection $sections
-     *
-     * @return CiscoSystems\AuditBundle\Entity\Form $this
-     */
-    public function setSections( \Doctrine\Common\Collections\ArrayCollection $sections = NULL )
-    {
-        $this->sections = $sections;
-
-        return $this;
-    }
-
-    /**
-     * Add a section
-     *
-     * @param CiscoSystems\AuditBundle\Entity\Section $section
-     *
-     * @return CiscoSystems\AuditBundle\Entity\Form $this
-     */
-    public function addSection( \CiscoSystems\AuditBundle\Entity\Section $section )
-    {
-        if( !$this->sections->contains( $section ))
-        {
-            $section->setForm( $this );
-            $this->sections->add( $section );
-
-            return $this;
-        }
-
-        return FALSE;
-    }
-
-    /**
-     * Add all section in ArrayColleciton sections to ArrayCollection $this->sections
-     *
-     * @param \Doctrine\Common\Collections\ArrayCollection $sections
-     *
-     * @return CiscoSystems\AuditBundle\Entity\Form $this
-     */
-    public function addSections( \Doctrine\Common\Collections\ArrayCollection $sections )
-    {
-        foreach( $sections as $section )
-        {
-            $this->addSection( $section );
-        }
-
-        return $this;
-    }
-
-    /**
-     * Remove sections
-     *
-     * @param CiscoSystems\AuditBundle\Entity\Section $section
-     *
-     * @return CiscoSystems\AuditBundle\Entity\Form $this
-     */
-    public function removeSection( \CiscoSystems\AuditBundle\Entity\Section $section )
-    {
-        if( $this->sections->contains( $section ))
-        {
-            $index = $this->sections->indexOf( $section );
-            $rem = $this->sections->get( $index );
-            $rem->setForm( NULL );
-            $this->sections->removeElement($section);
-
-            return $this;
-        }
-
-        return FALSE;
-    }
-
-    /**
-     * Remove all sections
-     *
-     * @return CiscoSystems\AuditBundle\Entity\Form $this
-     */
-    public function removeAllSection()
-    {
-        foreach( $this->sections as $section )
-        {
-            $this->removeSection( $section );
-        }
 
         return $this;
     }
@@ -385,6 +288,35 @@ class Form extends Element
         $this->metadata = $metadata;
 
         return $this;
+    }
+
+    public function getSectionRelations()
+    {
+        return $this->sectionRelations;
+    }
+
+    public function addSectionRelation( \CiscoSystems\AuditBundle\Entity\FormSection $relation )
+    {
+        if( !$this->sectionRelations->contains( $relation ))
+        {
+            $this->sectionRelations->add( $relation );
+
+            return $this;
+        }
+
+        return FALSE;
+    }
+
+    public function removeSectionRelation( \CiscoSystems\AuditBundle\Entity\FormSection $relation )
+    {
+        if( $this->sectionRelations->contains( $relation ))
+        {
+            $relation->setArchived( TRUE );
+
+            return $this;
+        }
+
+        return FALSE;
     }
 
     public function __toString()

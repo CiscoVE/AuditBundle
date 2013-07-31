@@ -13,6 +13,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 abstract class Relation
 {
+    const TYPE_FORMSECTION = 'formsection';
+    const TYPE_SECTIONFIELD = 'sectionfield';
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -40,6 +43,11 @@ abstract class Relation
         $this->archived = $archived;
 
         return $this;
+    }
+
+    public function getType()
+    {
+        return 'relation';
     }
 }
 

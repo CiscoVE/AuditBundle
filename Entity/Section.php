@@ -6,6 +6,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use CiscoSystems\AuditBundle\Entity\Element;
+use CiscoSystems\AuditBundle\Entity\Relation;
+use CiscoSystems\AuditBundle\Entity\FormSection;
+use CiscoSystems\AuditBundle\Entity\SectionField;
 
 /**
  * @ORM\Entity(repositoryClass="CiscoSystems\AuditBundle\Entity\Repository\SectionRepository")
@@ -14,30 +17,27 @@ use CiscoSystems\AuditBundle\Entity\Element;
 class Section extends Element
 {
     /**
-     * @Gedmo\SortableGroup
-     * @ORM\ManyToOne(targetEntity="CiscoSystems\AuditBundle\Entity\Form", inversedBy="sections")
-     * @ORM\JoinColumn(name="form_id",referencedColumnName="id")
+     * @ORM\OneToMany(targetEntity="CiscoSystems\AuditBundle\Entity\FormSection", mappedBy="section")
      */
-    protected $form;
+    protected $formRelations;
 
     /**
-     * @Gedmo\SortablePosition
      * @ORM\Column(name="position",type="integer")
      */
     protected $position;
 
     /**
-     * @Gedmo\SortableGroup
      * @ORM\OneToMany(targetEntity="CiscoSystems\AuditBundle\Entity\SectionField", mappedBy="section")
      */
-    protected $fields;
+    protected $fieldRelations;
 
     protected $flag = FALSE;
 
     public function __construct()
     {
         parent::__construct();
-        $this->fields = new ArrayCollection();
+        $this->fieldRelations = new ArrayCollection();
+        $this->formRelations = new ArrayCollection();
         $this->weightPercentage = 0;
     }
 
@@ -85,30 +85,6 @@ class Section extends Element
     }
 
     /**
-     * Get auditForm
-     *
-     * @return CiscoSystems\AuditBundle\Entity\Form
-     */
-    public function getForm()
-    {
-        return $this->form;
-    }
-
-    /**
-     * Set auditForm
-     *
-     * @param string $form
-     *
-     * @return CiscoSystems\AuditBundle\Entity\Section
-     */
-    public function setForm( \CiscoSystems\AuditBundle\Entity\Form $form = NULL )
-    {
-        $this->form = $form;
-
-        return $this;
-    }
-
-    /**
      * Get position
      *
      * @return integer
@@ -132,43 +108,16 @@ class Section extends Element
         return $this;
     }
 
-    /**
-     * Get \Doctrine\Common\Collections\ArrayCollection
-     *
-     * @return \Doctrine\Common\Collections\ArrayCollection
-     */
-    public function getFields()
+    public function getFieldRelations()
     {
-        return $this->fields;
+        return $this->fieldRelations;
     }
 
-    /**
-     * Set fields
-     *
-     * @param \Doctrine\Common\Collections\ArrayCollection $fields
-     *
-     * @return CiscoSystems\AuditBundle\Entity\Section
-     */
-    public function setFields( \Doctrine\Common\Collections\ArrayCollection $fields = NULL )
+    public function addFieldRelation( \CiscoSystems\AuditBundle\Entity\SectionField $relation )
     {
-        $this->fields = $fields;
-
-        return $this;
-    }
-
-    /**
-     * Add a field to ArrayCollection $this->fields
-     *
-     * @param CiscoSystems\AuditBundle\Entity\Field $field
-     *
-     * @return CiscoSystems\AuditBundle\Entity\Section
-     */
-    public function addField( \CiscoSystems\AuditBundle\Entity\Field $field )
-    {
-        if( !$this->fields->contains( $field ))
+        if( !$this->fieldRelations->contains( $relation ))
         {
-            $field->setSection( $this );
-            $this->fields->add( $field );
+            $this->fieldRelations->add( $relation );
 
             return $this;
         }
@@ -176,38 +125,11 @@ class Section extends Element
         return FALSE;
     }
 
-    /**
-     * Add all field in ArrayColleciton fields to ArrayCollection $this->fields
-     *
-     * @param \Doctrine\Common\Collections\ArrayCollection $fields
-     *
-     * @return CiscoSystems\AuditBundle\Entity\Section
-     */
-    public function addFields( \Doctrine\Common\Collections\ArrayCollection $fields )
+    public function removeFieldRelation( \CiscoSystems\AuditBundle\Entity\SectionField $relation )
     {
-        foreach( $fields as $field )
+        if( $this->fieldRelations->contains( $relation ))
         {
-            $this->addField( $field );
-        }
-
-        return $this;
-    }
-
-    /**
-     * Remove Field from ArrayCollection fields
-     *
-     * @param CiscoSystems\AuditBundle\Entity\Field $field
-     *
-     * @return CiscoSystems\AuditBundle\Entity\Section
-     */
-    public function removeField( \CiscoSystems\AuditBundle\Entity\Field $field )
-    {
-        if( $this->fields->contains( $field ))
-        {
-            $index = $this->fields->indexOf( $field );
-            $rem = $this->fields->get( $index );
-            $rem->setSection( NULL );
-            $this->fields->removeElement( $field );
+            $relation->setArchived( TRUE );
 
             return $this;
         }
@@ -215,19 +137,33 @@ class Section extends Element
         return FALSE;
     }
 
-    /**
-     * Remove all Field from ArrayCollection fields
-     *
-     * @return CiscoSystems\AuditBundle\Entity\Section
-     */
-    public function removeAllField()
+    public function getFormRelations()
     {
-        foreach( $this->fields as $field )
+        return $this->formRelations;
+    }
+
+    public function addFormRelation( \CiscoSystems\AuditBundle\Entity\FormSection $relation )
+    {
+        if( $this->formRelations->contains( $relation ))
         {
-            $this->removeField( $field );
+            $relation->setArchived( TRUE );
+
+            return $this;
         }
 
-        return $this;
+        return FALSE;
+    }
+
+    public function removeFormRelation( \CiscoSystems\AuditBundle\Entity\SectionField $relation )
+    {
+        if( $this->formRelations->contains( $relation ))
+        {
+            $relation->setArchived( TRUE );
+
+            return $this;
+        }
+
+        return FALSE;
     }
 
     public function __toString()
