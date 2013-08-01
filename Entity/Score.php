@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="CiscoSystems\AuditBundle\Entity\Repository\ScoreRepository")
- * @ORM\Table(name="cisco_audit__score")
+ * @ORM\Table(name="audit__score")
  */
 class Score
 {

@@ -2,16 +2,18 @@
 
 namespace CiscoSystems\AuditBundle\Entity;
 
+use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use CiscoSystems\AuditBundle\Entity\Relation;
 
 /**
- * @ORM\Table(name="cisco_audit__form_section")
+ * @ORM\Table(name="audit__form_section")
  * @ORM\Entity
  */
 class FormSection extends Relation
 {
     /**
+     * @Gedmo\SortableGroup
      * @ORM\ManyToOne(targetEntity="CiscoSystems\AuditBundle\Entity\Form", inversedBy="sectionRelations")
      * @ORM\JoinColumn(name="form_id", referencedColumnName="id", nullable=true)
      */

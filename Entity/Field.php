@@ -2,14 +2,13 @@
 
 namespace CiscoSystems\AuditBundle\Entity;
 
-use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use CiscoSystems\AuditBundle\Entity\Element;
 
 /**
  * @ORM\Entity(repositoryClass="CiscoSystems\AuditBundle\Entity\Repository\FieldRepository")
- * @ORM\Table(name="cisco_audit__field")
+ * @ORM\Table(name="audit__field")
  */
 class Field extends Element
 {
@@ -49,21 +48,6 @@ class Field extends Element
      * @ORM\Column(name="flag",type="boolean")
      */
     protected $flag;
-
-    /**
-     * @var integer position of the AuditField in the associated AuditSection
-     *
-     * @ORM\Column(name="position",type="integer")
-     */
-    protected $position;
-
-    /**
-     * @var string Slug for the AuditField
-     *
-     * @Gedmo\Slug(fields={"title"})
-     * @ORM\Column(name="slug",length=127, unique=true)
-     */
-    protected $slug;
 
     /**
      * @var boolean enabled/diabled AuditField check
@@ -265,54 +249,6 @@ class Field extends Element
     public function setFlag( $flag )
     {
         $this->flag = $flag;
-
-        return $this;
-    }
-
-    /**
-     * Get position
-     *
-     * @return integer
-     */
-    public function getPosition()
-    {
-        return $this->position + 1;
-    }
-
-    /**
-     * Set position
-     *
-     * @param integer $position
-     *
-     * @return \CiscoSystems\AuditBundle\Entity\Field
-     */
-    public function setPosition( $position )
-    {
-        $this->position = $position;
-
-        return $this;
-    }
-
-    /**
-     * Get slug
-     *
-     * @return string
-     */
-    public function getSlug()
-    {
-        return $this->slug;
-    }
-
-    /**
-     * Set slug
-     *
-     * @param string $slug
-     *
-     * @return \CiscoSystems\AuditBundle\Entity\Field
-     */
-    public function setSlug( $slug )
-    {
-        $this->slug = $slug;
 
         return $this;
     }

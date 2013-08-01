@@ -2,11 +2,12 @@
 
 namespace CiscoSystems\AuditBundle\Entity;
 
+use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use CiscoSystems\AuditBundle\Entity\Relation;
 
 /**
- * @ORM\Table(name="cisco_audit__section_field")
+ * @ORM\Table(name="audit__section_field")
  * @ORM\Entity
  */
 class SectionField extends Relation
@@ -18,6 +19,7 @@ class SectionField extends Relation
     private $field;
 
     /**
+     * @Gedmo\SortableGroup
      * @ORM\ManyToOne(targetEntity="CiscoSystems\AuditBundle\Entity\Section", inversedBy="fieldRelations")
      * @ORM\JoinColumn(name="section_id", referencedColumnName="id", nullable=true)
      */

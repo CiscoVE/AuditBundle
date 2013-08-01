@@ -12,7 +12,7 @@ use CiscoSystems\AuditBundle\Model\ReferenceInterface;
 
 /**
  * @ORM\Entity(repositoryClass="CiscoSystems\AuditBundle\Entity\Repository\AuditRepository")
- * @ORM\Table(name="cisco_audit__audit")
+ * @ORM\Table(name="audit__audit")
  */
 class Audit
 {

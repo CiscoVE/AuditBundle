@@ -5,7 +5,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="cisco_audit__element")
+ * @ORM\Table(name="audit__element")
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="type",type="string")
  * @ORM\DiscriminatorMap({"form"="Form","section"="Section","field"="Field"})

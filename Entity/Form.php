@@ -11,7 +11,7 @@ use CiscoSystems\AuditBundle\Entity\FormSection;
 
 /**
  * @ORM\Entity(repositoryClass="CiscoSystems\AuditBundle\Entity\Repository\FormRepository")
- * @ORM\Table(name="cisco_audit__form")
+ * @ORM\Table(name="audit__form")
  */
 class Form extends Element
 {
@@ -289,6 +289,17 @@ class Form extends Element
 
         return $this;
     }
+
+    public function getSections()
+    {
+        $sections = array();
+        foreach( $this->sectionRelations as $relation )
+        {
+            $sections[] = $relation->getSection();
+        }
+        return $sections;
+    }
+
 
     public function getSectionRelations()
     {

@@ -2,11 +2,12 @@
 
 namespace CiscoSystems\AuditBundle\Entity;
 
+use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="cisco_audit__relation")
+ * @ORM\Table(name="audit__relation")
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="type",type="string")
  * @ORM\DiscriminatorMap({"formsection"="FormSection","sectionfield"="SectionField"})
@@ -28,6 +29,12 @@ abstract class Relation
      */
     protected $archived;
 
+    /**
+     * @Gedmo\SortablePosition
+     * @ORM\Column(name="position",type="integer")
+     */
+    protected $position;
+
     public function getId()
     {
         return $this->id;
@@ -41,6 +48,18 @@ abstract class Relation
     public function setArchived( $archived )
     {
         $this->archived = $archived;
+
+        return $this;
+    }
+
+    public function getPosition()
+    {
+        return $this->position + 1;
+    }
+
+    public function setPosition( $position )
+    {
+        $this->position = $position;
 
         return $this;
     }

@@ -2,7 +2,6 @@
 
 namespace CiscoSystems\AuditBundle\Entity;
 
-use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use CiscoSystems\AuditBundle\Entity\Element;
@@ -12,7 +11,7 @@ use CiscoSystems\AuditBundle\Entity\SectionField;
 
 /**
  * @ORM\Entity(repositoryClass="CiscoSystems\AuditBundle\Entity\Repository\SectionRepository")
- * @ORM\Table(name="cisco_audit__section")
+ * @ORM\Table(name="audit__section")
  */
 class Section extends Element
 {
@@ -20,11 +19,6 @@ class Section extends Element
      * @ORM\OneToMany(targetEntity="CiscoSystems\AuditBundle\Entity\FormSection", mappedBy="section")
      */
     protected $formRelations;
-
-    /**
-     * @ORM\Column(name="position",type="integer")
-     */
-    protected $position;
 
     /**
      * @ORM\OneToMany(targetEntity="CiscoSystems\AuditBundle\Entity\SectionField", mappedBy="section")
@@ -84,28 +78,14 @@ class Section extends Element
         return $this;
     }
 
-    /**
-     * Get position
-     *
-     * @return integer
-     */
-    public function getPosition()
+    public function getFields()
     {
-        return $this->position + 1;
-    }
-
-    /**
-     * Set position
-     *
-     * @param integer $position
-     *
-     * @return CiscoSystems\AuditBundle\Entity\Section
-     */
-    public function setPosition( $position )
-    {
-        $this->position = $position;
-
-        return $this;
+        $fields = array();
+        foreach( $this->fieldRelations as $relation )
+        {
+            $fields[] = $relation->getField();
+        }
+        return $fields;
     }
 
     public function getFieldRelations()
@@ -135,6 +115,16 @@ class Section extends Element
         }
 
         return FALSE;
+    }
+
+    public function getForms()
+    {
+        $forms = array();
+        foreach( $this->formRelations as $relation )
+        {
+            $forms[] = $relation->getForm();
+        }
+        return $forms;
     }
 
     public function getFormRelations()
