@@ -300,10 +300,16 @@ class Form extends Element
         return $sections;
     }
 
-
     public function getSectionRelations()
     {
         return $this->sectionRelations;
+    }
+
+    public function setSectionRelations( ArrayCollection $relations )
+    {
+        $this->sectionRelations = $relations;
+
+        return $this;
     }
 
     public function addSectionRelation( \CiscoSystems\AuditBundle\Entity\FormSection $relation )

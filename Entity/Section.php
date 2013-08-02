@@ -43,7 +43,7 @@ class Section extends Element
     public function getWeight()
     {
         $weight = 0;
-        foreach ( $this->fields as $field )
+        foreach ( $this->getFields() as $field )
         {
             // The following was in place to restrict the weight for non flagged field
             if( !$field->getFlag() == TRUE )
@@ -93,6 +93,13 @@ class Section extends Element
         return $this->fieldRelations;
     }
 
+    public function setFieldRelations( ArrayCollection $relations )
+    {
+        $this->fieldRelations = $relations;
+
+        return $this;
+    }
+
     public function addFieldRelation( \CiscoSystems\AuditBundle\Entity\SectionField $relation )
     {
         if( !$this->fieldRelations->contains( $relation ))
@@ -132,11 +139,18 @@ class Section extends Element
         return $this->formRelations;
     }
 
+    public function setFormRelations( ArrayCollection $relations )
+    {
+        $this->formRelations = $relations;
+
+        return $this;
+    }
+
     public function addFormRelation( \CiscoSystems\AuditBundle\Entity\FormSection $relation )
     {
         if( $this->formRelations->contains( $relation ))
         {
-            $relation->setArchived( TRUE );
+            $this->formRelations->add( $relation );
 
             return $this;
         }
@@ -144,7 +158,7 @@ class Section extends Element
         return FALSE;
     }
 
-    public function removeFormRelation( \CiscoSystems\AuditBundle\Entity\SectionField $relation )
+    public function removeFormRelation( \CiscoSystems\AuditBundle\Entity\FormSection $relation )
     {
         if( $this->formRelations->contains( $relation ))
         {

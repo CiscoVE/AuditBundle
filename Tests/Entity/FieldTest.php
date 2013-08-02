@@ -4,10 +4,11 @@ namespace CiscoSystems\AuditBundle\Tests\Entity;
 
 use CiscoSystems\AuditBundle\Entity\Field;
 use CiscoSystems\AuditBundle\Entity\Section;
+use CiscoSystems\AuditBundle\Entity\SectionField;
 use CiscoSystems\AuditBundle\Entity\Score;
 use Doctrine\Common\Collections\ArrayCollection;
 
-class AuditFormFieldTest extends \PHPUnit_Framework_TestCase
+class FieldTest extends \PHPUnit_Framework_TestCase
 {
     protected $section;
     protected $field;
@@ -68,42 +69,6 @@ class AuditFormFieldTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers CiscoSystems\AuditBundle\Entity\Field::setPosition
-     * @covers CiscoSystems\AuditBundle\Entity\Field::getPosition
-     */
-    public function testPosition()
-    {
-        $position = 1;
-        $this->field->setPosition( $position );
-
-        $this->assertEquals( $position, $this->field->getPosition() );
-    }
-
-    /**
-     * @covers CiscoSystems\AuditBundle\Entity\Field::setSection
-     * @covers CiscoSystems\AuditBundle\Entity\Field::getSection
-     */
-    public function testSection()
-    {
-        $section = $this->section;
-        $this->field->setSection( $section );
-
-        $this->assertEquals( $section, $this->field->getSection() );
-    }
-
-    /**
-     * @covers CiscoSystems\AuditBundle\Entity\Field::setSlug
-     * @covers CiscoSystems\AuditBundle\Entity\Field::getSlug
-     */
-    public function testSlug()
-    {
-        $slug = 'test-field-slug';
-        $this->field->setSlug( $slug );
-
-        $this->assertEquals( $slug, $this->field->getSlug() );
-    }
-
-    /**
      * @covers CiscoSystems\AuditBundle\Entity\Field::setChoices
      * @covers CiscoSystems\AuditBundle\Entity\Field::getChoices
      */
@@ -123,7 +88,7 @@ class AuditFormFieldTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers CiscoSystems\AuditBundle\Entity\Field::addChoice
      */
-    public function testChoice()
+    public function testAddChoice()
     {
         $choices = array(
             'Y'     => 'correct answer',
@@ -145,7 +110,7 @@ class AuditFormFieldTest extends \PHPUnit_Framework_TestCase
      * @covers CiscoSystems\AuditBundle\Entity\Field::setScores
      * @covers CiscoSystems\AuditBundle\Entity\Field::getScores
      */
-    public function testAuditScores()
+    public function testScores()
     {
         $score1 = new Score();
         $score2 = new Score();
@@ -159,7 +124,7 @@ class AuditFormFieldTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers CiscoSystems\AuditBundle\Entity\Field::addAuditScore
      */
-    public function testAddAuditScore()
+    public function testAddScore()
     {
         $score1 = new Score();
         $score2 = new Score();
@@ -177,7 +142,7 @@ class AuditFormFieldTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers CiscoSystems\AuditBundle\Entity\Field::removeAuditScore
      */
-    public function testRemoveAuditScore()
+    public function testRemoveScore()
     {
         $score1 = new Score();
         $score2 = new Score();
@@ -190,5 +155,58 @@ class AuditFormFieldTest extends \PHPUnit_Framework_TestCase
 
         $this->assertNotContains( $score3, $this->field->getScores() );
         $this->assertEquals( $scores, $this->field->getScores() );
+    }
+
+    /**
+     * @covers CiscoSystems\AuditBundle\Entity\Field::getSections
+     * @covers CiscoSystems\AuditBundle\Entity\Field::getSectionRelations
+     * @covers CiscoSystems\AuditBundle\Entity\Field::setSectionRelations
+     */
+    public function testSectionRelations()
+    {
+        $relation1 = new SectionField( new Section(), $this->field );
+        $relation2 = new SectionField( new Section(), $this->field );
+        $relation3 = new SectionField( new Section(), $this->field );
+        $relations = new ArrayCollection( array( $relation1, $relation2, $relation3 ));
+        $this->field->setSectionRelations( $relations );
+
+        $this->assertEquals( $relations, $this->field->getSectionRelations() );
+        $this->assertEquals( $relations->first()->getSection(), reset( $this->field->getSections()) );
+    }
+
+    /**
+     * @covers CiscoSystems\AuditBundle\Entity\Field::addSectionRelation
+     */
+    public function testAddSectionRelation()
+    {
+        $relation1 = new SectionField( new Section(), $this->field );
+        $relation2 = new SectionField( new Section(), $this->field );
+        $relation3 = new SectionField( new Section(), $this->field );
+        $relations = new ArrayCollection( array( $relation1, $relation2, $relation3 ));
+        $this->field->setSectionRelations( $relations );
+
+        $relation = new SectionField( new Section(), $this->field );
+        $this->field->addSectionRelation( $relation );
+
+        $this->assertEquals( $relations, $this->field->getSectionRelations() );
+        $this->assertContains( $relation, $this->field->getSectionRelations() );
+    }
+
+    /**
+     * @covers CiscoSystems\AuditBundle\Entity\Field::removeSectionRelation
+     */
+    public function testRemoveSectionRelation()
+    {
+        $relation1 = new SectionField( new Section(), $this->field );
+        $relation2 = new SectionField( new Section(), $this->field );
+        $relation3 = new SectionField( new Section(), $this->field );
+        $relations = new ArrayCollection( array( $relation1, $relation2, $relation3 ));
+        $this->field->setSectionRelations( $relations );
+        $this->field->removeSectionRelation( $relation3 );
+
+        $this->assertEquals( $relations, $this->field->getSectionRelations() );
+        $this->assertEquals( count( $relations ), count( $this->field->getSectionRelations() ));
+        $this->assertTrue( $relation3->getArchived() );
+        $this->assertContains( $relation3, $this->field->getSectionRelations() );
     }
 }

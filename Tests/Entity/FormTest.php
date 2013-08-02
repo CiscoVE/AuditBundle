@@ -4,10 +4,11 @@ namespace CiscoSystems\AuditBundle\Tests\Entity;
 
 use CiscoSystems\AuditBundle\Entity\Audit;
 use CiscoSystems\AuditBundle\Entity\Form;
+use CiscoSystems\AuditBundle\Entity\FormSection;
 use CiscoSystems\AuditBundle\Entity\Section;
 use Doctrine\Common\Collections\ArrayCollection;
 
-class AuditFormTest extends \PHPUnit_Framework_TestCase
+class FormTest extends \PHPUnit_Framework_TestCase
 {
     protected $form;
 
@@ -66,54 +67,61 @@ class AuditFormTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers CiscoSystems\AuditBundle\Entity\Form::setSections
-     * @covers CiscoSystems\AuditBundle\Entity\Form::getSections
+     * @covers CiscoSystems\AuditBundle\Entity\Form::setSectionRelations
+     * @covers CiscoSystems\AuditBundle\Entity\Form::getSectionRelations
      */
-    public function testSections()
+    public function testSectionRelations()
     {
         $section1 = new Section();
         $section2 = new Section();
         $section3 = new Section();
-        $sections = new ArrayCollection( array( $section1, $section2, $section3 ));
-        $this->form->setSections( $sections );
+        $relation1 = new FormSection( $this->form, $section1 );
+        $relation2 = new FormSection( $this->form, $section2 );
+        $relation3 = new FormSection( $this->form, $section3 );
 
-        $this->assertEquals( count( $sections ), count( $this->form->getSections()) );
+        $sections = array( $section1, $section2, $section3 );
+        $relations = new ArrayCollection( array( $relation1, $relation2, $relation3 ));
+        $this->form->setSectionRelations( $relations );
+
+        $this->assertEquals( count( $relations ), count( $this->form->getSections()) );
+        $this->assertEquals( $sections, $this->form->getSections() );
+        $this->assertEquals( $relations->first()->getSection(), reset( $this->form->getSections()) );
     }
 
     /**
-     * @covers CiscoSystems\AuditBundle\Entity\Form::addSection
+     * @covers CiscoSystems\AuditBundle\Entity\Form::addSectionRelations
      */
-    public function testAddSection()
+    public function testAddSectionRelation()
     {
-        $section1 = new Section();
-        $section2 = new Section();
-        $section3 = new Section();
-        $sections = new ArrayCollection( array( $section1, $section2, $section3 ));
-        $this->form->setSections( $sections );
+        $relation1 = new FormSection( $this->form, new Section() );
+        $relation2 = new FormSection( $this->form, new Section() );
+        $relation3 = new FormSection( $this->form, new Section() );
+        $relations = new ArrayCollection( array( $relation1, $relation2, $relation3 ));
+        $this->form->setSectionRelations( $relations );
 
-        $section = new Section();
-        $this->form->addSection( $section );
+        $relation = new FormSection( $this->form, new Section() );
+        $this->form->addSectionRelation( $relation );
 
-        $this->assertEquals( $sections, $this->form->getSections() );
-        $this->assertContains( $section, $this->form->getSections() );
+        $this->assertEquals( $relations, $this->form->getSectionRelations() );
+        $this->assertContains( $relation, $this->form->getSectionRelations() );
     }
 
     /**
-     * @covers CiscoSystems\AuditBundle\Entity\Form::removeSection
+     * @covers CiscoSystems\AuditBundle\Entity\Form::removeSectionRelations
      */
-    public function testRemoveSection()
+    public function testRemoveSectionRelation()
     {
-        $section1 = new Section();
-        $section2 = new Section();
-        $section3 = new Section();
-        $sections = new ArrayCollection( array( $section1, $section2, $section3 ));
-        $this->form->setSections( $sections );
+        $relation1 = new FormSection( $this->form, new Section() );
+        $relation2 = new FormSection( $this->form, new Section() );
+        $relation3 = new FormSection( $this->form, new Section() );
+        $relations = new ArrayCollection( array( $relation1, $relation2, $relation3 ));
+        $this->form->setSectionRelations( $relations );
 
-        $this->form->removeSection( $section3 );
-        $sections->removeElement( $section3 );
+        $this->form->removeSectionRelation( $relation3 );
+        $relations->removeElement( $relation3 );
 
-        $this->assertEquals( $sections, $this->form->getSections() );
-        $this->assertNotContains( $section3, $this->form->getSections() );
+        $this->assertEquals( $relations, $this->form->getSectionRelations() );
+        $this->assertNotContains( $relation3, $this->form->getSectionRelations() );
     }
 
     /**

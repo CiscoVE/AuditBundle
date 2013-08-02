@@ -6,7 +6,7 @@ use CiscoSystems\AuditBundle\Entity\Audit;
 use CiscoSystems\AuditBundle\Entity\Field;
 use CiscoSystems\AuditBundle\Entity\Score;
 
-class AuditScoreTest extends \PHPUnit_Framework_TestCase
+class ScoreTest extends \PHPUnit_Framework_TestCase
 {
     private $audit;
     private $field;

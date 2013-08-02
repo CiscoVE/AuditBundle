@@ -277,9 +277,26 @@ class Field extends Element
         return $this;
     }
 
+    public function getSections()
+    {
+        $sections = array();
+        foreach( $this->sectionRelations as $relation )
+        {
+            $sections[] = $relation->getSection();
+        }
+        return $sections;
+    }
+
     public function getSectionRelations()
     {
         return $this->sectionRelations;
+    }
+
+    public function setSectionRelations( ArrayCollection $relations )
+    {
+        $this->sectionRelations = $relations;
+
+        return $this;
     }
 
     public function addSectionRelation( \CiscoSystems\AuditBundle\Entity\SectionField $relation )

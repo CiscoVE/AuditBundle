@@ -35,6 +35,11 @@ abstract class Relation
      */
     protected $position;
 
+    public function __construct( $archived = FALSE )
+    {
+        $this->archived = $archived;
+    }
+
     public function getId()
     {
         return $this->id;
@@ -69,11 +74,3 @@ abstract class Relation
         return 'relation';
     }
 }
-
-//CREATE TABLE cisco_audit__section_field (id INT NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB;
-//CREATE TABLE cisco_audit__form_section (id INT NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB;
-//ALTER TABLE cisco_audit__section_field ADD CONSTRAINT FK_E6C13D4ABF396750 FOREIGN KEY (id) REFERENCES cisco_audit__join_element (id) ON DELETE CASCADE;
-//ALTER TABLE cisco_audit__form_section ADD CONSTRAINT FK_102BF82FBF396750 FOREIGN KEY (id) REFERENCES cisco_audit__join_element (id) ON DELETE CASCADE;
-//ALTER TABLE cisco_audit__join_element ADD type VARCHAR(255) NOT NULL;
-//ALTER TABLE cisco_audit__section DROP FOREIGN KEY cisco_audit__section_ibfk_2;
-//ALTER TABLE cisco_audit__audit ADD CONSTRAINT FK_697001171645DEA9 FOREIGN KEY (reference_id) REFERENCES sfdc (id);

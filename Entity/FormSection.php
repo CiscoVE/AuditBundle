@@ -25,6 +25,13 @@ class FormSection extends Relation
      */
     private $section;
 
+    public function __construct( $form = NULL, $section = NULL, $archived = FALSE )
+    {
+        parent::__construct( $archived );
+        $this->form = $form;
+        $this->section = $section;
+    }
+
     public function getForm()
     {
         return $this->form;

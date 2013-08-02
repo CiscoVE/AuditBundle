@@ -3,11 +3,13 @@
 namespace CiscoSystems\AuditBundle\Tests\Entity;
 
 use CiscoSystems\AuditBundle\Entity\Form;
+use CiscoSystems\AuditBundle\Entity\FormSection;
 use CiscoSystems\AuditBundle\Entity\Section;
+use CiscoSystems\AuditBundle\Entity\SectionField;
 use CiscoSystems\AuditBundle\Entity\Field;
 use Doctrine\Common\Collections\ArrayCollection;
 
-class AuditFormSectionTest extends \PHPUnit_Framework_TestCase
+class SectionTest extends \PHPUnit_Framework_TestCase
 {
     protected $form;
     protected $section;
@@ -44,18 +46,6 @@ class AuditFormSectionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers CiscoSystems\AuditBundle\Entity\Section::setPosition
-     * @covers CiscoSystems\AuditBundle\Entity\Section::getPosition
-     */
-    public function testPosition()
-    {
-        $position = 1;
-        $this->section->setPosition( $position );
-
-        $this->assertEquals( $position, $this->section->getPosition() );
-    }
-
-    /**
      * @covers CiscoSystems\AuditBundle\Entity\Section::setFlag
      * @covers CiscoSystems\AuditBundle\Entity\Section::getFlag
      */
@@ -68,66 +58,106 @@ class AuditFormSectionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers CiscoSystems\AuditBundle\Entity\Section::setForm
-     * @covers CiscoSystems\AuditBundle\Entity\Section::getForm
+     * @covers CiscoSystems\AuditBundle\Entity\Section::getForms
+     * @covers CiscoSystems\AuditBundle\Entity\Section::getFormRelations
+     * @covers CiscoSystems\AuditBundle\Entity\Section::setFormRelations
      */
-    public function testAuditForm()
+    public function testFormRelations()
     {
-        $form = $this->form;
-        $this->section->setForm( $form );
+        $relation1 = new FormSection( new Form(), $this->section );
+        $relation2 = new FormSection( new Form(), $this->section );
+        $relation3 = new FormSection( new Form(), $this->section );
+        $relations = new ArrayCollection( array( $relation1, $relation2, $relation3 ));
+        $this->section->setFormRelations( $relations );
 
-        $this->assertEquals( $form, $this->section->getForm() );
+        $this->assertEquals( $relations, $this->section->getFormRelations() );
+        $this->assertEquals( $relations->first()->getForm(), reset( $this->section->getForms()) );
     }
 
     /**
-     * @covers CiscoSystems\AuditBundle\Entity\Section::setFields
+     * @covers CiscoSystems\AuditBundle\Entity\Section::addFormRelation
+     */
+    public function testAddFormRelation()
+    {
+        $relation1 = new FormSection( new Form(), $this->section );
+        $relation2 = new FormSection( new Form(), $this->section );
+        $relation3 = new FormSection( new Form(), $this->section );
+        $relations = new ArrayCollection( array( $relation1, $relation2, $relation3 ));
+        $this->section->setFormRelations( $relations );
+
+        $relation = new FormSection( new Form(), $this->section );
+        $this->section->addFormRelation( $relation );
+
+        $this->assertEquals( $relations, $this->section->getFormRelations() );
+        $this->assertContains( $relation->getForm(), $this->section->getForms() );
+        $this->assertContains( $relation, $this->section->getFormRelations() );
+    }
+
+    public function testRemoveFormRelation()
+    {
+        $relation1 = new FormSection( new Form(), $this->section );
+        $relation2 = new FormSection( new Form(), $this->section );
+        $relation3 = new FormSection( new Form(), $this->section );
+        $relations = new ArrayCollection( array( $relation1, $relation2, $relation3 ));
+        $this->section->setFormRelations( $relations );
+        $this->section->removeFormRelation( $relation3 );
+
+        $this->assertEquals( $relations, $this->section->getFormRelations() );
+        $this->assertEquals( count( $relations ), count( $this->section->getFormRelations() ));
+        $this->assertTrue( $relation3->getArchived() );
+        $this->assertContains( $relation3, $this->section->getFormRelations() );
+    }
+
+    /**
      * @covers CiscoSystems\AuditBundle\Entity\Section::getFields
+     * @covers CiscoSystems\AuditBundle\Entity\Section::getFieldRelations
+     * @covers CiscoSystems\AuditBundle\Entity\Section::setFieldRelations
      */
-    public function testFields()
+    public function testFieldRelations()
     {
-        $field1 = new Field();
-        $field2 = new Field();
-        $field3 = new Field();
-        $fields = new ArrayCollection( array( $field1, $field2, $field3 ));
-        $this->section->setFields( $fields );
+        $relation1 = new SectionField( $this->section, new Field() );
+        $relation2 = new SectionField( $this->section, new Field() );
+        $relation3 = new SectionField( $this->section, new Field() );
+        $relations = new ArrayCollection( array( $relation1, $relation2, $relation3 ));
+        $this->section->setFieldRelations( $relations );
 
-        $this->assertEquals( $fields, $this->section->getFields() );
+        $this->assertEquals( $relations, $this->section->getFieldRelations() );
+        $this->assertEquals( $relations->first()->getField(), reset( $this->section->getFields()) );
     }
 
     /**
-     * @covers CiscoSystems\AuditBundle\Entity\Section::addField
+     * @covers CiscoSystems\AuditBundle\Entity\Section::addFieldRelation
      */
-    public function testAddField()
+    public function testAddFieldRelation()
     {
-        $field1 = new Field();
-        $field2 = new Field();
-        $field3 = new Field();
-        $fields = new ArrayCollection( array( $field1, $field2, $field3 ));
-        $this->section->setFields( $fields );
+        $relation1 = new SectionField( $this->section, new Field() );
+        $relation2 = new SectionField( $this->section, new Field() );
+        $relation3 = new SectionField( $this->section, new Field() );
+        $relations = new ArrayCollection( array( $relation1, $relation2, $relation3 ));
+        $this->section->setFieldRelations( $relations );
 
-        $field = new Field();
-        $this->section->addField( $field );
+        $relation = new SectionField( $this->section, new Field() );
+        $this->section->addFieldRelation( $relation );
 
-        $this->assertEquals( $fields, $this->section->getFields() );
-        $this->assertContains( $field, $this->section->getFields() );
+        $this->assertEquals( $relations, $this->section->getFieldRelations() );
+        $this->assertContains( $relation, $this->section->getFieldRelations() );
     }
 
     /**
-     * @covers CiscoSystems\AuditBundle\Entity\Section::removeField
+     * @covers CiscoSystems\AuditBundle\Entity\Section::removeFieldRelation
      */
-    public function testRemoveField()
+    public function testRemoveFieldRelation()
     {
-        $field1 = new Field();
-        $field2 = new Field();
-        $field3 = new Field();
-        $fields = new ArrayCollection( array( $field1, $field2, $field3 ));
-        $this->section->setFields( $fields );
+        $relation1 = new SectionField( $this->section, new Field() );
+        $relation2 = new SectionField( $this->section, new Field() );
+        $relation3 = new SectionField( $this->section, new Field() );
+        $relations = new ArrayCollection( array( $relation1, $relation2, $relation3 ));
+        $this->section->setFieldRelations( $relations );
+        $this->section->removeFieldRelation( $relation3 );
 
-        $this->section->removeField( $field3 );
-        $fields->removeElement( $field3 );
-
-        $this->assertEquals( $fields, $this->section->getFields() );
-        $this->assertNotContains( $field3, $this->section->getFields() );
+        $this->assertEquals( $relations, $this->section->getFieldRelations() );
+        $this->assertEquals( $relation3->getArchived(), TRUE );
+        $this->assertContains( $relation3, $this->section->getFieldRelations() );
     }
 
     /**
@@ -137,13 +167,19 @@ class AuditFormSectionTest extends \PHPUnit_Framework_TestCase
     {
         $weight = 5;
         $field1 = new Field();
+        $relation1 = new SectionField();
+        $relation1->setField( $field1 );
         $field1->setWeight( $weight );
         $field2 = new Field();
+        $relation2 = new SectionField();
+        $relation2->setField( $field2 );
         $field2->setWeight( $weight );
         $field3 = new Field();
+        $relation3 = new SectionField();
+        $relation3->setField( $field3 );
         $field3->setWeight( $weight );
-        $fields = new ArrayCollection( array( $field1, $field2, $field3 ));
-        $this->section->setFields( $fields );
+        $relations = new ArrayCollection( array( $relation1, $relation2, $relation3 ));
+        $this->section->setFieldRelations( $relations );
 
         $this->assertEquals( ( $weight * 3 ), $this->section->getWeight() );
     }
