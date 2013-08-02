@@ -67,8 +67,9 @@ class FormTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers CiscoSystems\AuditBundle\Entity\Form::setSectionRelations
+     * @covers CiscoSystems\AuditBundle\Entity\Form::getSections
      * @covers CiscoSystems\AuditBundle\Entity\Form::getSectionRelations
+     * @covers CiscoSystems\AuditBundle\Entity\Form::setSectionRelations
      */
     public function testSectionRelations()
     {
@@ -103,6 +104,8 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $this->form->addSectionRelation( $relation );
 
         $this->assertEquals( $relations, $this->form->getSectionRelations() );
+        $this->assertContains( $relation->getSection(), $this->form->getSections() );
+        $this->assertFalse( $relation->getArchived() );
         $this->assertContains( $relation, $this->form->getSectionRelations() );
     }
 
@@ -116,12 +119,12 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $relation3 = new FormSection( $this->form, new Section() );
         $relations = new ArrayCollection( array( $relation1, $relation2, $relation3 ));
         $this->form->setSectionRelations( $relations );
-
         $this->form->removeSectionRelation( $relation3 );
-        $relations->removeElement( $relation3 );
 
         $this->assertEquals( $relations, $this->form->getSectionRelations() );
-        $this->assertNotContains( $relation3, $this->form->getSectionRelations() );
+        $this->assertEquals( count( $relations ), count( $this->form->getSectionRelations() ));
+        $this->assertTrue( $relation3->getArchived() );
+        $this->assertContains( $relation3, $this->form->getSectionRelations() );
     }
 
     /**

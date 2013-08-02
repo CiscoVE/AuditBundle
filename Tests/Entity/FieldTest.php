@@ -164,14 +164,44 @@ class FieldTest extends \PHPUnit_Framework_TestCase
      */
     public function testSectionRelations()
     {
-        $relation1 = new SectionField( new Section(), $this->field );
-        $relation2 = new SectionField( new Section(), $this->field );
-        $relation3 = new SectionField( new Section(), $this->field );
+        $section1 = new Section();
+        $section2 = new Section();
+        $section3 = new Section();
+        $relation1 = new SectionField( $section1, $this->field );
+        $relation2 = new SectionField( $section2, $this->field );
+        $relation3 = new SectionField( $section3, $this->field );
+        $sections = array( $section1, $section2, $section3 );
         $relations = new ArrayCollection( array( $relation1, $relation2, $relation3 ));
         $this->field->setSectionRelations( $relations );
 
         $this->assertEquals( $relations, $this->field->getSectionRelations() );
+        $this->assertEquals( $sections, $this->field->getSections() );
         $this->assertEquals( $relations->first()->getSection(), reset( $this->field->getSections()) );
+    }
+
+    public function testAddSection()
+    {
+        $section1 = new Section();
+        $section2 = new Section();
+        $section3 = new Section();
+        $relation1 = new SectionField( $section1, $this->field );
+        $relation2 = new SectionField( $section2, $this->field );
+        $relation3 = new SectionField( $section3, $this->field );
+        $sections = array( $section1, $section2, $section3 );
+        $relations = new ArrayCollection( array( $relation1, $relation2, $relation3 ));
+        $this->field->setSectionRelations( $relations );
+
+        $section = new Section();
+        $this->field->addSection( $section );
+        $sections[] = $section;
+
+        $this->assertEquals( $relations, $this->field->getSectionRelations() );
+        $this->assertFalse( $this->field->addSection( $section ) );
+//        $this->assertEquals( count( $sections ), 3 );
+        //actual = 4, expected = 3
+        $this->assertEquals( count( $sections ), count( $this->field->getSectionRelations()) );
+//        $this->assertEquals( count( $sections ), count( $this->field->getSections()) );
+//        $this->assertContains( $section, $this->field->getSections() );
     }
 
     /**
@@ -189,6 +219,8 @@ class FieldTest extends \PHPUnit_Framework_TestCase
         $this->field->addSectionRelation( $relation );
 
         $this->assertEquals( $relations, $this->field->getSectionRelations() );
+        $this->assertContains( $relation->getSection(), $this->field->getSections() );
+        $this->assertFalse( $relation->getArchived() );
         $this->assertContains( $relation, $this->field->getSectionRelations() );
     }
 
@@ -208,5 +240,6 @@ class FieldTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals( count( $relations ), count( $this->field->getSectionRelations() ));
         $this->assertTrue( $relation3->getArchived() );
         $this->assertContains( $relation3, $this->field->getSectionRelations() );
+        $this->assertNotContains( $relation3->getSection(), $this->field->getSections() );
     }
 }

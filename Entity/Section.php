@@ -148,7 +148,7 @@ class Section extends Element
 
     public function addFormRelation( \CiscoSystems\AuditBundle\Entity\FormSection $relation )
     {
-        if( $this->formRelations->contains( $relation ))
+        if( !$this->formRelations->contains( $relation ))
         {
             $this->formRelations->add( $relation );
 
@@ -168,10 +168,5 @@ class Section extends Element
         }
 
         return FALSE;
-    }
-
-    public function __toString()
-    {
-        return $this->title;
     }
 }

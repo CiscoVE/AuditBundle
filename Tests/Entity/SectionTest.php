@@ -90,6 +90,7 @@ class SectionTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals( $relations, $this->section->getFormRelations() );
         $this->assertContains( $relation->getForm(), $this->section->getForms() );
+        $this->assertFalse( $relation->getArchived() );
         $this->assertContains( $relation, $this->section->getFormRelations() );
     }
 
@@ -140,6 +141,7 @@ class SectionTest extends \PHPUnit_Framework_TestCase
         $this->section->addFieldRelation( $relation );
 
         $this->assertEquals( $relations, $this->section->getFieldRelations() );
+        $this->assertFalse( $relation->getArchived() );
         $this->assertContains( $relation, $this->section->getFieldRelations() );
     }
 
@@ -156,7 +158,7 @@ class SectionTest extends \PHPUnit_Framework_TestCase
         $this->section->removeFieldRelation( $relation3 );
 
         $this->assertEquals( $relations, $this->section->getFieldRelations() );
-        $this->assertEquals( $relation3->getArchived(), TRUE );
+        $this->assertTrue( $relation3->getArchived() );
         $this->assertContains( $relation3, $this->section->getFieldRelations() );
     }
 

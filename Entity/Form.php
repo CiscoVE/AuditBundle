@@ -300,6 +300,18 @@ class Form extends Element
         return $sections;
     }
 
+    public function addSection( \CiscoSystems\AuditBundle\Entity\Section $section )
+    {
+        if( FALSE !== array_search( $section, $this->getSections() ))
+        {
+            $this->addSectionRelation( new FormSection( $this, $section ) );
+
+            return $this;
+        }
+
+        return FALSE;
+    }
+
     public function getSectionRelations()
     {
         return $this->sectionRelations;
@@ -334,10 +346,5 @@ class Form extends Element
         }
 
         return FALSE;
-    }
-
-    public function __toString()
-    {
-        return $this->title;
     }
 }

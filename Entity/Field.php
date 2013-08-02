@@ -282,9 +282,35 @@ class Field extends Element
         $sections = array();
         foreach( $this->sectionRelations as $relation )
         {
-            $sections[] = $relation->getSection();
+            if( FALSE === $relation->getArchived() )
+            {
+                $sections[] = $relation->getSection();
+            }
         }
         return $sections;
+    }
+
+    public function addSection( \CiscoSystems\AuditBundle\Entity\Section $section )
+    {
+        if( FALSE === array_search( $section, $this->getSections() ))
+        {
+            $relationEntity = new SectionField( $section, $this );
+            return $this->addSectionRelation( $relationEntity );
+
+            //return $this;
+        }
+
+        return FALSE;
+    }
+
+    public function removeSection( \CiscoSystems\AuditBundle\Entity\Section $section )
+    {
+        if( FALSE !== array_search( $section, $this->getSections() ))
+        {
+            return $this->removeSectionRelation( new SectionField( $section, $this ));
+        }
+
+        return FALSE;
     }
 
     public function getSectionRelations()
