@@ -294,10 +294,9 @@ class Field extends Element
     {
         if( FALSE === array_search( $section, $this->getSections() ))
         {
-            $relationEntity = new SectionField( $section, $this );
-            return $this->addSectionRelation( $relationEntity );
+            $this->addSectionRelation( new SectionField( $section, $this ) );
 
-            //return $this;
+            return $this;
         }
 
         return FALSE;
@@ -307,7 +306,9 @@ class Field extends Element
     {
         if( FALSE !== array_search( $section, $this->getSections() ))
         {
-            return $this->removeSectionRelation( new SectionField( $section, $this ));
+            $this->removeSectionRelation( new SectionField( $section, $this ));
+
+            return $this;
         }
 
         return FALSE;
