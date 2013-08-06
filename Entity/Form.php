@@ -290,13 +290,29 @@ class Form extends Element
         return $this;
     }
 
-    public function getSections()
+    /**
+     * Get sections, if parameter given (boolean) then only relation
+     * section - field with getArchived() === $archived will be returned
+     *
+     * @param boolean $archived
+     *
+     * @return array
+     */
+    public function getSections( $archived = NULL )
     {
         $sections = array();
         foreach( $this->sectionRelations as $relation )
         {
-            $sections[] = $relation->getSection();
+            if( NULL === $archived )
+            {
+                $sections[] = $relation->getSection();
+            }
+            elseif( $archived === $relation->getArchived() )
+            {
+                $sections[] = $relation->getSection();
+            }
         }
+
         return $sections;
     }
 
@@ -316,10 +332,12 @@ class Form extends Element
     {
         if( FALSE !== array_search( $section, $this->getSections() ))
         {
-            $relation = $this->getSectionRelation( $section );
-            $this->removeSectionRelation( $relation );
+            if( NULL !== $relation = $this->getSectionRelation( $section ))
+            {
+                $this->removeSectionRelation( $relation );
 
-            return $this;
+                return $this;
+            }
         }
 
         return FALSE;

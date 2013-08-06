@@ -68,7 +68,6 @@ class FormTest extends \PHPUnit_Framework_TestCase
 
     public function testSection()
     {
-        $this->form = new Form();
         $sections = array();
         $this->formSections = array();
         for( $i = 1; $i < 4; $i++ )
@@ -88,10 +87,48 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $this->assertContains( $sections[count( $section )-1], $this->form->getSections() );
     }
 
-//    public function testAddSection()
-//    {
-//
-//    }
+    /**
+     * @covers CiscoSystems\AuditBundle\Entity\Form::getAddSection
+     */
+    public function testAddSection()
+    {
+        $sections = array();
+        $formSections = array();
+        for( $i = 1; $i < 4; $i++)
+        {
+            $section = new Section(
+                'title for section ' . $i,
+                'description for section ' . $i
+            );
+            $sections[] = $section;
+            $this->form->addSection( $section );
+            $formSections[] = new FormSection( $this->form, $section );
+            $this->assertEquals( 'title for section ' . $i, $sections[$i-1]->getTitle() );
+        }
+        $relations = new ArrayCollection( $formSections );
+
+        $section = new Section( 'new section', 'this is a new section' );
+        $this->form->addSection( $section );
+        $sections[] = $section;
+        $relation = new FormSection( $this->form, $section );
+        $formSections[] = $relation;
+        $relations->add( $relation );
+
+        $this->assertEquals(
+            $relations->first()->getSection()->getTitle(),
+            $this->form->getSectionRelations()->first()->getSection()->getTitle()
+        );
+        $this->assertEquals(
+            $relations->last()->getSection()->getTitle(),
+            $this->form->getSectionRelations()->last()->getSection()->getTitle()
+        );
+        $this->assertEquals( $sections, $this->form->getSections() );
+        $this->assertEquals( $relations, $this->form->getSectionRelations() );
+        $this->assertFalse( $this->form->addSection( $section ) );
+        $this->assertEquals( count( $sections ), $this->form->getSectionRelations()->count() );
+        $this->assertEquals( count( $sections ), count( $this->form->getSections()) );
+        $this->assertContains( $section, $this->form->getSections() );
+    }
 
     /**
      * @covers CiscoSystems\AuditBundle\Entity\Form::getSections
@@ -100,19 +137,26 @@ class FormTest extends \PHPUnit_Framework_TestCase
      */
     public function testSectionRelations()
     {
-        $section1 = new Section();
-        $section2 = new Section();
-        $section3 = new Section();
-        $relation1 = new FormSection( $this->form, $section1 );
-        $relation2 = new FormSection( $this->form, $section2 );
-        $relation3 = new FormSection( $this->form, $section3 );
-
-        $sections = array( $section1, $section2, $section3 );
-        $relations = new ArrayCollection( array( $relation1, $relation2, $relation3 ));
+        $sections = array();
+        $formSections = array();
+        for( $i = 1; $i < 4; $i++)
+        {
+            $section = new Section(
+                'title for section ' . $i,
+                'description for section ' . $i
+            );
+            $sections[] = $section;
+            $formSections[] = new FormSection( $this->form, $section );
+        }
+        $relations = new ArrayCollection( $formSections );
         $this->form->setSectionRelations( $relations );
+
+        $relation = $relations[2];
+        $section = $relation->getSection();
 
         $this->assertEquals( count( $relations ), count( $this->form->getSections()) );
         $this->assertEquals( $sections, $this->form->getSections() );
+        $this->assertEquals( $relation, $this->form->getSectionRelation( $section ) );
         $this->assertEquals( $relations->first()->getSection(), reset( $this->form->getSections()) );
     }
 
@@ -121,18 +165,28 @@ class FormTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddSectionRelation()
     {
-        $relation1 = new FormSection( $this->form, new Section() );
-        $relation2 = new FormSection( $this->form, new Section() );
-        $relation3 = new FormSection( $this->form, new Section() );
-        $relations = new ArrayCollection( array( $relation1, $relation2, $relation3 ));
+        $sections = array();
+        $formSections = array();
+        for( $i = 1; $i < 4; $i++)
+        {
+            $section = new Section(
+                'title for section ' . $i,
+                'description for section ' . $i
+            );
+            $sections[] = $section;
+            $formSections[] = new FormSection( $this->form, $section );
+        }
+        $relations = new ArrayCollection( $formSections );
         $this->form->setSectionRelations( $relations );
 
-        $relation = new FormSection( $this->form, new Section() );
+        $section = new Section( 'new Section', 'new Section added `a postoriori`' );
+        $relation = new FormSection( $this->form, $section );
         $this->form->addSectionRelation( $relation );
 
         $this->assertEquals( $relations, $this->form->getSectionRelations() );
         $this->assertContains( $relation->getSection(), $this->form->getSections() );
         $this->assertFalse( $relation->getArchived() );
+        $this->assertFalse( $this->form->addSectionRelation( $relation ) );
         $this->assertContains( $relation, $this->form->getSectionRelations() );
     }
 
@@ -141,17 +195,28 @@ class FormTest extends \PHPUnit_Framework_TestCase
      */
     public function testRemoveSectionRelation()
     {
-        $relation1 = new FormSection( $this->form, new Section() );
-        $relation2 = new FormSection( $this->form, new Section() );
-        $relation3 = new FormSection( $this->form, new Section() );
-        $relations = new ArrayCollection( array( $relation1, $relation2, $relation3 ));
+        $sections = array();
+        $formSections = array();
+        for( $i = 1; $i < 4; $i++)
+        {
+            $section = new Section(
+                'title for section ' . $i,
+                'description for section ' . $i
+            );
+            $sections[] = $section;
+            $formSections[] = new FormSection( $this->form, $section );
+        }
+        $relations = new ArrayCollection( $formSections );
         $this->form->setSectionRelations( $relations );
+        $relation3 = $relations->get( count( $relations ) - 1 );
         $this->form->removeSectionRelation( $relation3 );
 
         $this->assertEquals( $relations, $this->form->getSectionRelations() );
         $this->assertEquals( count( $relations ), count( $this->form->getSectionRelations() ));
         $this->assertTrue( $relation3->getArchived() );
         $this->assertContains( $relation3, $this->form->getSectionRelations() );
+        $this->assertNotContains( $relation3->getSection(), $this->form->getSections( FALSE ) );
+        $this->assertContains( $relation3->getSection(), $this->form->getSections() );
     }
 
     /**

@@ -307,7 +307,10 @@ class FieldTest extends \PHPUnit_Framework_TestCase
         $relation = $relations[2];
         $section = $relation->getSection();
 
+        $this->assertEquals( count( $relations ), count( $this->field->getSections()) );
+        $this->assertEquals( $sections, $this->field->getSections() );
         $this->assertEquals( $relation, $this->field->getSectionRelation( $section ) );
+        $this->assertEquals( $relations->first()->getSection(), reset( $this->field->getSections()) );
     }
 
     /**
