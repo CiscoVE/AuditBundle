@@ -198,6 +198,13 @@ class Section extends Element
         return $forms;
     }
 
+    /**
+     * Add a form
+     *
+     * @param \CiscoSystems\AuditBundle\Entity\Form $form
+     *
+     * @return \CiscoSystems\AuditBundle\Entity\Section|boolean
+     */
     public function addForm( \CiscoSystems\AuditBundle\Entity\Form $form )
     {
         if( FALSE === array_search( $form, $this->getForms() ))
@@ -210,6 +217,13 @@ class Section extends Element
         return FALSE;
     }
 
+    /**
+     * Remove a form
+     *
+     * @param \CiscoSystems\AuditBundle\Entity\Form $form
+     *
+     * @return \CiscoSystems\AuditBundle\Entity\Section|boolean
+     */
     public function removeForm( \CiscoSystems\AuditBundle\Entity\Form $form )
     {
         if( FALSE !== array_search( $form, $this->getForms() ))

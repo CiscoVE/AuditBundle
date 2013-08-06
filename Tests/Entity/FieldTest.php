@@ -188,7 +188,7 @@ class FieldTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers CiscoSystems\AuditBundle\Entity\Field::getAddSection
+     * @covers CiscoSystems\AuditBundle\Entity\Field::addSection
      */
     public function testAddSection()
     {
@@ -230,7 +230,7 @@ class FieldTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers CiscoSystems\AuditBundle\Entity\Field::getRemoveSection
+     * @covers CiscoSystems\AuditBundle\Entity\Field::removeSection
      */
     public function testRemoveSection()
     {

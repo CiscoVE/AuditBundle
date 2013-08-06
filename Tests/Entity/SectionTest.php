@@ -77,9 +77,11 @@ class SectionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals( count( $forms ), $this->section->getFormRelations()->count() );
         $this->assertEquals( count( $forms ), count( $this->section->getForms()) );
         $this->assertContains( $forms[count( $forms )-1], $this->section->getForms() );
-
     }
 
+    /**
+     * @covers CiscoSystems\AuditBundle\Entity\Section::addForm
+     */
     public function testAddForm()
     {
         $forms = array();
@@ -96,7 +98,6 @@ class SectionTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals( 'title for form ' . $i, $forms[$i-1]->getTitle() );
         }
         $relations = new ArrayCollection( $formSections );
-        $this->section->setFormRelations( $relations );
 
         $form = new Form( 'new form', 'this is a new form' );
         $this->section->addForm( $form );
@@ -116,6 +117,35 @@ class SectionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals( $forms, $this->section->getForms() );
         $this->assertEquals( $relations, $this->section->getFormRelations() );
         $this->assertFalse( $this->section->addForm( $form ) );
+        $this->assertEquals( count( $forms ), $this->section->getFormRelations()->count() );
+        $this->assertEquals( count( $forms ), count( $this->section->getForms()) );
+        $this->assertContains( $form, $this->section->getForms() );
+    }
+
+    public function testRemoveForm()
+    {
+        $forms = array();
+        $formSections = array();
+        for( $i = 1; $i < 4; $i++ )
+        {
+            $form = new Form(
+                'title for form ' . $i,
+                'description for form ' . $i
+            );
+            $forms[] = $form;
+            $this->section->addForm( $form );
+            $formSections[] = new FormSection( $form, $this->section );
+        }
+
+        $lastForm = $forms[count( $forms )-1];
+        $this->section->removeForm( $lastForm );
+
+        $this->assertEquals( count( $forms ), count( $this->section->getFormRelations()) );
+        $this->assertEquals( count( $forms ), count( $this->section->getForms()) );
+        $this->assertEquals( count( $forms ), 3 );
+        $this->assertEquals( count( $this->section->getForms( FALSE )), 2 );
+        $this->assertEquals( count( $this->section->getForms()), 3 );
+        $this->assertContains( $form, $this->section->getForms( TRUE ) );
 
     }
 
