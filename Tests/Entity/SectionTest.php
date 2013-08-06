@@ -57,6 +57,68 @@ class SectionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals( $flag, $this->section->getFlag() );
     }
 
+    public function testForm()
+    {
+        $forms = array();
+        $formSections = array();
+        for( $i = 1; $i < 4; $i++ )
+        {
+            $form = new Form(
+                'title for form ' . $i,
+                'description for form ' . $i
+            );
+            $forms[] = $form;
+            $formSections[] = new FormSection( $form, $this->section );
+        }
+        $relations = new ArrayCollection( $formSections );
+        $this->section->setFormRelations( $relations );
+
+        $this->assertEquals( $relations, $this->section->getFormRelations() );
+        $this->assertEquals( count( $forms ), $this->section->getFormRelations()->count() );
+        $this->assertEquals( count( $forms ), count( $this->section->getForms()) );
+        $this->assertContains( $forms[count( $forms )-1], $this->section->getForms() );
+
+    }
+
+    public function testAddForm()
+    {
+        $forms = array();
+        $formSections = array();
+        for( $i = 1; $i < 4; $i++ )
+        {
+            $form = new Form(
+                'title for form ' . $i,
+                'description for form ' . $i
+            );
+            $forms[] = $form;
+            $this->section->addForm( $form );
+            $formSections[] = new FormSection( $form, $this->section );
+            $this->assertEquals( 'title for form ' . $i, $forms[$i-1]->getTitle() );
+        }
+        $relations = new ArrayCollection( $formSections );
+        $this->section->setFormRelations( $relations );
+
+        $form = new Form( 'new form', 'this is a new form' );
+        $this->section->addForm( $form );
+        $forms[] = $form;
+        $relation = new FormSection( $form, $this->section );
+        $formSections[] = $relation;
+        $relations->add( $relation );
+
+        $this->assertEquals(
+            $relations->first()->getForm()->getTitle(),
+            $this->section->getFormRelations()->first()->getForm()->getTitle()
+        );
+        $this->assertEquals(
+            $relations->last()->getForm()->getTitle(),
+            $this->section->getFormRelations()->last()->getForm()->getTitle()
+        );
+        $this->assertEquals( $forms, $this->section->getForms() );
+        $this->assertEquals( $relations, $this->section->getFormRelations() );
+        $this->assertFalse( $this->section->addForm( $form ) );
+
+    }
+
     /**
      * @covers CiscoSystems\AuditBundle\Entity\Section::getForms
      * @covers CiscoSystems\AuditBundle\Entity\Section::getFormRelations
@@ -64,13 +126,23 @@ class SectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testFormRelations()
     {
-        $relation1 = new FormSection( new Form(), $this->section );
-        $relation2 = new FormSection( new Form(), $this->section );
-        $relation3 = new FormSection( new Form(), $this->section );
-        $relations = new ArrayCollection( array( $relation1, $relation2, $relation3 ));
+        $forms = array();
+        $formSections = array();
+        for( $i = 1; $i < 4; $i++ )
+        {
+            $form = new Form(
+                'title for form ' . $i,
+                'description for form ' . $i
+            );
+            $forms[] = $form;
+            $formSections[] = new FormSection( $form, $this->section );
+        }
+        $relations = new ArrayCollection( $formSections );
         $this->section->setFormRelations( $relations );
 
         $this->assertEquals( $relations, $this->section->getFormRelations() );
+        $this->assertEquals( $forms, $this->section->getForms() );
+        $this->assertEquals( count( $forms ), count( $formSections ) );
         $this->assertEquals( $relations->first()->getForm(), reset( $this->section->getForms()) );
     }
 
@@ -109,6 +181,23 @@ class SectionTest extends \PHPUnit_Framework_TestCase
         $this->assertContains( $relation3, $this->section->getFormRelations() );
     }
 
+    public function testFields()
+    {
+
+    }
+
+    public function testAddField()
+    {
+
+    }
+
+    public function testRemoveField()
+    {
+
+    }
+
+
+
     /**
      * @covers CiscoSystems\AuditBundle\Entity\Section::getFields
      * @covers CiscoSystems\AuditBundle\Entity\Section::getFieldRelations
@@ -124,6 +213,11 @@ class SectionTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals( $relations, $this->section->getFieldRelations() );
         $this->assertEquals( $relations->first()->getField(), reset( $this->section->getFields()) );
+    }
+
+    public function testFieldRelation()
+    {
+
     }
 
     /**
