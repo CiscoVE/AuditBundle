@@ -40,8 +40,10 @@ abstract class Element
      */
     protected $archived;
 
-    public function __construct()
+    public function __construct( $title = NULL, $description = NULL )
     {
+        $this->title = $title;
+        $this->description = $description;
         $this->archived = FALSE;
     }
 

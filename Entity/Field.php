@@ -277,19 +277,39 @@ class Field extends Element
         return $this;
     }
 
-    public function getSections()
+    /**
+     * Get sections, if parameter given (boolean) then only relation
+     * section - field with getArchived() === $archived will be returned
+     *
+     * @param boolean $archived
+     *
+     * @return array
+     */
+    public function getSections( $archived = NULL )
     {
         $sections = array();
         foreach( $this->sectionRelations as $relation )
         {
-            if( FALSE === $relation->getArchived() )
+            if( $archived === NULL )
+            {
+                $sections[] = $relation->getSection();
+            }
+            elseif( $archived === $relation->getArchived() )
             {
                 $sections[] = $relation->getSection();
             }
         }
+
         return $sections;
     }
 
+    /**
+     * Add a section
+     *
+     * @param \CiscoSystems\AuditBundle\Entity\Section $section
+     *
+     * @return \CiscoSystems\AuditBundle\Entity\Field|boolean
+     */
     public function addSection( \CiscoSystems\AuditBundle\Entity\Section $section )
     {
         if( FALSE === array_search( $section, $this->getSections() ))
@@ -302,11 +322,19 @@ class Field extends Element
         return FALSE;
     }
 
+    /**
+     * Remove a Section
+     *
+     * @param \CiscoSystems\AuditBundle\Entity\Section $section
+     *
+     * @return \CiscoSystems\AuditBundle\Entity\Field|boolean
+     */
     public function removeSection( \CiscoSystems\AuditBundle\Entity\Section $section )
     {
         if( FALSE !== array_search( $section, $this->getSections() ))
         {
-            $this->removeSectionRelation( new SectionField( $section, $this ));
+            $relation = $this->getSectionRelation( $section );
+            $this->removeSectionRelation( $relation );
 
             return $this;
         }
@@ -314,11 +342,23 @@ class Field extends Element
         return FALSE;
     }
 
+    /**
+     * Get collection of relation Section - Field
+     *
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
     public function getSectionRelations()
     {
         return $this->sectionRelations;
     }
 
+    /**
+     * Set the collection of relation Section - Field
+     *
+     * @param \Doctrine\Common\Collections\ArrayCollection $relations
+     *
+     * @return \CiscoSystems\AuditBundle\Entity\Field
+     */
     public function setSectionRelations( ArrayCollection $relations )
     {
         $this->sectionRelations = $relations;
@@ -326,6 +366,33 @@ class Field extends Element
         return $this;
     }
 
+    /**
+     * Get a single relation Section - Field
+     *
+     * @param \CiscoSystems\AuditBundle\Entity\Section $section
+     *
+     * @return \CiscoSystems\AuditBundle\Entity\SectionField
+     */
+    public function getSectionRelation( $section )
+    {
+        $relation = array_filter(
+            $this->sectionRelations->toArray(),
+            function( $e ) use ( $section )
+            {
+                return $e->getSection() === $section;
+            }
+        );
+
+        return reset( $relation );
+    }
+
+    /**
+     * Add a relationship Section - Field
+     *
+     * @param \CiscoSystems\AuditBundle\Entity\SectionField $relation
+     *
+     * @return \CiscoSystems\AuditBundle\Entity\Field|boolean
+     */
     public function addSectionRelation( \CiscoSystems\AuditBundle\Entity\SectionField $relation )
     {
         if( !$this->sectionRelations->contains( $relation ))
@@ -338,6 +405,13 @@ class Field extends Element
         return FALSE;
     }
 
+    /**
+     * Remove a relationship Section - Field
+     *
+     * @param \CiscoSystems\AuditBundle\Entity\SectionField $relation
+     *
+     * @return \CiscoSystems\AuditBundle\Entity\Field|boolean
+     */
     public function removeSectionRelation( \CiscoSystems\AuditBundle\Entity\SectionField $relation )
     {
         if( $this->sectionRelations->contains( $relation ))

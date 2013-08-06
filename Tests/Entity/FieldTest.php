@@ -163,30 +163,49 @@ class FieldTest extends \PHPUnit_Framework_TestCase
         $sectionFields = array();
         for( $i = 1; $i < 4; $i++)
         {
-            $section = new Section();
-            $section->setTitle( 'title for section ' . $i )
-                    ->setDescription( 'description for section ' . $i );
+            $section = new Section(
+                'title for section ' . $i,
+                'description for section ' . $i
+            );
             $sections[] = $section;
             $this->field->addSection( $section );
             $sectionFields[] = new SectionField( $section, $this->field );
+//            $this->assertFalse( $section, $this->field->addSection( $section ) );
         }
         $relations = new ArrayCollection( $sectionFields );
+
+        $this->assertEquals( 3, count( $sections ) );
+        $this->assertEquals( 3, count( $relations ) );
+        $this->assertEquals( 3, $this->field->getSectionRelations()->count() );
+        /**
+         * Add new section
+         */
         $section = new Section( 'new section', 'this is a new section' );
         $this->field->addSection( $section );
         $sections[] = $section;
+        $sectionFields[] = new SectionField( $section, $this->field );
         $relations->add( new SectionField( $section, $this->field ));
 
+        $this->assertEquals( 4, count( $sections ) );
+        $this->assertEquals( 4, count( $relations ) );
+        $this->assertEquals( 4, $this->field->getSectionRelations()->count() );
         $this->assertEquals( $relations, $this->field->getSectionRelations() );
         $this->assertFalse( $this->field->addSection( $section ) );
-        $this->assertEquals( count( $sections ), count( $this->field->getSectionRelations()) );
+        $this->assertEquals( count( $sections ), $this->field->getSectionRelations()->count() );
         $this->assertEquals( count( $sections ), count( $this->field->getSections()) );
         $this->assertContains( $section, $this->field->getSections() );
 
+        /**
+         * Remove a section
+         */
         $lastSection = $sections[count( $sections )-1];
         $this->field->removeSection( $lastSection );
+
         $this->assertEquals( count( $sections ), count( $this->field->getSectionRelations()) );
         $this->assertEquals( count( $sections ), count( $this->field->getSections()) );
-        $this->assertContains( $section, $this->field->getSections() );
+        $this->assertEquals( count( $sections ), 4 );
+        $this->assertEquals( count( $this->field->getSections()), 4 );
+        $this->assertContains( $section, $this->field->getSections( TRUE ) );
 
     }
 
@@ -201,9 +220,10 @@ class FieldTest extends \PHPUnit_Framework_TestCase
         $sectionFields = array();
         for( $i = 1; $i < 4; $i++)
         {
-            $section = new Section();
-            $section->setTitle( 'title for section ' . $i )
-                    ->setDescription( 'description for section ' . $i );
+            $section = new Section(
+                'title for section ' . $i,
+                'description for section ' . $i
+            );
             $sections[] = $section;
             $sectionFields[] = new SectionField( $section, $this->field );
         }
@@ -217,6 +237,31 @@ class FieldTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @covers CiscoSystems\AuditBundle\Entity\Field::getSectionRelation
+     */
+    public function testSectionRelation()
+    {
+        $sections = array();
+        $sectionFields = array();
+        for( $i = 1; $i < 4; $i++ )
+        {
+            $section = new Section(
+                'title for section ' . $i,
+                'description for section ' . $i
+            );
+            $sections[] = $section;
+            $sectionFields[] = new SectionField( $section, $this->field );
+        }
+        $relations = new ArrayCollection( $sectionFields );
+        $this->field->setSectionRelations( $relations );
+
+        $relation = $relations[2];
+        $section = $relation->getSection();
+
+        $this->assertEquals( $relation, $this->field->getSectionRelation( $section ) );
+    }
+
+    /**
      * @covers CiscoSystems\AuditBundle\Entity\Field::addSectionRelation
      */
     public function testAddSectionRelation()
@@ -225,18 +270,17 @@ class FieldTest extends \PHPUnit_Framework_TestCase
         $sectionFields = array();
         for( $i = 1; $i < 4; $i++)
         {
-            $section = new Section();
-            $section->setTitle( 'title for section ' . $i )
-                    ->setDescription( 'description for section ' . $i );
+            $section = new Section(
+                'title for section ' . $i,
+                'description for section ' . $i
+            );
             $sections[] = $section;
             $sectionFields[] = new SectionField( $section, $this->field );
         }
         $relations = new ArrayCollection( $sectionFields );
         $this->field->setSectionRelations( $relations );
 
-        $section = new Section();
-        $section->setTitle( 'new Section' )
-                ->setDescription( 'new Section added `a postoriori`' );
+        $section = new Section( 'new Section', 'new Section added `a postoriori`' );
         $relation = new SectionField( $section, $this->field );
         $this->field->addSectionRelation( $relation );
 
@@ -255,9 +299,10 @@ class FieldTest extends \PHPUnit_Framework_TestCase
         $sectionFields = array();
         for( $i = 1; $i < 4; $i++)
         {
-            $section = new Section();
-            $section->setTitle( 'title for section ' . $i )
-                    ->setDescription( 'description for section ' . $i );
+            $section = new Section(
+                'title for section ' . $i,
+                'description for section ' . $i
+            );
             $sections[] = $section;
             $sectionFields[] = new SectionField( $section, $this->field );
         }
@@ -270,6 +315,7 @@ class FieldTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals( count( $relations ), count( $this->field->getSectionRelations() ));
         $this->assertTrue( $relation3->getArchived() );
         $this->assertContains( $relation3, $this->field->getSectionRelations() );
-        $this->assertNotContains( $relation3->getSection(), $this->field->getSections() );
+        $this->assertNotContains( $relation3->getSection(), $this->field->getSections( FALSE ) );
+        $this->assertContains( $relation3->getSection(), $this->field->getSections() );
     }
 }

@@ -66,6 +66,22 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals( $label, $this->form->getFlagLabel() );
     }
 
+    public function testSection()
+    {
+        $sections = array();
+        $formSections = array();
+        for( $i = 1; $i < 4; $i++ )
+        {
+            $section = new Section();
+            $section->setTitle( 'title for section ' . $i )
+                    ->setDescription( 'decription for section ' . $i );
+            $sections[] = $section;
+            $formSections[] = new FormSection( $this->form, $section );
+        }
+        $relations = new ArrayCollection( $formSections );
+
+    }
+
     /**
      * @covers CiscoSystems\AuditBundle\Entity\Form::getSections
      * @covers CiscoSystems\AuditBundle\Entity\Form::getSectionRelations

@@ -302,7 +302,7 @@ class Form extends Element
 
     public function addSection( \CiscoSystems\AuditBundle\Entity\Section $section )
     {
-        if( FALSE !== array_search( $section, $this->getSections() ))
+        if( FALSE === array_search( $section, $this->getSections() ))
         {
             $this->addSectionRelation( new FormSection( $this, $section ) );
 
@@ -310,6 +310,32 @@ class Form extends Element
         }
 
         return FALSE;
+    }
+
+    public function removeSection( \CiscoSystems\AuditBundle\Entity\Section $section )
+    {
+        if( FALSE !== array_search( $section, $this->getSections() ))
+        {
+            $relation = $this->getSectionRelation( $section );
+            $this->removeSectionRelation( $relation );
+
+            return $this;
+        }
+
+        return FALSE;
+    }
+
+    public function getSectionRelation( $section )
+    {
+        $relation = array_filter(
+            $this->sectionRelations->toArray(),
+            function( $e ) use ( $section )
+            {
+                return $e->getSection() === $section;
+            }
+        );
+
+        return reset( $relation );
     }
 
     public function getSectionRelations()
