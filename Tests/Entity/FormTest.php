@@ -68,19 +68,30 @@ class FormTest extends \PHPUnit_Framework_TestCase
 
     public function testSection()
     {
+        $this->form = new Form();
         $sections = array();
-        $formSections = array();
+        $this->formSections = array();
         for( $i = 1; $i < 4; $i++ )
         {
             $section = new Section();
             $section->setTitle( 'title for section ' . $i )
                     ->setDescription( 'decription for section ' . $i );
             $sections[] = $section;
-            $formSections[] = new FormSection( $this->form, $section );
+            $this->formSections[] = new FormSection( $this->form, $section );
         }
-        $relations = new ArrayCollection( $formSections );
+        $relations = new ArrayCollection( $this->formSections );
+        $this->form->setSectionRelations( $relations );
 
+        $this->assertEquals( $relations, $this->form->getSectionRelations() );
+        $this->assertEquals( count( $sections ), $this->form->getSectionRelations()->count() );
+        $this->assertEquals( count( $sections ), count( $this->form->getSections()) );
+        $this->assertContains( $sections[count( $section )-1], $this->form->getSections() );
     }
+
+//    public function testAddSection()
+//    {
+//
+//    }
 
     /**
      * @covers CiscoSystems\AuditBundle\Entity\Form::getSections
