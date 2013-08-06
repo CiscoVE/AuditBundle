@@ -131,6 +131,35 @@ class FormTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @covers CiscoSystems\AuditBundle\Entity\Form::getRemoveSection
+     */
+    public function testRemoveSection()
+    {
+        $sections = array();
+        $sectionFields = array();
+        for( $i = 1; $i < 4; $i++)
+        {
+            $section = new Section(
+                'title for section ' . $i,
+                'description for section ' . $i
+            );
+            $sections[] = $section;
+            $this->form->addSection( $section );
+            $sectionFields[] = new FormSection( $this->form, $section );
+        }
+
+        $lastSection = $sections[count( $sections )-1];
+        $this->form->removeSection( $lastSection );
+
+        $this->assertEquals( count( $sections ), count( $this->form->getSectionRelations()) );
+        $this->assertEquals( count( $sections ), count( $this->form->getSections()) );
+        $this->assertEquals( count( $sections ), 3 );
+        $this->assertEquals( count( $this->form->getSections( FALSE )), 2 );
+        $this->assertEquals( count( $this->form->getSections()), 3 );
+        $this->assertContains( $section, $this->form->getSections( TRUE ) );
+    }
+
+    /**
      * @covers CiscoSystems\AuditBundle\Entity\Form::getSections
      * @covers CiscoSystems\AuditBundle\Entity\Form::getSectionRelations
      * @covers CiscoSystems\AuditBundle\Entity\Form::setSectionRelations
