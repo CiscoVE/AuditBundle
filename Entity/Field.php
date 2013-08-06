@@ -375,7 +375,7 @@ class Field extends Element
      *
      * @return \CiscoSystems\AuditBundle\Entity\SectionField
      */
-    public function getSectionRelation( $section )
+    public function getSectionRelation( \CiscoSystems\AuditBundle\Entity\Section $section )
     {
         $relation = array_filter(
             $this->sectionRelations->toArray(),

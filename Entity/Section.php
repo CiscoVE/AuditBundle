@@ -78,14 +78,57 @@ class Section extends Element
         return $this;
     }
 
-    public function getFields()
+    /**
+     * get all fields
+     *
+     * @param boolean $archived
+     *
+     * @return array
+     */
+    public function getFields( $archived = NULL )
     {
         $fields = array();
         foreach( $this->fieldRelations as $relation )
         {
-            $fields[] = $relation->getField();
+            if( NULL === $archived )
+            {
+                $fields[] = $relation->getField();
+            }
+            elseif( $archived === $relation->getArchived() )
+            {
+                $fields[] = $relation->getField();
+            }
+
         }
+
         return $fields;
+    }
+
+    public function addField( \CiscoSystems\AuditBundle\Entity\Field $field )
+    {
+        if( FALSE === array_search( $field, $this->getFields() ))
+        {
+            $this->addFieldRelation( new SectionField( $this, $field ));
+
+            return $this;
+        }
+
+        return FALSE;
+    }
+
+    public function removeField( \CiscoSystems\AuditBundle\Entity\Field $field )
+    {
+        if( FALSE !== array_search( $field, $this->getFields() ))
+        {
+            if( NULL !== $relation = $this->getFieldRelation( $field ))
+            {
+                $this->removeFieldRelation( $relation );
+
+                return $this;
+            }
+        }
+
+        return FALSE;
     }
 
     public function getFieldRelations()
@@ -98,6 +141,19 @@ class Section extends Element
         $this->fieldRelations = $relations;
 
         return $this;
+    }
+
+    public function getFieldRelation( \CiscoSystems\AuditBundle\Entity\Field $field )
+    {
+        $relation = array_filter(
+            $this->fieldRelations->toArray(),
+            function( $e ) use ( $field )
+            {
+                return $e->getField() === $field;
+            }
+        );
+
+        return reset( $relation );
     }
 
     public function addFieldRelation( \CiscoSystems\AuditBundle\Entity\SectionField $relation )
@@ -124,14 +180,49 @@ class Section extends Element
         return FALSE;
     }
 
-    public function getForms()
+    public function getForms( $archived = NULL )
     {
         $forms = array();
         foreach( $this->formRelations as $relation )
         {
-            $forms[] = $relation->getForm();
+            if( NULL === $archived )
+            {
+                $forms[] = $relation->getForm();
+            }
+            elseif( $archived === $relation->getForm() )
+            {
+                $forms[] = $relation->getForm();
+            }
         }
+
         return $forms;
+    }
+
+    public function addForm( \CiscoSystems\AuditBundle\Entity\Form $form )
+    {
+        if( FALSE === array_search( $form, $this->getForms() ))
+        {
+            $this->addFormRelation( new FormSection( $form, $this ));
+
+            return $this;
+        }
+
+        return FALSE;
+    }
+
+    public function removeForm( \CiscoSystems\AuditBundle\Entity\Form $form )
+    {
+        if( FALSE !== array_search( $form, $this->getForms() ))
+        {
+            if( NULL !== $relation = $this->getFormRelation( $form ))
+            {
+                $this->removeFormRelation( $relation );
+
+                return $this;
+            }
+        }
+
+        return FALSE;
     }
 
     public function getFormRelations()
@@ -144,6 +235,19 @@ class Section extends Element
         $this->formRelations = $relations;
 
         return $this;
+    }
+
+    public function getFormRelation( \CiscoSystems\AuditBundle\Entity\Form $form )
+    {
+        $relation = array_filter(
+            $this->formRelations->toArray(),
+            function( $e ) use ( $form )
+            {
+                return $e->getForm() === $form;
+            }
+        );
+
+        return reset( $relation );
     }
 
     public function addFormRelation( \CiscoSystems\AuditBundle\Entity\FormSection $relation )
