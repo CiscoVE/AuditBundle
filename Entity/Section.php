@@ -27,9 +27,9 @@ class Section extends Element
 
     protected $flag = FALSE;
 
-    public function __construct()
+    public function __construct( $title = null, $description = null )
     {
-        parent::__construct();
+        parent::__construct( $title, $description );
         $this->fieldRelations = new ArrayCollection();
         $this->formRelations = new ArrayCollection();
         $this->weightPercentage = 0;

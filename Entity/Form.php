@@ -63,9 +63,9 @@ class Form extends Element
      */
     protected $metadata;
 
-    public function __construct()
+    public function __construct( $title = null, $description = null )
     {
-        parent::__construct();
+        parent::__construct( $title, $description );
         $this->active = TRUE;
         $this->allowMultipleAnswer = FALSE;
         $this->sectionRelations = new ArrayCollection();

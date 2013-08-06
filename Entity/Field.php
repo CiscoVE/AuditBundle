@@ -56,9 +56,9 @@ class Field extends Element
      */
     protected $disabled;
 
-    public function __construct()
+    public function __construct( $title = null, $description = null )
     {
-        parent::__construct();
+        parent::__construct( $title, $description );
         $this->flag = FALSE;
         $this->auditscores = new ArrayCollection();
         $this->disabled = FALSE;
@@ -290,7 +290,7 @@ class Field extends Element
         $sections = array();
         foreach( $this->sectionRelations as $relation )
         {
-            if( $archived === NULL )
+            if( NULL === $archived )
             {
                 $sections[] = $relation->getSection();
             }
@@ -333,10 +333,12 @@ class Field extends Element
     {
         if( FALSE !== array_search( $section, $this->getSections() ))
         {
-            $relation = $this->getSectionRelation( $section );
-            $this->removeSectionRelation( $relation );
+            if( NULL !== $relation = $this->getSectionRelation( $section ))
+            {
+                $this->removeSectionRelation( $relation );
 
-            return $this;
+                return $this;
+            }
         }
 
         return FALSE;
