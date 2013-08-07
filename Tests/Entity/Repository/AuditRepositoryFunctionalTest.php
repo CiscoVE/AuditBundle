@@ -38,7 +38,6 @@ class AuditRepositoryFunctionalTest extends WebTestCase
                 $this->repo->qbAudits()->getDql(),
                 'SELECT a ' .
                 'FROM CiscoSystems\AuditBundle\Entity\Audit a'
-
         );
         $this->assertNotEquals( 0, count( $this->repo->getAuditsPerAuditor() ));
     }
