@@ -190,6 +190,31 @@ class SectionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals( $relations->first()->getForm(), reset( $this->section->getForms()) );
     }
 
+    public function testFormRelation()
+    {
+        $forms = array();
+        $formSections = array();
+        for( $i = 1; $i < 4; $i++ )
+        {
+            $form = new Form(
+                'title for form ' . $i,
+                'description for form ' . $i
+            );
+            $forms[] = $form;
+            $formSections[] = new FormSection( $form, $this->section );
+        }
+        $relations = new ArrayCollection( $formSections );
+        $this->section->setFormRelations( $relations );
+
+        $relation = $relations[2];
+        $form = $relation->getForm();
+
+        $this->assertEquals( count( $relations ), count( $this->section->getForms() ));
+        $this->assertEquals( $forms, $this->section->getForms() );
+        $this->assertEquals( $relation, $this->section->getFormRelation( $form ) );
+        $this->assertEquals( $relations->first()->getForm(), reset( $this->section->getForms() ));
+    }
+
     /**
      * @covers CiscoSystems\AuditBundle\Entity\Section::addFormRelation
      */

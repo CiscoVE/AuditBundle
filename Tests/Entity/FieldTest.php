@@ -277,7 +277,7 @@ class FieldTest extends \PHPUnit_Framework_TestCase
     {
         $sections = array();
         $sectionFields = array();
-        for( $i = 1; $i < 4; $i++)
+        for( $i = 1; $i < 4; $i++ )
         {
             $section = new Section(
                 'title for section ' . $i,
@@ -292,7 +292,7 @@ class FieldTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals( $relations, $this->field->getSectionRelations() );
         $this->assertEquals( $sections, $this->field->getSections() );
         $this->assertEquals( count( $sections ), count( $sectionFields ) );
-        $this->assertEquals( $relations->first()->getSection(), reset( $this->field->getSections()) );
+        $this->assertEquals( $relations->first()->getSection(), reset( $this->field->getSections() ));
     }
 
     /**
@@ -317,10 +317,10 @@ class FieldTest extends \PHPUnit_Framework_TestCase
         $relation = $relations[2];
         $section = $relation->getSection();
 
-        $this->assertEquals( count( $relations ), count( $this->field->getSections()) );
+        $this->assertEquals( count( $relations ), count( $this->field->getSections() ));
         $this->assertEquals( $sections, $this->field->getSections() );
         $this->assertEquals( $relation, $this->field->getSectionRelation( $section ) );
-        $this->assertEquals( $relations->first()->getSection(), reset( $this->field->getSections()) );
+        $this->assertEquals( $relations->first()->getSection(), reset( $this->field->getSections() ));
     }
 
     /**
