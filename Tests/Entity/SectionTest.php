@@ -137,16 +137,15 @@ class SectionTest extends \PHPUnit_Framework_TestCase
             $formSections[] = new FormSection( $form, $this->section );
         }
 
-        $lastForm = $forms[count( $forms )-1];
+        $lastForm = end( $forms );
         $this->section->removeForm( $lastForm );
 
         $this->assertEquals( count( $forms ), count( $this->section->getFormRelations()) );
         $this->assertEquals( count( $forms ), count( $this->section->getForms()) );
-        $this->assertEquals( count( $forms ), 3 );
-        $this->assertEquals( count( $this->section->getForms( FALSE )), 2 );
-        $this->assertEquals( count( $this->section->getForms()), 3 );
+        $this->assertEquals( 3, count( $forms ) );
+        $this->assertEquals( 2, count( $this->section->getForms( FALSE )) );
+        $this->assertEquals( 3, count( $this->section->getForms()) );
         $this->assertContains( $form, $this->section->getForms( TRUE ) );
-
     }
 
     /**

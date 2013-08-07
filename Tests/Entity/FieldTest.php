@@ -247,14 +247,14 @@ class FieldTest extends \PHPUnit_Framework_TestCase
             $sectionFields[] = new SectionField( $section, $this->field );
         }
 
-        $lastSection = $sections[count( $sections )-1];
+        $lastSection = end( $sections );
         $this->field->removeSection( $lastSection );
 
         $this->assertEquals( count( $sections ), count( $this->field->getSectionRelations()) );
         $this->assertEquals( count( $sections ), count( $this->field->getSections()) );
-        $this->assertEquals( count( $sections ), 3 );
-        $this->assertEquals( count( $this->field->getSections( FALSE )), 2 );
-        $this->assertEquals( count( $this->field->getSections()), 3 );
+        $this->assertEquals( 3, count( $sections ) );
+        $this->assertEquals( 2, count( $this->field->getSections( FALSE )) );
+        $this->assertEquals( 3, count( $this->field->getSections()) );
         $this->assertContains( $section, $this->field->getSections( TRUE ) );
     }
 

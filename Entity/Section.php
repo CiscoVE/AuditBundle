@@ -104,6 +104,13 @@ class Section extends Element
         return $fields;
     }
 
+    /**
+     * Add a field
+     *
+     * @param \CiscoSystems\AuditBundle\Entity\Field $field
+     *
+     * @return \CiscoSystems\AuditBundle\Entity\Section|boolean
+     */
     public function addField( \CiscoSystems\AuditBundle\Entity\Field $field )
     {
         if( FALSE === array_search( $field, $this->getFields() ))
@@ -116,6 +123,13 @@ class Section extends Element
         return FALSE;
     }
 
+    /**
+     * Remove a field
+     *
+     * @param \CiscoSystems\AuditBundle\Entity\Field $field
+     *
+     * @return \CiscoSystems\AuditBundle\Entity\Section|boolean
+     */
     public function removeField( \CiscoSystems\AuditBundle\Entity\Field $field )
     {
         if( FALSE !== array_search( $field, $this->getFields() ))
@@ -131,11 +145,23 @@ class Section extends Element
         return FALSE;
     }
 
+    /**
+     * Get collection of relation section - field
+     *
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
     public function getFieldRelations()
     {
         return $this->fieldRelations;
     }
 
+    /**
+     * Set the colleciton of relation section - field
+     *
+     * @param \Doctrine\Common\Collections\ArrayCollection $relations
+     *
+     * @return \CiscoSystems\AuditBundle\Entity\Section
+     */
     public function setFieldRelations( ArrayCollection $relations )
     {
         $this->fieldRelations = $relations;
@@ -143,6 +169,13 @@ class Section extends Element
         return $this;
     }
 
+    /**
+     * Get a single relation section - field
+     *
+     * @param \CiscoSystems\AuditBundle\Entity\Field $field
+     *
+     * @return \CiscoSystems\AuditBundle\Entity\SectionField
+     */
     public function getFieldRelation( \CiscoSystems\AuditBundle\Entity\Field $field )
     {
         $relation = array_filter(
@@ -156,6 +189,13 @@ class Section extends Element
         return reset( $relation );
     }
 
+    /**
+     * Add a single relation section - field
+     *
+     * @param \CiscoSystems\AuditBundle\Entity\SectionField $relation
+     *
+     * @return \CiscoSystems\AuditBundle\Entity\Section|boolean
+     */
     public function addFieldRelation( \CiscoSystems\AuditBundle\Entity\SectionField $relation )
     {
         if( !$this->fieldRelations->contains( $relation ))
@@ -168,6 +208,13 @@ class Section extends Element
         return FALSE;
     }
 
+    /**
+     * Remove a single relation section - field
+     *
+     * @param \CiscoSystems\AuditBundle\Entity\SectionField $relation
+     *
+     * @return \CiscoSystems\AuditBundle\Entity\Section|boolean
+     */
     public function removeFieldRelation( \CiscoSystems\AuditBundle\Entity\SectionField $relation )
     {
         if( $this->fieldRelations->contains( $relation ))
@@ -180,6 +227,14 @@ class Section extends Element
         return FALSE;
     }
 
+    /**
+     * Get forms, if parameter given (boolean) then only relation
+     * form - section with getArchived() === $archived will be returned
+     *
+     * @param boolean $archived
+     *
+     * @return array
+     */
     public function getForms( $archived = NULL )
     {
         $forms = array();
@@ -239,11 +294,23 @@ class Section extends Element
         return FALSE;
     }
 
+    /**
+     * Get a collection of relation form - section
+     *
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
     public function getFormRelations()
     {
         return $this->formRelations;
     }
 
+    /**
+     * Set the collection of relation form - section
+     *
+     * @param \Doctrine\Common\Collections\ArrayCollection $relations
+     *
+     * @return \CiscoSystems\AuditBundle\Entity\Section
+     */
     public function setFormRelations( ArrayCollection $relations )
     {
         $this->formRelations = $relations;
@@ -251,6 +318,13 @@ class Section extends Element
         return $this;
     }
 
+    /**
+     * Get a single relation form - section
+     *
+     * @param \CiscoSystems\AuditBundle\Entity\Form $form
+     *
+     * @return \CiscoSystems\AuditBundle\Entity\FormSection
+     */
     public function getFormRelation( \CiscoSystems\AuditBundle\Entity\Form $form )
     {
         $relation = array_filter(
@@ -264,6 +338,13 @@ class Section extends Element
         return reset( $relation );
     }
 
+    /**
+     * Add a single relation form - section
+     *
+     * @param \CiscoSystems\AuditBundle\Entity\FormSection $relation
+     *
+     * @return \CiscoSystems\AuditBundle\Entity\Section|boolean
+     */
     public function addFormRelation( \CiscoSystems\AuditBundle\Entity\FormSection $relation )
     {
         if( !$this->formRelations->contains( $relation ))
@@ -276,6 +357,13 @@ class Section extends Element
         return FALSE;
     }
 
+    /**
+     * Remove a single relation form - section
+     *
+     * @param \CiscoSystems\AuditBundle\Entity\FormSection $relation
+     *
+     * @return \CiscoSystems\AuditBundle\Entity\Section|boolean
+     */
     public function removeFormRelation( \CiscoSystems\AuditBundle\Entity\FormSection $relation )
     {
         if( $this->formRelations->contains( $relation ))

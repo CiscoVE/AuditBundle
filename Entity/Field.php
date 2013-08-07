@@ -345,7 +345,7 @@ class Field extends Element
     }
 
     /**
-     * Get collection of relation Section - Field
+     * Get collection of relation section - field
      *
      * @return \Doctrine\Common\Collections\ArrayCollection
      */
@@ -355,7 +355,7 @@ class Field extends Element
     }
 
     /**
-     * Set the collection of relation Section - Field
+     * Set the colleciton of relation section - field
      *
      * @param \Doctrine\Common\Collections\ArrayCollection $relations
      *
