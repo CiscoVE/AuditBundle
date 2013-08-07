@@ -246,12 +246,22 @@ class FieldTest extends \PHPUnit_Framework_TestCase
             $this->field->addSection( $section );
             $sectionFields[] = new SectionField( $section, $this->field );
         }
-
+        $relations = new ArrayCollection( $sectionFields );
         $lastSection = end( $sections );
         $this->field->removeSection( $lastSection );
 
+        $this->assertEquals(
+            $relations->first()->getSection()->getTitle(),
+            $this->field->getSectionRelations()->first()->getSection()->getTitle()
+        );
+        $this->assertEquals(
+            $relations->last()->getSection()->getTitle(),
+            $this->field->getSectionRelations()->last()->getSection()->getTitle()
+        );
         $this->assertEquals( count( $sections ), count( $this->field->getSectionRelations()) );
         $this->assertEquals( count( $sections ), count( $this->field->getSections()) );
+        $this->assertTrue( $this->field->getSectionRelations()->last()->getArchived() );
+        $this->assertTrue( $this->field->getSectionRelation( $lastSection )->getArchived() );
         $this->assertEquals( 3, count( $sections ) );
         $this->assertEquals( 2, count( $this->field->getSections( FALSE )) );
         $this->assertEquals( 3, count( $this->field->getSections()) );

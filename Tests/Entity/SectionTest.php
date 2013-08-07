@@ -122,6 +122,9 @@ class SectionTest extends \PHPUnit_Framework_TestCase
         $this->assertContains( $form, $this->section->getForms() );
     }
 
+    /**
+     * @covers CiscoSystems\AuditBundle\Entity\Section::removeForm
+     */
     public function testRemoveForm()
     {
         $forms = array();
@@ -136,15 +139,27 @@ class SectionTest extends \PHPUnit_Framework_TestCase
             $this->section->addForm( $form );
             $formSections[] = new FormSection( $form, $this->section );
         }
-
+        $relations = new ArrayCollection( $formSections );
         $lastForm = end( $forms );
         $this->section->removeForm( $lastForm );
 
-        $this->assertEquals( count( $forms ), count( $this->section->getFormRelations()) );
-        $this->assertEquals( count( $forms ), count( $this->section->getForms()) );
+        $this->assertEquals(
+            $relations->first()->getForm()->getTitle(),
+            $this->section->getFormRelations()->first()->getForm()->getTitle()
+        );
+        $this->assertEquals(
+            $relations->last()->getForm()->getTitle(),
+            $this->section->getFormRelations()->last()->getForm()->getTitle()
+        );
+        $this->assertEquals( $forms, $this->section->getForms() );
+        $this->assertEquals( count( $relations ), count( $this->section->getFormRelations()) );
+        $this->assertTrue( $this->section->getFormRelations()->last()->getArchived() );
+        $this->assertTrue( $this->section->getFormRelation( $lastForm )->getArchived() );
         $this->assertEquals( 3, count( $forms ) );
-        $this->assertEquals( 2, count( $this->section->getForms( FALSE )) );
         $this->assertEquals( 3, count( $this->section->getForms()) );
+        $this->assertEquals( 3, count( $this->section->getFormRelations()) );
+        $this->assertEquals( 2, count( $this->section->getForms( FALSE )) );
+        $this->assertEquals( 1, count( $this->section->getForms( TRUE )) );
         $this->assertContains( $form, $this->section->getForms( TRUE ) );
     }
 

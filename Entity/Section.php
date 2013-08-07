@@ -244,7 +244,7 @@ class Section extends Element
             {
                 $forms[] = $relation->getForm();
             }
-            elseif( $archived === $relation->getForm() )
+            elseif( $archived === $relation->getArchived() )
             {
                 $forms[] = $relation->getForm();
             }
