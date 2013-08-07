@@ -32,6 +32,10 @@ class AuditRepositoryFunctionalTest extends WebTestCase
         $this->em->close();
     }
 
+    /**
+     * @covers \CiscoSystems\AuditBundle\Entity\Repository\AuditRepository::qbAudits
+     * @covers \CiscoSystems\AuditBundle\Entity\Repository\AuditRepository::getAuditsPerAuditor
+     */
     public function testGetAudits()
     {
         $this->assertEquals(
@@ -40,8 +44,13 @@ class AuditRepositoryFunctionalTest extends WebTestCase
                 'FROM CiscoSystems\AuditBundle\Entity\Audit a'
         );
         $this->assertNotEquals( 0, count( $this->repo->getAuditsPerAuditor() ));
+        $this->assertNotEquals( 0, count( $this->repo->getAuditsWithFormsUsage() ));
     }
 
+    /**
+     * @covers \CiscoSystems\AuditBundle\Entity\Repository\AuditRepository::qbReferences
+     * @covers \CiscoSystems\AuditBundle\Entity\Repository\AuditRepository::getCaseId
+     */
     public function testGetReference()
     {
         $this->assertEquals(
@@ -50,18 +59,19 @@ class AuditRepositoryFunctionalTest extends WebTestCase
                 'FROM CiscoSystems\AuditBundle\Entity\Audit c ' .
                 'ORDER BY c.reference DESC'
         );
+        $this->assertNotEquals( 0, count( $this->repo->getCaseId() ));
     }
 
-//    public function testGetAuditByFormAndReference()
-//    {
-//        $form = new \CiscoSystems\AuditBundle\Entity\Form();
-//        $refId = 25560;
-//        $this->assertEquals(
-//                $this->repo->qbAuditByFormAndReference( $form, $refId ),
-//                'SELECT a ' .
-//                'FROM CiscoSystemsAuditBundle:Audit a ' .
-//                'WHERE a.reference.id = :refid ' .
-//                'AND a.form = :form'
-//        );
-//    }
+    public function testGetAuditByFormAndReference()
+    {
+        $form = new \CiscoSystems\AuditBundle\Entity\Form();
+        $refId = 25560;
+        $this->assertEquals(
+                $this->repo->qbAuditByFormAndReference( $form, $refId )->getDql(),
+                'SELECT a ' .
+                'FROM CiscoSystems\AuditBundle\Entity\Audit a ' .
+                'WHERE a.form = :form ' .
+                'AND a.reference.id = :refid'
+        );
+    }
 }

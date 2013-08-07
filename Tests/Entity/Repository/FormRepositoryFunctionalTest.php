@@ -42,9 +42,9 @@ class FormRepositoryFunctionalTest extends WebTestCase
                 $this->repo->qbForms( $section, $archived )->getDql(),
                 'SELECT f ' .
                 'FROM CiscoSystems\AuditBundle\Entity\Form f ' .
-                'JOIN CiscoSystems\AuditBundle\Entity\FormSection r ' .
+                'INNER JOIN CiscoSystemsAuditBundle:FormSection r ' .
                 'WITH f = r.form ' .
-                'JOIN CiscoSystems\AuditBundle\Entity\Section s ' .
+                'INNER JOIN CiscoSystemsAuditBundle:Section s ' .
                 'WITH r.section = s ' .
                 'WHERE s = :section ' .
                 'AND r.archived = :archived'

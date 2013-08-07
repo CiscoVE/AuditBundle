@@ -38,13 +38,6 @@ class AuditRepository extends EntityRepository
      */
     public function getAuditsWithFormsUsage( $auditor = null )
     {
-//        $qb = $this->getEntityManager()->createQueryBuilder();
-//        $qb->select( 'a' )->from( 'CiscoSystemsAuditBundle:Audit', 'a' );
-//        if( $auditor !== null )
-//        {
-//            $qb->add( 'where', $qb->expr()->eq( 'a.auditor', ':user' ));
-//            $qb->setParameter( 'user', $auditor );
-//        }
         $entities = $this->qbAudits( $auditor )->getQuery()->getResult();
 
         $uforms = array();
@@ -76,7 +69,7 @@ class AuditRepository extends EntityRepository
         {
             $form = $entity->getForm();
             $metadata = $form->getMetadata();
-            $formAccessLevel = $metadata ? $metadata->getAccessLevel() : 1;
+            $accessLevel = $metadata ? $metadata->getAccessLevel() : 1;
             $row = array(
                 'id'            => $entity->getId(),
                 'reference'     => $entity->getReference()->getId(),
@@ -87,10 +80,11 @@ class AuditRepository extends EntityRepository
                 'mark'          => $entity->getMark(),
                 'usedforms'     => $uforms[$entity->getReference()->getId()],
                 'createdAt'     => $entity->getCreatedAt(),
-                'accessLevel'   => $formAccessLevel,
+                'accessLevel'   => $accessLevel,
             );
             $result[] = $row;
         }
+
         return $result;
     }
 
@@ -98,7 +92,6 @@ class AuditRepository extends EntityRepository
     {
         return $this->createQueryBuilder( 'c' )
                     ->select( 'IDENTITY( c.reference )' )
-//                    ->from( 'CiscoSystemsAuditBundle:Audit', 'c' )
                     ->orderBy( 'c.reference', 'DESC' );
     }
 
@@ -109,12 +102,8 @@ class AuditRepository extends EntityRepository
      */
     public function getCaseId()
     {
-        $qb = $this->getEntityManager()->createQuery( '
-                    SELECT IDENTITY( c.reference )
-                    FROM CiscoSystemsAuditBundle:Audit c
-                    ORDER BY c.reference DESC
-                ');
-
+        $qb = $this->qbReferences()
+                   ->getQuery();
         $return = array();
         foreach( $qb->getScalarResult() as $id )
         {
@@ -127,9 +116,8 @@ class AuditRepository extends EntityRepository
     public function qbAuditByFormAndReference( $form, $reference )
     {
         return $this->createQueryBuilder( 'a' )
-//                    ->join( 'CiscoSystemsAuditBundle\Modle\ReferenceInterface', 'r', 'WITH', 'a.reference = r' )
                     ->where( 'a.form = :form' )
-                    ->andWhere( 'a.reference = :refid' )
+                    ->andWhere( 'a.reference.id = :refid' )
                     ->setParameters( array(
                         'form'      => $form,
                         'refid'     => $reference

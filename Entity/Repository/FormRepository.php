@@ -10,7 +10,7 @@ class FormRepository extends SortableRepository
     {
         return $this->createQueryBuilder( 'f' )
                     ->join( 'CiscoSystemsAuditBundle:FormSection', 'r', 'with', 'f = r.form' )
-                    ->join( 'CiscoSystemsAuditBundle:Section', 's', 'with', 'r.section = s ')
+                    ->join( 'CiscoSystemsAuditBundle:Section', 's', 'with', 'r.section = s')
                     ->where( 's = :section' )
                     ->andWhere( 'r.archived = :archived' )
                     ->setParameters( array(
@@ -21,7 +21,7 @@ class FormRepository extends SortableRepository
 
     public function getForms( $section, $archived = FALSE )
     {
-        return $this->qbFroms( $section, $archived )
+        return $this->qbForms( $section, $archived )
                     ->getQuery()
                     ->getResult();
     }

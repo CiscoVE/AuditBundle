@@ -83,7 +83,7 @@ class ScoreRepositoryFunctionalTest extends WebTestCase
                       ->getRepository( 'CiscoSystemsAuditBundle:Field' )
                       ->find( 18 );
         $this->assertEquals(
-            $this->repo->qbScoreForAuditAndField( $audit, $field ),
+            $this->repo->qbScoreForAuditAndField( $audit, $field )->getDql(),
             'SELECT s ' .
             'FROM CiscoSystems\AuditBundle\Entity\Score s ' .
             'WHERE s.audit = :audit ' .

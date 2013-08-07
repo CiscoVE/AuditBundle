@@ -37,7 +37,7 @@ class ScoreRepository extends EntityRepository
     {
         return $this->createQueryBuilder( 's' )
                     ->where( 's.audit = :audit' )
-                    ->andWhere( 's.field = :field ')
+                    ->andWhere( 's.field = :field')
                     ->setParameters( array(
                         'audit' => $audit,
                         'field' => $field
