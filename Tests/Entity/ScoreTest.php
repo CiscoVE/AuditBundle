@@ -21,8 +21,8 @@ class ScoreTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers CiscoSystems\AuditBundle\Entity\Field::setMark
-     * @covers CiscoSystems\AuditBundle\Entity\Field::getMark
+     * @covers CiscoSystems\AuditBundle\Entity\Score::setMark
+     * @covers CiscoSystems\AuditBundle\Entity\Score::getMark
      */
     public function testScore()
     {
@@ -33,8 +33,8 @@ class ScoreTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers CiscoSystems\AuditBundle\Entity\Field::setComment
-     * @covers CiscoSystems\AuditBundle\Entity\Field::getComment
+     * @covers CiscoSystems\AuditBundle\Entity\Score::setComment
+     * @covers CiscoSystems\AuditBundle\Entity\Score::getComment
      */
     public function testComment()
     {
@@ -45,8 +45,8 @@ class ScoreTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers CiscoSystems\AuditBundle\Entity\Field::setAudit
-     * @covers CiscoSystems\AuditBundle\Entity\Field::getAudit
+     * @covers CiscoSystems\AuditBundle\Entity\Score::setAudit
+     * @covers CiscoSystems\AuditBundle\Entity\Score::getAudit
      */
     public function testAudit()
     {
@@ -57,8 +57,8 @@ class ScoreTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers CiscoSystems\AuditBundle\Entity\Field::setField
-     * @covers CiscoSystems\AuditBundle\Entity\Field::getField
+     * @covers CiscoSystems\AuditBundle\Entity\Score::setField
+     * @covers CiscoSystems\AuditBundle\Entity\Score::getField
      */
     public function testField()
     {
@@ -69,7 +69,7 @@ class ScoreTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers CiscoSystems\AuditBundle\Entity\Field::getWeightPercentageForScore
+     * @covers CiscoSystems\AuditBundle\Entity\Score::getWeightPercentageForScore
      */
     public function testWeightPercentage()
     {

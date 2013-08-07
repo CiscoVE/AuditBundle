@@ -1,26 +1,26 @@
 <?php
 namespace CiscoSystems\AuditBundle\Tests\Entity;
 
-use CiscoSystems\AuditBundle\Entity\Field;
-use CiscoSystems\AuditBundle\Entity\SectionField;
+use CiscoSystems\AuditBundle\Entity\Form;
+use CiscoSystems\AuditBundle\Entity\FormSection;
 use CiscoSystems\AuditBundle\Entity\Section;
 
-class SectionFieldTest extends \PHPUnit_Framework_TestCase
+class FormSectionTest extends \PHPUnit_Framework_TestCase
 {
     protected $section;
-    protected $field;
+    protected $form;
     protected $relation;
 
     protected function setUp()
     {
         parent::setUp();
-        $this->field = new Field();
+        $this->form = new Form();
         $this->section = new Section();
-        $this->relation = new SectionField();
+        $this->relation = new FormSection();
     }
 
     /**
-     * @covers CiscoSystems\AuditBundle\Entity\SectionField::getArchived
+     * @covers CiscoSystems\AuditBundle\Entity\FormSection::getArchived
      */
     public function testArchived()
     {
@@ -31,8 +31,8 @@ class SectionFieldTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers CiscoSystems\AuditBundle\Entity\SectionField::setPosition
-     * @covers CiscoSystems\AuditBundle\Entity\SectionField::getPosition
+     * @covers CiscoSystems\AuditBundle\Entity\FormSection::setPosition
+     * @covers CiscoSystems\AuditBundle\Entity\FormSection::getPosition
      */
     public function testPosition()
     {
@@ -43,20 +43,20 @@ class SectionFieldTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers CiscoSystems\AuditBundle\Entity\SectionField::setField
-     * @covers CiscoSystems\AuditBundle\Entity\SectionField::getField
+     * @covers CiscoSystems\AuditBundle\Entity\FormSection::setForm
+     * @covers CiscoSystems\AuditBundle\Entity\FormSection::getForm
      */
-    public function testField()
+    public function testForm()
     {
-        $field = $this->field;
-        $this->relation->setField( $field );
+        $form = $this->form;
+        $this->relation->setForm( $form );
 
-        $this->assertEquals( $field, $this->relation->getField() );
+        $this->assertEquals( $form, $this->relation->getForm() );
     }
 
     /**
-     * @covers CiscoSystems\AuditBundle\Entity\SectionField::setSection
-     * @covers CiscoSystems\AuditBundle\Entity\SectionField::getSection
+     * @covers CiscoSystems\AuditBundle\Entity\FormSection::setSection
+     * @covers CiscoSystems\AuditBundle\Entity\FormSection::getSection
      */
     public function testSection()
     {
@@ -67,12 +67,12 @@ class SectionFieldTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers CiscoSystems\AuditBundle\Entity\SectionField::getType
+     * @covers CiscoSystems\AuditBundle\Entity\FormSection::getType
      */
     public function testType()
     {
         $this->assertEquals(
-            \CiscoSystems\AuditBundle\Entity\Relation::TYPE_SECTIONFIELD,
+            \CiscoSystems\AuditBundle\Entity\Relation::TYPE_FORMSECTION,
             $this->relation->getType()
         );
     }

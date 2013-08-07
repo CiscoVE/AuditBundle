@@ -88,7 +88,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers CiscoSystems\AuditBundle\Entity\Form::getAddSection
+     * @covers CiscoSystems\AuditBundle\Entity\Form::addSection
      */
     public function testAddSection()
     {
@@ -131,7 +131,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers CiscoSystems\AuditBundle\Entity\Form::getRemoveSection
+     * @covers CiscoSystems\AuditBundle\Entity\Form::removeSection
      */
     public function testRemoveSection()
     {
@@ -190,7 +190,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers CiscoSystems\AuditBundle\Entity\Form::addSectionRelations
+     * @covers CiscoSystems\AuditBundle\Entity\Form::addSectionRelation
      */
     public function testAddSectionRelation()
     {
@@ -220,7 +220,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers CiscoSystems\AuditBundle\Entity\Form::removeSectionRelations
+     * @covers CiscoSystems\AuditBundle\Entity\Form::removeSectionRelation
      */
     public function testRemoveSectionRelation()
     {

@@ -31,7 +31,7 @@ class AuditTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers CiscoSystems\AuditBundle\Entity\Audit::setReference
-     * @covers CiscoSystems\AuditBundle\Entity\Audit::reference
+     * @covers CiscoSystems\AuditBundle\Entity\Audit::getReference
      */
     public function testReference()
     {

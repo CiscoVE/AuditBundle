@@ -253,6 +253,9 @@ class SectionTest extends \PHPUnit_Framework_TestCase
         $this->assertContains( $relation3, $this->section->getFormRelations() );
     }
 
+    /**
+     * @covers CiscoSystems\AuditBundle\Entity\Section::getFields
+     */
     public function testFields()
     {
         $fields = array();
@@ -275,6 +278,9 @@ class SectionTest extends \PHPUnit_Framework_TestCase
         $this->assertContains( end( $fields ), $this->section->getFields() );
     }
 
+    /**
+     * @covers CiscoSystems\AuditBundle\Entity\Section::addField
+     */
     public function testAddField()
     {
         $fields = array();
@@ -315,6 +321,9 @@ class SectionTest extends \PHPUnit_Framework_TestCase
         $this->assertContains( $field, $this->section->getFields() );
     }
 
+    /**
+     * @covers CiscoSystems\AuditBundle\Entity\Section::removeField
+     */
     public function testRemoveField()
     {
         $fields = array();
@@ -381,6 +390,9 @@ class SectionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals( $relations->first()->getField(), reset( $this->section->getFields()) );
     }
 
+    /**
+     * @covers CiscoSystems\AuditBundle\Entity\Section::getFieldRelation
+     */
     public function testFieldRelation()
     {
         $fields = array();

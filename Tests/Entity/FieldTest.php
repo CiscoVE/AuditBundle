@@ -50,8 +50,8 @@ class FieldTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers CiscoSystems\AuditBundle\Entity\Field::setWeigth
-     * @covers CiscoSystems\AuditBundle\Entity\Field::GetWeigth
+     * @covers CiscoSystems\AuditBundle\Entity\Field::setWeight
+     * @covers CiscoSystems\AuditBundle\Entity\Field::getWeight
      */
     public function testWeight()
     {
@@ -127,7 +127,7 @@ class FieldTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers CiscoSystems\AuditBundle\Entity\Field::addAuditScore
+     * @covers CiscoSystems\AuditBundle\Entity\Field::addScore
      */
     public function testAddScore()
     {
@@ -145,7 +145,7 @@ class FieldTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers CiscoSystems\AuditBundle\Entity\Field::removeAuditScore
+     * @covers CiscoSystems\AuditBundle\Entity\Field::removeScore
      */
     public function testRemoveScore()
     {
