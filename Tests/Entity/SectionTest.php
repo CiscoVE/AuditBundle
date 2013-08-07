@@ -360,19 +360,51 @@ class SectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testFieldRelations()
     {
-        $relation1 = new SectionField( $this->section, new Field() );
-        $relation2 = new SectionField( $this->section, new Field() );
-        $relation3 = new SectionField( $this->section, new Field() );
-        $relations = new ArrayCollection( array( $relation1, $relation2, $relation3 ));
+        $fields = array();
+        $sectionFields = array();
+        for( $i = 1; $i < 4; $i++ )
+        {
+            $field = new Field(
+                'title for field ' . $i,
+                'description for field ' . $i
+            );
+            $fields[] = $field;
+            $this->section->addField( $field );
+            $sectionFields[] = new SectionField( $this->section, $field );
+        }
+        $relations = new ArrayCollection( $sectionFields );
         $this->section->setFieldRelations( $relations );
 
         $this->assertEquals( $relations, $this->section->getFieldRelations() );
+        $this->assertEquals( $fields, $this->section->getFields() );
+        $this->assertEquals( count( $fields ), count( $sectionFields ) );
         $this->assertEquals( $relations->first()->getField(), reset( $this->section->getFields()) );
     }
 
     public function testFieldRelation()
     {
+        $fields = array();
+        $sectionFields = array();
+        for( $i = 1; $i < 4; $i++ )
+        {
+            $field = new Field(
+                'title for field ' . $i,
+                'description for field ' . $i
+            );
+            $fields[] = $field;
+            $this->section->addField( $field );
+            $sectionFields[] = new SectionField( $this->section, $field );
+        }
+        $relations = new ArrayCollection( $sectionFields );
+        $this->section->setFieldRelations( $relations );
 
+        $relation = $relations[2];
+        $field = $relation->getField();
+
+        $this->assertEquals( count( $relations ), count( $this->section->getFields() ));
+        $this->assertEquals( $fields, $this->section->getFields() );
+        $this->assertEquals( $relation, $this->section->getFieldRelation( $field ) );
+        $this->assertEquals( $relations->first()->getField(), reset( $this->section->getFields() ));
     }
 
     /**
