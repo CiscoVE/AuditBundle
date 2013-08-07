@@ -184,7 +184,7 @@ class FieldTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals( $relations, $this->field->getSectionRelations() );
         $this->assertEquals( count( $sections ), $this->field->getSectionRelations()->count() );
         $this->assertEquals( count( $sections ), count( $this->field->getSections()) );
-        $this->assertContains( $sections[count( $sections )-1], $this->field->getSections() );
+        $this->assertContains( end( $sections ), $this->field->getSections() );
     }
 
     /**
@@ -210,22 +210,23 @@ class FieldTest extends \PHPUnit_Framework_TestCase
         $section = new Section( 'new section', 'this is a new section' );
         $this->field->addSection( $section );
         $sections[] = $section;
-        $sectionFields[] = new SectionField( $section, $this->field );
-        $relations->add( new SectionField( $section, $this->field ));
+        $relation = new SectionField( $section, $this->field );
+        $sectionFields[] = $relation;
+        $relations->add( $relation );
 
-        $this->assertEquals(
-            $relations->first()->getSection()->getTitle(),
-            $this->field->getSectionRelations()->first()->getSection()->getTitle()
+        $this->assertSame(
+            $relations->first()->getSection(),
+            $this->field->getSectionRelations()->first()->getSection()
         );
-        $this->assertEquals(
-            $relations->last()->getSection()->getTitle(),
-            $this->field->getSectionRelations()->last()->getSection()->getTitle()
+        $this->assertSame(
+            $relations->last()->getSection(),
+            $this->field->getSectionRelations()->last()->getSection()
         );
         $this->assertEquals( $sections, $this->field->getSections() );
         $this->assertEquals( $relations, $this->field->getSectionRelations() );
         $this->assertFalse( $this->field->addSection( $section ) );
         $this->assertEquals( count( $sections ), $this->field->getSectionRelations()->count() );
-        $this->assertEquals( count( $sections ), count( $this->field->getSections()) );
+        $this->assertEquals( count( $sections ), count( $this->field->getSections() ));
         $this->assertContains( $section, $this->field->getSections() );
     }
 
@@ -250,13 +251,13 @@ class FieldTest extends \PHPUnit_Framework_TestCase
         $lastSection = end( $sections );
         $this->field->removeSection( $lastSection );
 
-        $this->assertEquals(
-            $relations->first()->getSection()->getTitle(),
-            $this->field->getSectionRelations()->first()->getSection()->getTitle()
+        $this->assertSame(
+            $relations->first()->getSection(),
+            $this->field->getSectionRelations()->first()->getSection()
         );
-        $this->assertEquals(
-            $relations->last()->getSection()->getTitle(),
-            $this->field->getSectionRelations()->last()->getSection()->getTitle()
+        $this->assertSame(
+            $relations->last()->getSection(),
+            $this->field->getSectionRelations()->last()->getSection()
         );
         $this->assertEquals( count( $sections ), count( $this->field->getSectionRelations()) );
         $this->assertEquals( count( $sections ), count( $this->field->getSections()) );
