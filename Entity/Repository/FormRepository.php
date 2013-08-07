@@ -12,8 +12,8 @@ class FormRepository extends SortableRepository
                     ->join( 'CiscoSystemsAuditBundle:FormSection', 'r', 'with', 'f = r.form' )
                     ->join( 'CiscoSystemsAuditBundle:Section', 's', 'with', 'r.section = s ')
                     ->where( 's = :section' )
-                    ->addWhere( 'r.archived = :archived' )
-                    ->addParameters( array(
+                    ->andWhere( 'r.archived = :archived' )
+                    ->setParameters( array(
                         'section' => $section,
                         'archived' => $archived
                     ));
