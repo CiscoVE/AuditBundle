@@ -9,18 +9,25 @@ use Gedmo\Sortable\Entity\Repository\SortableRepository;
  */
 class SectionRepository extends SortableRepository
 {
-    public function getSections( $auditform = null )
+    public function qbSections( $form = NULL )
     {
-        $qb = $this->getEntityManager()->createQueryBuilder();
-        $qb->select( 'section' )->from( 'CiscoSystemsAuditBundle:Section', 'section' );
-//        $qb->join( 'CiscoSystemsAuditBundle:Form', 'auditform', 'with', 'formsection.form = auditform' );
-        if( $auditform !== null )
+        $qb = $this->createQueryBuilder( 's' );
+        if( $form !== null )
         {
-            $qb->add( 'where', $qb->expr()->eq( 'form', ':form' ));
-            $qb->setParameter( 'form', $auditform );
+            $qb->join( 'CiscoSystemsAuditBundle:FormSection', 'r', 'with', 's = r.section' )
+               ->join( 'CiscoSystemsAuditBundle:Form', 'f', 'with', 'f = r.form' )
+               ->add( 'where', $qb->expr()->eq( 'f', ':form' ))
+               ->setParameter( 'form', $form );
         }
 
-        return $qb->getQuery()->getResult();
+        return $qb;
+    }
+
+    public function getSections( $form = NULL )
+    {
+        return $this->qbSections()
+                    ->getQuery()
+                    ->getResult();
     }
 
     /**
