@@ -317,10 +317,41 @@ class SectionTest extends \PHPUnit_Framework_TestCase
 
     public function testRemoveField()
     {
+        $fields = array();
+        $sectionFields = array();
+        for( $i = 1; $i < 4; $i++ )
+        {
+            $field = new Field(
+                'title for field ' . $i,
+                'description for field ' . $i
+            );
+            $fields[] = $field;
+            $this->section->addField( $field );
+            $sectionFields[] = new SectionField( $this->section, $field );
+        }
+        $relations = new ArrayCollection( $sectionFields );
+        $lastField = end( $fields );
+        $this->section->removeField( $lastField );
 
+        $this->assertSame(
+            $relations->first()->getField(),
+            $this->section->getFieldRelations()->first()->getField()
+        );
+        $this->assertSame(
+            $relations->last()->getField(),
+            $this->section->getFieldRelations()->last()->getField()
+        );
+        $this->assertEquals( count( $fields ), $this->section->getFieldRelations()->count() );
+        $this->assertEquals( count( $fields ), count( $this->section->getFields() ));
+        $this->assertTrue( $this->section->getFieldRelations()->last()->getArchived() );
+        $this->assertTrue( $this->section->getFieldRelation( $lastField )->getArchived() );
+        $this->assertEquals( 3, count( $fields ) );
+        $this->assertEquals( 3, count( $this->section->getFields() ));
+        $this->assertEquals( 2, count( $this->section->getFields( FALSE ) ));
+        $this->assertEquals( 1, count( $this->section->getFields( TRUE ) ));
+        $this->assertContains( $field, $this->section->getFields() );
+        $this->assertContains( $field, $this->section->getFields( TRUE ) );
     }
-
-
 
     /**
      * @covers CiscoSystems\AuditBundle\Entity\Section::getFields

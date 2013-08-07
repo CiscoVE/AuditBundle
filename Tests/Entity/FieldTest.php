@@ -264,8 +264,10 @@ class FieldTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue( $this->field->getSectionRelations()->last()->getArchived() );
         $this->assertTrue( $this->field->getSectionRelation( $lastSection )->getArchived() );
         $this->assertEquals( 3, count( $sections ) );
-        $this->assertEquals( 2, count( $this->field->getSections( FALSE )) );
         $this->assertEquals( 3, count( $this->field->getSections()) );
+        $this->assertEquals( 2, count( $this->field->getSections( FALSE )) );
+        $this->assertEquals( 1, count( $this->field->getSections( TRUE )) );
+        $this->assertContains( $section, $this->field->getSections() );
         $this->assertContains( $section, $this->field->getSections( TRUE ) );
     }
 
