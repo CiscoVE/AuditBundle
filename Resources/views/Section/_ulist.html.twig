@@ -3,12 +3,12 @@
        href="{{ path( 'audit_form_new_section', { 'form_id' : auditform.id } ) }}">
         Create: new section <i class="icon-plus"></i>
     </a>
-{#% if usections is not empty and auditform.id is not null %}
+{% if usections is not empty and auditform.id is not null %}
     {% for section in usections %}
     <a class="btn btn-mini cisco-audit-section-add"
        href="{{ path( 'audit_form_add_section', { 'form_id' : auditform.id ,'section_id': section.id } ) }}">
         Add: {{ section.title }} <i class="icon-plus"></i>
     </a>
     {% endfor %}
-{% endif %#}
+{% endif %}
 </div>

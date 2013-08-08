@@ -27,11 +27,11 @@
                 <tbody>
                 {% for section in audit.form.sections %}
                     <tr class="cisco-audit-section-row" section-id="{{ section.id }}">
-                        <td colspan="6">Section {{ section.position }}: {{ section.title }}</td>
+                        <td colspan="6">Section {{ section | position ( form ) }}: {{ section.title }}</td>
                     </tr>
                     {% for field in section.fields %}
                         <tr class="cisco-audit-field-row" field-id="{{ field.id }}">
-                            <td>{{ field.position }}</td>
+                            <td>{{ field | position ( section ) }}</td>
                             <td>{{ field.title }}</td>
                             <td class="cisco-audit-field-score">
                             {% set form = craue_cloneForm(scoreform) %}

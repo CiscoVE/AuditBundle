@@ -83,8 +83,7 @@
                 </tr>
             </thead>
             <tbody>
-            {% for rel1 in auditform.sectionRelations %}
-            {% set section = rel1.section %}
+            {% for section in auditform.sections %}
                 {% include 'CiscoSystemsAuditBundle:Section:_load.html.twig' %}
             {% else %}
                 <tr class="warning-empty">

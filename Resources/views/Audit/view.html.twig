@@ -41,16 +41,15 @@
                     <th>Reviewer's Comment</th>
                 </tr>
             </thead>
-            {% set counter = 1 %}
             {% for section in audit.form.sections %}
                 <tr>
-                    <td colspan="5"><strong>Section {{ section.position }}: {{ section.title }}</strong></td>
+                    <td colspan="5"><strong>Section {{ section | position ( form ) }}: {{ section.title }}</strong></td>
                 </tr>
                 {% for field in section.fields %}
                     {% for score in scores %}
                         {% if score.field == field %}
                         <tr>
-                            <td>{{ counter }}</td>
+                            <td>{{ field | position ( section ) }}</td>
                             <td>{{ field.title }}</td>
                             <td>{{ score.mark }}</td>
                             <td>
@@ -64,7 +63,6 @@
                         </tr>
                         {% endif %}
                     {% endfor %}
-                    {% set counter = counter +1 %}
                 {% endfor %}
                 <tr>
                     <td colspan="2" style="text-align: right">Section's Score</td>
