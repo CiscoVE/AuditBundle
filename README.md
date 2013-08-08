@@ -13,13 +13,17 @@ fields and offers four choices of answer possible. Each of the elements can be
 modified at will through the administration part. (`No user management is
 included in this bundle`).
 
-In order to help you customize your template, the four twig extensions are available:
+In order to help you customize your template, the following twig extensions are available:
 
 ```twig
-    {{ get_resultforsection() }}
-    {{ get_weightforsection() }}
-    {{ get_resultforaudit() }}
-    {{ get_weightforaudit() }}
+    {{ get_resultforsection() }}        // return the score for the section
+    {{ get_weightforsection() }}        // return the weight for the section
+    {{ get_resultforaudit() }}          // return the result for the audit
+    {{ get_weightforaudit() }}          // return the weight for the audit
+    {{ section | position ( form ) }}   // return the position of the section
+                                        // for the given form
+    {{ field | position ( section ) }}  // return the position of the field
+                                        // for the given section
 ```
 
 Currently the forms are fairly static: Each Section is attached to one and only one
@@ -109,7 +113,7 @@ And the orm bundle for the user interface:
                 CiscoSystems\AuditBundle\Model\MetadataInterface: Acme\AuditBundle\Entity\Metadata
 ```
 
-Once this all done, generate the five tables needed:
+Once this all done, generate the tables needed:
 
 ```php
     php app/console doctrine:schema:update --dump-sql
@@ -117,11 +121,24 @@ Once this all done, generate the five tables needed:
 
 Those are:
 
-* cisco_audit__audit
-* cisco_audit__form
-* cisco_audit__section
-* cisco_audit__field
-* cisco_audit__score
+* audit__audit
+* audit__score
+* audit__element
+* audit__form
+* audit__section
+* audit__field
+* audit__relation
+* audit__form_section
+* audit__section_field
+
+### inheritance and doctrine
+
+Please note that the class Element is abstract and Form, Section and Field are
+all children of that class. The same apply to the class Relation and its children:
+FormSection and SectionField.
+
+Please note as well, that ManyToMany relationship exist between Form and Section,
+and Section and Field.
 
 ### command
 
