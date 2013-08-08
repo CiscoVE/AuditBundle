@@ -60,8 +60,8 @@ class SectionController extends Controller
                 )));
             }
         }
-//        $uFieldRepo = $em->getRepository( 'CiscoSystemsAuditBundle:Field' );
-//        $uFields = $uFieldRepo->findBy( array ( 'section' => null ));
+        $uFields = $em->getRepository( 'CiscoSystemsAuditBundle:Field' )
+                      ->getDetachedFields();
 
         /**
          * Performed for ajax request; Planned to be used with a modal box
@@ -77,7 +77,7 @@ class SectionController extends Controller
         else*/ return $this->render( 'CiscoSystemsAuditBundle:Section:edit.html.twig', array(
             'edit'          => $edit,
             'section'       => $section,
-//            'ufields'       => $uFields,
+            'ufields'       => $uFields,
             'form'          => $form->createView(),
         ));
     }

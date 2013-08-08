@@ -50,4 +50,35 @@ class SectionRepositoryFunctionalTest extends WebTestCase
         $this->assertNotEquals( 0, $this->repo->getSections( $form ) );
     }
 
+    /**
+     * @covers \CiscoSystems\AuditBundle\Entity\Repository\SectionRepository::qbAttached
+     * @covers \CiscoSystems\AuditBundle\Entity\Repository\SectionRepository::qbDetached
+     * @covers \CiscoSystems\AuditBundle\Entity\Repository\SectionRepository::getDetachedSections
+     */
+    public function testGetDetachedSections()
+    {
+        $sections = $this->repo
+                         ->findAll();
+        $this->assertEquals(
+            $this->repo->qbAttached()->getDql(),
+            'SELECT s ' .
+            'FROM CiscoSystems\AuditBundle\Entity\Section s ' .
+            'INNER JOIN CiscoSystems\AuditBundle\Entity\FormSection r ' .
+            'WITH r.section = s ' .
+            'GROUP BY r.section'
+        );
+        $this->assertEquals(
+            $this->repo->qbDetached( $sections )->getDql(),
+            'SELECT s ' .
+            'FROM CiscoSystems\AuditBundle\Entity\Section s ' .
+            'WHERE s NOT IN ( :sections )'
+        );
+        $all = count( $sections );
+        $attached = count( $this->repo->qbAttached()->getQuery()->getResult() );
+        $detached = count( $this->repo->getDetachedSections() );
+
+        $this->assertEquals( $detached, $all - $attached );
+        $this->assertNotEquals( 0, $this->repo->getDetachedSections() );
+    }
+
 }

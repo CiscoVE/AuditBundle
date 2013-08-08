@@ -83,8 +83,8 @@ class FormController extends Controller
                 return $this->redirect( $this->generateUrl( 'audit_forms' ));
             }
         }
-        $uSectionRepo = $em->getRepository( 'CiscoSystemsAuditBundle:Section' );
-        $uSections = $uSectionRepo->findBy( array ( 'auditForm' => null ));
+        $uSections = $em->getRepository( 'CiscoSystemsAuditBundle:Section' )
+                        ->getDetachedSections();
 
         if ( $request->isXmlHttpRequest())
         {

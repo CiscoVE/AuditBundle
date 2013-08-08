@@ -56,4 +56,42 @@ class SectionRepository extends SortableRepository
 
         return $array;
     }
+
+    public function qbArchived( $archived )
+    {
+        return $this->createQueryBuilder( 's' )
+                    ->join( 'CiscoSystems\AuditBundle\Entity\FormSection', 'r', 'with', 'r.section = s' )
+                    ->where( 'r.archived = :archived' )
+                    ->setParameter( 'archived', $archived );
+    }
+
+    public function qbAttached()
+    {
+        return $this->createQueryBuilder( 's' )
+                    ->join( 'CiscoSystems\AuditBundle\Entity\FormSection', 'r', 'with', 'r.section = s' )
+                    ->groupBy( 'r.section' );
+    }
+
+    public function qbDetached( $sections )
+    {
+        return $this->createQueryBuilder( 's' )
+                    ->where( 's NOT IN ( :sections )' )
+                    ->setParameter( 'sections', $sections );
+    }
+
+    /**
+     * get array of sections not linked to any relation form-section
+     *
+     * @return ArrayCollection
+     */
+    public function getDetachedSections()
+    {
+        $sections = $this->qbAttached()
+                         ->getQuery()
+                         ->getResult();
+
+        return $this->qbDetached( $sections )
+                    ->getQuery()
+                    ->getResult();
+    }
 }

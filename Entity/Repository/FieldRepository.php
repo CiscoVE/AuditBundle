@@ -34,4 +34,37 @@ class FieldRepository extends SortableRepository
 
         return $array['flagLabel'];
     }
+
+    public function qbArchived( $archived )
+    {
+        return $this->createQueryBuilder( 'f' )
+                    ->join( 'CiscoSystems\AuditBundle\Entity\SectionField', 'r', 'with', 'r.field = f' )
+                    ->where( 'r.archived = :archived' )
+                    ->setParameter( 'archived', $archived );
+    }
+
+    public function qbAttached()
+    {
+        return $this->createQueryBuilder( 'f' )
+                    ->join( 'CiscoSystems\AuditBundle\Entity\SectionField', 'r', 'with', 'r.field = f' )
+                    ->groupBy( 'r.field' );
+    }
+
+    public function qbDetached( $fields )
+    {
+        return $this->createQueryBuilder( 'f' )
+                    ->where( 'f NOT IN ( :fields )' )
+                    ->setParameter( 'fields', $fields );
+    }
+
+    public function getDetachedFields()
+    {
+        $fields = $this->qbAttached()
+                       ->getQuery()
+                       ->getResult();
+
+        return $this->qbDetached( $fields )
+                    ->getQuery()
+                    ->getResult();
+    }
 }
