@@ -4,8 +4,12 @@ namespace CiscoSystems\AuditBundle\Twig\Extension;
 
 use Twig_Extension;
 use Twig_Function_Method;
+use Twig_SimpleFilter;
 use Doctrine\Common\Persistence\ObjectManager;
 use CiscoSystems\AuditBundle\Worker\Scoring;
+use CiscoSystems\AuditBundle\Entity\Form;
+use CiscoSystems\AuditBundle\Entity\Section;
+use CiscoSystems\AuditBundle\Entity\Field;
 
 class AuditExtension extends Twig_Extension
 {
@@ -34,6 +38,14 @@ class AuditExtension extends Twig_Extension
         );
     }
 
+    public function getFilters()
+    {
+        return array(
+            'position'              => new \Twig_Filter_Method( $this, 'getPosition' ),
+//            'position'              => new Twig_SimpleFilter( 'position', array( $this, 'getPosition' )),
+        );
+    }
+
     public function getResultForSection( $audit, $section )
     {
         return $this->scoring->getResultForSection( $audit, $section );
@@ -56,8 +68,21 @@ class AuditExtension extends Twig_Extension
 
     public function getTrigger( $field )
     {
-        $repo = $this->objectManager->getRepository( 'CiscoSystemsAuditBundle:Field' );
-
-        return $repo->getTrigger( $field );
+        return $this->objectManager
+                    ->getRepository( 'CiscoSystemsAuditBundle:Field' )
+                    ->getTrigger( $field );
     }
+
+    public function getPosition( $element, $parent )
+    {
+        if( $element instanceof Section && $parent instanceof Form )
+        {
+            return $element->getFormRelation( $parent )->getPosition();
+        }
+        elseif( $element instanceof Field && $parent instanceof Section )
+        {
+            return $element->getSectionRelation( $parent )->getPosition();
+        }
+    }
+
 }

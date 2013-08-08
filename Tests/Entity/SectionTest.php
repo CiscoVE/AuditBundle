@@ -57,7 +57,41 @@ class SectionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals( $flag, $this->section->getFlag() );
     }
 
-    public function testForm()
+    /**
+     * @covers CiscoSystems\AuditBundle\Entity\Section::getPosition
+     */
+    public function testPosition()
+    {
+        $form = new Form();
+        $sections = array();
+        $formSections = array();
+        for( $i = 0; $i < 4; $i++ )
+        {
+            $section = new Section(
+                'title for section ' . $i +1,
+                'description for section ' . $i + 1
+            );
+            $sections[] = $section;
+            $relation = new FormSection( $form, $section );
+            $relation->setPosition( $i );
+            $formSections[] = $relation;
+        }
+        $relations = new ArrayCollection( $formSections );
+        $form->setSectionRelations( $relations );
+
+        $section = new Section( 'new section', 'new description' );
+        $relation = new FormSection( $form, $section );
+        $form->addSectionRelation( $relation );
+        $section->addFormRelation( $relation );
+        $relation->setPosition( count( $form->getSections() ) );
+
+        $this->assertEquals( 6, $section->getPosition( $form ) );
+    }
+
+    /**
+     * @covers CiscoSystems\AuditBundle\Entity\Section::getForms
+     */
+    public function testForms()
     {
         $forms = array();
         $formSections = array();

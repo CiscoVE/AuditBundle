@@ -25,7 +25,7 @@ class SectionRepository extends SortableRepository
 
     public function getSections( $form = NULL )
     {
-        return $this->qbSections()
+        return $this->qbSections( $form )
                     ->getQuery()
                     ->getResult();
     }
@@ -39,11 +39,7 @@ class SectionRepository extends SortableRepository
     public function getSectionOptions()
     {
         $array = array();
-        $sections  = $this->getEntityManager()
-                ->getRepository( 'CiscoSystemsAuditBundle:Section' )
-                ->getQuery()->getResult();
-
-        foreach( $sections as $set )
+        foreach( $this->getSections() as $set )
         {
             if( !$set->getForm() )
             {

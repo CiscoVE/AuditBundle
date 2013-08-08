@@ -343,6 +343,15 @@ class Form extends Element
         return FALSE;
     }
 
+    /**
+     * get the relation form-section for the fiven section
+     *
+     * see http://stackoverflow.com/questions/4166198/find-array-key-in-objects-array-given-an-attribute-value
+     *
+     * @param \CiscoSystems\AuditBundle\Entity\Section $section
+     *
+     * @return \CiscoSystems\AuditBundle\Entity\FormSection
+     */
     public function getSectionRelation( $section )
     {
         $relation = array_filter(

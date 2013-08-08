@@ -116,8 +116,9 @@ class AuditRepository extends EntityRepository
     public function qbAuditByFormAndReference( $form, $reference )
     {
         return $this->createQueryBuilder( 'a' )
+                    ->join( 'CiscoSystems\AuditBundle\Model\ReferenceInterface', 'r', 'with', 'a.reference = r' )
                     ->where( 'a.form = :form' )
-                    ->andWhere( 'a.reference.id = :refid' )
+                    ->andWhere( 'r.id = :refid' )
                     ->setParameters( array(
                         'form'      => $form,
                         'refid'     => $reference

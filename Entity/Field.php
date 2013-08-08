@@ -278,6 +278,23 @@ class Field extends Element
     }
 
     /**
+     * Get position for the field and for the given section
+     *
+     * @param \CiscoSystems\AuditBundle\Entity\Section $section
+     *
+     * @return integer|boolean
+     */
+    public function getPosition( \CiscoSystems\AuditBundle\Entity\Section $section )
+    {
+        if( FALSE !== $relation = $this->getSectionRelation( $section ) )
+        {
+            return $relation->getPosition();
+        }
+
+        return FALSE;
+    }
+
+    /**
      * Get sections, if parameter given (boolean) then only relation
      * section - field with getArchived() === $archived will be returned
      *

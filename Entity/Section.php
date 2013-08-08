@@ -79,6 +79,23 @@ class Section extends Element
     }
 
     /**
+     * Get position for the section and for the given form
+     *
+     * @param \CiscoSystems\AuditBundle\Entity\Form $form
+     *
+     * @return integer|boolean
+     */
+    public function getPosition( \CiscoSystems\AuditBundle\Entity\Form $form )
+    {
+        if( FALSE !== $relation = $this->getFormRelation( $form ) )
+        {
+            return $relation->getPosition();
+        }
+
+        return FALSE;
+    }
+
+    /**
      * get all fields
      *
      * @param boolean $archived

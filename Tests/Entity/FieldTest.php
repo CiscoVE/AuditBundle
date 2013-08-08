@@ -20,11 +20,6 @@ class FieldTest extends \PHPUnit_Framework_TestCase
         $this->section = new Section();
     }
 
-    private function resetField()
-    {
-        $this->field = new Field();
-    }
-
     /**
      * @covers CiscoSystems\AuditBundle\Entity\Field::setTitle
      * @covers CiscoSystems\AuditBundle\Entity\Field::getTitle
@@ -160,6 +155,37 @@ class FieldTest extends \PHPUnit_Framework_TestCase
 
         $this->assertNotContains( $score3, $this->field->getScores() );
         $this->assertEquals( $scores, $this->field->getScores() );
+    }
+
+    /**
+     * @covers CiscoSystems\AuditBundle\Entity\Field::getPosition
+     */
+    public function testPosition()
+    {
+        $section = new Section();
+        $fields = array();
+        $sectionFields = array();
+        for( $i = 0; $i < 4; $i++ )
+        {
+            $field = new Field(
+                'title for field ' . $i + 1,
+                'description for field ' . $i + 1
+            );
+            $fields[] = $field;
+            $relation = new SectionField( $section, $field );
+            $relation->setPosition( $i );
+            $sectionFields[] = $relation;
+        }
+        $relations = new ArrayCollection( $sectionFields );
+        $section->setFieldRelations( $relations );
+
+        $field = new Field( 'new field', 'new description' );
+        $relation = new SectionField( $section, $field );
+        $section->addFieldRelation( $relation );
+        $field->addSectionRelation( $relation );
+        $relation->setPosition( count( $section->getFields() ));
+
+        $this->assertEquals( 6, $field->getPosition( $section ) );
     }
 
     /**

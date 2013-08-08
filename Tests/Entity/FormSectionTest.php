@@ -1,4 +1,5 @@
 <?php
+
 namespace CiscoSystems\AuditBundle\Tests\Entity;
 
 use CiscoSystems\AuditBundle\Entity\Form;

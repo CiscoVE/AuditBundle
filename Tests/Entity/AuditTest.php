@@ -35,7 +35,10 @@ class AuditTest extends \PHPUnit_Framework_TestCase
      */
     public function testReference()
     {
-        // need to be tested on implementation of the ReferenceInterface
+        $reference = $this->getMock( 'CiscoSystems\AuditBundle\Model\ReferenceInterface' );
+        $this->audit->setReference( $reference );
+
+        $this->assertEquals( $reference, $this->audit->getReference() );
     }
 
     /**
@@ -44,7 +47,10 @@ class AuditTest extends \PHPUnit_Framework_TestCase
      */
     public function testAuditor()
     {
-        // need to be tested on implementation of the UserInterface
+        $auditor = $this->getMock( 'CiscoSystems\AuditBundle\Model\UserInterface' );
+        $this->audit->setAuditor( $auditor );
+
+        $this->assertEquals( $auditor, $this->audit->getAuditor() );
     }
 
     /**
