@@ -321,6 +321,27 @@ class Field extends Element
     }
 
     /**
+     * get the section for which the relation section-field is NOT archived
+     *
+     * @return \CiscoSystems\AuditBundle\Entity\Section
+     */
+    public function getSection()
+    {
+        $field = $this;
+
+        $relations = $this->sectionRelations->filter( function( $relation ) use ( $field )
+        {
+           if( $relation->getField() === $field && $relation->getArchived() === FALSE )
+           {
+               return $relation;
+           }
+        });
+
+        return $relations->first()->getSection();
+    }
+
+
+    /**
      * Add a section
      *
      * @param \CiscoSystems\AuditBundle\Entity\Section $section
