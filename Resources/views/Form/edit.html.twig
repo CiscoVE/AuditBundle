@@ -13,62 +13,64 @@
 <div class="container">
     <div class="span10">
         <form class="form-horizontal" method="POST" action="">
+            <div class="form-horizontal">
+                <div class="audit-fieldset audit-fieldset-section">
+                    <div class="control-group">
+                        <div class="control-label">
+                            {{ form_label(form.title) }}
+                        </div>
+                        <div class="controls">
+                            {{ form_widget(form.title) }}
+                        </div>
+                    </div>
+                    <div class="row input">
+                        <div class="control-label">
+                            {{ form_label(form.flagLabel) }}
+                        </div>
+                        <div class="controls">
+                            {{ form_widget(form.flagLabel) }}
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="control-label">
+                            {{ form_label(form.allowMultipleAnswer) }}
+                        </div>
+                        <div class="controls">
+                            {{ form_widget(form.allowMultipleAnswer) }}
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="control-label">
+                            {{ form_label(form.active) }}
+                        </div>
+                        <div class="controls">
+                            {{ form_widget(form.active) }}
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="control-label">
+                            {{ form_label(form.description) }}
+                        </div>
+                        <div class="controls">
+                            {{ form_widget(form.description ) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="pull-right">
-                <button type="submit" class="btn btn-mini">
-                    Save Form <i class="icon-ok"></i>
+                <button type="submit" class="btn btn-primary btn-small">
+                    Save Form <i class="icon-ok icon-white"></i>
                 </button>
-                <a class="btn btn-mini"
+                <a class="btn btn-primary btn-small"
                    href="{{ path( 'audit_forms' ) }}">
-                    Cancel <i class="icon-remove"></i>
+                    Cancel <i class="icon-remove icon-white"></i>
                 </a>
                 {% if edit == true %}
-                <a class="btn btn-mini"
+                <a class="btn btn-primary btn-small"
                    href="{{ path( 'audit_form_delete', { 'form_id' : auditform.id } ) }}">
-                    Delete Form <i class="icon-trash"></i>
+                    Delete Form <i class="icon-trash icon-white"></i>
                 </a>
                 {% endif %}
-            </div>
-            <div class="form-horizontal">
-                <div class="control-group">
-                    <div class="control-label">
-                        {{ form_label(form.title) }}
-                    </div>
-                    <div class="controls">
-                        {{ form_widget(form.title) }}
-                    </div>
-                </div>
-                <div class="control-group">
-                    <div class="control-label">
-                        {{ form_label(form.flagLabel) }}
-                    </div>
-                    <div class="controls">
-                        {{ form_widget(form.flagLabel) }}
-                    </div>
-                </div>
-                <div class="control-group">
-                    <div class="control-label">
-                        {{ form_label(form.allowMultipleAnswer) }}
-                    </div>
-                    <div class="controls">
-                        {{ form_widget(form.allowMultipleAnswer) }}
-                    </div>
-                </div>
-                <div class="control-group">
-                    <div class="control-label">
-                        {{ form_label(form.active) }}
-                    </div>
-                    <div class="controls">
-                        {{ form_widget(form.active) }}
-                    </div>
-                </div>
-                <div class="control-group">
-                    <div class="control-label">
-                        {{ form_label(form.description) }}
-                    </div>
-                    <div class="controls">
-                        {{ form_widget(form.description, { 'attr': { 'class': 'input-xxlarge' }}) }}
-                    </div>
-                </div>
             </div>
         </form>
 

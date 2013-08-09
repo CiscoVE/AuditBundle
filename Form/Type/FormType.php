@@ -21,12 +21,17 @@ class FormType extends AbstractType
         $builder->add( 'title', null, array(
             'attr'      => array(
                 'placeholder'   => 'Title for this form',
+                'data-toggle'   => 'tooltip',
                 'title'         => 'The field doesn\'t have to be unique but it is highly recommended never the less.',
+                'class'         => 'input-xxlarge',
+                'rows'          => 1,
             ),
         ));
         $builder->add( 'description', 'textarea', array(
             'attr'      => array(
-                'placeholder'   => 'Description for the field. This should be as clear as possible'
+                'placeholder'   => 'Description for the field. This should be as clear as possible',
+                'class'         => 'input-xxlarge',
+                'rows'          => 5,
             ),
         ));
         $builder->add( 'active', 'checkbox', array(
@@ -38,13 +43,15 @@ class FormType extends AbstractType
             'required'  => false,
             'attr'      => array(
                 'placeholder'   => 'Warning / Failed.',
+                'data-toggle'   => 'tooltip',
                 'title'         => 'This has only to be specified if you have flagged questions. (see field editing)',
             ),
         ));
         $builder->add( 'allowMultipleAnswer', 'checkbox', array(
-            'label'     => 'Are multiple answer allowed on flagged question?',
+            'label'     => 'Allow multiple answer',
             'required'  => false,
             'attr'      => array(
+                'data-toggle'   => 'tooltip',
                 'title'         => 'By selecting this option you will allow flagged questions to have more than YES and No as answer.',
             ),
         ));

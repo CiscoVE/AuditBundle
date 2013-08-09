@@ -478,6 +478,10 @@ $( document ).ready( function(){
     $( '#field_weight' ).tooltip({ html: 'true', placement: 'right' });
     $( '#field_answer_acceptable' ).tooltip({ html: 'true', placement: 'right' });
     $( '#field_answer_not_applicable' ).tooltip({ html: 'true', placement: 'right' });
+    $( '#form_title' ).tooltip({ html: 'true', placement: 'right' });
+    $( '#form_flagLabel' ).tooltip({ html: 'true', placement: 'right' });
+    $( '#form_allowMultipleAnswer' ).tooltip({ html: 'true', placement: 'right' });
+    $( '#form_accessLevel' ).tooltip({ html: 'true', placement: 'right' });
 
     tooltipOnDisabled();
 });

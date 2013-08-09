@@ -14,18 +14,30 @@ class SectionType extends AbstractType
             'mapped' => false
         ));
         $builder->add( 'title', null, array(
-            'attr' => array( 'placeholder' => 'Section\'s title ' ),
+            'attr' => array( 'placeholder' => 'Section\'s title',
+                'title'         => 'The field doesn\'t have to be unique but it is highly recommended never the less.',
+                'class'         => 'input-xxlarge',
+                'rows'          => 1,
+                'data-toggle'   => 'tooltip',
+            ),
         ));
-//        $builder->add( 'form', 'entity', array(
-//            'empty_data'    => null,
-//            'empty_value'   => '(Choose a Form)',
-//            'required'      => false,
-//            'class'         => 'CiscoSystemsAuditBundle:Form',
-//            'property'      => 'title',
-//            'label'         => 'Audit',
-//        ));
+        $builder->add( 'form', 'entity', array(
+            'empty_data'    => null,
+            'empty_value'   => '(Choose a Form)',
+            'required'      => false,
+            'class'         => 'CiscoSystemsAuditBundle:Form',
+            'property'      => 'title',
+            'label'         => 'Form',
+            'attr'          => array(
+                'class'         => 'input-xlarge',
+            ),
+        ));
         $builder->add( 'description', 'textarea', array(
-            'attr' => array( 'placeholder' => 'Section\'s description. This should be as clear as possible' ),
+            'attr' => array(
+                'placeholder'   => 'Section\'s description. This should be as clear as possible',
+                'class'         => 'input-xxlarge',
+                'rows'          => 5,
+            ),
         ));
     }
 

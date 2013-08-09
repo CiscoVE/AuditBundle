@@ -13,55 +13,53 @@
 <div class="container">
     <div class="span10">
         <form class="form-horizontal" method="POST" action="">
-            <div class="pull-right">
-                <button type="submit" class="btn btn-mini">
-                    Save Section <i class="icon-ok"></i>
-                </button>
-            {#% if section.form %}
-                <a class="btn btn-mini"
-                    href="{{ path( 'audit_form_edit', { 'form_id': section.form.id } ) }}">
-                     Cancel <i class="icon-remove"></i>
-                </a>
-            {% endif %#}
-            {% if edit == true %}
-                <a class="btn btn-mini"
-                   href="{{ path( 'audit_section_delete', { 'section_id': section.id } ) }}">
-                    Delete section <i class="icon-trash"></i>
-                </a>
-            {% endif %}
-            </div>
-            <div class="controls controls-row">
-                <div class="control-group">
-                    <div class="control-label">
-                        {{ form_label( form.title ) }}
+            <div class="audit-fieldset audit-fieldset-section">
+                    <div class="control-group">
+                        <div class="control-label">
+                            {{ form_label( form.title ) }}
+                        </div>
+                        <div class="controls">
+                            {{ form_widget( form.title ) }}
+                            {{ form_errors( form.title ) }}
+                        </div>
                     </div>
-                    <div class="controls">
-                        {{ form_widget( form.title ) }}
-                        {{ form_errors( form.title ) }}
+                    <div class="control-group">
+                        <div class="control-label">
+                            {{ form_label( form.form ) }}
+                        </div>
+                        <div class="controls">
+                            {{ form_widget( form.form ) }}
+                            {{ form_errors( form.form ) }}
+                        </div>
                     </div>
-                </div>
-                <div class="control-group">{#
-                    <div class="control-label">
-                        {{ form_label( form.form ) }}
-                    </div>
-                    <div class="controls">
-                        {{ form_widget( form.form ) }}
-                        {{ form_errors( form.form ) }}
-                    </div>#}
-                </div>
-            </div>
-            <div class="controls controls-row">
-                <div class="control-group">
-                    <div class="control-label">
-                        {{ form_label( form.description ) }}
-                    </div>
-                    <div class="controls">
-                        {{ form_widget( form.description, { 'attr': { 'class': 'input-xxlarge' }}) }}
-                        {{ form_errors( form.description ) }}
+                    <div class="control-group">
+                        <div class="control-label">
+                            {{ form_label( form.description ) }}
+                        </div>
+                        <div class="controls">
+                            {{ form_widget( form.description, { 'attr': { 'class': 'input-xxlarge' }}) }}
+                            {{ form_errors( form.description ) }}
+                        </div>
+                    <div class="row input">
+                        {{ form_rest( form ) }}
                     </div>
                 </div>
-                <div class="controls">
-                    {{ form_rest( form ) }}
+                <div class="row submit">
+                    <button type="submit" class="btn btn-primary btn-small">
+                        Save <i class="icon-ok icon-white"></i>
+                    </button>
+                {% if section.form %}
+                    <a class="btn btn-primary btn-small"
+                        href="{{ path( 'audit_form_edit', { 'form_id': section.form.id } ) }}">
+                         Cancel <i class="icon-remove icon-white"></i>
+                    </a>
+                {% endif %}
+                {% if edit == true %}
+                    <a class="btn btn-primary btn-small"
+                       href="{{ path( 'audit_section_delete', { 'section_id': section.id } ) }}">
+                        Delete <i class="icon-trash icon-white"></i>
+                    </a>
+                {% endif %}
                 </div>
             </div>
         </form>

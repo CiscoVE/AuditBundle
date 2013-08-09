@@ -11,26 +11,9 @@
 
 {% block pagecontent %}
 <div class="container">
-    <div class="span11">
+    <div class="span10">
         <form class="form-horizontal" method="POST" action="">
-            <div class="pull-right">
-                <button type="submit" class="btn btn-mini">
-                    Save Field <i class="icon-ok"></i>
-                </button>
-                {% if field.section.id is defined %}
-                    <a class="btn btn-mini"
-                        href="{{ path( 'audit_section_edit', { 'section_id': field.section.id } ) }}">
-                         Cancel <i class="icon-remove"></i>
-                    </a>
-                {% endif %}
-                {% if edit == true %}
-                    <a class="btn btn-mini"
-                        href="{{ path( 'audit_field_delete', { 'field_id': field.id } ) }}">
-                         Delete Field <i class="icon-trash"></i>
-                    </a>
-                {% endif %}
-            </div>
-            <div class="controls controls-row">
+            <div class="audit-fieldset audit-fieldset-field">
                 <div class="control-group">
                     <div class="control-label">
                         {{ form_label( form.title ) }}
@@ -40,8 +23,6 @@
                         {{ form_errors( form.title ) }}
                     </div>
                 </div>
-            </div>
-            <div class="controls controls-row">
                 <div class="control-group">
                     <div class="control-label">
                         {{ form_label( form.section ) }}
@@ -51,8 +32,6 @@
                         {{ form_errors( form.section ) }}
                     </div>
                 </div>
-            </div>
-            <div class="controls controls-row">
                 <div class="control-group">
                     <div class="control-label">
                         {{ form_label( form.flag ) }}
@@ -62,8 +41,6 @@
                         {{ form_errors( form.flag ) }}
                     </div>
                 </div>
-            </div>
-            <div class="controls controls-row">
                 <div class="control-group">
                     <div class="control-label">
                         {{ form_label( form.weight ) }}
@@ -73,63 +50,69 @@
                         {{ form_errors( form.weight ) }}
                     </div>
                 </div>
-            </div>
-            <div class="controls controls-row">
+                <div class="divider"></div>
                 <div class="control-group">
                     <div class="control-label">
                         {{ form_label( form.description ) }}
                     </div>
                     <div class="controls">
-                        {{ form_widget( form.description, { 'attr': { 'class': 'input-xxlarge' }}) }}
+                        {{ form_widget( form.description ) }}
                         {{ form_errors( form.description ) }}
                     </div>
                 </div>
+                <div class="control-group">
+                    <div class="control-label">
+                        {{ form_label( form.answer_yes ) }}
+                    </div>
+                    <div class="controls">
+                        {{ form_widget( form.answer_yes ) }}
+                        {{ form_errors( form.answer_yes ) }}
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label">
+                        {{ form_label( form.answer_no ) }}
+                    </div>
+                    <div class="controls">
+                        {{ form_widget( form.answer_no ) }}
+                        {{ form_errors( form.answer_no ) }}
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label">
+                        {{ form_label( form.answer_acceptable ) }}
+                    </div>
+                    <div class="controls">
+                        {{ form_widget( form.answer_acceptable ) }}
+                        {{ form_errors( form.answer_acceptable ) }}
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label">
+                        {{ form_label( form.answer_not_applicable) }}
+                    </div>
+                    <div class="controls">
+                        {{ form_widget( form.answer_not_applicable ) }}
+                        {{ form_errors( form.answer_not_applicable ) }}
+                    </div>
+                </div>
             </div>
-            <div class="bs-docs-answers">
-                <div class="controls controls-row">
-                    <div class="control-group">
-                        <div class="control-label">
-                            {{ form_label( form.answer_yes ) }}
-                        </div>
-                        <div class="controls">
-                            {{ form_widget( form.answer_yes, { 'attr': {'class': 'input-xxlarge' }}) }}
-                            {{ form_errors( form.answer_yes ) }}
-                        </div>
-                    </div>
-                </div>
-                <div class="controls controls-row">
-                    <div class="control-group">
-                        <div class="control-label">
-                            {{ form_label( form.answer_no ) }}
-                        </div>
-                        <div class="controls">
-                            {{ form_widget( form.answer_no, { 'attr': { 'class': 'input-xxlarge' }}) }}
-                            {{ form_errors( form.answer_no ) }}
-                        </div>
-                    </div>
-                </div>
-                <div class="controls controls-row">
-                    <div class="control-group">
-                        <div class="control-label">
-                            {{ form_label( form.answer_acceptable ) }}
-                        </div>
-                        <div class="controls">
-                            {{ form_widget( form.answer_acceptable, { 'attr': {  'class': 'input-xxlarge' }}) }}
-                            {{ form_errors( form.answer_acceptable ) }}
-                        </div>
-                    </div>
-                </div>
-                <div class="controls controls-row">
-                    <div class="control-group">
-                        <div class="control-label">
-                            {{ form_label( form.answer_not_applicable) }}
-                        </div>
-                        <div class="controls">
-                            {{ form_widget( form.answer_not_applicable, { 'attr': {'class': 'input-xxlarge' }}) }}
-                            {{ form_errors( form.answer_not_applicable ) }}
-                        </div>
-                    </div>
-                </div>
+            <div class="row submit">
+                <button type="submit" class="btn btn-primary btn-small">
+                    Save <i class="icon-ok icon-white"></i>
+                </button>
+                {% if field.section.id is defined %}
+                    <a class="btn btn-primary btn-small"
+                        href="{{ path( 'audit_section_edit', { 'section_id': field.section.id } ) }}">
+                         Cancel <i class="icon-remove icon-white"></i>
+                    </a>
+                {% endif %}
+                {% if edit == true %}
+                    <a class="btn btn-primary btn-small"
+                        href="{{ path( 'audit_field_delete', { 'field_id': field.id } ) }}">
+                         Delete <i class="icon-trash icon-white"></i>
+                    </a>
+                {% endif %}
             </div>
         </form>
     <script type="text/javascript">

@@ -28,33 +28,45 @@ class FieldType extends AbstractType
         ));
         $builder->add( 'title', 'textarea', array(
             'attr'          => array(
-                'placeholder'   => 'Title for this field'
+                'placeholder'   => 'Title for this field',
+                'class'         => 'input-xxlarge',
+                'rows'          => 1,
             ),
             'required'      => true,
         ));
-        $builder->add( 'section', 'audit_section', array(
-            'data' => ( isset($options['section']) ) ? $options['section']->getId() : null,
+        $builder->add( 'section', 'entity', array(
+            'empty_data'    => '---',
+            'required'      => false,
+            'class'         => 'CiscoSystemsAuditBundle:Section',
+            'property'      => 'title',
+            'empty_value'   => '(Choose a Section)',
+            'attr'          => array(
+                'class'         => 'input-xlarge',
+            ),
         ));
         $builder->add( 'weight', 'integer', array(
             'attr'          => array(
                 'title'                 => self::TOOLTIPWEIGHT,
 //                'data-original-title'   => self::TOOLTIPWEIGHT,
-                'data-toggle'           => 'tooltip',
+                'data-toggle'   => 'tooltip',
+                'class'         => 'input-mini',
             ),
         ));
         $builder->add( 'flag', 'checkbox', array(
             'label'         => 'Should this field raise a flag?',
             'required'      => false,
             'attr'          => array(
-                'class'                 => 'cisco-audit-flag-ckbox',
-                'title'                 => self::TOOLTIPFLAG,
+                'class'         => 'cisco-audit-flag-ckbox',
+                'title'         => self::TOOLTIPFLAG,
 //                'data-original-title'   => self::TOOLTIPFLAG,
-                'data-toggle'           => 'tooltip',
+                'data-toggle'   => 'tooltip',
             ),
         ));
         $builder->add( 'description', 'textarea', array(
             'attr'          => array(
-                'placeholder'   => 'Description for the field. This should be as clear as possible'
+                'placeholder'   => 'Description for the field. This should be as clear as possible',
+                'class'         => 'input-xxlarge',
+                'rows'          => 5,
             ),
         ));
         $builder->add( self::SCORE_YES, 'textarea', array(
@@ -62,7 +74,9 @@ class FieldType extends AbstractType
             'required'      => false,
             'data'          => isset( $scores[Score::YES] ) ? $scores[Score::YES] : '',
             'attr'          => array(
-                'placeholder'            => 'Correct answer definition',
+                'placeholder'   => 'Correct answer definition',
+                'class'         => 'input-xxlarge',
+                'rows'          => 2,
             ),
         ));
         $builder->add( self::SCORE_NO, 'textarea', array(
@@ -70,7 +84,9 @@ class FieldType extends AbstractType
             'required'      => false,
             'data'          => isset( $scores[Score::NO] ) ? $scores[Score::NO] : '',
             'attr'          => array(
-                'placeholder'           => 'Incorrect answer definition',
+                'placeholder'   => 'Incorrect answer definition',
+                'class'         => 'input-xxlarge',
+                'rows'          => 2,
             ),
         ));
         $builder->add( self::SCORE_ACCEPTABLE, 'textarea', array(
@@ -81,7 +97,9 @@ class FieldType extends AbstractType
                 'placeholder'           => 'Partially correct answer definition',
                 'title'                 => self::TOOLTIPOPTIONAL,
 //                'data-original-title'   => self::TOOLTIPOPTIONAL,
-                'data-toggle'           => 'tooltip',
+                'data-toggle'   => 'tooltip',
+                'class'         => 'input-xxlarge',
+                'rows'          => 2,
             ),
             'label'         => 'Acceptable',
         ));
@@ -90,10 +108,12 @@ class FieldType extends AbstractType
             'required'      => false,
             'data'          => isset( $scores[Score::NOT_APPLICABLE] ) ? $scores[Score::NOT_APPLICABLE] : '',
             'attr'          => array(
-                'placeholder'           => 'Answer not applicable',
-                'title'                 => self::TOOLTIPOPTIONAL,
+                'placeholder'     => 'Answer not applicable',
+                'title'           => self::TOOLTIPOPTIONAL,
 //                'data-original-title'   => self::TOOLTIPOPTIONAL,
-                'data-toggle'           => 'tooltip',
+                'data-toggle'   => 'tooltip',
+                'class'         => 'input-xxlarge',
+                'rows'          => 2,
             ),
             'label'         => 'N/A',
         ));
