@@ -270,6 +270,21 @@ class Section extends Element
         return $forms;
     }
 
+    public function getForm()
+    {
+        $section = $this;
+
+        $relations = $this->formRelations->filter( function( $relation ) use ( $section )
+        {
+            if( $relation->getSection() === $section && $relation->getArchived() === FALSE )
+            {
+                return $relation;
+            }
+        });
+
+        return $relations->first()->getForm();
+    }
+
     /**
      * Add a form
      *

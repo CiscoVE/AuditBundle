@@ -114,6 +114,32 @@ class SectionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @covers CiscoSystems\AuditBundle\Entity\Section::getForm
+     */
+    public function testForm()
+    {
+        $forms = array();
+        $formSections = array();
+        for( $i = 1; $i < 4; $i++ )
+        {
+            $form = new Form(
+                'title for form ' . $i,
+                'description for form ' . $i
+            );
+            $forms[] = $form;
+            $formSections[] = new FormSection( $form, $this->section );
+        }
+        $relations = new ArrayCollection( $formSections );
+        $section = new Section( 'new section', 'new description' );
+        $section->addForm( $forms[2] );
+        $relations->add( new FormSection( $forms[2], $section ));
+        $this->section->setFormRelations( $relations );
+
+        $this->assertSame( $forms[2], $section->getForm() );
+        $this->assertEquals( FALSE, $section->getFormRelation( $forms[2] )->getArchived() );
+    }
+
+    /**
      * @covers CiscoSystems\AuditBundle\Entity\Section::addForm
      */
     public function testAddForm()
