@@ -36,22 +36,21 @@ class SectionRepository extends SortableRepository
      *
      * @return array Array of Entities Section
      */
-    public function getSectionOptions()
+    public function getSectionOptions( $form = NULL )
     {
         $array = array();
-        foreach( $this->getSections() as $set )
+        $sections = $this->getSections( $form );
+        foreach( $sections as $section )
         {
-            if( !$set->getForm() )
+            if( FALSE !== $section->getForm() )
             {
-                continue;
+                if( !$section->getForm() ) { continue; }
+                if( !array_key_exists( $section->getForm()->getTitle(), $array ))
+                {
+                    $array[$section->getForm()->getTitle()] = array();
+                }
+                $array[$section->getForm()->getTitle()][$section->getId()] = $section;
             }
-
-            if( !array_key_exists( $set->getForm()->getTitle(), $array ))
-            {
-                $array[$set->getForm()->getTitle()] = array();
-            }
-
-            $array[$set->getForm()->getTitle()][$set->getId()] = $set;
         }
 
         return $array;

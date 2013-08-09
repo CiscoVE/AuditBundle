@@ -282,7 +282,7 @@ class Section extends Element
             }
         });
 
-        return $relations->first()->getForm();
+        return ( $relations->count() > 0 ) ? $relations->first()->getForm() : FALSE ;
     }
 
     /**

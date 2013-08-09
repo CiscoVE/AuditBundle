@@ -34,20 +34,23 @@ class FieldType extends AbstractType
             ),
             'required'      => true,
         ));
-        $builder->add( 'section', 'entity', array(
-            'empty_data'    => '---',
-            'required'      => false,
-            'class'         => 'CiscoSystemsAuditBundle:Section',
-            'property'      => 'title',
-            'empty_value'   => '(Choose a Section)',
-            'attr'          => array(
-                'class'         => 'input-xlarge',
-            ),
+        $builder->add( 'section', 'audit_section', array(
+            'data' => ( isset($options['section']) ) ? $options['section']->getId() : null,
         ));
+//        $builder->add( 'section', 'entity', array(
+//            'empty_data'    => '---',
+//            'required'      => false,
+//            'class'         => 'CiscoSystemsAuditBundle:Section',
+//            'property'      => 'title',
+//            'empty_value'   => '(Choose a Section)',
+//            'group_by'      => 'section.form',
+//            'attr'          => array(
+//                'class'         => 'input-xlarge',
+//            ),
+//        ));
         $builder->add( 'weight', 'integer', array(
             'attr'          => array(
                 'title'                 => self::TOOLTIPWEIGHT,
-//                'data-original-title'   => self::TOOLTIPWEIGHT,
                 'data-toggle'   => 'tooltip',
                 'class'         => 'input-mini',
             ),
@@ -58,7 +61,6 @@ class FieldType extends AbstractType
             'attr'          => array(
                 'class'         => 'cisco-audit-flag-ckbox',
                 'title'         => self::TOOLTIPFLAG,
-//                'data-original-title'   => self::TOOLTIPFLAG,
                 'data-toggle'   => 'tooltip',
             ),
         ));

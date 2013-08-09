@@ -34,21 +34,9 @@ class SectionsType extends AbstractType
         ));
     }
 
-    public function getSections( $auditform = null )
+    public function getSections( $form = null )
     {
-        $array = array();
-
-        foreach( $this->repository->getSections( $auditform ) as $set )
-        {
-            if( !$set->getForm() ) { continue; }
-            if( !array_key_exists( $set->getForm()->getTitle(), $array ))
-            {
-                $array[$set->getForm()->getTitle()] = array();
-            }
-            $array[$set->getForm()->getTitle()][$set->getId()] = $set;
-        }
-
-        return $array;
+        return $this->repository->getSectionOptions( $form );
     }
 
     public function getParent()
