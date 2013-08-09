@@ -22,7 +22,7 @@ class FieldType extends AbstractType
 
     public function buildForm( FormBuilderInterface $builder, array $options )
     {
-        $scores = $options['data']->getScores();
+        $choices = $options['data']->getchoices();
         $builder->add( 'id', 'hidden', array(
             'mapped'        => false
         ));
@@ -74,7 +74,7 @@ class FieldType extends AbstractType
         $builder->add( self::SCORE_YES, 'textarea', array(
             'mapped'        => false,
             'required'      => false,
-            'data'          => isset( $scores[Score::YES] ) ? $scores[Score::YES] : '',
+            'data'          => isset( $choices[Score::YES] ) ? $choices[Score::YES] : '',
             'attr'          => array(
                 'placeholder'   => 'Correct answer definition',
                 'class'         => 'input-xxlarge',
@@ -84,7 +84,7 @@ class FieldType extends AbstractType
         $builder->add( self::SCORE_NO, 'textarea', array(
             'mapped'        => false,
             'required'      => false,
-            'data'          => isset( $scores[Score::NO] ) ? $scores[Score::NO] : '',
+            'data'          => isset( $choices[Score::NO] ) ? $choices[Score::NO] : '',
             'attr'          => array(
                 'placeholder'   => 'Incorrect answer definition',
                 'class'         => 'input-xxlarge',
@@ -94,11 +94,10 @@ class FieldType extends AbstractType
         $builder->add( self::SCORE_ACCEPTABLE, 'textarea', array(
             'mapped'        => false,
             'required'      => false,
-            'data'          => isset( $scores[Score::ACCEPTABLE] ) ? $scores[Score::ACCEPTABLE] : '',
+            'data'          => isset( $choices[Score::ACCEPTABLE] ) ? $choices[Score::ACCEPTABLE] : '',
             'attr'          => array(
                 'placeholder'           => 'Partially correct answer definition',
                 'title'                 => self::TOOLTIPOPTIONAL,
-//                'data-original-title'   => self::TOOLTIPOPTIONAL,
                 'data-toggle'   => 'tooltip',
                 'class'         => 'input-xxlarge',
                 'rows'          => 2,
@@ -108,11 +107,10 @@ class FieldType extends AbstractType
         $builder->add( self::SCORE_NOT_APPLICABLE, 'textarea', array(
             'mapped'        => false,
             'required'      => false,
-            'data'          => isset( $scores[Score::NOT_APPLICABLE] ) ? $scores[Score::NOT_APPLICABLE] : '',
+            'data'          => isset( $choices[Score::NOT_APPLICABLE] ) ? $choices[Score::NOT_APPLICABLE] : '',
             'attr'          => array(
                 'placeholder'     => 'Answer not applicable',
                 'title'           => self::TOOLTIPOPTIONAL,
-//                'data-original-title'   => self::TOOLTIPOPTIONAL,
                 'data-toggle'   => 'tooltip',
                 'class'         => 'input-xxlarge',
                 'rows'          => 2,
