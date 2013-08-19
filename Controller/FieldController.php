@@ -7,7 +7,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use CiscoSystems\AuditBundle\Entity\Field;
 use CiscoSystems\AuditBundle\Entity\Section;
-use CiscoSystems\AuditBundle\Entity\SectionField;
 use CiscoSystems\AuditBundle\Form\Type\FieldType;
 use CiscoSystems\AuditBundle\Entity\Score;
 use CiscoSystems\AuditBundle\Form\Type\SectionType;
@@ -42,14 +41,14 @@ class FieldController extends Controller
         $edit = false;
         $em = $this->getDoctrine()->getEntityManager();
         $field = new Field();
-        if ( $id = $request->get( 'field_id' ))
+        if ( '' !== $fid = $request->get( 'field_id' ))
         {
             $edit = true;
             $field = $em->getRepository( 'CiscoSystemsAuditBundle:Field' )
-                        ->find( $id );
+                        ->find( $fid );
             if( !$field )
             {
-                throw $this->createNotFoundException( 'No field was found for field id #' . $id . '.' );
+                throw $this->createNotFoundException( 'No field was found for id #' . $fid . '.' );
             }
         }
         $section = new Section();
@@ -70,6 +69,7 @@ class FieldController extends Controller
                 $flaggedField = $field->getFlag();
                 $allowMultipleAnswer = $field->getSection()->getForm()->getAllowMultipleAnswer();
                 $this->mapScores( $field, $values, $flaggedField, $allowMultipleAnswer );
+                $em->persist( $field->getSection() );
                 $em->persist( $field );
                 $em->flush();
 

@@ -29,6 +29,12 @@ abstract class Relation
      */
     protected $archived;
 
+//    protected $form;
+//
+//    protected $section;
+//
+//    protected $field;
+
     /**
      * @Gedmo\SortablePosition
      * @ORM\Column(name="position",type="integer")
@@ -72,5 +78,10 @@ abstract class Relation
     public function getType()
     {
         return 'relation';
+    }
+
+    public function __toString()
+    {
+        return $this->id . ' ' . $this->getType();
     }
 }

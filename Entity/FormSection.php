@@ -13,17 +13,16 @@ use CiscoSystems\AuditBundle\Entity\Relation;
 class FormSection extends Relation
 {
     /**
-     * @Gedmo\SortableGroup
      * @ORM\ManyToOne(targetEntity="CiscoSystems\AuditBundle\Entity\Form", inversedBy="sectionRelations")
      * @ORM\JoinColumn(name="form_id", referencedColumnName="id", nullable=true)
      */
-    private $form;
+    protected $form;
 
     /**
      * @ORM\ManyToOne(targetEntity="CiscoSystems\AuditBundle\Entity\Section", inversedBy="formRelations")
      * @ORM\JoinColumn(name="section_id", referencedColumnName="id", nullable=true)
      */
-    private $section;
+    protected $section;
 
     public function __construct( $form = NULL, $section = NULL, $archived = FALSE )
     {

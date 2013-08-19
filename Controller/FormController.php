@@ -133,37 +133,54 @@ class FormController extends Controller
             if ( null !== $section )
             {
                 $auditform->removeSection( $section );
+                $em->persist( $section );
                 $em->persist( $auditform );
                 $em->flush();
                 if ( $request->isXmlHttpRequest() )
                 {
-                    $sections = $sectionRep->findBy( array ( 'auditForm' => null ));
+//                    echo "<div>" . "foo" . "</div>"; die();
+                    $sections = $sectionRep->getDetachedSections();
+//                    $sections = $sectionRep->findBy( array ( 'auditForm' => null ));
                     return $this->render( 'CiscoSystemsAuditBundle:Section:_ulist.html.twig', array(
                         'auditform'  => $auditform,
                         'usections'  => $sections,
                     ));
                 }
-                else return $this->redirect( $this->generateUrl( 'audit_form_edit', array (
-                    'id' => $auditform->getId() )
-                ));
+                else
+                {
+                    return $this->redirect( $this->generateUrl( 'audit_form_edit', array (
+                            'form_id' => $auditform->getId() )
+                    ));
+                }
             }
             throw $this->createNotFoundException( 'Section does not exist' );
         }
         throw $this->createNotFoundException( 'Form does not exist' );
     }
 
+    /**
+     * Add section to the form and either redirect to the edit form template or
+     * send the section _load template
+     *
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @return template|render
+     *
+     * @throws NotFoundException
+     */
     public function addAction( Request $request )
     {
         $em = $this->getDoctrine()->getEntityManager();
         $auditform = $em->getRepository( 'CiscoSystemsAuditBundle:Form' )
                         ->find( $request->get( 'form_id' ));
-        if ( null != $auditform )
+        if ( null !== $auditform )
         {
             $section = $em->getRepository( 'CiscoSystemsAuditBundle:Section' )
                           ->find( $request->get( 'section_id' ));
-            if ( null != $section )
+            if ( null !== $section )
             {
                 $auditform->addSection( $section );
+                $em->persist( $section );
                 $em->persist( $auditform );
                 $em->flush();
                 if ( $request->isXmlHttpRequest() )
@@ -176,7 +193,7 @@ class FormController extends Controller
                 else
                 {
                     return $this->redirect( $this->generateUrl( 'audit_form_edit', array (
-                        'id' => $auditform->getId() )
+                        'form_id' => $auditform->getId() )
                     ));
                 }
             }

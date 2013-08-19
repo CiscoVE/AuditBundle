@@ -45,7 +45,7 @@ class Form extends Element
     /**
      * @var DoctrineCommon\Collections\ArrayCollection sections that belong to this form
      *
-     * @ORM\OneToMany(targetEntity="CiscoSystems\AuditBundle\Entity\FormSection", mappedBy="form")
+     * @ORM\OneToMany(targetEntity="CiscoSystems\AuditBundle\Entity\FormSection", mappedBy="form", cascade={"persist"})
      */
     protected $sectionRelations;
 

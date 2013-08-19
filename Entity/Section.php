@@ -16,12 +16,12 @@ use CiscoSystems\AuditBundle\Entity\SectionField;
 class Section extends Element
 {
     /**
-     * @ORM\OneToMany(targetEntity="CiscoSystems\AuditBundle\Entity\FormSection", mappedBy="section")
+     * @ORM\OneToMany(targetEntity="CiscoSystems\AuditBundle\Entity\FormSection", mappedBy="section", cascade={"persist"})
      */
     protected $formRelations;
 
     /**
-     * @ORM\OneToMany(targetEntity="CiscoSystems\AuditBundle\Entity\SectionField", mappedBy="section")
+     * @ORM\OneToMany(targetEntity="CiscoSystems\AuditBundle\Entity\SectionField", mappedBy="section", cascade={"persist"})
      */
     protected $fieldRelations;
 

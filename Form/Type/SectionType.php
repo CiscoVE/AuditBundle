@@ -34,7 +34,7 @@ class SectionType extends AbstractType
         ));
         $builder->add( 'description', 'textarea', array(
             'attr' => array(
-                'placeholder'   => 'Section\'s description. This should be as clear as possible',
+                'placeholder'   => 'Description of the Section. This should be as clear as possible',
                 'class'         => 'input-xxlarge',
                 'rows'          => 5,
             ),

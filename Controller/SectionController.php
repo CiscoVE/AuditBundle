@@ -29,21 +29,26 @@ class SectionController extends Controller
         $edit = false;
         $em = $this->getDoctrine()->getEntityManager();
         $section = new Section();
-        $relation = new FormSection();
-        if ( $request->get( 'section_id' ) )
+//        $relation = new FormSection();
+        if ( '' !== $sid = $request->get( 'section_id' ) )
         {
             $edit = true;
             $section = $em->getRepository( 'CiscoSystemsAuditBundle:Section' )
-                          ->find( $request->get( 'section_id' ));
+                          ->find( $sid );
+            if( !$section )
+            {
+                throw $this->createNotFoundException( 'No field was found for id #' . $sid . '.' );
+            }
         }
         $auditForm = null;
         if( $request->get( 'form_id' ) )
         {
             $auditForm = $em->getRepository( 'CiscoSystemsAuditBundle:Form' )
                             ->find( $request->get( 'form_id' ) );
-            $relation->setForm( $auditForm );
-            $relation->setSection( $section );
-            $auditForm->AddSectionRelation( $relation );
+//            $relation->setForm( $auditForm );
+//            $relation->setSection( $section );
+//            $auditForm->AddSectionRelation( $relation );
+            $auditForm->addSection( $section );
         }
         $form = $this->createForm( new SectionType(), $section );
         if ( null !== $request->get( $form->getName() ))
@@ -51,7 +56,8 @@ class SectionController extends Controller
             $form->bind( $request );
             if ( $form->isValid() )
             {
-                $em->persist( $relation );
+//                $em->persist( $relation );
+                $em->persist( $auditForm );
                 $em->persist( $section );
                 $em->flush();
 
