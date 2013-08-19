@@ -337,7 +337,7 @@ class Field extends Element
            }
         });
 
-        return $relations->first()->getSection();
+        return $relations->count() > 0 ? $relations->first()->getSection() : NULL ;
     }
 
 

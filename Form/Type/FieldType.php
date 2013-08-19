@@ -36,6 +36,9 @@ class FieldType extends AbstractType
         ));
         $builder->add( 'section', 'audit_section', array(
             'data' => ( isset($options['section']) ) ? $options['section']->getId() : null,
+            'attr'          => array(
+                'class'         => 'input-xlarge',
+            ),
         ));
 //        $builder->add( 'section', 'entity', array(
 //            'empty_data'    => '---',

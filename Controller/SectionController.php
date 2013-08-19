@@ -45,7 +45,7 @@ class SectionController extends Controller
             $relation->setSection( $section );
             $auditForm->AddSectionRelation( $relation );
         }
-        $form = $this->createForm( new SectionType(), $section);
+        $form = $this->createForm( new SectionType(), $section );
         if ( null !== $request->get( $form->getName() ))
         {
             $form->bind( $request );
