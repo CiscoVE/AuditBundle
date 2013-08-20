@@ -59,7 +59,7 @@
             </div>
             <div class="pull-right">
                 <button type="submit" class="btn btn-primary btn-small">
-                    Save Form <i class="icon-ok icon-white"></i>
+                    Save <i class="icon-ok icon-white"></i>
                 </button>
                 <a class="btn btn-primary btn-small"
                    href="{{ path( 'audit_forms' ) }}">
@@ -68,12 +68,11 @@
                 {% if edit == true %}
                 <a class="btn btn-primary btn-small"
                    href="{{ path( 'audit_form_delete', { 'form_id' : auditform.id } ) }}">
-                    Delete Form <i class="icon-trash icon-white"></i>
+                    Delete <i class="icon-trash icon-white"></i>
                 </a>
                 {% endif %}
             </div>
         </form>
-                {{ ladybug_dump( auditform.sections ) }}
 
         <table class="table table-condensed table-hover cisco-audit-table">
             <thead>
@@ -86,7 +85,7 @@
                 </tr>
             </thead>
             <tbody>
-            {% for section in auditform.sections %}
+            {% for section in auditform | sections( false ) %}
                 {% include 'CiscoSystemsAuditBundle:Section:_load.html.twig' %}
             {% else %}
                 <tr class="warning-empty">

@@ -35,6 +35,34 @@ class FieldRepository extends SortableRepository
         return $array['flagLabel'];
     }
 
+    public function qbFields( $section = NULL, $archived = NULL )
+    {
+        $qb = $this->createQueryBuilder( 'f' );
+        $qb->join( 'CiscoSystemsAuditBundle:SectionField', 'r', 'with', 'f = r.field' );
+        $and = $qb->expr()->andX();
+        if( NULL !== $section )
+        {
+            $qb->join( 'CiscoSystemsAuditBundle:Section', 's', 'with', 's = r.section' );
+            $and->add( $qb->expr()->eq( 's', ':section' ));
+            $qb->setParameter( 'section', $section );
+        }
+        if( NULL !== $archived )
+        {
+            $and->add( $qb->expr()->eq( 'r.archived', ':archived' ));
+            $qb->setParameter( 'archived', $archived );
+        }
+        $qb->add( 'where', $and );
+
+        return $qb;
+    }
+
+    public function getFields( $section = NULL, $archived = NULL )
+    {
+        return $this->qbFields( $section, $archived )
+                    ->getQuery()
+                    ->getResult();
+    }
+
     public function qbArchived( $archived )
     {
         return $this->createQueryBuilder( 'f' )
@@ -62,6 +90,45 @@ class FieldRepository extends SortableRepository
         $fields = $this->qbAttached()
                        ->getQuery()
                        ->getResult();
+
+        return $this->qbDetached( $fields )
+                    ->getQuery()
+                    ->getResult();
+    }
+
+    public function getArchivedFields()
+    {
+        $fields = $this->qbArchived( FALSE )
+                       ->getQuery()
+                       ->getResult();
+
+        return $this->qbDetached( $fields )
+                    ->getQuery()
+                    ->getResult();
+    }
+
+    /**
+     * get all fields that are not included in relation section - field AND
+     * all fields that are in relation section - field AND for which the
+     * relation.archived === TRUE
+     *
+     * @param type $section
+     * @return type
+     *
+     * SELECT *
+     * FROM  `audit__relation` r
+     * JOIN  `audit__section_field` sf ON r.id = sf.id
+     * JOIN  `audit__field` f ON sf.field_id = f.id
+     * JOIN  `audit__element` e ON f.id = e.id
+     * LIMIT 0 , 30
+     *
+     */
+
+    public function getUnAssignedFields( $section )
+    {
+        $fields = ( count( $this->getFields( $section, FALSE ) > 0 )) ?
+                  $this->getFields( $section, FALSE ) :
+                  $this->getFields( $section ) ;
 
         return $this->qbDetached( $fields )
                     ->getQuery()

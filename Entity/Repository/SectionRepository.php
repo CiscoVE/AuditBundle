@@ -123,7 +123,9 @@ class SectionRepository extends SortableRepository
      */
     public function getUnAssignedSections( $form )
     {
-        $sections = $this->getSections( $form, FALSE );
+        $sections = ( count( $this->getSections( $form, FALSE ) > 0 )) ?
+                    $this->getSections( $form, FALSE ) :
+                    $this->getSections( $form ) ;
 
         return $this->qbDetached( $sections )
                     ->getQuery()

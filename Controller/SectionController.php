@@ -66,8 +66,11 @@ class SectionController extends Controller
                 )));
             }
         }
+
         $uFields = $em->getRepository( 'CiscoSystemsAuditBundle:Field' )
-                      ->getDetachedFields();
+                      ->getArchivedFields();
+//                      ->getDetachedFields();
+//                      ->getUnAssignedFields( $section );
 
         /**
          * Performed for ajax request; Planned to be used with a modal box
@@ -176,7 +179,7 @@ class SectionController extends Controller
                 else
                 {
                     return $this->redirect( $this->generateUrl( 'audit_section_edit', array (
-                        'id' => $section->getId() )
+                        'section_id' => $section->getId() )
                     ));
                 }
             }
@@ -219,7 +222,7 @@ class SectionController extends Controller
                 else
                 {
                     return $this->redirect( $this->generateUrl( 'audit_section_edit', array (
-                        'id' => $section->getId() )
+                        'section_id' => $section->getId() )
                     ));
                 }
             }

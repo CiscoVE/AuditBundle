@@ -1,13 +1,13 @@
 <div class="cisco-audit-orphan-field">
-    <a class="btn btn-mini" 
+    <a class="btn btn-primary btn-small"
        href="{{ path( 'audit_section_new_field', { 'section_id' : section.id } ) }}">
         Create: new Field <i class="icon-plus"></i>
     </a>
 {% if ufields is not empty and section.id is not null %}
     {% for field in ufields %}
-    <a class="btn btn-mini cisco-audit-field-add"
+    <a class="btn btn-primary btn-small cisco-audit-field-add"
        href="{{ path( 'audit_section_add_field', { 'section_id' : section.id ,'field_id': field.id } ) }}">
-        Add: {{ field.title }} <i class="icon-plus"></i> 
+        Add: {{ field.title }} <i class="icon-plus"></i>
     </a>
     {% endfor %}
 {% endif %}

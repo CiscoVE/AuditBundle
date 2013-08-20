@@ -136,6 +136,12 @@ class Section extends Element
 
             return $this;
         }
+        elseif( TRUE === $this->getFieldRelation( $field )->getArchived() )
+        {
+            $this->getFieldRelation( $field )->setArchived( FALSE );
+
+            return $this;
+        }
 
         return FALSE;
     }
@@ -297,6 +303,12 @@ class Section extends Element
         if( FALSE === array_search( $form, $this->getForms() ))
         {
             $this->addFormRelation( new FormSection( $form, $this ));
+
+            return $this;
+        }
+        elseif( TRUE === $this->getFormRelation( $form )->getArchived() )
+        {
+            $this->getFormRelation( $form )->setArchived( FALSE );
 
             return $this;
         }

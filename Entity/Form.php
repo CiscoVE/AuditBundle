@@ -343,6 +343,13 @@ class Form extends Element
         return FALSE;
     }
 
+    /**
+     * Remove a section
+     *
+     * @param \CiscoSystems\AuditBundle\Entity\Section $section
+     *
+     * @return \CiscoSystems\AuditBundle\Entity\Form|boolean
+     */
     public function removeSection( \CiscoSystems\AuditBundle\Entity\Section $section )
     {
         if( FALSE !== array_search( $section, $this->getSections() ))
