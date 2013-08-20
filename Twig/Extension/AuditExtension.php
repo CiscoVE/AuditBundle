@@ -42,7 +42,9 @@ class AuditExtension extends Twig_Extension
     {
         return array(
             'position'              => new \Twig_Filter_Method( $this, 'getPosition' ),
-//            'position'              => new Twig_SimpleFilter( 'position', array( $this, 'getPosition' )),
+            'archived'              => new \Twig_Filter_Method( $this, 'getArchived' ),
+            'sections'              => new \Twig_Filter_Method( $this, 'getSections' ),
+            'fields'                => new \Twig_Filter_Method( $this, 'getFields' ),
         );
     }
 
@@ -85,4 +87,18 @@ class AuditExtension extends Twig_Extension
         }
     }
 
+    public function getArchived( $relation )
+    {
+        return $relation->getArchived();
+    }
+
+    public function getSections( $form, $archived )
+    {
+        return $form->getSections( $archived );
+    }
+
+    public function getFields( $section, $archived )
+    {
+        return $section->getFields( $archived );
+    }
 }

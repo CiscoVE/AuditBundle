@@ -1,6 +1,6 @@
 <?php
 
-namespace CiscoSystems\AuditBundle\Entity\Repository;
+namespace CiscoSystems\AuditBundle\Tests\Entity\Repository;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 

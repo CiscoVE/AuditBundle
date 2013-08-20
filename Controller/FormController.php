@@ -84,7 +84,7 @@ class FormController extends Controller
             }
         }
         $uSections = $em->getRepository( 'CiscoSystemsAuditBundle:Section' )
-                        ->getDetachedSections();
+                        ->getUnAssignedSections( $auditform );
 
         if ( $request->isXmlHttpRequest())
         {
@@ -138,9 +138,7 @@ class FormController extends Controller
                 $em->flush();
                 if ( $request->isXmlHttpRequest() )
                 {
-//                    echo "<div>" . "foo" . "</div>"; die();
-                    $sections = $sectionRep->getDetachedSections();
-//                    $sections = $sectionRep->findBy( array ( 'auditForm' => null ));
+                    $sections = $sectionRep->getUnAssignedSections( $auditform );
                     return $this->render( 'CiscoSystemsAuditBundle:Section:_ulist.html.twig', array(
                         'auditform'  => $auditform,
                         'usections'  => $sections,

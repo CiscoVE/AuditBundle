@@ -316,11 +316,26 @@ class Form extends Element
         return $sections;
     }
 
+    /**
+     * Add a single Section to the current form. If the section is already
+     * assigned but the relation form - section is set to archived = true, then
+     * reset the relation to false.
+     *
+     * @param \CiscoSystems\AuditBundle\Entity\Section $section
+     *
+     * @return \CiscoSystems\AuditBundle\Entity\Form|boolean
+     */
     public function addSection( \CiscoSystems\AuditBundle\Entity\Section $section )
     {
         if( FALSE === array_search( $section, $this->getSections() ))
         {
             $this->addSectionRelation( new FormSection( $this, $section ) );
+
+            return $this;
+        }
+        elseif( TRUE === $this->getSectionRelation( $section )->getArchived() )
+        {
+            $this->getSectionRelation( $section )->setArchived( FALSE );
 
             return $this;
         }

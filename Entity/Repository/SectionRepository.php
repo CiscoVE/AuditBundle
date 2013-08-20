@@ -9,27 +9,6 @@ use Gedmo\Sortable\Entity\Repository\SortableRepository;
  */
 class SectionRepository extends SortableRepository
 {
-    public function qbSections( $form = NULL )
-    {
-        $qb = $this->createQueryBuilder( 's' );
-        if( $form !== null )
-        {
-            $qb->join( 'CiscoSystemsAuditBundle:FormSection', 'r', 'with', 's = r.section' )
-               ->join( 'CiscoSystemsAuditBundle:Form', 'f', 'with', 'f = r.form' )
-               ->add( 'where', $qb->expr()->eq( 'f', ':form' ))
-               ->setParameter( 'form', $form );
-        }
-
-        return $qb;
-    }
-
-    public function getSections( $form = NULL )
-    {
-        return $this->qbSections( $form )
-                    ->getQuery()
-                    ->getResult();
-    }
-
     /**
      * Return an array of sections grouped by forms
      * see http://stackoverflow.com/questions/13344915/entity-mapping-in-a-symfony2-choice-field-with-optgroup
@@ -54,6 +33,34 @@ class SectionRepository extends SortableRepository
         }
 
         return $array;
+    }
+
+    public function qbSections( $form = NULL, $archived = NULL )
+    {
+        $qb = $this->createQueryBuilder( 's' );
+        $qb->join( 'CiscoSystemsAuditBundle:FormSection', 'r', 'with', 's = r.section' );
+        $and = $qb->expr()->andX();
+        if( NULL !== $form )
+        {
+            $qb->join( 'CiscoSystemsAuditBundle:Form', 'f', 'with', 'f = r.form' );
+            $and->add( $qb->expr()->eq( 'f', ':form' ));
+            $qb->setParameter( 'form', $form );
+        }
+        if( NULL !== $archived )
+        {
+            $and->add( $qb->expr()->eq( 'r.archived', ':archived' ));
+            $qb->setParameter( 'archived', $archived );
+        }
+        $qb->add( 'where', $and );
+
+        return $qb;
+    }
+
+    public function getSections( $form = NULL, $archived = NULL )
+    {
+        return $this->qbSections( $form, $archived )
+                    ->getQuery()
+                    ->getResult();
     }
 
     public function qbArchived( $archived )
@@ -88,6 +95,35 @@ class SectionRepository extends SortableRepository
         $sections = $this->qbAttached()
                          ->getQuery()
                          ->getResult();
+
+        return $this->qbDetached( $sections )
+                    ->getQuery()
+                    ->getResult();
+    }
+
+    /**
+     * un-assigned sections:
+     *
+     * 1. get all sections
+     * 2. in there, find sections which are belonging to the current form
+     * 3. from these, remove the one for which the relation.archived === false
+     *
+     *
+     * Get all section for form_id = 1
+     *
+     * SELECT e.id AS section_id, e.title, f.id AS form_id, fs.id AS relation_id, r.archived
+     * FROM  `audit__form_section` fs
+     * JOIN  `audit__relation` r ON fs.id = r.id
+     * JOIN  `audit__form` f ON fs.form_id = f.id
+     * JOIN  `audit__section` s ON fs.section_id = s.id
+     * JOIN  `audit__element` e ON e.id = s.id
+     * WHERE fs.form_id =1
+     * LIMIT 0 , 30
+     *
+     */
+    public function getUnAssignedSections( $form )
+    {
+        $sections = $this->getSections( $form, FALSE );
 
         return $this->qbDetached( $sections )
                     ->getQuery()

@@ -66,6 +66,9 @@ class FieldController extends Controller
             $form->bind( $request );
             if ( $form->isValid() )
             {
+                echo "<div>foo</div>"; die;
+
+
                 $flaggedField = $field->getFlag();
                 $allowMultipleAnswer = $field->getSection()->getForm()->getAllowMultipleAnswer();
                 $this->mapScores( $field, $values, $flaggedField, $allowMultipleAnswer );
