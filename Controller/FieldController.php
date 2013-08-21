@@ -41,7 +41,8 @@ class FieldController extends Controller
         $edit = false;
         $em = $this->getDoctrine()->getEntityManager();
         $field = new Field();
-        if ( '' !== $fid = $request->get( 'field_id' ))
+        $fid = $request->get( 'field_id' );
+        if ( '' !== $fid && NULL !== $fid )
         {
             $edit = true;
             $field = $em->getRepository( 'CiscoSystemsAuditBundle:Field' )
@@ -56,7 +57,7 @@ class FieldController extends Controller
         {
             $section = $em->getRepository( 'CiscoSystemsAuditBundle:Section' )
                           ->find( $request->get( 'section_id' ));
-            $field->setSection( $section );
+            $field->addSection( $section );
         }
         $form = $this->createForm( new FieldType(), $field, array(
             'section' => $field->getSection(),

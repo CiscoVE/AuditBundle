@@ -171,6 +171,8 @@ class FormController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
         $auditform = $em->getRepository( 'CiscoSystemsAuditBundle:Form' )
                         ->find( $request->get( 'form_id' ));
+
+
         if ( null !== $auditform )
         {
             $section = $em->getRepository( 'CiscoSystemsAuditBundle:Section' )

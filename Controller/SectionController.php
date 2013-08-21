@@ -30,7 +30,8 @@ class SectionController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
         $section = new Section();
 //        $relation = new FormSection();
-        if ( '' !== $sid = $request->get( 'section_id' ) )
+        $sid = $request->get( 'section_id' );
+        if ( '' !== $sid && NULL !== $sid )
         {
             $edit = true;
             $section = $em->getRepository( 'CiscoSystemsAuditBundle:Section' )
@@ -49,6 +50,7 @@ class SectionController extends Controller
 //            $relation->setSection( $section );
 //            $auditForm->AddSectionRelation( $relation );
             $auditForm->addSection( $section );
+            if( NULL === $section->getId() ) $section->addForm( $auditForm );
         }
         $form = $this->createForm( new SectionType(), $section );
         if ( null !== $request->get( $form->getName() ))
