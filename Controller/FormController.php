@@ -183,7 +183,7 @@ class FormController extends Controller
             if ( null !== $section )
             {
                 $auditform->addSection( $section );
-//                $em->persist( $section );
+                $em->persist( $section );
                 $em->persist( $auditform );
                 $em->flush();
                 if ( $request->isXmlHttpRequest() )

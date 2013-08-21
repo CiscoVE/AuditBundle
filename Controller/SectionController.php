@@ -49,7 +49,7 @@ class SectionController extends Controller
 //            $relation->setForm( $auditForm );
 //            $relation->setSection( $section );
 //            $auditForm->AddSectionRelation( $relation );
-            $auditForm->addSection( $section );
+//            $auditForm->addSection( $section );
             if( NULL === $section->getId() ) $section->addForm( $auditForm );
         }
         $form = $this->createForm( new SectionType(), $section );
@@ -59,7 +59,7 @@ class SectionController extends Controller
             if ( $form->isValid() )
             {
 //                $em->persist( $relation );
-                $em->persist( $auditForm );
+//                $em->persist( $auditForm );
                 $em->persist( $section );
                 $em->flush();
 
