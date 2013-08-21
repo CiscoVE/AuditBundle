@@ -30,6 +30,28 @@ class Audit
     protected $form;
 
     /**
+     * TODO: In order to save the state of the form, lets build an array and
+     * persist it as it is in the database (as opposed to saving only the form itself)
+     *
+     * So when calling the audit->getForm(), it would return an array as follow:
+     *
+     *
+     * id => array(
+     *      id => array(
+     *          id => array( id, id )
+     *      )
+     * )
+     *
+     * Form: array(
+     *      id: $id, Sections: array(
+     *          id: $id, Fields: array( id: $id, ... )
+     *      )
+     * )
+     *
+     *
+     */
+
+    /**
      * @ORM\ManyToOne(targetEntity="CiscoSystems\AuditBundle\Model\ReferenceInterface")
      * @ORM\JoinColumn(name="reference_id",referencedColumnName="id")
      */

@@ -107,18 +107,19 @@ class FormController extends Controller
 
     public function deleteAction( Request $request )
     {
-        $em = $this->getDoctrine()->getEntityManager();
-        $repo = $em->getRepository( 'CiscoSystemsAuditBundle:Form' );
-        if ( null !== $auditform = $repo->find( $request->get( 'form_id' ) ))
-        {
-            $em->remove( $auditform );
-            $auditform->removeAllSection();
-            $auditform->removeAllAudit();
-            $em->flush();
 
-            return $this->redirect( $this->generateUrl( 'audit_forms' ));
-        }
-        throw $this->createNotFoundException( 'Form does not exist' );
+//        $em = $this->getDoctrine()->getEntityManager();
+//        $repo = $em->getRepository( 'CiscoSystemsAuditBundle:Form' );
+//        if ( null !== $auditform = $repo->find( $request->get( 'form_id' ) ))
+//        {
+//            $em->remove( $auditform );
+//            $auditform->removeAllSection();
+//            $auditform->removeAllAudit();
+//            $em->flush();
+//
+//            return $this->redirect( $this->generateUrl( 'audit_forms' ));
+//        }
+//        throw $this->createNotFoundException( 'Form does not exist' );
     }
 
     public function removeAction( Request $request )

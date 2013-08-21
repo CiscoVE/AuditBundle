@@ -126,23 +126,23 @@ class SectionController extends Controller
      */
     public function deleteAction( Request $request )
     {
-        $em = $this->getDoctrine()->getEntityManager();
-        $repo = $em->getRepository( 'CiscoSystemsAuditBundle:Section' );
-        if ( null !== $section = $repo->find( $request->get( 'section_id' ) ))
-        {
-//            $formRepo = $em->getRepository( 'CiscoSystemsAuditBundle:Form' );
-            $form = $section->getForm();
-            $id = $form->getId();
-            $section->setForm( null );
-            $section->removeAllField();
-            $em->remove( $section );
-            $em->flush();
-
-            return $this->redirect( $this->generateUrl( 'audit_form_edit', array(
-                'form_id'   => $id,
-            )));
-        }
-        throw $this->createNotFoundException( 'Section does not exist' );
+//        $em = $this->getDoctrine()->getEntityManager();
+//        $repo = $em->getRepository( 'CiscoSystemsAuditBundle:Section' );
+//        if ( null !== $section = $repo->find( $request->get( 'section_id' ) ))
+//        {
+////            $formRepo = $em->getRepository( 'CiscoSystemsAuditBundle:Form' );
+//            $form = $section->getForm();
+//            $id = $form->getId();
+//            $section->setForm( null );
+//            $section->removeAllField();
+//            $em->remove( $section );
+//            $em->flush();
+//
+//            return $this->redirect( $this->generateUrl( 'audit_form_edit', array(
+//                'form_id'   => $id,
+//            )));
+//        }
+//        throw $this->createNotFoundException( 'Section does not exist' );
     }
 
     /**
