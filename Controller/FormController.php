@@ -133,7 +133,12 @@ class FormController extends Controller
             if ( null !== $section )
             {
                 $auditform->removeSection( $section );
-                $em->persist( $section );
+//                $section->removeForm( $auditform );
+
+                echo "<div>"; echo "archived from form: " . $auditform->getSectionRelation( $section )->getArchived(); echo "</div>";
+                echo "<div>"; echo "archived from section: " . $section->getFormRelation( $auditform )->getArchived(); echo "</div>"; //die();
+
+//                $em->persist( $section );
                 $em->persist( $auditform );
                 $em->flush();
                 if ( $request->isXmlHttpRequest() )
@@ -171,8 +176,6 @@ class FormController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
         $auditform = $em->getRepository( 'CiscoSystemsAuditBundle:Form' )
                         ->find( $request->get( 'form_id' ));
-
-
         if ( null !== $auditform )
         {
             $section = $em->getRepository( 'CiscoSystemsAuditBundle:Section' )
@@ -180,7 +183,7 @@ class FormController extends Controller
             if ( null !== $section )
             {
                 $auditform->addSection( $section );
-                $em->persist( $section );
+//                $em->persist( $section );
                 $em->persist( $auditform );
                 $em->flush();
                 if ( $request->isXmlHttpRequest() )

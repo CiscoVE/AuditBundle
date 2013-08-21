@@ -45,21 +45,21 @@ class Form extends Element
     /**
      * @var DoctrineCommon\Collections\ArrayCollection sections that belong to this form
      *
-     * @ORM\OneToMany(targetEntity="CiscoSystems\AuditBundle\Entity\FormSection", mappedBy="form", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="CiscoSystems\AuditBundle\Entity\FormSection",mappedBy="form",cascade={"persist"})
      */
     protected $sectionRelations;
 
     /**
      * @var DoctrineCommon\Collections\ArrayCollection audits that are using this form
      *
-     * @ORM\OneToMany(targetEntity="CiscoSystems\AuditBundle\Entity\Audit", mappedBy="form")
+     * @ORM\OneToMany(targetEntity="CiscoSystems\AuditBundle\Entity\Audit",mappedBy="form")
      */
     protected $audits;
 
     /**
      * @var CiscoSystems\AuditBundle\Model\MetadataInterface metadata for this form
      *
-     * @ORM\OneToOne(targetEntity="CiscoSystems\AuditBundle\Model\MetadataInterface", mappedBy="form")
+     * @ORM\OneToOne(targetEntity="CiscoSystems\AuditBundle\Model\MetadataInterface",mappedBy="form")
      */
     protected $metadata;
 
@@ -327,17 +327,21 @@ class Form extends Element
      */
     public function addSection( \CiscoSystems\AuditBundle\Entity\Section $section )
     {
+//        if( !$this->sectionExists( $section ))
         if( FALSE === array_search( $section, $this->getSections() ))
         {
             $this->addSectionRelation( new FormSection( $this, $section ) );
 
             return $this;
         }
-        elseif( TRUE === $this->getSectionRelation( $section )->getArchived() )
+        else
         {
-            $this->getSectionRelation( $section )->setArchived( FALSE );
+            if( TRUE === $status = $this->getSectionRelation( $section )->getArchived())
+            {
+                $this->getSectionRelation( $section )->setArchived( !$status );
 
-            return $this;
+                return $this;
+            }
         }
 
         return FALSE;
@@ -352,8 +356,10 @@ class Form extends Element
      */
     public function removeSection( \CiscoSystems\AuditBundle\Entity\Section $section )
     {
+//        if( FALSE !== $this->sectionExists( $section ))
         if( FALSE !== array_search( $section, $this->getSections() ))
         {
+//            echo "<div>foo</div>";die();
             if( NULL !== $relation = $this->getSectionRelation( $section ))
             {
                 $this->removeSectionRelation( $relation );
@@ -421,5 +427,33 @@ class Form extends Element
         }
 
         return FALSE;
+    }
+
+    public function sectionExists( $section )
+    {
+        foreach( $this->sectionRelations as $relation )
+        {
+            if( $section === $relation->getSection() && $this === $relation->getForm() )
+            {
+                return $relation;
+            }
+        }
+
+        return FALSE;
+
+//        $form = $this;
+//        return $this->sectionRelations->exists(
+//            function( $relation ) use ( $section, $form )
+//            {
+//                if( $section === $relation->getSection() && $form === $relation->getForm() )
+//                {
+//                    return $relation;
+//                }
+//                else
+//                {
+//                    return FALSE;
+//                }
+//            }
+//        );
     }
 }
