@@ -54,17 +54,19 @@ class AuditController extends Controller
         // Create new audit instance
         $audit = new Audit();
         $audit->setForm( $auditform );
+                echo "<div>foo</div"; die();
         // Create form object for audit
         $form = $this->createForm( $this->container->get( 'cisco.formtype.audit' ), $audit );
         if ( 'POST' == $request->getMethod() )
         {
+                echo "<div>foo</div"; die();
             // bind request for form object
             $form->bind( $request );
             $scores = $request->get( 'score' );
             if ( null !== $scores && $form->isValid() )
             {
                 $this->setUser( $audit );
-                $this->setAuditScores( $em, $audit, $scores );
+                $this->setScores( $em, $audit, $scores );
                 $audit->setMark( $scoreService->getResultForAudit( $audit ));
                 $em->persist( $audit );
                 $em->flush();
@@ -120,6 +122,11 @@ class AuditController extends Controller
             $entityMgr->persist( $score );
         }
     }
+
+//    protected function setFormState( Audit $audit, Form $form )
+//    {
+//
+//    }
 
     /**
      * view a single Audit

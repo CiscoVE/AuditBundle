@@ -47,9 +47,17 @@ class Audit
      *          id: $id, Fields: array( id: $id, ... )
      *      )
      * )
-     *
+     * ALTER TABLE audit__audit ADD state LONGTEXT NOT NULL COMMENT '(DC2Type:array)';
      *
      */
+
+    /**
+     * @var array nested array representing the state of the form at the time of
+     * the audit.
+     *
+     * @ORM\Column(name="form_state",type="array")
+     */
+    protected $formState;
 
     /**
      * @ORM\ManyToOne(targetEntity="CiscoSystems\AuditBundle\Model\ReferenceInterface")
@@ -90,6 +98,16 @@ class Audit
     }
 
     /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
      * Get total score
      *
      * @return integer
@@ -110,26 +128,6 @@ class Audit
     }
 
     /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Set auditForm
-     *
-     * @param string $form
-     */
-    public function setForm( \CiscoSystems\AuditBundle\Entity\Form $form = null)
-    {
-        $this->form = $form;
-    }
-
-    /**
      * Get auditForm
      *
      * @return string
@@ -140,13 +138,55 @@ class Audit
     }
 
     /**
-     * Set reference
+     * Set auditForm
      *
-     * @param \CiscoSystems\AuditBundle\Model\ReferenceInterface $reference
+     * @param string $form
      */
-    public function setReference( \CiscoSystems\AuditBundle\Model\ReferenceInterface $reference )
+    public function setForm( \CiscoSystems\AuditBundle\Entity\Form $form = NULL )
     {
-        $this->reference = $reference;
+        $this->form = $form;
+        if( NULL !== $form ) $this->setFormState();
+
+        return $this;
+    }
+
+    public function getFormState()
+    {
+        return $this->formState;
+    }
+
+    public function setFormState( array $formState = NULL )
+    {
+        if( NULL === $formState )
+        {
+            $sections = array();
+
+            foreach( $this->form->getSections() as $section )
+            {
+                $fields = array();
+                foreach( $section->getFields() as $field )
+                {
+                    $fields[] = $field->getId();
+                }
+                $sections[] = array(
+                    'id' => $section->getId(),
+                    'fields' => $fields
+                );
+            }
+
+            $this->formState = array(
+                'id' => $this->form->getId(),
+                'sections' => $sections
+            );
+
+//            echo "<div>"; print_r( $this->formState ); echo "</div>"; die();
+        }
+        else
+        {
+            $this->formState = $formState;
+        }
+
+        return $this;
     }
 
     /**
@@ -160,13 +200,15 @@ class Audit
     }
 
     /**
-     * Set auditingUser
+     * Set reference
      *
-     * @param \CiscoSystems\AuditBundle\Model\UserInterface $auditor
+     * @param \CiscoSystems\AuditBundle\Model\ReferenceInterface $reference
      */
-    public function setAuditor( \CiscoSystems\AuditBundle\Model\UserInterface $auditor )
+    public function setReference( \CiscoSystems\AuditBundle\Model\ReferenceInterface $reference )
     {
-        $this->auditor = $auditor;
+        $this->reference = $reference;
+
+        return $this;
     }
 
     /**
@@ -177,6 +219,18 @@ class Audit
     public function getAuditor()
     {
         return $this->auditor;
+    }
+
+    /**
+     * Set auditingUser
+     *
+     * @param \CiscoSystems\AuditBundle\Model\UserInterface $auditor
+     */
+    public function setAuditor( \CiscoSystems\AuditBundle\Model\UserInterface $auditor )
+    {
+        $this->auditor = $auditor;
+
+        return $this;
     }
 
     /**
@@ -200,16 +254,6 @@ class Audit
     }
 
     /**
-     * Set createdAt
-     *
-     * @param \DateTime $createdAt
-     */
-    public function setCreatedAt( \DateTime $createdAt )
-    {
-        $this->createdAt = $createdAt;
-    }
-
-    /**
      * Get createdAt
      *
      * @return \DateTime
@@ -220,13 +264,13 @@ class Audit
     }
 
     /**
-     * Set scores
+     * Set createdAt
      *
-     * @param \Doctrine\Common\Collections\ArrayCollection $scores
+     * @param \DateTime $createdAt
      */
-    public function setScores( \Doctrine\Common\Collections\ArrayCollection $scores = NULL )
+    public function setCreatedAt( \DateTime $createdAt )
     {
-        $this->scores = $scores;
+        $this->createdAt = $createdAt;
     }
 
     /**
@@ -237,6 +281,16 @@ class Audit
     public function getScores()
     {
         return $this->scores;
+    }
+
+    /**
+     * Set scores
+     *
+     * @param \Doctrine\Common\Collections\ArrayCollection $scores
+     */
+    public function setScores( \Doctrine\Common\Collections\ArrayCollection $scores = NULL )
+    {
+        $this->scores = $scores;
     }
 
     /**
@@ -284,118 +338,4 @@ class Audit
             $this->removeScore( $score );
         }
     }
-
-    /**
-     * Get Score for Field
-     *
-     * @param \CiscoSystems\AuditBundle\Entity\Field $field
-     * @return \CiscoSystems\AuditBundle\Entity\Score
-     */
-//    public function getScoreForField( \CiscoSystems\AuditBundle\Entity\Field $field )
-//    {
-//        $scores = $this->getScores();
-//
-//        foreach ( $scores as $score )
-//        {
-//            if ( null !== $score->getField() && $field === $score->getField() )
-//            {
-//                return $score;
-//            }
-//        }
-//
-//        return FALSE;
-//    }
-
-    /**
-     * Get Score for Section
-     *
-     * @param \CiscoSystems\AuditBundle\Entity\Section $section
-     * @return integer
-     */
-//    public function getResultForSection( \CiscoSystems\AuditBundle\Entity\Section $section )
-//    {
-//        $fields = $section->getFields();
-//        $fieldCount = count( $fields );
-//
-//        if ( 0 == $fieldCount ) return 100;
-//        $achievedPercentages = 0;
-//
-//        foreach ( $fields as $field )
-//        {
-//            $score = $this->getScoreForField( $field );
-//
-//            if ( !$score )
-//            {
-//                $score = new Score();
-//                $score->setScore( Score::YES );
-//            }
-//            $achievedPercentages += $score->getWeightPercentage();
-//        }
-//        return number_format( $achievedPercentages / $fieldCount, 2, '.', '' );
-//    }
-
-//    public function findFlagForSection( \CiscoSystems\AuditBundle\Entity\Section $section )
-//    {
-//        foreach ( $section->getFields() as $field )
-//        {
-//            if ( $field->getFlag() == true &&  $this->getScoreForField( $field )->getMark() == Score::NO )
-//            {
-//                $section->setFlag( true );
-//            }
-//        }
-//    }
-
-    /**
-     * Get global score
-     *
-     * @return integer
-     */
-//    public function getTotalResult()
-//    {
-//        if ( null !== $auditform = $this->getForm() )
-//        {
-//            $sections = $auditform->getSections();
-//            $count = count( $sections );
-//            if ( 0 == $count ) return 100;
-//            $totalPercent = 0;
-//            $divisor = 0;
-//            $this->setFlag( false );
-//
-//            foreach ( $sections as $section )
-//            {
-//                $percent = $this->getResultForSection( $section );
-//                $weight = $section->getWeight();
-//                $this->findFlagForSection( $section );
-//
-//                if ( $section->getFlag() ) $this->setFlag( true );
-//
-//                $divisor += $weight;
-//
-//                // check the section for flag not set and section's weight > 0
-//                if( $section->getFlag() === false && $divisor > 0 )
-//                {
-//                    $totalPercent = $totalPercent * ( $divisor - $weight ) / $divisor + $percent * $weight / $divisor;
-//                }
-//            }
-//            return number_format( $totalPercent, 2, '.', '' );
-//        }
-//        else return 0;
-//    }
-
-    /**
-     * Get global weight
-     *
-     * @return integer
-     */
-//    public function getTotalWeight()
-//    {
-//        $weight = 0;
-//        $sections = $this->getForm()->getSections();
-//
-//        foreach ( $sections as $section )
-//        {
-//            $weight += $section->getWeight();
-//        }
-//        return $weight;
-//    }
 }
