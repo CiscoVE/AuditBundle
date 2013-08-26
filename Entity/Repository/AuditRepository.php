@@ -131,4 +131,58 @@ class AuditRepository extends EntityRepository
                     ->getQuery()
                     ->getResult();
     }
+
+    public function qbFormState( array $index )
+    {
+        return $this->createQueryBuilder( 'a' )
+                    ->join( 'CiscoSystems\AuditBundle\Entity\Form', 'fo', 'WITH', 'fo = a.form' )
+                    ->join( 'CiscoSystems\AuditBundle\Entity\FormSection', 'fs', 'WITH', 'fo = fs.form' )
+                    ->join( 'CiscoSystems\AuditBundle\Entity\Section', 's', 'WITH', 's = fs.section' )
+                    ->join( 'CiscoSystems\AuditBundle\Entity\SectionField', 'sf', 'WITH', 's = sf.section' )
+                    ->join( 'CiscoSystems\AuditBundle\Entity\Field', 'fi', 'WITH', 'fi = sf.field' )
+                    ->where( 'a.id = :id' )
+                    ->andWhere( 's.id IN ( :sections )' )
+                    ->andWhere( 'fi.id IN ( :fields )' )
+                    ->setParameters( array(
+                        'id'         => reset( $index['forms'] ),
+                        'sections'   => implode( "', '", $index['sections'] ),
+                        'fields'     => implode( "', '", $index['fields'] ),
+                    ));
+    }
+
+    public function getFormState( $id )
+    {
+
+        $qb = $this->createQueryBuilder( 'a' )
+                   ->where( 'a.id = :id' )
+                   ->setParameter( 'id', $id );
+        $audit = $qb->getQuery()->getResult();
+        $state = reset( $audit )->getFormState();
+
+        // build the index of used form, section and fields for the audit
+        $index = array(
+            'forms'     => array(),
+            'sections'  => array(),
+            'fields'    => array()
+        );
+
+        foreach( $state as $form )
+        {
+            array_push( $index['forms'], $form['id'] );
+            foreach( $form['sections'] as $section )
+            {
+                array_push( $index['sections'], $section['id'] );
+                foreach( $section['fields'] as $field )
+                {
+                    array_push( $index['fields'], $field );
+                }
+            }
+        }
+
+        $result = $this->qbFormState( $index )
+                       ->getQuery()
+                       ->getResult();
+
+        return reset( $result );
+    }
 }

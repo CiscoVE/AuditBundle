@@ -4,6 +4,8 @@ namespace CiscoSystems\AuditBundle\Tests\Entity;
 
 use CiscoSystems\AuditBundle\Entity\Audit;
 use CiscoSystems\AuditBundle\Entity\Form;
+use CiscoSystems\AuditBundle\Entity\Section;
+use CiscoSystems\AuditBundle\Entity\Field;
 use CiscoSystems\AuditBundle\Entity\Score;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -20,13 +22,67 @@ class AuditTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers CiscoSystems\AuditBundle\Entity\Audit::setForm
      * @covers CiscoSystems\AuditBundle\Entity\Audit::getForm
+     *
+     * Nesting level too deep - recursive dependency? in
+     * ../CiscoSystems/AuditBundle/Entity/Form.php on line 330
      */
     public function testForm()
     {
         $form = new Form();
+//        $k = 0;
+//        for( $i = 1; $i < 4; $i++ )
+//        {
+//            $section = new Section();
+//            $section->setTitle( 'title for section ' . $i )
+//                    ->setDescription( 'decription for section ' . $i );
+//            $section->setId( $k );
+//            for( $j = 1; $j < 4; $j++ )
+//            {
+//                $field = new Field(
+//                    'title for field ' . $j,
+//                    'description for field ' . $j
+//                );
+//                $field->setId( $k );
+//                $section->addField( $field );
+//                $k++;
+//            }
+//            $form->addSection( $section );
+//            $k++;
+//        }
         $this->audit->setForm( $form );
 
         $this->assertEquals( $form, $this->audit->getForm() );
+    }
+
+    public function testFormState()
+    {
+//        $formState = array();
+//
+//        $form = new Form();
+//        $k = 0;
+//        for( $i = 1; $i < 4; $i++ )
+//        {
+//            $section = new Section();
+//            $section->setTitle( 'title for section ' . $i )
+//                    ->setDescription( 'decription for section ' . $i );
+//            $section->setId( $k );
+//            for( $j = 1; $j < 4; $j++ )
+//            {
+//                $field = new Field(
+//                    'title for field ' . $j,
+//                    'description for field ' . $j
+//                );
+//                $field->setId( $k );
+//                $section->addField( $field );
+//                $k++;
+//            }
+//            $form->addSection( $section );
+//            $k++;
+//        }
+//
+//        $this->audit->setFormState();
+//
+//        $this->assertEquals( $formState, $this->audit->getFormState() );
     }
 
     /**

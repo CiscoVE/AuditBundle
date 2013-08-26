@@ -79,4 +79,31 @@ class AuditRepositoryFunctionalTest extends WebTestCase
 //        );
 //        $this->assertNotEquals( 0, count( $this->repo->getAuditByFormAndReference( $form, $refId ) ));
     }
+
+    public function testGetFormState()
+    {
+        $id = 8; $index = array(
+            'forms'     => array( 8 ),
+            'sections'  => array( 13, 14 ),
+            'fields'    => array( 30, 31, 32, 33, 34 )
+        );
+
+        $this->assertEquals(
+            $this->repo->qbFormState( $index )->getDql(),
+            'SELECT a ' .
+            'FROM CiscoSystems\AuditBundle\Entity\Audit a ' .
+            'INNER JOIN CiscoSystems\AuditBundle\Entity\Form fo WITH fo = a.form ' .
+            'INNER JOIN CiscoSystems\AuditBundle\Entity\FormSection fs WITH fo = fs.form ' .
+            'INNER JOIN CiscoSystems\AuditBundle\Entity\Section s WITH s = fs.section ' .
+            'INNER JOIN CiscoSystems\AuditBundle\Entity\SectionField sf WITH s = sf.section ' .
+            'INNER JOIN CiscoSystems\AuditBundle\Entity\Field fi WITH fi = sf.field ' .
+            'WHERE a.id = :id ' .
+            'AND s.id IN ( :sections ) ' .
+            'AND fi.id IN ( :fields )'
+        );
+
+//        $form = $this->repo->getFormState( $id );
+
+        $this->assertNotEquals( 0, count( $this->repo->getFormState( $id ) ));
+    }
 }

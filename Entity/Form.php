@@ -327,7 +327,6 @@ class Form extends Element
      */
     public function addSection( \CiscoSystems\AuditBundle\Entity\Section $section )
     {
-//        if( !$this->sectionExists( $section ))
         if( FALSE === array_search( $section, $this->getSections() ))
         {
             $this->addSectionRelation( new FormSection( $this, $section ) );

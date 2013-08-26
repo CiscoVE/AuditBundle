@@ -7,6 +7,9 @@ use Symfony\Component\HttpFoundation\Request;
 use CiscoSystems\AuditBundle\Form\Type\AuditType;
 use CiscoSystems\AuditBundle\Form\Type\ScoreType;
 use CiscoSystems\AuditBundle\Entity\Audit;
+use CiscoSystems\AuditBundle\Entity\Form;
+use CiscoSystems\AuditBundle\Entity\Section;
+use CiscoSystems\AuditBundle\Entity\Field;
 use CiscoSystems\AuditBundle\Entity\Score;
 
 class AuditController extends Controller
@@ -144,10 +147,39 @@ class AuditController extends Controller
         $auditrepo = $em->getRepository( 'CiscoSystemsAuditBundle:Audit' );
         $audit = $auditrepo->find( $request->get( 'id' ) );
 
-        foreach( $audit->getForm()->getSections() as $section )
+        $formRepo = $em->getRepository( 'CiscoSystemsAuditBundle:Form' );
+        $form = $formRepo->getFormState( $audit->getId() );
+
+        foreach( $audit->getForm()->getSections( TRUE ) as $section )
         {
             $scoreService->setFlagForSection( $audit, $section );
         }
+
+        $state = $auditrepo->getFormState( $audit->getId() );
+
+//        $test = $audit->getFormState();
+
+        // build the index of used form, section and fields for the audit
+//        $index = array(
+//            'forms'     => array(),
+//            'sections'  => array(),
+//            'fields'    => array()
+//        );
+//
+//        foreach( $test as $form )
+//        {
+//            array_push( $index['forms'], $form['id'] );
+//            foreach( $form['sections'] as $section )
+//            {
+//                array_push( $index['sections'], $section['id'] );
+//                foreach( $section['fields'] as $field )
+//                {
+//                    array_push( $index['fields'], $field );
+//                }
+//            }
+//        }
+
+//        $state = false;
 
         if ( null !== $audit )
         {
@@ -159,6 +191,9 @@ class AuditController extends Controller
                 return $this->render( 'CiscoSystemsAuditBundle:Audit:view.html.twig', array(
                     'audit'  => $audit,
                     'scores' => $scores,
+                    'temp'   => $form,
+//                    'test'   => $test,
+//                    'newform'=> $form
                 ));
             }
             else

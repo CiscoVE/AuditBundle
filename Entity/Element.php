@@ -58,6 +58,20 @@ abstract class Element
     }
 
     /**
+     * Set id
+     *
+     * @param int $id
+     *
+     * @return \CiscoSystems\AuditBundle\Entity\Element
+     */
+    public function setId( $id )
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
      * Get title
      *
      * @return string
