@@ -47,6 +47,18 @@ class SectionRepositoryFunctionalTest extends WebTestCase
             'WITH f = r.form ' .
             'WHERE f = :form'
         );
+        $archived = FALSE;
+        $this->assertEquals(
+            $this->repo->qbSections( $form, $archived )->getDql(),
+            'SELECT s ' .
+            'FROM CiscoSystems\AuditBundle\Entity\Section s ' .
+            'INNER JOIN CiscoSystemsAuditBundle:FormSection r ' .
+            'WITH s = r.section ' .
+            'INNER JOIN CiscoSystemsAuditBundle:Form f ' .
+            'WITH f = r.form ' .
+            'WHERE f = :form ' .
+            'AND r.archived = :archived'
+        );
         $this->assertNotEquals( 0, $this->repo->getSections( $form ) );
     }
 

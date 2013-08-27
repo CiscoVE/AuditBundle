@@ -17,8 +17,12 @@ class SectionRepository extends SortableRepository
      */
     public function getSectionOptions( $form = NULL )
     {
+        $archived = ( NULL === $form ) ? NULL : $false ;
         $array = array();
-        $sections = $this->getSections( $form );
+        $sections = $this->getSections( $form, $archived );
+
+//        echo '<div>'; print_r($sections); echo '</div>'; die();
+
         foreach( $sections as $section )
         {
             if( FALSE !== $section->getForm() )
@@ -51,8 +55,9 @@ class SectionRepository extends SortableRepository
             $and->add( $qb->expr()->eq( 'r.archived', ':archived' ));
             $qb->setParameter( 'archived', $archived );
         }
-        $qb->add( 'where', $and );
-
+        if( $and->count() > 1 ) $qb->where( $and );
+//        echo '<div>'; print_r( $and->count() ); echo '</div>'; die();
+//        echo '<div>'; print_r( $qb->getDQL()); echo '</div>'; die();
         return $qb;
     }
 

@@ -115,15 +115,10 @@
                 {% endif %}
             </div>
         </form>
-            <div>field: {{ field }}</div>
-            <div>section: {{ field.section }}</div>
-            <div>details: {% for k, v in field.section %}[{{ k }}] => {{ v }}{% endfor %}</div>
-            <div>form: {{ field.section.form }}</div>
-            {#{ field.section.form.allowMultipleAnswer }#}
-    <script type="text/javascript">
-        var multipleAllowed = {#{ field.section.form.allowMultipleAnswer | json_encode() }#};
-        var flagged = {{ field.flag | json_encode()}};
-    </script>
+        <script type="text/javascript">
+            var multipleAllowed = {{ field.section.form.allowMultipleAnswer | json_encode() }};
+            var flagged = {{ field.flag | json_encode()}};
+        </script>
     </div>
 </div>
 {% endblock %}

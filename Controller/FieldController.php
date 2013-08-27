@@ -57,7 +57,8 @@ class FieldController extends Controller
         {
             $section = $em->getRepository( 'CiscoSystemsAuditBundle:Section' )
                           ->find( $request->get( 'section_id' ));
-            $field->addSection( $section );
+            if( NULL === $field->getId() ) $field->addSection( $section );
+//            $field->addSection( $section );
         }
         $form = $this->createForm( new FieldType(), $field, array(
             'section' => $field->getSection(),
