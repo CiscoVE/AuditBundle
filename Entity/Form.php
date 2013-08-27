@@ -355,10 +355,8 @@ class Form extends Element
      */
     public function removeSection( \CiscoSystems\AuditBundle\Entity\Section $section )
     {
-//        if( FALSE !== $this->sectionExists( $section ))
         if( FALSE !== array_search( $section, $this->getSections() ))
         {
-//            echo "<div>foo</div>";die();
             if( NULL !== $relation = $this->getSectionRelation( $section ))
             {
                 $this->removeSectionRelation( $relation );

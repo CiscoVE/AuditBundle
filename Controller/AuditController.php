@@ -148,38 +148,14 @@ class AuditController extends Controller
         $audit = $auditrepo->find( $request->get( 'id' ) );
 
         $formRepo = $em->getRepository( 'CiscoSystemsAuditBundle:Form' );
-        $form = $formRepo->getFormState( $audit->getId() );
+        $form = $formRepo->getFormState( $audit );
 
         foreach( $audit->getForm()->getSections( TRUE ) as $section )
         {
             $scoreService->setFlagForSection( $audit, $section );
         }
 
-        $state = $auditrepo->getFormState( $audit->getId() );
-
-//        $test = $audit->getFormState();
-
-        // build the index of used form, section and fields for the audit
-//        $index = array(
-//            'forms'     => array(),
-//            'sections'  => array(),
-//            'fields'    => array()
-//        );
-//
-//        foreach( $test as $form )
-//        {
-//            array_push( $index['forms'], $form['id'] );
-//            foreach( $form['sections'] as $section )
-//            {
-//                array_push( $index['sections'], $section['id'] );
-//                foreach( $section['fields'] as $field )
-//                {
-//                    array_push( $index['fields'], $field );
-//                }
-//            }
-//        }
-
-//        $state = false;
+        $state = FALSE;
 
         if ( null !== $audit )
         {
@@ -192,7 +168,7 @@ class AuditController extends Controller
                     'audit'  => $audit,
                     'scores' => $scores,
                     'temp'   => $form,
-//                    'test'   => $test,
+                    'test'   => $state,
 //                    'newform'=> $form
                 ));
             }

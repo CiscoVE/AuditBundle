@@ -155,6 +155,30 @@ class Audit
         return $this->formState;
     }
 
+    public function getFormIndexes()
+    {
+        $index = array(
+            'forms'     => array(),
+            'sections'  => array(),
+            'fields'    => array()
+        );
+
+        foreach( $this->formState as $form )
+        {
+            array_push( $index['forms'], $form['id'] );
+            foreach( $form['sections'] as $section )
+            {
+                array_push( $index['sections'], $section['id'] );
+                foreach( $section['fields'] as $field )
+                {
+                    array_push( $index['fields'], $field );
+                }
+            }
+        }
+
+        return $index;
+    }
+
     public function setFormState( array $formState = NULL )
     {
         if( NULL === $formState )
@@ -178,8 +202,6 @@ class Audit
                 'id' => $this->form->getId(),
                 'sections' => $sections
             );
-
-//            echo "<div>"; print_r( $this->formState ); echo "</div>"; die();
         }
         else
         {

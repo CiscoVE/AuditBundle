@@ -42,44 +42,50 @@
                 </tr>
             </thead>
             {% for section in audit.form.sections %}
-                <tr>
-                    <td colspan="5"><strong>Section {{ section | position ( form ) }}: {{ section.title }}</strong></td>
-                </tr>
-                {% for field in section.fields %}
-                    {% for score in scores %}
-                        {% if score.field == field %}
-                        <tr>
-                            <td>{{ field | position ( section ) }}</td>
-                            <td>{{ field.title }}</td>
-                            <td>{{ score.mark }}</td>
-                            <td>
-                            {% if field.flag == true %}
-                                {{ audit.form.flagLabel }}
-                            {% else %}
-                                {{ field.weight }}
-                            {% endif %}
-                            </td>
-                            <td>{{ score.comment }}</td>
-                        </tr>
+                {% set section_id = section.id %}
+                {% if section_id in audit.formindexes['sections'] %}
+                    <tr>
+                        <td colspan="5"><strong>Section {{ section | position ( form ) }}: {{ section.title }}</strong></td>
+                    </tr>
+                    {% for field in section.fields %}
+                    {% set field_id = field.id %}
+                        {% if field_id in audit.formindexes['fields']%}
+                            {% for score in scores %}
+                                {% if score.field == field %}
+                                <tr>
+                                    <td>{{ field | position ( section ) }}</td>
+                                    <td>{{ field.title }}</td>
+                                    <td>{{ score.mark }}</td>
+                                    <td>
+                                    {% if field.flag == true %}
+                                        {{ audit.form.flagLabel }}
+                                    {% else %}
+                                        {{ field.weight }}
+                                    {% endif %}
+                                    </td>
+                                    <td>{{ score.comment }}</td>
+                                </tr>
+                                {% endif %}
+                            {% endfor %}
                         {% endif %}
                     {% endfor %}
-                {% endfor %}
-                <tr>
-                    <td colspan="2" style="text-align: right">Section's Score</td>
-                    {#
-                    <td>{{ attribute( audit, 'resultForSection', [ section ] ) }}</td>
-                    <td>
-                        {{ section.weight }}
-                    </td>#}
-                    {% if section.flag == true %}
-                    <td>{{ audit.form.flagLabel }}</td>
-                    <td></td>
-                    {% else %}
-                    <td>{{ get_resultforsection( audit, section ) }} %</td>
-                    <td>{{ get_weightforsection( section ) }}</td>
-                    {% endif %}
-                    <td></td>
-                </tr>
+                    <tr>
+                        <td colspan="2" style="text-align: right">Section's Score</td>
+                        {#
+                        <td>{{ attribute( audit, 'resultForSection', [ section ] ) }}</td>
+                        <td>
+                            {{ section.weight }}
+                        </td>#}
+                        {% if section.flag == true %}
+                        <td>{{ audit.form.flagLabel }}</td>
+                        <td></td>
+                        {% else %}
+                        <td>{{ get_resultforsection( audit, section ) }} %</td>
+                        <td>{{ get_weightforsection( section ) }}</td>
+                        {% endif %}
+                        <td></td>
+                    </tr>
+                {% endif %}
             {% endfor %}
             <tr>
                 <td colspan="2" style="text-align: right">Final Score</td>

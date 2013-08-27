@@ -26,60 +26,39 @@ class FormRepository extends SortableRepository
                     ->getResult();
     }
 
-    public function qbFormState( array $index )
+    /**
+     * WARNING: this is a test method. The intention is to retrieve Form-Section-Field
+     * associated Entities for the given parameters
+     *
+     * @param type $id
+     * @param array $index
+     * @return type
+     */
+    public function qbFormState( $id, array $index )
     {
         return $this->createQueryBuilder( 'fo' )
-                    ->join( 'CiscoSystems\AuditBundle\Entity\Audit', 'a', 'WITH', 'fo = a.form' )
-                    ->join( 'CiscoSystems\AuditBundle\Entity\FormSection', 'fs', 'WITH', 'fo = fs.form' )
-                    ->join( 'CiscoSystems\AuditBundle\Entity\Section', 's', 'WITH', 's = fs.section' )
-                    ->join( 'CiscoSystems\AuditBundle\Entity\SectionField', 'sf', 'WITH', 's = sf.section' )
-                    ->join( 'CiscoSystems\AuditBundle\Entity\Field', 'fi', 'WITH', 'fi = sf.field' )
-                    ->where( 'fo.id = :id' )
+                    ->innerjoin( 'CiscoSystems\AuditBundle\Entity\Audit', 'a', 'WITH', 'fo = a.form' )
+                    ->innerjoin( 'CiscoSystems\AuditBundle\Entity\FormSection', 'fs', 'WITH', 'fo = fs.form' )
+                    ->innerjoin( 'CiscoSystems\AuditBundle\Entity\Section', 's', 'WITH', 's = fs.section' )
+                    ->innerjoin( 'CiscoSystems\AuditBundle\Entity\SectionField', 'sf', 'WITH', 's = sf.section' )
+                    ->innerjoin( 'CiscoSystems\AuditBundle\Entity\Field', 'fi', 'WITH', 'fi = sf.field' )
+                    ->where( 'a.id = :id' )
+                    ->andwhere( 'fo.id = :form' )
                     ->andWhere( 's.id IN ( :sections )' )
                     ->andWhere( 'fi.id IN ( :fields )' )
                     ->setParameters( array(
-                        'id'         => reset( $index['forms'] ),
-                        'sections'   => implode( "', '", $index['sections'] ),
-                        'fields'     => implode( "', '", $index['fields'] ),
+                        'id'         => $id,
+                        'form'           => reset( $index['forms'] ),
+                        'sections'   => $index['sections'],
+                        'fields'     => $index['fields'],
                     ));
     }
 
-    public function qbAudit( $id )
+    public function getFormState( $audit )
     {
-        return $this->createQueryBuilder( 'f' )
-                    ->join( 'CiscoSystems\AuditBundle\Entity\Audit', 'a', 'WITH', 'f = a.form' )
-                    ->where( 'a.id = :id' )
-                    ->setParameter( 'id', $id );
-    }
-
-    public function getFormState( $id )
-    {
-        $form = $this->qbAudit( $id )
-                      ->getQuery()
-                      ->getResult();
-        $state = reset( $form );//->getFormState();
-
-        // build the index of used form, section and fields for the audit
-        $index = array(
-            'forms'     => array(),
-            'sections'  => array(),
-            'fields'    => array()
-        );
-
-        foreach( $state as $form )
-        {
-            array_push( $index['forms'], $form['id'] );
-            foreach( $form['sections'] as $section )
-            {
-                array_push( $index['sections'], $section['id'] );
-                foreach( $section['fields'] as $field )
-                {
-                    array_push( $index['fields'], $field );
-                }
-            }
-        }
-
-        $result = $this->qbFormState( $index )
+        $index = $audit->getFormIndexes();
+        $id = $audit->getId();
+        $result = $this->qbFormState( $id, $index )
                        ->getQuery()
                        ->getResult();
 
