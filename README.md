@@ -15,19 +15,38 @@ included in this bundle`).
 
 In order to help you customize your template, the following twig extensions are available:
 
+### twig functions:
 ```twig
     {{ get_resultforsection() }}        // return the score for the section
     {{ get_weightforsection() }}        // return the weight for the section
     {{ get_resultforaudit() }}          // return the result for the audit
     {{ get_weightforaudit() }}          // return the weight for the audit
+```
+### twig filters:
+```twig
     {{ section | position ( form ) }}   // return the position of the section
                                         // for the given form
     {{ field | position ( section ) }}  // return the position of the field
                                         // for the given section
+    {{ form | sections( false|true ) }} // return the sections for the form
+                                        // archived === false | true
+    {{ section | fields( false|true ) }}// return the fields for the section
+                                        // archived === false | true
 ```
 
-Currently the forms are fairly static: Each Section is attached to one and only one
-Form and each Field is attached to one and only one Section.
+~~Currently the forms are fairly static: Each Section is attached to one and only one
+Form and each Field is attached to one and only one Section.~~
+
+The above was correct in the previous iteration of the bundle. Currently, the schema
+has been changed to allow a Section to be assigned to more than one Form and
+similarily a Field can be assigned to more than one Section. Which means that
+the relationship between Form and Section, and between Section and Field are of
+Many to Many. However, in order to archive Sections, and Fields, the relationship
+itself has been materialized in a class that holds the property $archived.
+
+__PLEASE NOTE__: the position of Sections on Form and Fields on Section is currently
+not working as the gedmo extension was to be used, but a change in the schema
+broke this.
 
 ## Configuration
 
