@@ -53,9 +53,9 @@ class AuditExtension extends Twig_Extension
         return $this->scoring->getResultForSection( $audit, $section );
     }
 
-    public function getWeightForSection( $section )
+    public function getWeightForSection( $audit, $section )
     {
-        return $this->scoring->getWeightForSection( $section );
+        return $this->scoring->getWeightForSection( $audit, $section );
     }
 
     public function getResultForAudit( $audit )

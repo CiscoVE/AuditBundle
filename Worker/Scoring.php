@@ -57,11 +57,13 @@ class Scoring
      *
      * @return integer
      */
-    public function getWeightForSection( Section $section )
+    public function getWeightForSection( Audit $audit, Section $section )
     {
+        $index = $audit->getFormIndexes();
         $weight = 0;
         foreach( $section->getFields() as $field )
         {
+            if( FALSE === in_array( $field->getId(), $index['fields']) ) continue;
             $weight += $field->getWeight() ;
         }
 
@@ -78,6 +80,7 @@ class Scoring
      */
     public function getResultForSection( Audit $audit, Section $section )
     {
+        $index = $audit->getFormIndexes();
         $fields = $section->getFields();
         $fieldCount = count( $fields );
         if ( 0 == $fieldCount ) return 100;
@@ -85,6 +88,7 @@ class Scoring
 
         foreach ( $fields as $field )
         {
+            if( FALSE === in_array( $field->getId(), $index['fields']) ) continue;
             $score = $this->getScoreForField( $audit, $field );
 
             if ( !$score )
@@ -106,10 +110,12 @@ class Scoring
      */
     public function setFlagForSection( Audit $audit, Section $section )
     {
+        $index = $audit->getFormIndexes();
         foreach ( $section->getFields() as $field )
         {
 //            echo($field->getTitle()); die;
 //            echo($audit->getId()); die;
+            if( FALSE === in_array( $field->getId(), $index['fields']) ) continue;
             $mark = $this->getScoreForField( $audit, $field )->getMark();
             if ( $field->getFlag() === TRUE && $mark === Score::NO )
             {
@@ -128,8 +134,10 @@ class Scoring
      */
     public function getFlagForSection( Audit $audit, Section $section )
     {
+        $index = $audit->getFormIndexes();
         foreach( $section->getFields() as $field )
         {
+            if( FALSE === in_array( $field->getId(), $index['fields']) ) continue;
             if( $field->getFlag() === TRUE && $this->getScoreForField( $audit, $field )->getMark() === Score::NO )
             {
                 return TRUE;
@@ -156,11 +164,12 @@ class Scoring
             $totalPercent = 0;
             $divisor = 0;
             $audit->setFlag( FALSE );
-
+            $index = $audit->getFormIndexes();
             foreach ( $sections as $section )
             {
+                if( FALSE === in_array( $section->getId(), $index['sections']) ) continue;
                 $percent = $this->getResultForSection( $audit, $section );
-                $weight = $this->getWeightForSection( $section );
+                $weight = $this->getWeightForSection( $audit, $section );
                 $sectionFlag = $this->getFlagForSection( $audit, $section );
 
                 if ( $sectionFlag ) $audit->setFlag( TRUE );
@@ -186,10 +195,12 @@ class Scoring
      */
     public function getWeightForAudit( Audit $audit )
     {
+        $index = $audit->getFormIndexes();
         $weight = 0;
         foreach ( $audit->getForm()->getSections() as $section )
         {
-            $weight += $this->getWeightForSection( $section );
+            if( FALSE === in_array( $section->getId(), $index['sections']) ) continue;
+            $weight += $this->getWeightForSection( $audit, $section );
         }
 
         return $weight;
