@@ -161,10 +161,10 @@ class Audit
         {
             $sections = array();
 
-            foreach( $this->form->getSections() as $section )
+            foreach( $this->form->getSections( FALSE ) as $section )
             {
                 $fields = array();
-                foreach( $section->getFields() as $field )
+                foreach( $section->getFields( FALSE ) as $field )
                 {
                     $fields[] = $field->getId();
                 }
