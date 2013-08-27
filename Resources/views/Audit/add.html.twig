@@ -25,11 +25,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                {% for section in audit.form.sections %}
+                {% for section in audit.form | sections( false ) %}
                     <tr class="cisco-audit-section-row" section-id="{{ section.id }}">
                         <td colspan="6">Section {{ section | position ( form ) }}: {{ section.title }}</td>
                     </tr>
-                    {% for field in section.fields %}
+                    {% for field in section | fields( false ) %}
                         <tr class="cisco-audit-field-row" field-id="{{ field.id }}">
                             <td>{{ field | position ( section ) }}</td>
                             <td>{{ field.title }}</td>
@@ -73,7 +73,7 @@
                     {% endfor %}
                     <tr class="cisco-audit-section-score-row" data-flag="false">
                         {% set sectionScore = get_resultforsection( audit, section ) %}
-                        {% set sectionWeight = get_weightforsection( section )%}
+                        {% set sectionWeight = get_weightforsection( audit, section )%}
                         <td colspan="2" style="text-align: right">Section's Score</td>
                         <td class="cisco-audit-section-score" value="{{ sectionScore }}">{{ sectionScore }} %</td>
                         <td></td>
