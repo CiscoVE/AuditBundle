@@ -23,8 +23,12 @@ class FieldType extends AbstractType
     public function buildForm( FormBuilderInterface $builder, array $options )
     {
         $choices = $options['data']->getchoices();
+        $section = isset( $options['section'] ) ? $options['section']->getId() : NULL;
+        $form = isset( $options['form'] ) ? $options['form'] : NULL ;
+        $archived = isset( $options['archived'] ) ? $options['archived'] : NULL ;
+//        echo '<div>archived: ' . $archived . '</div>';
         $builder->add( 'id', 'hidden', array(
-            'mapped'        => false
+            'mapped'        => FALSE
         ));
         $builder->add( 'title', 'textarea', array(
             'attr'          => array(
@@ -32,25 +36,16 @@ class FieldType extends AbstractType
                 'class'         => 'input-xxlarge',
                 'rows'          => 1,
             ),
-            'required'      => true,
+            'required'      => TRUE,
         ));
         $builder->add( 'section', 'audit_section', array(
-            'data' => ( isset($options['section']) ) ? $options['section']->getId() : null,
+            'data'      => $section,
+            'form'      => $form,
+            'archived'  => $archived,
             'attr'          => array(
                 'class'         => 'input-xlarge',
             ),
         ));
-//        $builder->add( 'section', 'entity', array(
-//            'empty_data'    => '---',
-//            'required'      => false,
-//            'class'         => 'CiscoSystemsAuditBundle:Section',
-//            'property'      => 'title',
-//            'empty_value'   => '(Choose a Section)',
-//            'group_by'      => 'section.form',
-//            'attr'          => array(
-//                'class'         => 'input-xlarge',
-//            ),
-//        ));
         $builder->add( 'weight', 'integer', array(
             'attr'          => array(
                 'title'                 => self::TOOLTIPWEIGHT,
@@ -60,7 +55,7 @@ class FieldType extends AbstractType
         ));
         $builder->add( 'flag', 'checkbox', array(
             'label'         => 'Should this field raise a flag?',
-            'required'      => false,
+            'required'      => FALSE,
             'attr'          => array(
                 'class'         => 'cisco-audit-flag-ckbox',
                 'title'         => self::TOOLTIPFLAG,
@@ -75,8 +70,8 @@ class FieldType extends AbstractType
             ),
         ));
         $builder->add( self::SCORE_YES, 'textarea', array(
-            'mapped'        => false,
-            'required'      => false,
+            'mapped'        => FALSE,
+            'required'      => FALSE,
             'data'          => isset( $choices[Score::YES] ) ? $choices[Score::YES] : '',
             'attr'          => array(
                 'placeholder'   => 'Correct answer definition',
@@ -85,8 +80,8 @@ class FieldType extends AbstractType
             ),
         ));
         $builder->add( self::SCORE_NO, 'textarea', array(
-            'mapped'        => false,
-            'required'      => false,
+            'mapped'        => FALSE,
+            'required'      => FALSE,
             'data'          => isset( $choices[Score::NO] ) ? $choices[Score::NO] : '',
             'attr'          => array(
                 'placeholder'   => 'Incorrect answer definition',
@@ -95,8 +90,8 @@ class FieldType extends AbstractType
             ),
         ));
         $builder->add( self::SCORE_ACCEPTABLE, 'textarea', array(
-            'mapped'        => false,
-            'required'      => false,
+            'mapped'        => FALSE,
+            'required'      => FALSE,
             'data'          => isset( $choices[Score::ACCEPTABLE] ) ? $choices[Score::ACCEPTABLE] : '',
             'attr'          => array(
                 'placeholder'           => 'Partially correct answer definition',
@@ -108,8 +103,8 @@ class FieldType extends AbstractType
             'label'         => 'Acceptable',
         ));
         $builder->add( self::SCORE_NOT_APPLICABLE, 'textarea', array(
-            'mapped'        => false,
-            'required'      => false,
+            'mapped'        => FALSE,
+            'required'      => FALSE,
             'data'          => isset( $choices[Score::NOT_APPLICABLE] ) ? $choices[Score::NOT_APPLICABLE] : '',
             'attr'          => array(
                 'placeholder'     => 'Answer not applicable',
@@ -130,8 +125,10 @@ class FieldType extends AbstractType
     public function setDefaultOptions( OptionsResolverInterface $resolver )
     {
         $resolver->setDefaults( array(
-            'data_class' => 'CiscoSystems\AuditBundle\Entity\Field',
-            'section'    => null,
+            'data_class'    => 'CiscoSystems\AuditBundle\Entity\Field',
+            'section'       => NULL,
+            'form'          => NULL,
+            'archived'      => NULL,
         ));
     }
 

@@ -15,13 +15,10 @@ class SectionRepository extends SortableRepository
      *
      * @return array Array of Entities Section
      */
-    public function getSectionOptions( $form = NULL )
+    public function getSectionOptions( $form = NULL, $archived = FALSE )
     {
-        $archived = ( NULL === $form ) ? NULL : $false ;
         $array = array();
         $sections = $this->getSections( $form, $archived );
-
-//        echo '<div>'; print_r($sections); echo '</div>'; die();
 
         foreach( $sections as $section )
         {
@@ -55,8 +52,7 @@ class SectionRepository extends SortableRepository
             $and->add( $qb->expr()->eq( 'r.archived', ':archived' ));
             $qb->setParameter( 'archived', $archived );
         }
-        if( $and->count() > 1 ) $qb->where( $and );
-//        echo '<div>'; print_r( $and->count() ); echo '</div>'; die();
+        if( $and->count() > 0 ) $qb->where( $and );
 //        echo '<div>'; print_r( $qb->getDQL()); echo '</div>'; die();
         return $qb;
     }

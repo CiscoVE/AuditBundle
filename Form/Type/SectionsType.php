@@ -22,21 +22,23 @@ class SectionsType extends AbstractType
         $type = $this;
         $choiceList = function( Options $options ) use ( $type )
         {
-            return new SimpleChoiceList( $type->getSections( $options['auditform']) );
+//            echo '<div>options: '; print_r( $options['auditform'] ); echo '</div>'; die();
+            return new SimpleChoiceList( $type->getSections( $options['form'], $options['archived']) );
         };
 
         $resolver->setDefaults( array(
             'choice_list'   => $choiceList,
-            'virtual'       => true,
+            'virtual'       => TRUE,
             'empty_value'   => '(Select Section)',
-            'empty_data'    => null,
-            'auditform'     => null,
+            'empty_data'    => NULL,
+            'form'          => NULL,
+            'archived'      => NULL,
         ));
     }
 
-    public function getSections( $form = null )
+    public function getSections( $form = NULL, $archived = NULL )
     {
-        return $this->repository->getSectionOptions( $form );
+        return $this->repository->getSectionOptions( $form, $archived );
     }
 
     public function getParent()

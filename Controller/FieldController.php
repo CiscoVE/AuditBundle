@@ -38,13 +38,13 @@ class FieldController extends Controller
      */
     public function editAction( Request $request )
     {
-        $edit = false;
+        $edit = FALSE;
         $em = $this->getDoctrine()->getEntityManager();
         $field = new Field();
         $fid = $request->get( 'field_id' );
         if ( '' !== $fid && NULL !== $fid )
         {
-            $edit = true;
+            $edit = TRUE;
             $field = $em->getRepository( 'CiscoSystemsAuditBundle:Field' )
                         ->find( $fid );
             if( !$field )
@@ -59,10 +59,13 @@ class FieldController extends Controller
                           ->find( $request->get( 'section_id' ));
             if( NULL === $field->getId() ) $field->addSection( $section );
         }
+        $auditform = FALSE === $section->getForm() ? NULL : $section->getForm();
         $form = $this->createForm( new FieldType(), $field, array(
-            'section' => $field->getSection(),
+            'section'   => $field->getSection(),
+            'form'      => $auditform,
+            'archived'  => FALSE,
         ));
-        if ( null !== $values = $request->get( $form->getName() ))
+        if ( NULL !== $values = $request->get( $form->getName() ))
         {
             $form->bind( $request );
             if ( $form->isValid() )
@@ -82,22 +85,38 @@ class FieldController extends Controller
         /**
          * NO currently used: planned to load into a modal box
          */
-//        if ( $request->isXmlHttpRequest())
-//        {
-//            return $this->render( 'CiscoSystemsAuditBundle:Field:_edit.html.twig', array(
-//                'edit'  => $edit,
-//                'field' => $field,
-//                'form'  => $form->createView(),
-//            ));
-//        }
-//        else
-//        {
+        if ( $request->isXmlHttpRequest())
+        {
+            return $this->render( 'CiscoSystemsAuditBundle:Field:_edit.html.twig', array(
+                'edit'  => $edit,
+                'field' => $field,
+                'form'  => $form->createView(),
+            ));
+        }
+        else
+        {
             return $this->render( 'CiscoSystemsAuditBundle:Field:edit.html.twig', array(
                 'edit'      => $edit,
                 'field'     => $field,
                 'form'      => $form->createView(),
             ));
-//        }
+        }
+    }
+
+    public function compareAction( Field $field, $parameters )
+    {
+        $title = $parameters['title'];
+        $description = $parameters['description'];
+        $choices = $parameters['choices'];
+
+        if( $field->getTitle() !== $title ||
+            $field->getDescription() !== $description ||
+            $field->getChoices() !== $choices )
+        {
+            return TRUE;
+        }
+
+        return FALSE;
     }
 
     /**
@@ -145,7 +164,7 @@ class FieldController extends Controller
         $repo = $this->getDoctrine()
                      ->getEntityManager()
                      ->getRepository( 'CiscoSystemsAuditBundle:Field' );
-        if ( null !== $field = $repo->find( $request->get( 'field_id' ) ))
+        if ( NULL !== $field = $repo->find( $request->get( 'field_id' ) ))
         {
             if ( $request->isXmlHttpRequest())
             {
@@ -177,16 +196,16 @@ class FieldController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
         $repo = $em->getRepository( 'CiscoSystemsAuditBundle:Field' );
-        if ( null !== $field = $repo->find( $request->get( 'field_id' ) ))
+        if ( NULL !== $field = $repo->find( $request->get( 'field_id' ) ))
         {
             //
             $section = $field->getSection();
             $scores = $em->getRepository( 'CiscoSystemsAuditBundle:Score' )
                          ->findAll();
-            if ( null !== $scores = $field->getScores()) $field->removeAllScores();
-            if ( null !== $section = $field->getSection()) $section->removeField( $field );
+            if ( NULL !== $scores = $field->getScores()) $field->removeAllScores();
+            if ( NULL !== $section = $field->getSection()) $section->removeField( $field );
 
-            $field->setSection( null );
+            $field->setSection( NULL );
             $em->remove( $field );
             $em->flush();
 
