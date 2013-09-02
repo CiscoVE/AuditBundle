@@ -58,7 +58,6 @@ class FieldController extends Controller
             $section = $em->getRepository( 'CiscoSystemsAuditBundle:Section' )
                           ->find( $request->get( 'section_id' ));
             if( NULL === $field->getId() ) $field->addSection( $section );
-//            $field->addSection( $section );
         }
         $form = $this->createForm( new FieldType(), $field, array(
             'section' => $field->getSection(),
@@ -68,9 +67,6 @@ class FieldController extends Controller
             $form->bind( $request );
             if ( $form->isValid() )
             {
-                echo "<div>foo</div>"; die;
-
-
                 $flaggedField = $field->getFlag();
                 $allowMultipleAnswer = $field->getSection()->getForm()->getAllowMultipleAnswer();
                 $this->mapScores( $field, $values, $flaggedField, $allowMultipleAnswer );

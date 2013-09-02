@@ -126,11 +126,6 @@ class AuditController extends Controller
         }
     }
 
-//    protected function setFormState( Audit $audit, Form $form )
-//    {
-//
-//    }
-
     /**
      * view a single Audit
      *
@@ -147,15 +142,10 @@ class AuditController extends Controller
         $auditrepo = $em->getRepository( 'CiscoSystemsAuditBundle:Audit' );
         $audit = $auditrepo->find( $request->get( 'id' ) );
 
-        $formRepo = $em->getRepository( 'CiscoSystemsAuditBundle:Form' );
-        $form = $formRepo->getFormState( $audit );
-
         foreach( $audit->getForm()->getSections( TRUE ) as $section )
         {
             $scoreService->setFlagForSection( $audit, $section );
         }
-
-        $state = FALSE;
 
         if ( null !== $audit )
         {
@@ -167,9 +157,6 @@ class AuditController extends Controller
                 return $this->render( 'CiscoSystemsAuditBundle:Audit:view.html.twig', array(
                     'audit'  => $audit,
                     'scores' => $scores,
-                    'temp'   => $form,
-                    'test'   => $state,
-//                    'newform'=> $form
                 ));
             }
             else

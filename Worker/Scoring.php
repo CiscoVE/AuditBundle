@@ -196,10 +196,6 @@ class Scoring
     public function getWeightForAudit( Audit $audit )
     {
         $index = $audit->getFormIndexes();
-
-        echo '<div>'; print_r($index); echo '</div>';
-        echo '<div>'; print_r($audit->getFormState()); echo '</div>';
-
         $weight = 0;
         foreach ( $audit->getForm()->getSections() as $section )
         {

@@ -17,7 +17,7 @@ class Field extends Element
     /**
      * @var \CiscoSystems\AuditBundle\Entity\AuditSection AuditSection to which the AuditField belongs
      *
-     * @ORM\OneToMany(targetEntity="CiscoSystems\AuditBundle\Entity\SectionField", mappedBy="field")
+     * @ORM\OneToMany(targetEntity="CiscoSystems\AuditBundle\Entity\SectionField", mappedBy="field", cascade="persist")
      */
     protected $sectionRelations;
 

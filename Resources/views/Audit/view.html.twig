@@ -71,11 +71,6 @@
                     {% endfor %}
                     <tr>
                         <td colspan="2" style="text-align: right">Section's Score</td>
-                        {#
-                        <td>{{ attribute( audit, 'resultForSection', [ section ] ) }}</td>
-                        <td>
-                            {{ section.weight }}
-                        </td>#}
                         {% if section.flag == true %}
                         <td>{{ audit.form.flagLabel }}</td>
                         <td></td>
