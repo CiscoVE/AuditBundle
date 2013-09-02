@@ -13,8 +13,6 @@ $( document ).on( 'change', '.cisco-audit-score-selector', function()
     var thisScoreRow = $( row ).nextUntil( '.cisco-audit-section-row', '.cisco-audit-section-score-row' );
     var rows = $.merge( $.merge( prevRows, row ), nextRows );
 
-//    console.log( scoreRow );
-
     var scores = [];
     var index = 0;
     var flag = false;
@@ -57,7 +55,6 @@ $( document ).on( 'change', '.cisco-audit-score-selector', function()
 
     ( $.inArray( 'N', flaggedArray ) > -1) ? flag = true: flag = false;
     $( thisScoreRow ).attr( 'data-flag', flag );
-
 
 // need to recalculate the score value held in the value attribute of the SectionScore.
     var sectionScore = $( thisScoreRow ).find( '.cisco-audit-section-score' );

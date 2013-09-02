@@ -150,7 +150,7 @@ class SectionController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\Response
      *
-     * @throws type
+     * @throws NotFoundException
      */
     public function removeAction( Request $request )
     {
@@ -168,6 +168,7 @@ class SectionController extends Controller
                 $em->flush();
                 if ( $request->isXmlHttpRequest() )
                 {
+                    echo 'foo'; die();
                     $fields = $fieldRepo->findBy( array ( 'section' => null ));
 
                     return $this->render( 'CiscoSystemsAuditBundle:Field:_ulist.html.twig', array(

@@ -24,14 +24,10 @@ In order to help you customize your template, the following twig extensions are 
 ```
 ### twig filters:
 ```twig
-    {{ section | position ( form ) }}   // return the position of the section
-                                        // for the given form
-    {{ field | position ( section ) }}  // return the position of the field
-                                        // for the given section
-    {{ form | sections( false|true ) }} // return the sections for the form
-                                        // archived === false | true
-    {{ section | fields( false|true ) }}// return the fields for the section
-                                        // archived === false | true
+    {{ element | archived ( parent ) }} // return the value of archived for the element and its parent element (section/form and field/section)
+    {{ element | position ( parent ) }} // return the value of position for the element and its parent element (section/form and field/section)
+    {{ form | sections( false|true ) }} // return the sections for the form archived === false | true
+    {{ section | fields( false|true ) }}// return the fields for the section archived === false | true
 ```
 
 ~~Currently the forms are fairly static: Each Section is attached to one and only one

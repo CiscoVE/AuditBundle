@@ -23,7 +23,7 @@
         </div>
     </td>
 </tr>
-{% for field in section.fields %}
+{% for field in section | fields( false ) %}
     {% include 'CiscoSystemsAuditBundle:Field:_load.html.twig' %}
 {% else %}
     <tr class="warning-empty">

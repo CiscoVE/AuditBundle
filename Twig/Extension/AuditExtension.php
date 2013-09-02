@@ -35,6 +35,7 @@ class AuditExtension extends Twig_Extension
             'get_resultforaudit'    => new Twig_Function_Method( $this, 'getResultForAudit' ),
             'get_weightforaudit'    => new Twig_Function_Method( $this, 'getWeightForAudit' ),
             'get_trigger'           => new Twig_Function_Method( $this, 'getTrigger' ),
+            'get_relation'          => new Twig_Function_Method( $this, 'getRelation' ),
         );
     }
 
@@ -75,21 +76,26 @@ class AuditExtension extends Twig_Extension
                     ->getTrigger( $field );
     }
 
-    public function getPosition( $element, $parent )
+    public function getRelation( $element, $parent )
     {
         if( $element instanceof Section && $parent instanceof Form )
         {
-            return $element->getFormRelation( $parent )->getPosition();
+            return $element->getFormRelation( $parent );
         }
         elseif( $element instanceof Field && $parent instanceof Section )
         {
-            return $element->getSectionRelation( $parent )->getPosition();
+            return $element->getSectionRelation( $parent );
         }
     }
 
-    public function getArchived( $relation )
+    public function getPosition( $element, $parent )
     {
-        return $relation->getArchived();
+        return $this->getRelation( $element, $parent )->getPosition();
+    }
+
+    public function getArchived( $element, $parent )
+    {
+        return $this->getRelation( $element, $parent )->getArchived();
     }
 
     public function getSections( $form, $archived )
