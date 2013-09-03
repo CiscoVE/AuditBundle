@@ -109,6 +109,7 @@
                 {% endif %}
                 {% if edit == true %}
                     <a class="btn btn-primary btn-small"
+                       id="dialog-delete" {# TODO finish to implement confirmation box for deleting element #}
                         href="{{ path( 'audit_field_delete', { 'field_id': field.id } ) }}">
                          Delete <i class="icon-trash icon-white"></i>
                     </a>
@@ -118,7 +119,44 @@
         <script type="text/javascript">
             var multipleAllowed = {{ field.section.form.allowMultipleAnswer | json_encode() }};
             var flagged = {{ field.flag | json_encode()}};
+            /**
+             * TODO finish to implement confirmation box for deleting element
+             *
+             *
+            $( document ).on( 'click', '#dialog-delete', function()
+            {
+                $( '#dialog' ).dialog({
+                    resizable: true,
+                    height:165,
+                    width: 380,
+                    modal: true,
+                    buttons: {
+                        "Proceed and Delete Field": function() {
+                            $( this ).dialog( "close" );
+                        },
+                        Cancel: function() {
+                            $( this ).dialog( "close" );
+                        }
+                    },
+                });
+            });**/
         </script>
     </div>
 </div>
+
+{# TODO: finish to implement confirmation box for deleting element
+<div id="dialog" title="Delete the Field from the application?" style="display: none;">
+    <span class="badge badge-important">
+        <i class="icon-exclamation-sign icon-white"></i>
+    </span>
+    <span>
+        You are about to <b>DELETE</b> this field from the application.
+        Are you sure?
+        <p>
+            <b>Field</b>: {{ field.title }}
+            <b>Section</b>: {{ field.section.title }}
+        </p>
+    </span>
+</div>
+#}
 {% endblock %}
