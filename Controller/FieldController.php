@@ -69,53 +69,18 @@ class FieldController extends Controller
         if ( NULL !== $values = $request->get( $form->getName() ))
         {
             $clone = clone $field;
-//                echo '<div>Form: '; print_r( $form['title']->getData() ); echo '</div>';
-//                echo '<div>Field: '; print_r( $field->getTitle() ); echo '</div>';
-            $params = array();
-            if( '' !== $form[FieldType::SCORE_YES]->getData() )
-            {
-                $params['Y'] = $form[FieldType::SCORE_YES]->getData();
-            }
-            if( '' !== $form[FieldType::SCORE_NO]->getData() )
-            {
-                $params['N'] = $form[FieldType::SCORE_NO]->getData();
-            }
-            if( '' !== $form[FieldType::SCORE_ACCEPTABLE]->getData() )
-            {
-                $params['A'] = $form[FieldType::SCORE_ACCEPTABLE]->getData();
-            }
-            if( '' !== $form[FieldType::SCORE_NOT_APPLICABLE]->getData() )
-            {
-                $params['NA'] = $form[FieldType::SCORE_NOT_APPLICABLE]->getData();
-            }
-            $weight = ( '' !== $form['weight']->getData() ) ?
-                      $form['weight']->getData() :
-                      Field::DEFAULTWEIGHTVALUE ;
-
             $form->bind( $request );
-//                echo '<div>Form: '; print_r( $form['title']->getData() ); echo '</div>';
             if ( $form->isValid() )
             {
-
-
-                // checking form's values
-//                echo '<div>'; print_r( $form['title']->getData() ); echo '</div>';
-//                echo '<div>'; print_r( $form['description']->getData() ); echo '</div>';
-//                echo '<div>'; print_r( $form['weight']->getData() ); echo '</div>';
-//                echo '<div>'; print_r( $form[FieldType::SCORE_YES]->getData() ); echo '</div>';
-//                echo '<div>'; print_r( $form[FieldType::SCORE_NO]->getData() ); echo '</div>';
-//                echo '<div>'; print_r( $form[FieldType::SCORE_ACCEPTABLE]->getData() ); echo '</div>';
-//                echo '<div>'; print_r( $form[FieldType::SCORE_NOT_APPLICABLE]->getData() ); echo '</div>';
-//                die();
-//                echo '<div>'; print_r( $params ); echo '</div>';
-
                 $flaggedField = $field->getFlag();
                 $allowMultipleAnswer = $field->getSection()->getForm()->getAllowMultipleAnswer();
                 if( $edit && NULL !== $field->compare( $clone ) )
                 {
-                    echo 'foo';
                     $section->removeField( $field );
-//                    $newField = $field;
+
+                    echo '<div>Section Title' . $section->getTitle() . '</div>';
+                    echo '<div>Form Title' . $form['section']->getData() . '</div>'; die();
+
                     $newField = new Field();
                     $newField->setTitle( $field->getTitle() )
                              ->setDescription( $field->getDescription() )
@@ -123,19 +88,15 @@ class FieldController extends Controller
                              ->setChoices( $field->getChoices() )
                              ->setFlag( $field->getFlag() )
                              ->addSections( $field->getSections() );
-                             $this->printField( 'newField' , $newField );
+//                    $em->persist( $section );
+                    $em->persist( $newField );
                 }
-                $this->mapScores( $field, $values, $flaggedField, $allowMultipleAnswer );
-//                echo '<div>'; print_r( $field->getChoices() ); echo '</div>'; die();
-
-                $this->printField( 'Field', $field );
-                $this->printField( 'Clone', $clone );
-
-                echo '<h3>discrepancies between clone and field</h3>';
-                echo '<div> '; print_r( $field->compare( $clone ) ); echo '</div>'; die();
-
-                $em->persist( $field->getSection() );
-                $em->persist( $field );
+                else
+                {
+                    $this->mapScores( $field, $values, $flaggedField, $allowMultipleAnswer );
+                    $em->persist( $field->getSection() );
+                    $em->persist( $field );
+                }
                 $em->flush();
 
                 return $this->redirect( $this->generateUrl( 'audit_section_edit', array(
@@ -173,6 +134,7 @@ class FieldController extends Controller
         echo '<div>Description: '; print_r( $field->getDescription() ); echo '</div>';
         echo '<div>Weight: '; print_r( $field->getWeight() ); echo '</div>';
         echo '<div>Choices: '; print_r( $field->getChoices() ); echo '</div>';
+        echo '<div>Sections: '; print_r( count( $field->getSections() )); echo '</div>';
         echo '</div>';
     }
 
