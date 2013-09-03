@@ -356,8 +356,22 @@ class Field extends Element
 
             return $this;
         }
+        elseif( TRUE === $this->getSectionRelation( $section )->getArchived() )
+        {
+            $this->getSectionRelation( $section )->setArchived( FALSE );
+
+            return $this;
+        }
 
         return FALSE;
+    }
+
+    public function addSections( $sections )
+    {
+        foreach( $sections as $section )
+        {
+            $this->addSection( $section );
+        }
     }
 
     /**
@@ -462,5 +476,60 @@ class Field extends Element
         }
 
         return FALSE;
+    }
+
+    /**
+     * see http://stackoverflow.com/questions/9088603/symfony2-doctrine-how-to-re-save-an-entity-with-a-onetomany-as-a-cascading-new
+     */
+    public function cloneSectionRelation()
+    {
+        $relations = $this->sectionRelations;
+        $this->sectionRelations = new ArrayCollection();
+        foreach( $relations as $relation )
+        {
+            $clone = clone $relation->getSection();
+            $this->sectionRelations->add( new SectionField( $clone, $this ) );
+            $clone->setField( $this );
+        }
+    }
+
+    public function cloneScores()
+    {
+        $scores = $this->scores;
+        $this->scores = new ArrayCollection();
+        foreach( $scores as $score )
+        {
+            $clone = clone $score;
+            $this->scores->add( $clone );
+            $clone->setField( $this );
+        }
+    }
+
+    public function compare( Field $field )
+    {
+        $ret = array();
+
+        if( $field->getTitle() !== $this->title )
+        {
+            $ret['title'] = array( $field->getTitle(), $this->title );
+        }
+        if( $field->getDescription() !== $this->description )
+        {
+            $ret['description'] = array( $field->getDescription(), $this->description );
+        }
+        if( $field->getFlag() !== $this->flag )
+        {
+            $ret['flag'] = array( $field->getFlag(), $this->flag );
+        }
+        if( $field->getChoices() !== $this->choices )
+        {
+            $ret['choices'] = array( $field->getChoices(), $this->choices );
+        }
+        if( $field->getWeight() !== $this->weight )
+        {
+            $ret['weight'] = array( $field->getWeight(), $this->weight );
+        }
+
+        return ( count( $ret ) > 0 ) ? $ret : NULL ;
     }
 }

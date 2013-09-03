@@ -5,6 +5,7 @@ namespace CiscoSystems\AuditBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Form\Form;
 use CiscoSystems\AuditBundle\Entity\Field;
 use CiscoSystems\AuditBundle\Entity\Section;
 use CiscoSystems\AuditBundle\Form\Type\FieldType;
@@ -67,12 +68,72 @@ class FieldController extends Controller
         ));
         if ( NULL !== $values = $request->get( $form->getName() ))
         {
+            $clone = clone $field;
+//                echo '<div>Form: '; print_r( $form['title']->getData() ); echo '</div>';
+//                echo '<div>Field: '; print_r( $field->getTitle() ); echo '</div>';
+            $params = array();
+            if( '' !== $form[FieldType::SCORE_YES]->getData() )
+            {
+                $params['Y'] = $form[FieldType::SCORE_YES]->getData();
+            }
+            if( '' !== $form[FieldType::SCORE_NO]->getData() )
+            {
+                $params['N'] = $form[FieldType::SCORE_NO]->getData();
+            }
+            if( '' !== $form[FieldType::SCORE_ACCEPTABLE]->getData() )
+            {
+                $params['A'] = $form[FieldType::SCORE_ACCEPTABLE]->getData();
+            }
+            if( '' !== $form[FieldType::SCORE_NOT_APPLICABLE]->getData() )
+            {
+                $params['NA'] = $form[FieldType::SCORE_NOT_APPLICABLE]->getData();
+            }
+            $weight = ( '' !== $form['weight']->getData() ) ?
+                      $form['weight']->getData() :
+                      Field::DEFAULTWEIGHTVALUE ;
+
             $form->bind( $request );
+//                echo '<div>Form: '; print_r( $form['title']->getData() ); echo '</div>';
             if ( $form->isValid() )
             {
+
+
+                // checking form's values
+//                echo '<div>'; print_r( $form['title']->getData() ); echo '</div>';
+//                echo '<div>'; print_r( $form['description']->getData() ); echo '</div>';
+//                echo '<div>'; print_r( $form['weight']->getData() ); echo '</div>';
+//                echo '<div>'; print_r( $form[FieldType::SCORE_YES]->getData() ); echo '</div>';
+//                echo '<div>'; print_r( $form[FieldType::SCORE_NO]->getData() ); echo '</div>';
+//                echo '<div>'; print_r( $form[FieldType::SCORE_ACCEPTABLE]->getData() ); echo '</div>';
+//                echo '<div>'; print_r( $form[FieldType::SCORE_NOT_APPLICABLE]->getData() ); echo '</div>';
+//                die();
+//                echo '<div>'; print_r( $params ); echo '</div>';
+
                 $flaggedField = $field->getFlag();
                 $allowMultipleAnswer = $field->getSection()->getForm()->getAllowMultipleAnswer();
+                if( $edit && NULL !== $field->compare( $clone ) )
+                {
+                    echo 'foo';
+                    $section->removeField( $field );
+//                    $newField = $field;
+                    $newField = new Field();
+                    $newField->setTitle( $field->getTitle() )
+                             ->setDescription( $field->getDescription() )
+                             ->setWeight( $field->getWeight() )
+                             ->setChoices( $field->getChoices() )
+                             ->setFlag( $field->getFlag() )
+                             ->addSections( $field->getSections() );
+                             $this->printField( 'newField' , $newField );
+                }
                 $this->mapScores( $field, $values, $flaggedField, $allowMultipleAnswer );
+//                echo '<div>'; print_r( $field->getChoices() ); echo '</div>'; die();
+
+                $this->printField( 'Field', $field );
+                $this->printField( 'Clone', $clone );
+
+                echo '<h3>discrepancies between clone and field</h3>';
+                echo '<div> '; print_r( $field->compare( $clone ) ); echo '</div>'; die();
+
                 $em->persist( $field->getSection() );
                 $em->persist( $field );
                 $em->flush();
@@ -103,20 +164,26 @@ class FieldController extends Controller
         }
     }
 
-    public function compareAction( Field $field, $parameters )
+    private function printField( $title, $field )
     {
-        $title = $parameters['title'];
-        $description = $parameters['description'];
-        $choices = $parameters['choices'];
+        echo '<h3>' . $title . '</h3>';
+        echo '<div>';
+        echo '<div>Id: '; print_r( $field->getId() ); echo '</div>';
+        echo '<div>Title: '; print_r( $field->getTitle() ); echo '</div>';
+        echo '<div>Description: '; print_r( $field->getDescription() ); echo '</div>';
+        echo '<div>Weight: '; print_r( $field->getWeight() ); echo '</div>';
+        echo '<div>Choices: '; print_r( $field->getChoices() ); echo '</div>';
+        echo '</div>';
+    }
 
-        if( $field->getTitle() !== $title ||
-            $field->getDescription() !== $description ||
-            $field->getChoices() !== $choices )
-        {
-            return TRUE;
-        }
-
-        return FALSE;
+    private function getChoices( Form $form )
+    {
+        return array(
+            'Y' => $form[FieldType::SCORE_YES]->getData(),
+            'N' => $form[FieldType::SCORE_NO]->getData(),
+            'A' => $form[FieldType::SCORE_ACCEPTABLE]->getData(),
+            'NA' => $form[FieldType::SCORE_NOT_APPLICABLE]->getData()
+        );
     }
 
     /**

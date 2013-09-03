@@ -26,7 +26,6 @@ class FieldType extends AbstractType
         $section = isset( $options['section'] ) ? $options['section']->getId() : NULL;
         $form = isset( $options['form'] ) ? $options['form'] : NULL ;
         $archived = isset( $options['archived'] ) ? $options['archived'] : NULL ;
-//        echo '<div>archived: ' . $archived . '</div>';
         $builder->add( 'id', 'hidden', array(
             'mapped'        => FALSE
         ));
