@@ -125,6 +125,7 @@ class FieldController extends Controller
         }
     }
 
+    // debug method
     private function printField( $title, $field )
     {
         echo '<h3>' . $title . '</h3>';
@@ -138,6 +139,13 @@ class FieldController extends Controller
         echo '</div>';
     }
 
+    /**
+     * Returns an array of choices from the given Form
+     *
+     * @param \Symfony\Component\Form\Form $form
+     *
+     * @return array
+     */
     private function getChoices( Form $form )
     {
         return array(
