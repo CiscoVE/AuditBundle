@@ -65,6 +65,7 @@ class SectionRepository extends SortableRepository
             $qb->setParameter( 'archived', $archived );
         }
         if( $and->count() > 0 ) $qb->where( $and );
+
         return $qb;
     }
 
@@ -112,6 +113,17 @@ class SectionRepository extends SortableRepository
     public function getDetachedSections()
     {
         $sections = $this->qbAttached()
+                         ->getQuery()
+                         ->getResult();
+
+        return $this->qbDetached( $sections )
+                    ->getQuery()
+                    ->getResult();
+    }
+
+    public function getArchivedSections()
+    {
+        $sections = $this->qbArchived( FALSE )
                          ->getQuery()
                          ->getResult();
 

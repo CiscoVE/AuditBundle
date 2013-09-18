@@ -209,7 +209,7 @@ $( document ).on( 'click', '.cisco-audit-section-remove', function()
 $( document ).on( 'click', '.cisco-audit-section-add', function()
 {
     var btn = this;
-    var table = $( this ).parent().prev('table');
+    var table = $( this ).parent().prev( 'table' );
 
     $.get( $( this ).attr( 'href' ), function( data )
     {
@@ -217,7 +217,7 @@ $( document ).on( 'click', '.cisco-audit-section-add', function()
         {
             $( table ).find( 'tbody' ).children().remove();
         }
-        $( btn ).parent().prev('table').append( data );
+        $( table ).append( data );
         $( btn ).remove();
     });
 
@@ -232,7 +232,7 @@ $( document ).on( 'click', '.cisco-audit-section-add', function()
 $( document ).on( 'click', '.cisco-audit-field-add', function()
 {
     var btn = this;
-    var table = $( this ).parent().prev('table');
+    var table = $( this ).parent().prev( 'table' );
 
     $.get( $( this ).attr( 'href' ), function( data )
     {

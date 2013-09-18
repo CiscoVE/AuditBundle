@@ -131,8 +131,8 @@ class FormController extends Controller
     public function removeAction( Request $request )
     {
         $em = $this->getDoctrine()->getEntityManager();
-        $repo = $em->getRepository( 'CiscoSystemsAuditBundle:Form' );
-        $auditform = $repo->find( $request->get( 'form_id' ));
+        $auditform = $em->getRepository( 'CiscoSystemsAuditBundle:Form' )
+                        ->find( $request->get( 'form_id' ));
         if ( null !== $auditform )
         {
             $sectionRep = $em->getRepository( 'CiscoSystemsAuditBundle:Section' );
@@ -140,17 +140,12 @@ class FormController extends Controller
             if ( null !== $section )
             {
                 $auditform->removeSection( $section );
-//                $section->removeForm( $auditform );
-
-                echo "<div>"; echo "archived from form: " . $auditform->getSectionRelation( $section )->getArchived(); echo "</div>";
-                echo "<div>"; echo "archived from section: " . $section->getFormRelation( $auditform )->getArchived(); echo "</div>"; //die();
-
-//                $em->persist( $section );
                 $em->persist( $auditform );
                 $em->flush();
                 if ( $request->isXmlHttpRequest() )
                 {
                     $sections = $sectionRep->getUnAssignedSections( $auditform );
+
                     return $this->render( 'CiscoSystemsAuditBundle:Section:_ulist.html.twig', array(
                         'auditform'  => $auditform,
                         'usections'  => $sections,

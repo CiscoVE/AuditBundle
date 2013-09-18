@@ -5,6 +5,7 @@ namespace CiscoSystems\AuditBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use CiscoSystems\AuditBundle\Entity\Form;
 use CiscoSystems\AuditBundle\Entity\Section;
 use CiscoSystems\AuditBundle\Entity\FormSection;
 use CiscoSystems\AuditBundle\Entity\SectionField;
@@ -29,7 +30,6 @@ class SectionController extends Controller
         $edit = false;
         $em = $this->getDoctrine()->getEntityManager();
         $section = new Section();
-//        $relation = new FormSection();
         $sid = $request->get( 'section_id' );
         if ( '' !== $sid && NULL !== $sid )
         {
@@ -41,15 +41,11 @@ class SectionController extends Controller
                 throw $this->createNotFoundException( 'No field was found for id #' . $sid . '.' );
             }
         }
-        $auditForm = null;
+        $auditForm = new Form();
         if( $request->get( 'form_id' ) )
         {
             $auditForm = $em->getRepository( 'CiscoSystemsAuditBundle:Form' )
                             ->find( $request->get( 'form_id' ) );
-//            $relation->setForm( $auditForm );
-//            $relation->setSection( $section );
-//            $auditForm->AddSectionRelation( $relation );
-//            $auditForm->addSection( $section );
             if( NULL === $section->getId() ) $section->addForm( $auditForm );
         }
         $form = $this->createForm( new SectionType(), $section );
@@ -58,13 +54,11 @@ class SectionController extends Controller
             $form->bind( $request );
             if ( $form->isValid() )
             {
-//                $em->persist( $relation );
-//                $em->persist( $auditForm );
                 $em->persist( $section );
                 $em->flush();
 
                 return $this->redirect( $this->generateUrl( 'audit_form_edit', array(
-                    'form_id'  => $auditForm->getId(),
+                    'form_id'  => $form['form']->getData()->getId(),
                 )));
             }
         }
@@ -168,7 +162,8 @@ class SectionController extends Controller
                 $em->flush();
                 if ( $request->isXmlHttpRequest() )
                 {
-                    $fields = $fieldRepo->findBy( array ( 'section' => null ));
+//                    $fields = $fieldRepo->findBy( array ( 'section' => null ));
+                    $fields = $fieldRepo->getUnassignedFields( $section );
 
                     return $this->render( 'CiscoSystemsAuditBundle:Field:_ulist.html.twig', array(
                         'ufields'   => $fields,

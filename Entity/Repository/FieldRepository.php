@@ -38,7 +38,10 @@ class FieldRepository extends SortableRepository
     public function qbFields( $section = NULL, $archived = NULL )
     {
         $qb = $this->createQueryBuilder( 'f' );
-        $qb->join( 'CiscoSystemsAuditBundle:SectionField', 'r', 'with', 'f = r.field' );
+        if( NULL !== $section || NULL !== $archived )
+        {
+            $qb->join( 'CiscoSystemsAuditBundle:SectionField', 'r', 'with', 'f = r.field' );
+        }
         $and = $qb->expr()->andX();
         if( NULL !== $section )
         {
@@ -51,7 +54,7 @@ class FieldRepository extends SortableRepository
             $and->add( $qb->expr()->eq( 'r.archived', ':archived' ));
             $qb->setParameter( 'archived', $archived );
         }
-        $qb->add( 'where', $and );
+        if( $and->count() > 0 ) $qb->where( $and );
 
         return $qb;
     }
@@ -83,6 +86,13 @@ class FieldRepository extends SortableRepository
         return $this->createQueryBuilder( 'f' )
                     ->where( 'f NOT IN ( :fields )' )
                     ->setParameter( 'fields', $fields );
+    }
+
+    public function getDetached( $fields )
+    {
+        return $this->qbDetached( $fields )
+                    ->getQuery()
+                    ->getResult();
     }
 
     public function getDetachedFields()
@@ -123,15 +133,10 @@ class FieldRepository extends SortableRepository
      * LIMIT 0 , 30
      *
      */
-
-    public function getUnAssignedFields( $section )
+    public function getUnAssignedFields( $section = NULL )
     {
-        $fields = ( count( $this->getFields( $section, FALSE ) > 0 )) ?
-                  $this->getFields( $section, FALSE ) :
-                  $this->getFields( $section ) ;
-
-        return $this->qbDetached( $fields )
-                    ->getQuery()
-                    ->getResult();
+        return ( count( $this->getFields( $section, FALSE ) ) > 0 ) ?
+               $this->getDetached( $this->getFields( $section, FALSE ) ) :
+               $this->getFields() ;
     }
 }
