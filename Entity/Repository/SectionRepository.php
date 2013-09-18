@@ -36,10 +36,22 @@ class SectionRepository extends SortableRepository
         return $array;
     }
 
+    /**
+     * Returns a query for getting the sections based on the provided Form
+     * and archived value.
+     *
+     * @param \CiscoSystems\AuditBundle\Entity\Form $form
+     * @param boolean $archived
+     *
+     * @return QueryBuilder
+     */
     public function qbSections( $form = NULL, $archived = NULL )
     {
         $qb = $this->createQueryBuilder( 's' );
-        $qb->join( 'CiscoSystemsAuditBundle:FormSection', 'r', 'with', 's = r.section' );
+        if( NULL !== $form || NULL !== $archived )
+        {
+            $qb->join( 'CiscoSystemsAuditBundle:FormSection', 'r', 'with', 's = r.section' );
+        }
         $and = $qb->expr()->andX();
         if( NULL !== $form )
         {
@@ -53,7 +65,6 @@ class SectionRepository extends SortableRepository
             $qb->setParameter( 'archived', $archived );
         }
         if( $and->count() > 0 ) $qb->where( $and );
-//        echo '<div>'; print_r( $qb->getDQL()); echo '</div>'; die();
         return $qb;
     }
 
@@ -84,6 +95,13 @@ class SectionRepository extends SortableRepository
         return $this->createQueryBuilder( 's' )
                     ->where( 's NOT IN ( :sections )' )
                     ->setParameter( 'sections', $sections );
+    }
+
+    public function getDetached( $sections )
+    {
+        return $this->qbDetached( $sections )
+                    ->getQuery()
+                    ->getResult();
     }
 
     /**
@@ -122,14 +140,10 @@ class SectionRepository extends SortableRepository
      * LIMIT 0 , 30
      *
      */
-    public function getUnAssignedSections( $form )
+    public function getUnAssignedSections( $form = NULL )
     {
-        $sections = ( count( $this->getSections( $form, FALSE ) > 0 )) ?
-                    $this->getSections( $form, FALSE ) :
-                    $this->getSections( $form ) ;
-
-        return $this->qbDetached( $sections )
-                    ->getQuery()
-                    ->getResult();
+        return ( count( $this->getSections( $form, FALSE ) ) > 0 ) ?
+               $this->getDetached( $this->getSections( $form, FALSE ) ) :
+               $this->getSections() ;
     }
 }

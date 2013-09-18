@@ -66,10 +66,18 @@ class FormController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
         $repo = $em->getRepository( 'CiscoSystemsAuditBundle:Form' );
         $auditform = new Form();
-        if ( $request->get( 'form_id' ) )
+        $uSections = array();
+        $sectionRepo = $em->getRepository( 'CiscoSystemsAuditBundle:Section' );
+        $fid = $request->get( 'form_id' );
+        if ( '' !== $fid && NULL !== $fid )
         {
             $edit = true;
             $auditform = $repo->find( $request->get( 'form_id' ));
+            $uSections = $sectionRepo->getUnAssignedSections( $auditform );
+        }
+        else
+        {
+            $uSections = $sectionRepo->getUnAssignedSections();
         }
         $form = $this->createForm( new AuditFormType(), $auditform);
         if ( null !== $request->get( $form->getName() ))
@@ -83,8 +91,6 @@ class FormController extends Controller
                 return $this->redirect( $this->generateUrl( 'audit_forms' ));
             }
         }
-        $uSections = $em->getRepository( 'CiscoSystemsAuditBundle:Section' )
-                        ->getUnAssignedSections( $auditform );
 
         if ( $request->isXmlHttpRequest())
         {
