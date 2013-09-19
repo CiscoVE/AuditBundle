@@ -85,8 +85,10 @@
                 </tr>
             </thead>
             <tbody>
+            {% set counter = 1 %}
             {% for section in auditform | sections( false ) %}
                 {% include 'CiscoSystemsAuditBundle:Section:_load.html.twig' %}
+            {% set counter = counter + 1 %}
             {% else %}
                 <tr class="warning-empty">
                     <td colspan="6">

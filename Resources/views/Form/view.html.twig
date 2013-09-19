@@ -1,5 +1,3 @@
-{# Auditform::view.html.twig #}
-
 {% extends 'CiscoSystemsAuditBundle::base.html.twig' %}
 
 {% block pagecontent %}
@@ -49,10 +47,11 @@
             {% for section in form.sections %}
                 <tr>
                     <td colspan=4>
-                        <strong>Section {{ section | position( form ) }}: {{ section.title }}</strong> - {{ section.description }}
+                        <strong>Section {{ counter }}: {{ section.title }}</strong> - {{ section.description }}
+                        {# this does not work as I do not understand DoctrineExtension's Sortable behaviour <strong>Section {{ section | position( form ) }}: {{ section.title }}</strong> - {{ section.description }}#}
                     </td>
                 </tr>
-                {% for field in section.fieldRelations %}
+                {% for field in section.fields %}
                 <tr>
                     <td>{{ field.title }}</td>
                     <td>{{ field.description }}</td>
@@ -72,6 +71,7 @@
                             No section assigned to this form.
                         </td>
                     </tr>
+            {% set counter = counter + 1 %}
             {% endfor %}
             </tbody>
         </table>

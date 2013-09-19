@@ -1,6 +1,6 @@
 <tr class="cisco-audit-section-row">
     <td colspan="4">
-        <strong>Section {{ section | position ( auditform ) }}: {{ section.title }}</strong>
+        <strong>Section {{ counter }}: {{ section.title }}</strong>
         {% if section.description is not empty %}
              - {{ section.description }}
         {%  else %}

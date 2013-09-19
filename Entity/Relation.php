@@ -29,13 +29,15 @@ abstract class Relation
      */
     protected $archived;
 
-//    protected $form;
-//
-//    protected $section;
-//
-//    protected $field;
-
     /**
+     * The position should be determined from the 'type' and the 'parent'
+     * element, but I haven't figured out how to do this using the
+     * DoctrineExtensions (gedmo), so right now this is pretty much useless.
+     *
+     * It is only used to display the static position of the Sections
+     * on the Form templates (view and edit) right now. So as a workaround I am
+     * going to set a counter on these template and display it. :'(
+     *
      * @Gedmo\SortablePosition
      * @ORM\Column(name="position",type="integer")
      */
