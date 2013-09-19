@@ -15,7 +15,8 @@ class FormController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
         $formlist = $em->getRepository( 'CiscoSystemsAuditBundle:Form' )
-                       ->findAll();
+                       ->getArchived( FALSE );
+//                       ->findAll();
         $newform = new Form();
         $auditform = $this->createForm( new FormType(), $newform );
         if ( null !== $request->get( $auditform->getName() ) )
@@ -113,19 +114,22 @@ class FormController extends Controller
 
     public function deleteAction( Request $request )
     {
+        $em = $this->getDoctrine()->getEntityManager();
+        $repo = $em->getRepository( 'CiscoSystemsAuditBundle:Form' );
+        $relationRepo = $em->getRepository( 'CiscoSystemsAuditBundle:FormSection' );
+        if ( null !== $form = $repo->find( $request->get( 'form_id' ) ))
+        {
+            $relations = $relationRepo->getRelationPerForm( $form );
+            foreach( $relations as $relation )
+            {
+                $relation->setArchived( TRUE );
+                $em->persist( $relation );
+            }
+            $em->flush();
 
-//        $em = $this->getDoctrine()->getEntityManager();
-//        $repo = $em->getRepository( 'CiscoSystemsAuditBundle:Form' );
-//        if ( null !== $auditform = $repo->find( $request->get( 'form_id' ) ))
-//        {
-//            $em->remove( $auditform );
-//            $auditform->removeAllSection();
-//            $auditform->removeAllAudit();
-//            $em->flush();
-//
-//            return $this->redirect( $this->generateUrl( 'audit_forms' ));
-//        }
-//        throw $this->createNotFoundException( 'Form does not exist' );
+            return $this->redirect( $this->generateUrl( 'audit_forms' ));
+        }
+        throw $this->createNotFoundException( 'Form does not exist' );
     }
 
     public function removeAction( Request $request )

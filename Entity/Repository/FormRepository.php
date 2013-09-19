@@ -3,10 +3,12 @@
 namespace CiscoSystems\AuditBundle\Entity\Repository;
 
 use Gedmo\Sortable\Entity\Repository\SortableRepository;
+use CiscoSystems\AuditBundle\Entity\Form;
+use CiscoSystems\AuditBundle\Entity\Section;
 
 class FormRepository extends SortableRepository
 {
-    public function qbForms( $section, $archived )
+    public function qbForms( Section $section, $archived )
     {
         return $this->createQueryBuilder( 'f' )
                     ->join( 'CiscoSystemsAuditBundle:FormSection', 'r', 'with', 'f = r.form' )
@@ -19,7 +21,7 @@ class FormRepository extends SortableRepository
                     ));
     }
 
-    public function getForms( $section, $archived = FALSE )
+    public function getForms( Section $section, $archived = FALSE )
     {
         return $this->qbForms( $section, $archived )
                     ->getQuery()
@@ -63,5 +65,20 @@ class FormRepository extends SortableRepository
                        ->getResult();
 
         return reset( $result );
+    }
+
+    public function qbArchived( $archived )
+    {
+        return $this->createQueryBuilder( 'f' )
+                    ->innerJoin( 'CiscoSystems\AuditBundle\Entity\FormSection', 'r', 'WITH', 'r.form = f')
+                    ->where( 'r.archived = :archived' )
+                    ->setParameter( 'archived', $archived );
+    }
+
+    public function getArchived( $archived )
+    {
+        return $this->qbArchived( $archived )
+                    ->getQuery()
+                    ->getResult();
     }
 }
