@@ -125,20 +125,6 @@ class FieldController extends Controller
         }
     }
 
-    // debug method
-    private function printField( $title, $field )
-    {
-        echo '<h3>' . $title . '</h3>';
-        echo '<div>';
-        echo '<div>Id: '; print_r( $field->getId() ); echo '</div>';
-        echo '<div>Title: '; print_r( $field->getTitle() ); echo '</div>';
-        echo '<div>Description: '; print_r( $field->getDescription() ); echo '</div>';
-        echo '<div>Weight: '; print_r( $field->getWeight() ); echo '</div>';
-        echo '<div>Choices: '; print_r( $field->getChoices() ); echo '</div>';
-        echo '<div>Sections: '; print_r( count( $field->getSections() )); echo '</div>';
-        echo '</div>';
-    }
-
     /**
      * Returns an array of choices from the given Form
      *
@@ -233,22 +219,18 @@ class FieldController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
         $repo = $em->getRepository( 'CiscoSystemsAuditBundle:Field' );
+        $relationRepo = $em->getRepository(  'CiscoSystemsAuditBundle:SectionField' );
         if ( NULL !== $field = $repo->find( $request->get( 'field_id' ) ))
         {
-            //
-            $section = $field->getSection();
-            $scores = $em->getRepository( 'CiscoSystemsAuditBundle:Score' )
-                         ->findAll();
-            if ( NULL !== $scores = $field->getScores()) $field->removeAllScores();
-            if ( NULL !== $section = $field->getSection()) $section->removeField( $field );
-
-            $field->setSection( NULL );
-            $em->remove( $field );
+            $relations = $relationRepo->getRelationPerField( $field );
+            foreach( $relations as $relation )
+            {
+                $relation->setArchived( TRUE );
+                $em->persist( $relation );
+            }
             $em->flush();
 
-            return $this->redirect( $this->generateUrl( 'audit_section_edit', array (
-                'section_id'  => $section->getId(),
-            )));
+            return $this->redirect( $this->generateUrl( 'audit_forms' ));
         }
         throw $this->createNotFoundException( 'Field does not exist' );
     }
@@ -322,15 +304,5 @@ class FieldController extends Controller
             'fields' => $repo->findAll(),
             'form'   => $sectionform->createView(),
         ));
-    }
-
-    public function disableAction( Request $request )
-    {
-        return $this->render( 'Action not implemented yet.' );
-    }
-
-    public function changeSectionAction( Request $request )
-    {
-        return $this->render( 'Action not implemented yet.' );
     }
 }

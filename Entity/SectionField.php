@@ -7,8 +7,10 @@ use Doctrine\ORM\Mapping as ORM;
 use CiscoSystems\AuditBundle\Entity\Relation;
 
 /**
+ * @link http://stackoverflow.com/questions/14947080/doctrine2-many-to-many-with-extra-columns-in-reference-table-add-record explaination for extra field
+ *
  * @ORM\Table(name="audit__section_field")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="CiscoSystems\AuditBundle\Entity\Repository\SectionFieldRepository")
  */
 class SectionField extends Relation
 {
@@ -60,4 +62,3 @@ class SectionField extends Relation
         return parent::TYPE_SECTIONFIELD;
     }
 }
-// see http://stackoverflow.com/questions/14947080/doctrine2-many-to-many-with-extra-columns-in-reference-table-add-record
