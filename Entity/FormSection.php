@@ -8,7 +8,7 @@ use CiscoSystems\AuditBundle\Entity\Relation;
 
 /**
  * @ORM\Table(name="audit__form_section")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="CiscoSystems\AuditBundle\Entity\Repository\FormSectionRepository")
  */
 class FormSection extends Relation
 {

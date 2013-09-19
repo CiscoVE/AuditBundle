@@ -49,7 +49,7 @@ class SectionController extends Controller
             if( NULL === $section->getId() ) $section->addForm( $auditForm );
         }
         $form = $this->createForm( new SectionType(), $section );
-        if ( null !== $request->get( $form->getName() ))
+        if ( NULL !== $request->get( $form->getName() ))
         {
             $form->bind( $request );
             if ( $form->isValid() )
@@ -96,7 +96,7 @@ class SectionController extends Controller
         $sectionRepo = $this->getDoctrine()
                             ->getEntityManager()
                             ->getRepository( 'CiscoSystemsAuditBundle:Section' );
-        if ( null === $section = $sectionRepo->find( $request->get( 'section_id' ) ))
+        if ( NULL === $section = $sectionRepo->find( $request->get( 'section_id' ) ))
         {
             throw $this->createNotFoundException( 'Section does not exist' );
         }
@@ -117,23 +117,28 @@ class SectionController extends Controller
      */
     public function deleteAction( Request $request )
     {
-//        $em = $this->getDoctrine()->getEntityManager();
-//        $repo = $em->getRepository( 'CiscoSystemsAuditBundle:Section' );
-//        if ( null !== $section = $repo->find( $request->get( 'section_id' ) ))
-//        {
-////            $formRepo = $em->getRepository( 'CiscoSystemsAuditBundle:Form' );
-//            $form = $section->getForm();
-//            $id = $form->getId();
-//            $section->setForm( null );
-//            $section->removeAllField();
-//            $em->remove( $section );
-//            $em->flush();
-//
-//            return $this->redirect( $this->generateUrl( 'audit_form_edit', array(
-//                'form_id'   => $id,
-//            )));
-//        }
-//        throw $this->createNotFoundException( 'Section does not exist' );
+        $em = $this->getDoctrine()->getEntityManager();
+        $repo = $em->getRepository( 'CiscoSystemsAuditBundle:Section' );
+        $fsRepo = $em->getRepository( 'CiscoSystemsAuditBundle:FormSection' );
+        $sfRepo = $em->getRepository( 'CiscoSystemsAuditBundle:SectionField' );
+        if ( NULL !== $section = $repo->find( $request->get( 'section_id' ) ))
+        {
+            $relations = array_merge(
+                    $fsRepo->getRelationPerSection( $section ),
+                    $sfRepo->getRelationPerSection( $section )
+            );
+
+            foreach( $relations as $relation )
+            {
+                $relation->setArchived( TRUE );
+                $em->persist( $relation );
+            }
+
+            $em->flush();
+
+            return $this->redirect( $this->generateUrl( 'audit_forms' ));
+        }
+        throw $this->createNotFoundException( 'Section does not exist' );
     }
 
     /**
@@ -151,18 +156,18 @@ class SectionController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
         $section = $em->getRepository( 'CiscoSystemsAuditBundle:Section' )
                       ->find( $request->get( 'section_id' ));
-        if ( null !== $section )
+        if ( NULL !== $section )
         {
             $fieldRepo = $em->getRepository( 'CiscoSystemsAuditBundle:Field' );
             $field = $fieldRepo->find( $request->get( 'field_id' ));
-            if ( null !== $field )
+            if ( NULL !== $field )
             {
                 $section->removeField( $field );
                 $em->persist( $section );
                 $em->flush();
                 if ( $request->isXmlHttpRequest() )
                 {
-//                    $fields = $fieldRepo->findBy( array ( 'section' => null ));
+//                    $fields = $fieldRepo->findBy( array ( 'section' => NULL ));
                     $fields = $fieldRepo->getUnassignedFields( $section );
 
                     return $this->render( 'CiscoSystemsAuditBundle:Field:_ulist.html.twig', array(
@@ -197,11 +202,11 @@ class SectionController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
         $section = $em->getRepository( 'CiscoSystemsAuditBundle:Section' )
                       ->find( $request->get( 'section_id' ));
-        if ( null !== $section )
+        if ( NULL !== $section )
         {
             $field = $em->getRepository( 'CiscoSystemsAuditBundle:Field' )
                         ->find( $request->get( 'field_id' ));
-            if ( null !== $field )
+            if ( NULL !== $field )
             {
                 $section->addField( $field );
                 $em->persist( $section );
