@@ -3,12 +3,13 @@
 namespace CiscoSystems\AuditBundle\Entity\Repository;
 
 use Gedmo\Sortable\Entity\Repository\SortableRepository;
+use CiscoSystems\AuditBundle\Entity\Audit;
 use CiscoSystems\AuditBundle\Entity\Form;
 use CiscoSystems\AuditBundle\Entity\Section;
 
 class FormRepository extends SortableRepository
 {
-    public function qbForms( Section $section, $archived )
+    public function qbPerSection( Section $section, $archived )
     {
         return $this->createQueryBuilder( 'f' )
                     ->join( 'CiscoSystemsAuditBundle:FormSection', 'r', 'with', 'f = r.form' )
@@ -21,7 +22,7 @@ class FormRepository extends SortableRepository
                     ));
     }
 
-    public function getForms( Section $section, $archived = FALSE )
+    public function getPerSection( Section $section, $archived = FALSE )
     {
         return $this->qbForms( $section, $archived )
                     ->getQuery()
@@ -36,7 +37,7 @@ class FormRepository extends SortableRepository
      * @param array $index
      * @return type
      */
-    public function qbFormState( $id, array $index )
+    public function qbState( $id, array $index )
     {
         return $this->createQueryBuilder( 'fo' )
                     ->innerjoin( 'CiscoSystems\AuditBundle\Entity\Audit', 'a', 'WITH', 'fo = a.form' )
@@ -56,18 +57,18 @@ class FormRepository extends SortableRepository
                     ));
     }
 
-    public function getFormState( $audit )
+    public function getState( Audit $audit )
     {
         $index = $audit->getFormIndexes();
         $id = $audit->getId();
-        $result = $this->qbFormState( $id, $index )
+        $result = $this->qbState( $id, $index )
                        ->getQuery()
                        ->getResult();
 
         return reset( $result );
     }
 
-    public function qbArchived( $archived )
+    public function qbArchived( $archived = FALSE )
     {
         return $this->createQueryBuilder( 'f' )
                     ->innerJoin( 'CiscoSystems\AuditBundle\Entity\FormSection', 'r', 'WITH', 'r.form = f')
@@ -75,7 +76,7 @@ class FormRepository extends SortableRepository
                     ->setParameter( 'archived', $archived );
     }
 
-    public function getArchived( $archived )
+    public function getArchived( $archived = FALSE )
     {
         return $this->qbArchived( $archived )
                     ->getQuery()

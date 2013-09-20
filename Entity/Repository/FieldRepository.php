@@ -9,7 +9,7 @@ use Gedmo\Sortable\Entity\Repository\SortableRepository;
  */
 class FieldRepository extends SortableRepository
 {
-    public function qbTrigger( $field )
+    public function qbTrigger( Field $field )
     {
         return $this->createQueryBuilder( 'fo.flagLabel' )
                     ->from( 'CiscoSystemsAuditBundle:Field',  'fi' )
@@ -26,7 +26,7 @@ class FieldRepository extends SortableRepository
      *
      * @return string
      */
-    public function getTrigger( $field )
+    public function getTrigger( Field $field )
     {
         $array = $this->qbTrigger( $field )
                       ->getQuery()
@@ -35,7 +35,7 @@ class FieldRepository extends SortableRepository
         return $array['flagLabel'];
     }
 
-    public function qbFields( $section = NULL, $archived = NULL )
+    public function qbPerSection( $section = NULL, $archived = NULL )
     {
         $qb = $this->createQueryBuilder( 'f' );
         if( NULL !== $section || NULL !== $archived )
@@ -59,9 +59,9 @@ class FieldRepository extends SortableRepository
         return $qb;
     }
 
-    public function getFields( $section = NULL, $archived = NULL )
+    public function getPerSection( $section = NULL, $archived = NULL )
     {
-        return $this->qbFields( $section, $archived )
+        return $this->qbPerSection( $section, $archived )
                     ->getQuery()
                     ->getResult();
     }
@@ -74,11 +74,25 @@ class FieldRepository extends SortableRepository
                     ->setParameter( 'archived', $archived );
     }
 
+    public function getArchived( $archived = FALSE )
+    {
+        return $this->qbArchived( $archived )
+                    ->getQuery()
+                    ->getResult();
+    }
+
     public function qbAttached()
     {
         return $this->createQueryBuilder( 'f' )
                     ->join( 'CiscoSystems\AuditBundle\Entity\SectionField', 'r', 'with', 'r.field = f' )
                     ->groupBy( 'r.field' );
+    }
+
+    public function getAttached()
+    {
+        return $this->qbAttached()
+                    ->getQuery()
+                    ->getResult();
     }
 
     public function qbDetached( $fields )
@@ -97,24 +111,12 @@ class FieldRepository extends SortableRepository
 
     public function getDetachedFields()
     {
-        $fields = $this->qbAttached()
-                       ->getQuery()
-                       ->getResult();
-
-        return $this->qbDetached( $fields )
-                    ->getQuery()
-                    ->getResult();
+        return $this->getDetached( $this->getAttached() );
     }
 
     public function getArchivedFields( $archived = FALSE )
     {
-        $fields = $this->qbArchived( $archived )
-                       ->getQuery()
-                       ->getResult();
-
-        return $this->qbDetached( $fields )
-                    ->getQuery()
-                    ->getResult();
+        return $this->getDetached( $this->getArchived( $archived ) );
     }
 
     /**
@@ -133,10 +135,10 @@ class FieldRepository extends SortableRepository
      * LIMIT 0 , 30
      *
      */
-    public function getUnAssignedFields( $section = NULL )
+    public function getUnAssignedFields( Section $section = NULL )
     {
-        return ( count( $this->getFields( $section, FALSE ) ) > 0 ) ?
-               $this->getDetached( $this->getFields( $section, FALSE ) ) :
-               $this->getFields() ;
+        return ( count( $this->getPerSection( $section, FALSE ) ) > 0 ) ?
+               $this->getDetached( $this->getPerSection( $section, FALSE ) ) :
+               $this->getPerSection() ;
     }
 }

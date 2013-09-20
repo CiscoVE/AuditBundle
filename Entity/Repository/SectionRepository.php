@@ -3,6 +3,8 @@
 namespace CiscoSystems\AuditBundle\Entity\Repository;
 
 use Gedmo\Sortable\Entity\Repository\SortableRepository;
+use CiscoSystems\AuditBundle\Entity\Form;
+use CiscoSystems\AuditBundle\Entity\Field;
 
 /**
  * Custom query repository for SFC REview
@@ -15,12 +17,10 @@ class SectionRepository extends SortableRepository
      *
      * @return array Array of Entities Section
      */
-    public function getSectionOptions( $form = NULL, $archived = FALSE )
+    public function getSectionOptions( Form $form = NULL, $archived = FALSE )
     {
         $array = array();
-        $sections = $this->getPerForm( $form, $archived );
-
-        foreach( $sections as $section )
+        foreach( $this->getPerForm( $form, $archived ) as $section )
         {
             if( FALSE !== $section->getForm() )
             {
@@ -45,7 +45,7 @@ class SectionRepository extends SortableRepository
      *
      * @return QueryBuilder
      */
-    public function qbPerForm( $form = NULL, $archived = NULL )
+    public function qbPerForm( Form $form = NULL, $archived = NULL )
     {
         $qb = $this->createQueryBuilder( 's' );
         if( NULL !== $form || NULL !== $archived )
@@ -69,14 +69,14 @@ class SectionRepository extends SortableRepository
         return $qb;
     }
 
-    public function getPerForm( $form = NULL, $archived = NULL )
+    public function getPerForm( Form $form = NULL, $archived = NULL )
     {
         return $this->qbPerForm( $form, $archived )
                     ->getQuery()
                     ->getResult();
     }
 
-    public function qbPerField( $field = NULL, $archived = NULL )
+    public function qbPerField( Field $field = NULL, $archived = NULL )
     {
         $qb = $this->createQueryBuilder( 's' );
         if( NULL !== $field || NULL !== $archived )
@@ -100,7 +100,7 @@ class SectionRepository extends SortableRepository
         return $qb;
     }
 
-    public function getPerField( $field = NULL, $archived = NULL )
+    public function getPerField( Field $field = NULL, $archived = NULL )
     {
         return $this->qbPerField( $field, $archived )
                     ->getQuery()
@@ -117,11 +117,25 @@ class SectionRepository extends SortableRepository
                     ->setParameter( 'archived', $archived );
     }
 
+    public function getArchived( $archived )
+    {
+        return $this->qbArchived( $archived )
+                    ->getQuery()
+                    ->getResult();
+    }
+
     public function qbAttached()
     {
         return $this->createQueryBuilder( 's' )
                     ->join( 'CiscoSystems\AuditBundle\Entity\FormSection', 'r', 'with', 'r.section = s' )
                     ->groupBy( 'r.section' );
+    }
+
+    public function getAttached()
+    {
+        return $this->qbAttached()
+                    ->getQuery()
+                    ->getResult();
     }
 
     public function qbDetached( $sections )
@@ -145,24 +159,12 @@ class SectionRepository extends SortableRepository
      */
     public function getDetachedSections()
     {
-        $sections = $this->qbAttached()
-                         ->getQuery()
-                         ->getResult();
-
-        return $this->qbDetached( $sections )
-                    ->getQuery()
-                    ->getResult();
+        return $this->getDetached( $this->getAttached() );
     }
 
     public function getArchivedSections( $archived = FALSE )
     {
-        $sections = $this->qbArchived( $archived )
-                         ->getQuery()
-                         ->getResult();
-
-        return $this->qbDetached( $sections )
-                    ->getQuery()
-                    ->getResult();
+        return $this->getDetached( $this->getArchived( $archived ) );
     }
 
     /**
@@ -185,7 +187,7 @@ class SectionRepository extends SortableRepository
      * LIMIT 0 , 30
      *
      */
-    public function getUnAssignedPerForm( $form = NULL )
+    public function getUnAssignedPerForm( Form $form = NULL )
     {
         return ( count( $this->getPerForm( $form, FALSE ) ) > 0 ) ?
                $this->getDetached( $this->getPerForm( $form, FALSE ) ) :

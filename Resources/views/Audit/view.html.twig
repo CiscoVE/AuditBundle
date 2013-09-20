@@ -42,14 +42,12 @@
                 </tr>
             </thead>
             {% for section in audit.form.sections %}
-                {% set section_id = section.id %}
-                {% if section_id in audit.formindexes['sections'] %}
+                {% if section.id in audit.formindexes['sections'] %}
                     <tr>
                         <td colspan="5"><strong>Section {{ section | position ( form ) }}: {{ section.title }}</strong></td>
                     </tr>
                     {% for field in section.fields %}
-                    {% set field_id = field.id %}
-                        {% if field_id in audit.formindexes['fields']%}
+                        {% if field.id in audit.formindexes['fields']%}
                             {% for score in scores %}
                                 {% if score.field == field %}
                                 <tr>
