@@ -154,7 +154,7 @@ class SectionRepository extends SortableRepository
                     ->getResult();
     }
 
-    public function getArchivedSections( $archived )
+    public function getArchivedSections( $archived = FALSE )
     {
         $sections = $this->qbArchived( $archived )
                          ->getQuery()

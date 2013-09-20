@@ -106,9 +106,9 @@ class FieldRepository extends SortableRepository
                     ->getResult();
     }
 
-    public function getArchivedFields()
+    public function getArchivedFields( $archived = FALSE )
     {
-        $fields = $this->qbArchived( FALSE )
+        $fields = $this->qbArchived( $archived )
                        ->getQuery()
                        ->getResult();
 
