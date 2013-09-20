@@ -33,25 +33,32 @@ class FormRepository extends SortableRepository
      * WARNING: this is a test method. The intention is to retrieve Form-Section-Field
      * associated Entities for the given parameters
      *
+     * possible solution to be explored:
+     *
+     * @link http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/tutorials/working-with-indexed-associations.html
+     * @link http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/tutorials/extra-lazy-associations.html
+     *
      * @param type $id
      * @param array $index
      * @return type
      */
-    public function qbState( $id, array $index )
+    public function qbState( Audit $audit )
     {
+        $index = $audit->getFormIndexes();
+
         return $this->createQueryBuilder( 'fo' )
                     ->innerjoin( 'CiscoSystems\AuditBundle\Entity\Audit', 'a', 'WITH', 'fo = a.form' )
                     ->innerjoin( 'CiscoSystems\AuditBundle\Entity\FormSection', 'fs', 'WITH', 'fo = fs.form' )
                     ->innerjoin( 'CiscoSystems\AuditBundle\Entity\Section', 's', 'WITH', 's = fs.section' )
                     ->innerjoin( 'CiscoSystems\AuditBundle\Entity\SectionField', 'sf', 'WITH', 's = sf.section' )
                     ->innerjoin( 'CiscoSystems\AuditBundle\Entity\Field', 'fi', 'WITH', 'fi = sf.field' )
-                    ->where( 'a.id = :id' )
+                    ->where( 'a = :audit' )
                     ->andwhere( 'fo.id = :form' )
                     ->andWhere( 's.id IN ( :sections )' )
                     ->andWhere( 'fi.id IN ( :fields )' )
                     ->setParameters( array(
-                        'id'         => $id,
-                        'form'           => reset( $index['forms'] ),
+                        'audit'      => $audit,
+                        'form'       => reset( $index['forms'] ),
                         'sections'   => $index['sections'],
                         'fields'     => $index['fields'],
                     ));
@@ -59,9 +66,7 @@ class FormRepository extends SortableRepository
 
     public function getState( Audit $audit )
     {
-        $index = $audit->getFormIndexes();
-        $id = $audit->getId();
-        $result = $this->qbState( $id, $index )
+        $result = $this->qbState( $audit )
                        ->getQuery()
                        ->getResult();
 

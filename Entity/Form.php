@@ -291,7 +291,7 @@ class Form extends Element
     }
 
     /**
-     * Get sections, if parameter given (boolean) then only relation
+     * Get sections, if parameter given ($archived) then only relation
      * section - field with getArchived() === $archived will be returned
      *
      * @param boolean $archived

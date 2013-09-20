@@ -3,6 +3,8 @@
 namespace CiscoSystems\AuditBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use CiscoSystems\AuditBundle\Entity\Audit;
+use CiscoSystems\AuditBundle\Entity\Form;
 
 class AuditRepository extends EntityRepository
 {
@@ -113,7 +115,7 @@ class AuditRepository extends EntityRepository
         return $return;
     }
 
-    public function qbAuditByFormAndReference( $form, $reference )
+    public function qbAuditByFormAndReference( Form $form, $reference )
     {
         return $this->createQueryBuilder( 'a' )
                     ->join( 'CiscoSystems\AuditBundle\Model\ReferenceInterface', 'r', 'with', 'a.reference = r' )
@@ -125,7 +127,7 @@ class AuditRepository extends EntityRepository
                     ));
     }
 
-    public function getAuditByFormAndReference( $form, $refId )
+    public function getAuditByFormAndReference( Form $form, $refId )
     {
         return $this->qbAuditByFormAndReference( $form, $refId )
                     ->getQuery()

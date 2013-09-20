@@ -30,25 +30,16 @@ class Audit
     protected $form;
 
     /**
-     * TODO: In order to save the state of the form, lets build an array and
+     * In order to save the state of the form, lets build an array and
      * persist it as it is in the database (as opposed to saving only the form itself)
      *
      * So when calling the audit->getForm(), it would return an array as follow:
-     *
-     *
-     * id => array(
-     *      id => array(
-     *          id => array( id, id )
-     *      )
-     * )
      *
      * Form: array(
      *      id: $id, Sections: array(
      *          id: $id, Fields: array( id: $id, ... )
      *      )
      * )
-     * ALTER TABLE audit__audit ADD state LONGTEXT NOT NULL COMMENT '(DC2Type:array)';
-     *
      */
 
     /**
@@ -197,13 +188,13 @@ class Audit
 
         foreach( $this->formState as $form )
         {
-            array_push( $index['forms'], $form['id'] );
+            array_push( $index['forms'], (int)$form['id'] );
             foreach( $form['sections'] as $section )
             {
-                array_push( $index['sections'], $section['id'] );
+                array_push( $index['sections'], (int)$section['id'] );
                 foreach( $section['fields'] as $field )
                 {
-                    array_push( $index['fields'], $field );
+                    array_push( $index['fields'], (int)$field );
                 }
             }
         }

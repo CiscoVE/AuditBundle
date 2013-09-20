@@ -142,6 +142,12 @@ class AuditController extends Controller
         $auditrepo = $em->getRepository( 'CiscoSystemsAuditBundle:Audit' );
         $audit = $auditrepo->find( $request->get( 'id' ) );
 
+        $form = $em->getRepository( 'CiscoSystemsAuditBundle:Form' )
+                   ->getState( $audit );
+
+        $query = $em->getRepository( 'CiscoSystemsAuditBundle:Form' )
+                  ->qbState( $audit )->getQuery();
+
         foreach( $audit->getForm()->getSections( TRUE ) as $section )
         {
             $scoreService->setFlagForSection( $audit, $section );
@@ -157,6 +163,8 @@ class AuditController extends Controller
                 return $this->render( 'CiscoSystemsAuditBundle:Audit:view.html.twig', array(
                     'audit'  => $audit,
                     'scores' => $scores,
+                    'auditform' => $form,
+                    'query'  => $query
                 ));
             }
             else
@@ -208,10 +216,13 @@ class AuditController extends Controller
         $sheet->setCellValue( 'F3', 'Reviewer\'s Comment' );
         $rowCounter++;
 
+        $form = $em->getRepository( 'CiscoSystemsAuditBundle:Form' )
+                   ->getState( $audit );
+
         /**
          * content for the audit
          */
-        foreach( $audit->getForm()->getSections() as $section )
+        foreach( $form->getSections() as $section )
         {
             $sheet->setCellValue( 'C' . $rowCounter, 'Section ' . $seCounter . ': ' . $section->getTitle());
             $rowCounter++;
