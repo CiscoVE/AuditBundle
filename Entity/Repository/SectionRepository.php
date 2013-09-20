@@ -18,7 +18,7 @@ class SectionRepository extends SortableRepository
     public function getSectionOptions( $form = NULL, $archived = FALSE )
     {
         $array = array();
-        $sections = $this->getSections( $form, $archived );
+        $sections = $this->getPerForm( $form, $archived );
 
         foreach( $sections as $section )
         {
@@ -45,7 +45,7 @@ class SectionRepository extends SortableRepository
      *
      * @return QueryBuilder
      */
-    public function qbSections( $form = NULL, $archived = NULL )
+    public function qbPerForm( $form = NULL, $archived = NULL )
     {
         $qb = $this->createQueryBuilder( 's' );
         if( NULL !== $form || NULL !== $archived )
@@ -69,9 +69,40 @@ class SectionRepository extends SortableRepository
         return $qb;
     }
 
-    public function getSections( $form = NULL, $archived = NULL )
+    public function getPerForm( $form = NULL, $archived = NULL )
     {
-        return $this->qbSections( $form, $archived )
+        return $this->qbPerForm( $form, $archived )
+                    ->getQuery()
+                    ->getResult();
+    }
+
+    public function qbPerField( $field = NULL, $archived = NULL )
+    {
+        $qb = $this->createQueryBuilder( 's' );
+        if( NULL !== $field || NULL !== $archived )
+        {
+            $qb->join( 'CiscoSystemsAuditBundle:SectionField', 'r', 'with', 's = r.section' );
+        }
+        $and = $qb->expr()->andX();
+        if( NULL !== $field )
+        {
+            $qb->join( 'CiscoSystemsAuditBundle:Field', 'f', 'with', 'f = r.field' );
+            $and->add( $qb->expr()->eq( 'f', ':form' ));
+            $qb->setParameter( 'field', $field );
+        }
+        if( NULL !== $archived )
+        {
+            $and->add( $qb->expr()->eq( 'r.archived', ':archived' ));
+            $qb->setParameter( 'archived', $archived );
+        }
+        if( $and->count() > 0 ) $qb->where( $and );
+
+        return $qb;
+    }
+
+    public function getPerField( $field = NULL, $archived = NULL )
+    {
+        return $this->qbPerField( $field, $archived )
                     ->getQuery()
                     ->getResult();
     }
@@ -156,8 +187,8 @@ class SectionRepository extends SortableRepository
      */
     public function getUnAssignedPerForm( $form = NULL )
     {
-        return ( count( $this->getSections( $form, FALSE ) ) > 0 ) ?
-               $this->getDetached( $this->getSections( $form, FALSE ) ) :
-               $this->getSections() ;
+        return ( count( $this->getPerForm( $form, FALSE ) ) > 0 ) ?
+               $this->getDetached( $this->getPerForm( $form, FALSE ) ) :
+               $this->getPerForm() ;
     }
 }
