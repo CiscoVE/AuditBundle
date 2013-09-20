@@ -73,7 +73,14 @@ class FormRepository extends SortableRepository
         return reset( $result );
     }
 
-    public function qbArchived( $archived = FALSE )
+    /**
+     * Trying to be a smart arse, but Doctrine said no, so far .... -_-''
+     *
+     * @param boolean $archived
+     *
+     * @return array
+     */
+    public function qbArchived( $archived = TRUE )
     {
         return $this->createQueryBuilder( 'f' )
                     ->innerJoin( 'CiscoSystems\AuditBundle\Entity\FormSection', 'r', 'WITH', 'r.form = f')
@@ -81,10 +88,25 @@ class FormRepository extends SortableRepository
                     ->setParameter( 'archived', $archived );
     }
 
-    public function getArchived( $archived = FALSE )
+    /**
+     * Yeah, well there is now a $form->isArchived() method that seems to do
+     * this job already for individual forms and it works .... <_<
+     *
+     * @param boolean $archived
+     *
+     * @return array
+     */
+    public function getArchived( $archived = TRUE )
     {
-        return $this->qbArchived( $archived )
-                    ->getQuery()
-                    ->getResult();
+        $ret = array();
+        foreach( $this->findAll() as $form )
+        {
+            if( $form->getSections() > $form->getSections( $archived ) )
+            {
+                $ret[] = $form;
+            }
+        }
+
+        return $ret;
     }
 }

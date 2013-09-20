@@ -15,8 +15,8 @@ class FormController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
         $formlist = $em->getRepository( 'CiscoSystemsAuditBundle:Form' )
-                       ->getArchived( FALSE );
-//                       ->findAll();
+//                       ->getArchived( FALSE );
+                       ->findAll();
         $newform = new Form();
         $auditform = $this->createForm( new FormType(), $newform );
         if ( null !== $request->get( $auditform->getName() ) )

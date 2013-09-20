@@ -317,6 +317,18 @@ class Form extends Element
     }
 
     /**
+     * Now I feel truely dirty T_T
+     *
+     * @return boolean
+     */
+    public function isArchived()
+    {
+        return $this->getSections() > $this->getSections( TRUE ) ?
+               FALSE :
+               TRUE ;
+    }
+
+    /**
      * Add a single Section to the current form. If the section is already
      * assigned but the relation form - section is set to archived = true, then
      * reset the relation to false.
