@@ -1,14 +1,20 @@
-<div class="cisco-audit-orphan-section">
-    <a class="btn btn-primary btn-small"
-       href="{{ path( 'audit_form_new_section', { 'form_id' : auditform.id } ) }}">
-        Create: new section <i class="icon-plus icon-white"></i>
-    </a>
+<div class="cisco-audit-orphan-section row">
+    <div class="span2">
+        <h4>Create:</h4>
+        <a class="btn btn-primary btn-small"
+           href="{{ path( 'audit_form_new_section', { 'form_id' : auditform.id } ) }}">
+            <i class="icon-plus icon-white"></i> new section
+        </a>
+    </div>
+    <div class="span7">
 {% if usections is not empty and auditform.id is not null %}
+        <h4>Add existing section:</h4>
     {% for section in usections %}
-    <a class="btn btn-primary btn-small cisco-audit-section-add"
-       href="{{ path( 'audit_form_add_section', { 'form_id' : auditform.id ,'section_id': section.id } ) }}">
-        Add: {{ section.title }} <i class="icon-plus icon-white"></i>
-    </a>
+        <a class="btn btn-primary btn-small cisco-audit-section-add"
+           href="{{ path( 'audit_form_add_section', { 'form_id' : auditform.id ,'section_id': section.id } ) }}">
+            <i class="icon-plus icon-white"></i> {{ section.title }}
+        </a>
     {% endfor %}
 {% endif %}
+    </div>
 </div>

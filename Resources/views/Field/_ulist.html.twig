@@ -1,14 +1,20 @@
 <div class="cisco-audit-orphan-field">
-    <a class="btn btn-primary btn-small"
-       href="{{ path( 'audit_section_new_field', { 'section_id' : section.id } ) }}">
-        Create: new Field <i class="icon-plus"></i>
-    </a>
-{% if ufields is not empty and section.id is not null %}
-    {% for field in ufields %}
-    <a class="btn btn-primary btn-small cisco-audit-field-add"
-       href="{{ path( 'audit_section_add_field', { 'section_id' : section.id ,'field_id': field.id } ) }}">
-        Add: {{ field.title }} <i class="icon-plus"></i>
-    </a>
-    {% endfor %}
-{% endif %}
+    <div class="span2">
+        <h4>Create:</h4>
+        <a class="btn btn-primary btn-small"
+           href="{{ path( 'audit_section_new_field', { 'section_id' : section.id } ) }}">
+            <i class="icon-plus icon-white"></i> new Field
+        </a>
+    </div>
+    <div class="span7">
+    {% if ufields is not empty and section.id is not null %}
+        <h4>Add existing field:</h4>
+        {% for field in ufields %}
+            <a class="btn btn-primary btn-small cisco-audit-field-add"
+               href="{{ path( 'audit_section_add_field', { 'section_id' : section.id ,'field_id': field.id } ) }}">
+                <i class="icon-plus icon-white"></i> {{ field.title }}
+            </a>
+        {% endfor %}
+    {% endif %}
+    </div>
 </div>
