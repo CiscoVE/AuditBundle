@@ -79,8 +79,10 @@ class SectionRepository extends SortableRepository
     public function qbArchived( $archived )
     {
         return $this->createQueryBuilder( 's' )
-                    ->join( 'CiscoSystems\AuditBundle\Entity\FormSection', 'r', 'with', 'r.section = s' )
-                    ->where( 'r.archived = :archived' )
+                    ->join( 'CiscoSystems\AuditBundle\Entity\FormSection', 'r1', 'with', 'r1.section = s' )
+                    ->innerjoin( 'CiscoSystems\AuditBundle\Entity\SectionField', 'r2', 'WITH', 'r2.section = s' )
+                    ->where( 'r1.archived = :archived' )
+                    ->andWhere( 'r2.archived = :archived' )
                     ->setParameter( 'archived', $archived );
     }
 
@@ -121,9 +123,9 @@ class SectionRepository extends SortableRepository
                     ->getResult();
     }
 
-    public function getArchivedSections()
+    public function getArchivedSections( $archived )
     {
-        $sections = $this->qbArchived( FALSE )
+        $sections = $this->qbArchived( $archived )
                          ->getQuery()
                          ->getResult();
 
@@ -152,7 +154,7 @@ class SectionRepository extends SortableRepository
      * LIMIT 0 , 30
      *
      */
-    public function getUnAssignedSections( $form = NULL )
+    public function getUnAssignedPerForm( $form = NULL )
     {
         return ( count( $this->getSections( $form, FALSE ) ) > 0 ) ?
                $this->getDetached( $this->getSections( $form, FALSE ) ) :

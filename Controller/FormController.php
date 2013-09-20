@@ -74,11 +74,11 @@ class FormController extends Controller
         {
             $edit = true;
             $auditform = $repo->find( $request->get( 'form_id' ));
-            $uSections = $sectionRepo->getUnAssignedSections( $auditform );
+            $uSections = $sectionRepo->getUnAssignedPerForm( $auditform );
         }
         else
         {
-            $uSections = $sectionRepo->getUnAssignedSections();
+            $uSections = $sectionRepo->getUnAssignedPerForm();
         }
         $form = $this->createForm( new AuditFormType(), $auditform);
         if ( null !== $request->get( $form->getName() ))
@@ -148,7 +148,7 @@ class FormController extends Controller
                 $em->flush();
                 if ( $request->isXmlHttpRequest() )
                 {
-                    $sections = $sectionRep->getUnAssignedSections( $auditform );
+                    $sections = $sectionRep->getUnAssignedPerForm( $auditform );
 
                     return $this->render( 'CiscoSystemsAuditBundle:Section:_ulist.html.twig', array(
                         'auditform'  => $auditform,
