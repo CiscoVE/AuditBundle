@@ -92,8 +92,8 @@ class FieldType extends AbstractType
             'required'      => FALSE,
             'data'          => isset( $choices[Score::ACCEPTABLE] ) ? $choices[Score::ACCEPTABLE] : '',
             'attr'          => array(
-                'placeholder'           => 'Partially correct answer definition',
-                'title'                 => self::TOOLTIPOPTIONAL,
+                'placeholder'   => 'Partially correct answer definition',
+                'title'         => self::TOOLTIPOPTIONAL,
                 'data-toggle'   => 'tooltip',
                 'class'         => 'input-xxlarge',
                 'rows'          => 2,
@@ -105,8 +105,8 @@ class FieldType extends AbstractType
             'required'      => FALSE,
             'data'          => isset( $choices[Score::NOT_APPLICABLE] ) ? $choices[Score::NOT_APPLICABLE] : '',
             'attr'          => array(
-                'placeholder'     => 'Answer not applicable',
-                'title'           => self::TOOLTIPOPTIONAL,
+                'placeholder'   => 'Answer not applicable',
+                'title'         => self::TOOLTIPOPTIONAL,
                 'data-toggle'   => 'tooltip',
                 'class'         => 'input-xxlarge',
                 'rows'          => 2,

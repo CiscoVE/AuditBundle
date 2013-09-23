@@ -1,12 +1,14 @@
-<div class="cisco-audit-orphan-section row">
-    <div class="span2">
+<div class="cisco-audit-orphan-section audit-row">
+    <div class="span2 audit-left-pan">
         <h4>Create:</h4>
         <a class="btn btn-primary btn-small"
            href="{{ path( 'audit_form_new_section', { 'form_id' : auditform.id } ) }}">
             <i class="icon-plus icon-white"></i> new section
         </a>
     </div>
-    <div class="span7">
+    <div class="span7 audit-right-pan" id="audit-orphan-info" title="section in <span class='label label-info'>blue</span> are currently associated with one or more section and
+section in <span class='label label-warning'>orange</span> are not currently associated with any section."
+            data-toggle="tooltip">
     {% if usections is not empty and auditform.id is not null %}
         <h4>Add existing section: ({{ usections | length }} available)</h4>
         {% for section in usections %}

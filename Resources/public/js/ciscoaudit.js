@@ -479,6 +479,7 @@ $( document ).ready( function(){
     $( '#form_flagLabel' ).tooltip({ html: 'true', placement: 'right' });
     $( '#form_allowMultipleAnswer' ).tooltip({ html: 'true', placement: 'right' });
     $( '#form_accessLevel' ).tooltip({ html: 'true', placement: 'right' });
+    $( '#audit-orphan-info' ).tooltip({ html: 'true', placement: 'right' });
 
     tooltipOnDisabled();
 });
