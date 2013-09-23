@@ -8,7 +8,7 @@
     </div>
     <div class="span7">
     {% if ufields is not empty and section.id is not null %}
-        <h4>Add existing field:</h4>
+        <h4>Add existing field: ({{ ufields | length }} available)</h4>
         {% for field in ufields %}
             <a class="btn btn-primary btn-small cisco-audit-field-add"
                href="{{ path( 'audit_section_add_field', { 'section_id' : section.id ,'field_id': field.id } ) }}">

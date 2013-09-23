@@ -29,17 +29,24 @@ class SectionController extends Controller
     {
         $edit = false;
         $em = $this->getDoctrine()->getEntityManager();
+        $fieldRepo = $em->getRepository( 'CiscoSystemsAuditBundle:Field' );
         $section = new Section();
-        $sid = $request->get( 'section_id' );
-        if ( '' !== $sid && NULL !== $sid )
+        $sectionId = $request->get( 'section_id' );
+        $uFields = array();
+        if ( '' !== $sectionId && NULL !== $sectionId )
         {
             $edit = true;
             $section = $em->getRepository( 'CiscoSystemsAuditBundle:Section' )
-                          ->find( $sid );
+                          ->find( $sectionId );
             if( !$section )
             {
-                throw $this->createNotFoundException( 'No field was found for id #' . $sid . '.' );
+                throw $this->createNotFoundException( 'No field was found for id #' . $sectionId . '.' );
             }
+            $uFields = $fieldRepo->getUnAssignedPerSection( $section );
+        }
+        else
+        {
+            $uFields = $fieldRepo->getUnAssignedPerSection();
         }
         $auditForm = new Form();
         if( $request->get( 'form_id' ) )
@@ -63,8 +70,8 @@ class SectionController extends Controller
             }
         }
 
-        $uFields = $em->getRepository( 'CiscoSystemsAuditBundle:Field' )
-                      ->getArchivedFields();
+//        $uFields = $em->getRepository( 'CiscoSystemsAuditBundle:Field' )
+//                      ->getArchivedFields();
         /**
          * Performed for ajax request; Planned to be used with a modal box
         if ( $request->isXmlHttpRequest() )

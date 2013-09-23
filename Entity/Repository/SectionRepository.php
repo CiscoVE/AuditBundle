@@ -138,7 +138,7 @@ class SectionRepository extends SortableRepository
                     ->getResult();
     }
 
-    public function qbDetached( $sections )
+    public function qbDetached( array $sections )
     {
         return $this->createQueryBuilder( 's' )
                     ->where( 's NOT IN ( :sections )' )

@@ -3,6 +3,7 @@
 namespace CiscoSystems\AuditBundle\Entity\Repository;
 
 use Gedmo\Sortable\Entity\Repository\SortableRepository;
+use CiscoSystems\AuditBundle\Entity\Section;
 
 /**
  * Custom query repository for SFC REview
@@ -35,7 +36,7 @@ class FieldRepository extends SortableRepository
         return $array['flagLabel'];
     }
 
-    public function qbPerSection( $section = NULL, $archived = NULL )
+    public function qbPerSection( Section $section = NULL, $archived = NULL )
     {
         $qb = $this->createQueryBuilder( 'f' );
         if( NULL !== $section || NULL !== $archived )
@@ -59,7 +60,7 @@ class FieldRepository extends SortableRepository
         return $qb;
     }
 
-    public function getPerSection( $section = NULL, $archived = NULL )
+    public function getPerSection( Section $section = NULL, $archived = NULL )
     {
         return $this->qbPerSection( $section, $archived )
                     ->getQuery()
@@ -95,14 +96,14 @@ class FieldRepository extends SortableRepository
                     ->getResult();
     }
 
-    public function qbDetached( $fields )
+    public function qbDetached( array $fields )
     {
         return $this->createQueryBuilder( 'f' )
                     ->where( 'f NOT IN ( :fields )' )
                     ->setParameter( 'fields', $fields );
     }
 
-    public function getDetached( $fields )
+    public function getDetached( array $fields )
     {
         return $this->qbDetached( $fields )
                     ->getQuery()
@@ -135,7 +136,7 @@ class FieldRepository extends SortableRepository
      * LIMIT 0 , 30
      *
      */
-    public function getUnAssignedFields( Section $section = NULL )
+    public function getUnAssignedPerSection( Section $section = NULL )
     {
         return ( count( $this->getPerSection( $section, FALSE ) ) > 0 ) ?
                $this->getDetached( $this->getPerSection( $section, FALSE ) ) :
