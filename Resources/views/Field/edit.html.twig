@@ -108,55 +108,51 @@
                     </a>
                 {% endif %}
                 {% if edit == true %}
-                    <a class="btn btn-primary btn-small"
-                       id="dialog-delete" {# TODO finish to implement confirmation box for deleting element #}
-                        href="{{ path( 'audit_field_delete', { 'field_id': field.id } ) }}">
+                    <a class="btn btn-danger btn-small" href="#deleteModal"
+                       href="#deleteModal" role="button" data-toggle="modal"
+                        {# TODO finish to implement confirmation box for deleting element #}
+                        {# href="{{ path( 'audit_field_delete', { 'field_id': field.id } ) }}"#}>
                          Delete <i class="icon-trash icon-white"></i>
                     </a>
                 {% endif %}
             </div>
         </form>
+        <!-- bootstrap modal box: http://getbootstrap.com/2.3.2/javascript.html#modals -->
+        <!-- Button to trigger modal -->
+        <!--<a href="#deleteModal" role="button" class="btn btn-danger btn-small" data-toggle="modal">
+            Delete <i class="icon-trash icon-white"></i>
+        </a>
+
+        <!-- Modal -->
+        <div id="deleteModal" class="modal hide fade" tabindex="-1"
+             role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+            <div class="modal-header audit-modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h1 id="deleteModalLabel" class="warning">
+                    Please take note of the following:
+                </h1>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Deleting this Field will result in its none availability in the future.
+                    If you want to simply remove it from a section, please do
+                    so from the 'edit section' page instead.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" data-dismiss="modal" aria-hidden="true">
+                    Cancel
+                </button>
+                <a class="btn btn-warning"
+                   href="{{ path( 'audit_field_delete', { 'field_id': field.id } ) }}">
+                    <i class="icon-warning-sign icon-white"></i> Confirm Delete
+                </a>
+            </div>
+        </div>
         <script type="text/javascript">
             var multipleAllowed = {{ field.section.form.allowMultipleAnswer | json_encode() }};
             var flagged = {{ field.flag | json_encode()}};
-            /**
-             * TODO finish to implement confirmation box for deleting element
-             *
-             *
-            $( document ).on( 'click', '#dialog-delete', function()
-            {
-                $( '#dialog' ).dialog({
-                    resizable: true,
-                    height:165,
-                    width: 380,
-                    modal: true,
-                    buttons: {
-                        "Proceed and Delete Field": function() {
-                            $( this ).dialog( "close" );
-                        },
-                        Cancel: function() {
-                            $( this ).dialog( "close" );
-                        }
-                    },
-                });
-            });**/
         </script>
     </div>
 </div>
-
-{# TODO: finish to implement confirmation box for deleting element
-<div id="dialog" title="Delete the Field from the application?" style="display: none;">
-    <span class="badge badge-important">
-        <i class="icon-exclamation-sign icon-white"></i>
-    </span>
-    <span>
-        You are about to <b>DELETE</b> this field from the application.
-        Are you sure?
-        <p>
-            <b>Field</b>: {{ field.title }}
-            <b>Section</b>: {{ field.section.title }}
-        </p>
-    </span>
-</div>
-#}
 {% endblock %}

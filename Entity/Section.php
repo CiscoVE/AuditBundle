@@ -419,4 +419,11 @@ class Section extends Element
 
         return FALSE;
     }
+
+    public function isArchived()
+    {
+        return $this->getFields() > $this->getFields( TRUE ) ?
+               FALSE :
+               TRUE ;
+    }
 }
