@@ -10,7 +10,7 @@
     {% if ufields is not empty and section.id is not null %}
         <h4>Add existing field: ({{ ufields | length }} available)</h4>
         {% for field in ufields %}
-            <a class="btn btn-primary btn-small cisco-audit-field-add"
+            <a class="btn {% if field.isArchived == true %}btn-warning{% else %}btn-primary{% endif %} btn-small cisco-audit-field-add"
                href="{{ path( 'audit_section_add_field', { 'section_id' : section.id ,'field_id': field.id } ) }}">
                 <i class="icon-plus icon-white"></i> {{ field.title }}
             </a>

@@ -69,9 +69,6 @@ class SectionController extends Controller
                 )));
             }
         }
-
-//        $uFields = $em->getRepository( 'CiscoSystemsAuditBundle:Field' )
-//                      ->getArchivedFields();
         /**
          * Performed for ajax request; Planned to be used with a modal box
         if ( $request->isXmlHttpRequest() )

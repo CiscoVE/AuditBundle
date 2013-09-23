@@ -10,7 +10,7 @@
     {% if usections is not empty and auditform.id is not null %}
         <h4>Add existing section: ({{ usections | length }} available)</h4>
         {% for section in usections %}
-        <a class="btn btn-primary btn-small cisco-audit-section-add"
+        <a class="btn {% if section.isArchived == true %}btn-warning{% else %}btn-primary{% endif %} btn-small cisco-audit-section-add"
            href="{{ path( 'audit_form_add_section', { 'form_id' : auditform.id ,'section_id': section.id } ) }}">
             <i class="icon-plus icon-white"></i> {{ section.title }}
         </a>

@@ -4,11 +4,7 @@
 <div class="container">
     <div class="span10">
         <form id="audit" method="POST" action="">
-            <legend>Create new audit
-                <button type="submit" class="btn btn-mini pull-right">
-                    <i class="icon-ok"></i> Save
-                </button>
-            </legend>
+            <legend>Create new audit</legend>
 
             <div class="form-inline row input">
                 {{ form_row( form.reference ) }}
@@ -17,19 +13,25 @@
             <table class="table table-condensed table-hover">
                 <thead>
                     <tr>
-                        <th style="width: 4%;">S.No.</th>
-                        <th style="width: 36%;">Field</th>
-                        <th style="width: 9%;">Score</th>
-                        <th style="width: 9%;" colspan="2">Weight</th>
-                        <th style="width: 42%;">Reviewer's Comment</th>
+                        <th style="width: 5%;">S.No.</th>
+                        <th style="width: 40%;">Field</th>
+                        <th style="width: 10%;">Score</th>
+                        <th style="width: 5%;" colspan="2">Weight</th>
+                        <th style="width: 40%;">Reviewer's Comment</th>
                     </tr>
                 </thead>
                 <tbody>
-                {% for section in audit.form | sections( false ) %}
-                    <tr class="cisco-audit-section-row" section-id="{{ section.id }}">
-                        <td colspan="6">Section {{ section | position ( form ) }}: {{ section.title }}</td>
-                    </tr>
-                    {% for field in section | fields( false ) %}
+                {% set counter = 0 %}
+                {% set sections = audit.form.sections( false ) %}
+                {% for section in sections %}
+                    {% set fields = section.fields( false ) %}
+                    {% if fields | length > 0 %}
+                        {% set counter = counter + 1 %}
+                        <tr class="cisco-audit-section-row" section-id="{{ section.id }}">
+                            <td colspan="6">Section {{ section | position ( form ) }}: {{ section.title }}</td>
+                        </tr>
+                        {% set fcounter = 0 %}
+                        {% for field in fields %}
                         <tr class="cisco-audit-field-row" field-id="{{ field.id }}">
                             <td>{{ field | position ( section ) }}</td>
                             <td>{{ field.title }}</td>
@@ -80,6 +82,7 @@
                         <td class="cisco-audit-section-weight" value="{{ sectionWeight }}">{{ sectionWeight }}</td>
                         <td class="bar"></td>
                     </tr>
+                    {% endif %}
                 {% endfor %}
                     <tr class="cisco-audit-score-row">
                         {% set auditWeight = get_weightforaudit( audit ) %}

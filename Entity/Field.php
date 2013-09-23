@@ -532,4 +532,11 @@ class Field extends Element
 
         return ( count( $ret ) > 0 ) ? $ret : NULL ;
     }
+
+    public function isArchived()
+    {
+        return $this->getSection() > $this->getSections( TRUE ) ?
+               FALSE :
+               TRUE ;
+    }
 }

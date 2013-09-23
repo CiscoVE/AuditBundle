@@ -145,7 +145,7 @@ class SectionRepository extends SortableRepository
                     ->setParameter( 'sections', $sections );
     }
 
-    public function getDetached( $sections )
+    public function getDetached( array $sections )
     {
         return $this->qbDetached( $sections )
                     ->getQuery()
