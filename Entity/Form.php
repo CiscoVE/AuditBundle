@@ -323,9 +323,9 @@ class Form extends Element
      */
     public function isArchived()
     {
-        return $this->getSections() > $this->getSections( TRUE ) ?
-               FALSE :
-               TRUE ;
+        return count( $this->getSections()) === count( $this->getSections( TRUE )) ?
+               TRUE :
+               FALSE ;
     }
 
     /**

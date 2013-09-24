@@ -480,6 +480,7 @@ $( document ).ready( function(){
     $( '#form_allowMultipleAnswer' ).tooltip({ html: 'true', placement: 'right' });
     $( '#form_accessLevel' ).tooltip({ html: 'true', placement: 'right' });
     $( '#audit-orphan-info' ).tooltip({ html: 'true', placement: 'right' });
+    $( '#audit-element-archived' ).tooltip({ html: 'true', placement: 'right' });
 
     tooltipOnDisabled();
 });

@@ -422,8 +422,9 @@ class Section extends Element
 
     public function isArchived()
     {
-        return $this->getFields() > $this->getFields( TRUE ) ?
-               FALSE :
-               TRUE ;
+        return ( count( $this->getFields()) === count( $this->getFields( TRUE ))
+               && count( $this->getForms()) === count( $this->getForms( TRUE )) ) ?
+               TRUE :
+               FALSE ;
     }
 }

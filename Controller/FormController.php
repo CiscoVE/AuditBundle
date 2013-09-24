@@ -31,7 +31,7 @@ class FormController extends Controller
             }
         }
 
-        return $this->render( 'CiscoSystemsAuditBundle:Form:index.html.twig', array(
+        return $this->render( 'CiscoSystemsAuditBundle:Form:index.html.twig', array (
             'forms' => $formlist,
             'form'  => $auditform->createView(),
         ));
@@ -46,7 +46,7 @@ class FormController extends Controller
             throw $this->createNotFoundException( 'Form does not exist' );
         }
 
-        return $this->render( 'CiscoSystemsAuditBundle:Form:view.html.twig', array(
+        return $this->render( 'CiscoSystemsAuditBundle:Form:view.html.twig', array (
             'form' => $auditform,
         ));
     }
@@ -56,7 +56,7 @@ class FormController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
         $formlist = $em->getRepository( 'CiscoSystemsAuditBundle:Form' )
                        ->findAll();
-        return $this->render( 'CiscoSystemsAuditBundle:Form:list.html.twig', array(
+        return $this->render( 'CiscoSystemsAuditBundle:Form:list.html.twig', array (
             'forms' => $formlist,
         ));
     }
@@ -89,13 +89,16 @@ class FormController extends Controller
                 $em->persist( $auditform );
                 $em->flush();
 
-                return $this->redirect( $this->generateUrl( 'audit_forms' ));
+                return $this->redirect( $this->generateUrl( 'audit_form_edit', array (
+                        'form_id'   => $auditform->getId(),
+                    )
+                ));
             }
         }
 
         if ( $request->isXmlHttpRequest())
         {
-            return $this->render( 'CiscoSystemsAuditBundle:Field:_edit.html.twig', array(
+            return $this->render( 'CiscoSystemsAuditBundle:Field:_edit.html.twig', array (
                 'edit'          => $edit,
                 'auditform'     => $auditform,
                 'form'          => $form->createView(),
@@ -103,7 +106,7 @@ class FormController extends Controller
         }
         else
         {
-            return $this->render( 'CiscoSystemsAuditBundle:Form:edit.html.twig', array(
+            return $this->render( 'CiscoSystemsAuditBundle:Form:edit.html.twig', array (
                 'edit'                  => $edit,
                 'auditform'             => $auditform,
                 'usections'             => $uSections,
@@ -150,7 +153,7 @@ class FormController extends Controller
                 {
                     $sections = $sectionRep->getUnAssignedPerForm( $auditform );
 
-                    return $this->render( 'CiscoSystemsAuditBundle:Section:_ulist.html.twig', array(
+                    return $this->render( 'CiscoSystemsAuditBundle:Section:_ulist.html.twig', array (
                         'auditform'  => $auditform,
                         'usections'  => $sections,
                     ));
