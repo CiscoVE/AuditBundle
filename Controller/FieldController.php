@@ -293,7 +293,7 @@ class FieldController extends Controller
         $repo = $em->getRepository( 'CiscoSystemsAuditBundle:Field' );
         $fieldId = $request->get( 'fieldId' );
         $field = $repo->findBy( array( 'id' => $fieldId ));
-        $this->get( 'ladybug' )->log( $field );
+//        $this->get( 'ladybug' )->log( $field );
 //        $section = $field->getSection();
 //        $this->get( 'ladybug' )->log( $field->getSection() );
         $sectionform = $this->createFormBuilder()->add( 'audit_section', new SectionType( $em ), array(
