@@ -16,7 +16,7 @@ class AuditRepository extends EntityRepository
         return $qb->getQuery()->execute();
     }
 
-    public function qbAudits( $auditor = null )
+    public function qbAudits( $auditor = NULL )
     {
         $qb = $this->createQueryBuilder( 'a' );
         if( $auditor !== null )
@@ -28,9 +28,11 @@ class AuditRepository extends EntityRepository
         return $qb;
     }
 
-    public function getAuditsPerAuditor( $auditor = null )
+    public function getAuditsPerAuditor( $auditor = NULL )
     {
-        return $this->qbAudits( $auditor )->getQuery()->getResult();
+        return $this->qbAudits( $auditor )
+                    ->getQuery()
+                    ->getResult();
     }
 
     /**
@@ -38,9 +40,9 @@ class AuditRepository extends EntityRepository
      *
      * @return array
      */
-    public function getAuditsWithFormsUsage( $auditor = null )
+    public function getAuditsWithFormsUsage( $auditor = NULL )
     {
-        $entities = $this->qbAudits( $auditor )->getQuery()->getResult();
+        $entities = $this->getAuditsPerAuditor( $auditor );
 
         $uforms = array();
         $result = array();
