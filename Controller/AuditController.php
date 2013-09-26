@@ -142,12 +142,6 @@ class AuditController extends Controller
         $auditrepo = $em->getRepository( 'CiscoSystemsAuditBundle:Audit' );
         $audit = $auditrepo->find( $request->get( 'id' ) );
 
-        $form = $em->getRepository( 'CiscoSystemsAuditBundle:Form' )
-                   ->getState( $audit );
-
-        $query = $em->getRepository( 'CiscoSystemsAuditBundle:Form' )
-                  ->qbState( $audit )->getQuery();
-
         foreach( $audit->getForm()->getSections( TRUE ) as $section )
         {
             $scoreService->setFlagForSection( $audit, $section );
@@ -157,14 +151,8 @@ class AuditController extends Controller
         {
             if ( null !== $audit->getForm() )
             {
-                $scores = $em->getRepository( 'CiscoSystemsAuditBundle:Score' )
-                             ->findBy( array( 'audit' => $audit ));
-
                 return $this->render( 'CiscoSystemsAuditBundle:Audit:view.html.twig', array(
-                    'audit'  => $audit,
-                    'scores' => $scores,
-                    'auditform' => $form,
-                    'query'  => $query
+                    'audit'     => $audit,
                 ));
             }
             else
