@@ -200,6 +200,7 @@ class FormController extends Controller
                     return $this->render( 'CiscoSystemsAuditBundle:Section:_load.html.twig', array (
                         'auditform' => $auditform,
                         'section'   => $section,
+                        'counter'   => count( $auditform->getSections( FALSE ) ),
                     ));
                 }
                 else

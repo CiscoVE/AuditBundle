@@ -157,6 +157,7 @@ $( document ).on( 'click', '.cisco-audit-field-remove', function()
         }
 
         $( ufields ).replaceWith( data );
+        $( '#audit-orphan-info' ).tooltip({ html: 'true', placement: 'right' });
     });
 
     return false;
@@ -172,8 +173,10 @@ $( document ).on( 'click', '.cisco-audit-section-remove', function()
     var btn = this;
     var usections = $( this ).closest( 'table' ).next( '.cisco-audit-orphan-section' );
     var tbody = $( this ).closest( 'tbody' );
+    var url = $( this ).attr( 'href' );
+//    alert( url );
 
-    $.get( $( this ).attr( 'href' ), function( data )
+    $.get( url, function( data )
     {
         var siblings = $( btn ).closest( 'tr' ).siblings( '.cisco-audit-section-row' );
         var sectionRow = $( btn ).closest( '.cisco-audit-section-row' );
@@ -197,6 +200,7 @@ $( document ).on( 'click', '.cisco-audit-section-remove', function()
         }
 
         $( usections ).replaceWith( data );
+        $( '#audit-orphan-info' ).tooltip({ html: 'true', placement: 'right' });
     });
 
     return false;
@@ -209,9 +213,10 @@ $( document ).on( 'click', '.cisco-audit-section-remove', function()
 $( document ).on( 'click', '.cisco-audit-section-add', function()
 {
     var btn = this;
-    var table = $( this ).parent().prev( 'table' );
+    var table = $( document ).find( '.cisco-audit-table' );
+    var url = $( this ).attr( 'href' );
 
-    $.get( $( this ).attr( 'href' ), function( data )
+    $.get( url, function( data )
     {
         if( $( table ).find( 'tbody' ).children().first().hasClass( 'warning-empty' ))
         {
@@ -219,7 +224,7 @@ $( document ).on( 'click', '.cisco-audit-section-add', function()
         }
         $( table ).append( data );
         $( btn ).remove();
-    });
+    }, 'html');
 
     return false;
 });
@@ -233,6 +238,7 @@ $( document ).on( 'click', '.cisco-audit-field-add', function()
 {
     var btn = this;
     var table = $( this ).parent().prev( 'table' );
+    alert( 'foo' );
 
     $.get( $( this ).attr( 'href' ), function( data )
     {
