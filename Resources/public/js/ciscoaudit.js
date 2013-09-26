@@ -237,10 +237,10 @@ $( document ).on( 'click', '.cisco-audit-section-add', function()
 $( document ).on( 'click', '.cisco-audit-field-add', function()
 {
     var btn = this;
-    var table = $( this ).parent().prev( 'table' );
-    alert( 'foo' );
+    var table = $( document ).find( '.cisco-audit-table' );
+    var url = $( this ).attr( 'href' );
 
-    $.get( $( this ).attr( 'href' ), function( data )
+    $.get( url, function( data )
     {
         if( $( table ).find( 'tbody' ).children().hasClass( 'warning-empty' ) )
         {

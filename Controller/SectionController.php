@@ -171,7 +171,6 @@ class SectionController extends Controller
                 $em->flush();
                 if ( $request->isXmlHttpRequest() )
                 {
-//                    $fields = $fieldRepo->findBy( array ( 'section' => NULL ));
                     $fields = $fieldRepo->getUnassignedFields( $section );
 
                     return $this->render( 'CiscoSystemsAuditBundle:Field:_ulist.html.twig', array(
@@ -220,6 +219,7 @@ class SectionController extends Controller
                     return $this->render( 'CiscoSystemsAuditBundle:Field:_load.html.twig', array(
                         'field'    => $field,
                         'section'  => $section,
+                        'counter'   => count( $section->getFields( FALSE ) ),
                     ));
                 }
                 else
