@@ -82,7 +82,7 @@ class Scoring
     {
         $index = $audit->getFormIndexes();
         $fields = $section->getFields();
-        $fieldCount = count( $fields );
+        $fieldCount = 0;//count( $fields );
         if ( 0 == $fieldCount ) return 100;
         $achievedPercentages = 0;
 
@@ -90,7 +90,7 @@ class Scoring
         {
             if( FALSE === in_array( $field->getId(), $index['fields']) ) continue;
             $score = $this->getScoreForField( $audit, $field );
-
+            $fieldCount++;
             if ( !$score )
             {
                 $score = new Score();
@@ -99,6 +99,7 @@ class Scoring
 
             $achievedPercentages += $this->getWeightPercentageForScore( $score );
         }
+
         return number_format( $achievedPercentages / $fieldCount, 2, '.', '' );
     }
 
@@ -135,7 +136,7 @@ class Scoring
     public function getFlagForSection( Audit $audit, Section $section )
     {
         $index = $audit->getFormIndexes();
-        foreach( $section->getFields() as $field )
+        foreach( $section->getFields( FALSE ) as $field )
         {
             if( FALSE === in_array( $field->getId(), $index['fields']) ) continue;
             if( $field->getFlag() === TRUE && $this->getScoreForField( $audit, $field )->getMark() === Score::NO )
