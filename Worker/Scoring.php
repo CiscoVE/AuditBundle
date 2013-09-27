@@ -82,8 +82,7 @@ class Scoring
     {
         $index = $audit->getFormIndexes();
         $fields = $section->getFields();
-        $fieldCount = 0;//count( $fields );
-        if ( 0 == $fieldCount ) return 100;
+        $fieldCount = 0;
         $achievedPercentages = 0;
 
         foreach ( $fields as $field )
@@ -100,6 +99,7 @@ class Scoring
             $achievedPercentages += $this->getWeightPercentageForScore( $score );
         }
 
+        if ( 0 === $fieldCount ) return 100;
         return number_format( $achievedPercentages / $fieldCount, 2, '.', '' );
     }
 
