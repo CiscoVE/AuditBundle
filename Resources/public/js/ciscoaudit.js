@@ -140,7 +140,7 @@ $( document ).on( 'change', '.cisco-audit-score-selector', function()
  */
 $( document ).on( 'click', '.cisco-audit-field-remove', function()
 {
-    var emptyFieldRow = ( '<tr class="warning-empty"><td colspan="6"><i class="icon-warning-sign"></i> No field assigned to this section.</td></tr>' );
+    var emptyFieldRow = ( '<tr class="warning audit-empty"><td colspan="6"><i class="icon-warning-sign"></i> No field assigned to this section.</td></tr>' );
     var btn = this;
     var ufields = $( this ).closest( 'table' ).next( '.cisco-audit-orphan-field' );
     var tbody = $( this ).closest( 'tbody' );
@@ -169,7 +169,7 @@ $( document ).on( 'click', '.cisco-audit-field-remove', function()
  */
 $( document ).on( 'click', '.cisco-audit-section-remove', function()
 {
-    var emptySectionRow = ( '<tr class="warning-empty"><td colspan="6"><i class="icon-warning-sign"></i> No section assigned to this form.</td></tr>' );
+    var emptySectionRow = ( '<tr class="warning audit-empty"><td colspan="6"><i class="icon-warning-sign"></i> No section assigned to this form.</td></tr>' );
     var btn = this;
     var usections = $( this ).closest( 'table' ).next( '.cisco-audit-orphan-section' );
     var tbody = $( this ).closest( 'tbody' );
@@ -190,7 +190,7 @@ $( document ).on( 'click', '.cisco-audit-section-remove', function()
             }
         });
 
-        if( sectionRow.next().hasClass( 'warning-empty' ) ) sectionRow.next().remove();
+        if( sectionRow.next().hasClass( 'audit-empty' ) ) sectionRow.next().remove();
 
         sectionRow.remove();
 
@@ -218,7 +218,7 @@ $( document ).on( 'click', '.cisco-audit-section-add', function()
 
     $.get( url, function( data )
     {
-        if( $( table ).find( 'tbody' ).children().first().hasClass( 'warning-empty' ))
+        if( $( table ).find( 'tbody' ).children().first().hasClass( 'audit-empty' ))
         {
             $( table ).find( 'tbody' ).children().remove();
         }
@@ -242,7 +242,7 @@ $( document ).on( 'click', '.cisco-audit-field-add', function()
 
     $.get( url, function( data )
     {
-        if( $( table ).find( 'tbody' ).children().hasClass( 'warning-empty' ) )
+        if( $( table ).find( 'tbody' ).children().hasClass( 'audit-empty' ) )
         {
             $( table ).find( 'tbody' ).children().remove();
         }
