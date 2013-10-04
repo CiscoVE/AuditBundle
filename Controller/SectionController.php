@@ -171,7 +171,7 @@ class SectionController extends Controller
                 $em->flush();
                 if ( $request->isXmlHttpRequest() )
                 {
-                    $fields = $fieldRepo->getUnassignedFields( $section );
+                    $fields = $fieldRepo->getUnAssignedPerSection( $section );
 
                     return $this->render( 'CiscoSystemsAuditBundle:Field:_ulist.html.twig', array(
                         'ufields'   => $fields,

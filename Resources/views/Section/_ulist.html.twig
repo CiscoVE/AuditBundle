@@ -6,13 +6,19 @@
             <i class="icon-plus icon-white"></i> new section
         </a>
     </div>
-    <div class="span7 audit-right-pan" id="audit-orphan-info" title="section in <span class='label label-info'>blue</span> are currently associated with one or more section and
-section in <span class='label label-warning'>orange</span> are not currently associated with any section."
+    <div class="span7 audit-right-pan" id="audit-orphan-info"
+         title="color indication:</br>
+         <span class='label label-info'>blue</span> indicate section currently
+         associated with one or more section;</br>
+         <span class='label label-warning'>orange</span> indicate section not
+         currently associated with any form;
+         <span class='label label-success'>green</span> indicate section that
+         have been associated to the current form."
             data-toggle="tooltip">
     {% if usections is not empty and auditform.id is not null %}
         <h4>Add existing section: ({{ usections | length }} available)</h4>
         {% for section in usections %}
-        <a class="btn {% if section.isArchived == true %}btn-warning{% else %}btn-primary{% endif %} btn-small cisco-audit-section-add"
+        <a class="btn {% if section in auditform | sections( true ) %}btn-success{% elseif section.isArchived == true %}btn-warning{% else %}btn-primary{% endif %} btn-small cisco-audit-section-add"
            href="{{ path( 'audit_form_add_section', { 'form_id' : auditform.id ,'section_id': section.id } ) }}">
             <i class="icon-plus icon-white"></i> {{ section.title }}
         </a>

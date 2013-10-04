@@ -6,13 +6,19 @@
             <i class="icon-plus icon-white"></i> new Field
         </a>
     </div>
-    <div class="span7 audit-right-pan" id="audit-orphan-info" title="field in <span class='label label-info'>blue</span> are currently associated with one or more section and
-field in <span class='label label-warning'>orange</span> are not currently associated with any section."
+    <div class="span7 audit-right-pan" id="audit-orphan-info"
+         title="color indication:</br>
+         <span class='label label-info'>blue</span> indicate field currently
+         associated with one or more field;</br>
+         <span class='label label-warning'>orange</span> indicate field not
+         currently associated with any section;
+         <span class='label label-success'>green</span> indicate field that
+         have been associated to the current section."
             data-toggle="tooltip">
     {% if ufields is not empty and section.id is not null %}
         <h4>Add existing field: ({{ ufields | length }} available)</h4>
         {% for field in ufields %}
-            <a class="btn {% if field.isArchived == true %}btn-warning{% else %}btn-primary{% endif %} btn-small cisco-audit-field-add"
+            <a class="btn {% if field in section | fields( true ) %}btn-success{% elseif field.isArchived == true %}btn-warning{% else %}btn-primary{% endif %} btn-small cisco-audit-field-add"
                href="{{ path( 'audit_section_add_field', { 'section_id' : section.id ,'field_id': field.id } ) }}">
                 <i class="icon-plus icon-white"></i> {{ field.title }}
             </a>
