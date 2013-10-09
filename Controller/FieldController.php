@@ -78,9 +78,6 @@ class FieldController extends Controller
                 {
                     $section->removeField( $field );
 
-                    echo '<div>Section Title' . $section->getTitle() . '</div>';
-                    echo '<div>Form Title' . $form['section']->getData() . '</div>'; die();
-
                     $newField = new Field();
                     $newField->setTitle( $field->getTitle() )
                              ->setDescription( $field->getDescription() )
@@ -88,7 +85,6 @@ class FieldController extends Controller
                              ->setChoices( $field->getChoices() )
                              ->setFlag( $field->getFlag() )
                              ->addSections( $field->getSections() );
-//                    $em->persist( $section );
                     $em->persist( $newField );
                 }
                 else
