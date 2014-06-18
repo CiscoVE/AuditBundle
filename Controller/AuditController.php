@@ -82,7 +82,7 @@ class AuditController extends Controller
         return $this->render( 'CiscoSystemsAuditBundle:Audit:add.html.twig', array(
             'audit'                      => $audit,
             'form'                       => $form->createView(),
-            'scoreform'                  => $scoreform->createView(),
+            'scoreform'                  => $scoreform,
         ));
     }
 
