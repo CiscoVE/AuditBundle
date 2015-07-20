@@ -63,24 +63,22 @@ class FormController extends Controller
 
     public function editAction( Request $request )
     {
-        $edit = false;
-        $em = $this->getDoctrine()->getEntityManager();
-        $repo = $em->getRepository( 'CiscoSystemsAuditBundle:Form' );
         $auditform = new Form();
         $uSections = array();
+        $em = $this->getDoctrine()->getEntityManager();
+        $formRepo = $em->getRepository( 'CiscoSystemsAuditBundle:Form' );
         $sectionRepo = $em->getRepository( 'CiscoSystemsAuditBundle:Section' );
-        $fid = $request->get( 'form_id' );
-        if ( '' !== $fid && NULL !== $fid )
+        $formId = $request->get( 'form_id' );
+        if ( is_integer( $formId ) && $formId > 0 )
         {
-            $edit = true;
-            $auditform = $repo->find( $request->get( 'form_id' ));
+            $auditform = $formRepo->find( $formId );
             $uSections = $sectionRepo->getUnAssignedPerForm( $auditform );
         }
         else
         {
             $uSections = $sectionRepo->getUnAssignedPerForm();
         }
-        $form = $this->createForm( new AuditFormType(), $auditform);
+        $form = $this->createForm( new AuditFormType(), $auditform );
         if ( null !== $request->get( $form->getName() ))
         {
             $form->bind( $request );
@@ -99,7 +97,7 @@ class FormController extends Controller
         if ( $request->isXmlHttpRequest())
         {
             return $this->render( 'CiscoSystemsAuditBundle:Field:_edit.html.twig', array (
-                'edit'          => $edit,
+                'edit'          => $auditform->getId() ? true : false,
                 'auditform'     => $auditform,
                 'form'          => $form->createView(),
             ));
@@ -107,7 +105,7 @@ class FormController extends Controller
         else
         {
             return $this->render( 'CiscoSystemsAuditBundle:Form:edit.html.twig', array (
-                'edit'                  => $edit,
+                'edit'                  => $auditform->getId() ? true : false,
                 'auditform'             => $auditform,
                 'usections'             => $uSections,
                 'form'                  => $form->createView(),
