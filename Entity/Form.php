@@ -25,7 +25,7 @@ class Form extends Element
     /**
      * @var string Label for the trigger flag
      *
-     * @ORM\Column(type="string",name="flag_label")
+     * @ORM\Column(type="string",name="flag_label", nullable=true)
      */
     protected $flagLabel;
 
