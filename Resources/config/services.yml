@@ -1,24 +1,25 @@
 parameters:
     cisco.formtype.audit.class:           CiscoSystems\AuditBundle\Form\Type\AuditType
-    cisco.formtype.section.class:         CiscoSystems\AuditBundle\Form\Type\SectionsType
+#    cisco.formtype.section.class:         CiscoSystems\AuditBundle\Form\Type\SectionsType
+    cisco.formtype.section.class:         CiscoSystems\AuditBundle\Form\Type\FieldContainerType
     cisco.twig.audit_extension.class:    CiscoSystems\AuditBundle\Twig\Extension\AuditExtension
     cisco.worker.audit_score.class:      CiscoSystems\AuditBundle\Worker\Scoring
 
 services:
     cisco.formtype.audit:
-        class: %cisco.formtype.audit.class%
+        class: '%cisco.formtype.audit.class%'
         tags:
             - { name: form.type, alias: audit }
 
     cisco.formtype.section:
-        class: %cisco.formtype.section.class%
+        class: '%cisco.formtype.section.class%'
         arguments:
             - '@doctrine.orm.entity_manager'
         tags:
             - { name: form.type, alias: audit_section }
 
     cisco.twig.audit_extension:
-        class: %cisco.twig.audit_extension.class%
+        class: '%cisco.twig.audit_extension.class%'
         arguments:
             - '@cisco.worker.audit_score'
             - '@doctrine.orm.entity_manager'
@@ -26,4 +27,4 @@ services:
             - { name: twig.extension }
 
     cisco.worker.audit_score:
-        class:  %cisco.worker.audit_score.class%
+        class:  '%cisco.worker.audit_score.class%'
