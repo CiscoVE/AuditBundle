@@ -3,7 +3,7 @@
 namespace CiscoSystems\AuditBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\ChoiceList\SimpleChoiceList;
+use Symfony\Component\Form\ChoiceList\ArrayChoiceList;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -23,7 +23,7 @@ class SectionsType extends AbstractType
         $choiceList = function( Options $options ) use ( $type )
         {
 //            echo '<div>options: '; print_r( $options['auditform'] ); echo '</div>'; die();
-            return new SimpleChoiceList( $type->getSections( $options['form'], $options['archived']) );
+            return new ArrayChoiceList( $type->getSections( $options['form'], $options['archived']) );
         };
 
         $resolver->setDefaults( array(
