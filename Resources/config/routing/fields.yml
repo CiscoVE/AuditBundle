@@ -1,38 +1,45 @@
 audit_field_add:
-    pattern:  /add
-    defaults: { _controller: CiscoSystemsAuditBundle:Field:edit }
+    path:  /add
+    defaults:
+        - _controller: CiscoSystemsAuditBundle:Field:edit
 
 audit_field_edit:
-    pattern:  /{field_id}/edit
-    defaults: { _controller: CiscoSystemsAuditBundle:Field:edit }
+    path:  /{field_id}/edit
+    defaults:
+        - _controller: CiscoSystemsAuditBundle:Field:edit
     requirements:
         field_id: \d+
 
 audit_field_delete:
-    pattern:  /{field_id}/delete
-    defaults: { _controller: CiscoSystemsAuditBundle:Field:delete }
+    path:  /{field_id}/delete
+    defaults:
+        - _controller: CiscoSystemsAuditBundle:Field:delete
     requirements:
         field_id: \d+
 
 audit_field_calculate_score:
-    pattern:  /calculate-score
-    defaults: { _controller: CiscoSystemsAuditBundle:Field:calculateScore }
+    path:  /calculate-score
+    defaults:
+        - _controller: CiscoSystemsAuditBundle:Field:calculateScore
     requirements:
         _method:  POST
         _format:  JSON
 
 audit_field_view:
-    pattern:  /{field_id}
-    defaults: { _controller: CiscoSystemsAuditBundle:Field:view }
+    path:  /{field_id}
+    defaults:
+        - _controller: CiscoSystemsAuditBundle:Field:view
     requirements:
         field_id: \d+
 
 audit_field_load:
-    pattern:  /{field_id}
-    defaults: { _controller: CiscoSystemsAuditBundle:Field:load }
+    path:  /{field_id}
+    defaults:
+        - _controller: CiscoSystemsAuditBundle:Field:load
     requirements:
         field_id: \d+
 
 audit_fields:
-    pattern:  /
-    defaults: { _controller: CiscoSystemsAuditBundle:Field:index }
+    path:  /
+    defaults:
+        - _controller: CiscoSystemsAuditBundle:Field:index

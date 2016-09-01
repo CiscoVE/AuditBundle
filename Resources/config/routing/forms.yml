@@ -1,50 +1,59 @@
 audit_form_add:
-    pattern:  /add
-    defaults: { _controller: CiscoSystemsAuditBundle:Form:edit }
+    path:  /add
+    defaults:
+        - _controller: CiscoSystemsAuditBundle:Form:edit
 
 audit_form_list:
-    pattern:  /list
-    defaults: { _controller: CiscoSystemsAuditBundle:Form:list }
+    path:  /list
+    defaults:
+        - _controller: CiscoSystemsAuditBundle:Form:list
 
 audit_form_edit:
-    pattern:  /{form_id}/edit
-    defaults: { _controller: CiscoSystemsAuditBundle:Form:edit }
+    path:  /{form_id}/edit
+    defaults:
+        - _controller: CiscoSystemsAuditBundle:Form:edit
     requirements:
         form_id: \d+
 
 audit_form_delete:
-    pattern:  /{form_id}/delete
-    defaults: { _controller: CiscoSystemsAuditBundle:Form:delete }
+    path:  /{form_id}/delete
+    defaults:
+        - _controller: CiscoSystemsAuditBundle:Form:delete
     requirements:
         form_id: \d+
 
 audit_form_add_section:
-    pattern:  /{form_id}/section/{section_id}/add
-    defaults: { _controller: CiscoSystemsAuditBundle:Form:add }
+    path:  /{form_id}/section/{section_id}/add
+    defaults:
+        - _controller: CiscoSystemsAuditBundle:Form:add
     requirements:
         form_id: \d+
         section_id: \d+
 
 audit_form_new_section:
-    pattern:  /{form_id}/sections/add
-    defaults: { _controller: CiscoSystemsAuditBundle:Section:edit }
+    path:  /{form_id}/sections/add
+    defaults:
+        - _controller: CiscoSystemsAuditBundle:Section:edit
     requirements:
         form_id: \d+
 
 audit_form_remove:
-    pattern:  /{form_id}/section/{section_id}/remove
-    defaults: { _controller: CiscoSystemsAuditBundle:Form:remove }
+    path:  /{form_id}/section/{section_id}/remove
+    defaults:
+        - _controller: CiscoSystemsAuditBundle:Form:remove
     requirements:
         form_id: \d+
         section_id: \d+
 
 audit_form_view:
-    pattern:  /{form_id}
-    defaults: { _controller: CiscoSystemsAuditBundle:Form:view }
+    path:  /{form_id}
+    defaults:
+        - _controller: CiscoSystemsAuditBundle:Form:view
     requirements:
         form_id: \d+
 
 audit_forms:
-    pattern:  /
-    defaults: { _controller: CiscoSystemsAuditBundle:Form:index }
+    path:  /
+    defaults:
+        - _controller: CiscoSystemsAuditBundle:Form:index
 

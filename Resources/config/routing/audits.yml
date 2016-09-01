@@ -1,21 +1,25 @@
 audit_add:
-    pattern:  /new/{form}
-    defaults: { _controller: CiscoSystemsAuditBundle:Audit:add }
+    path:  /new/{form}
+    defaults:
+        - _controller: CiscoSystemsAuditBundle:Audit:add
     requirements:
         id: \d+
 
 audit_view:
-    pattern:  /{id}
-    defaults: { _controller: CiscoSystemsAuditBundle:Audit:view }
+    path:  /{id}
+    defaults:
+        - _controller: CiscoSystemsAuditBundle:Audit:view
     requirements:
         id: \d+
 
 audits:
-    pattern:  /
-    defaults: { _controller: CiscoSystemsAuditBundle:Audit:index }
+    path:  /
+    defaults:
+        - _controller: CiscoSystemsAuditBundle:Audit:index
 
 audit_export:
-    pattern:  /{id}/export
-    defaults: { _controller: CiscoSystemsAuditBundle:Audit:export }
+    path:  /{id}/export
+    defaults:
+        - _controller: CiscoSystemsAuditBundle:Audit:export
     requirements:
         id: \d+
