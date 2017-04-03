@@ -223,7 +223,7 @@ class Field extends Element
     public function setWeight( $weight )
     {
         $this->weight = ( $this->flag === FALSE ) ?
-                        (( $weight > 0 ) ? $weight : self::DEFAULTWEIGHTVALUE ) :
+                        (( $weight >= 0 ) ? $weight : self::DEFAULTWEIGHTVALUE ) :
                         self::DEFAULTWEIGHTVALUE ;
 
         return $this;
