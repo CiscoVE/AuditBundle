@@ -10,8 +10,8 @@ use CiscoSystems\AuditBundle\Entity\Element;
  * @ORM\Entity(repositoryClass="CiscoSystems\AuditBundle\Entity\Repository\FieldRepository")
  * @ORM\Table(name="audit__field")
  */
-class Field extends Element
-{
+class Field extends Element {
+
     const DEFAULTWEIGHTVALUE = 5;
 
     /**
@@ -56,9 +56,8 @@ class Field extends Element
      */
     protected $disabled;
 
-    public function __construct( $title = null, $description = null )
-    {
-        parent::__construct( $title, $description );
+    public function __construct($title = null, $description = null) {
+        parent::__construct($title, $description);
         $this->flag = FALSE;
         $this->auditscores = new ArrayCollection();
         $this->disabled = FALSE;
@@ -71,8 +70,7 @@ class Field extends Element
      *
      * @return array
      */
-    public function getChoices()
-    {
+    public function getChoices() {
         return $this->choices;
     }
 
@@ -83,8 +81,7 @@ class Field extends Element
      *
      * @return \CiscoSystems\AuditBundle\Entity\Field
      */
-    public function setChoices( $choices )
-    {
+    public function setChoices($choices) {
         $this->choices = $choices;
 
         return $this;
@@ -98,23 +95,21 @@ class Field extends Element
      *
      * @return \CiscoSystems\AuditBundle\Entity\Field
      */
-    public function addChoice( $choice, $label )
-    {
-        $this->choices[ $choice ] = $label;
+    public function addChoice($choice, $label) {
+        $this->choices[$choice] = $label;
 
         return $this;
     }
-
 
     /**
      * Get auditscore
      *
      * @return \Doctrine\Common\Collections\ArrayCollection
      */
-    public function getScores()
-    {
+    public function getScores() {
         return $this->scores;
     }
+
     /**
      * Set auditscores
      *
@@ -122,8 +117,7 @@ class Field extends Element
      *
      * @return \CiscoSystems\AuditBundle\Entity\Field
      */
-    public function setScores( \Doctrine\Common\Collections\ArrayCollection $scores = NULL )
-    {
+    public function setScores(\Doctrine\Common\Collections\ArrayCollection $scores = NULL) {
         $this->scores = $scores;
 
         return $this;
@@ -136,12 +130,10 @@ class Field extends Element
      *
      * @return \CiscoSystems\AuditBundle\Entity\Field
      */
-    public function addScore( \CiscoSystems\AuditBundle\Entity\Score $score )
-    {
-        if( count( $this->scores ) > 0 && !$this->scores->contains( $score ))
-        {
-            $this->scores->add( $score );
-            $score->setField( $this );
+    public function addScore(\CiscoSystems\AuditBundle\Entity\Score $score) {
+        if (count($this->scores) > 0 && !$this->scores->contains($score)) {
+            $this->scores->add($score);
+            $score->setField($this);
 
             return $this;
         }
@@ -156,11 +148,9 @@ class Field extends Element
      *
      * @return \CiscoSystems\AuditBundle\Entity\Field
      */
-    public function addScores( array $scores )
-    {
-        foreach( $scores as $score )
-        {
-            $this->addScore( $score );
+    public function addScores(array $scores) {
+        foreach ($scores as $score) {
+            $this->addScore($score);
         }
 
         return $this;
@@ -173,14 +163,12 @@ class Field extends Element
      *
      * @return \CiscoSystems\AuditBundle\Entity\Field
      */
-    public function removeScore( \CiscoSystems\AuditBundle\Entity\Score $scores )
-    {
-        if( $this->scores->contains( $scores ) )
-        {
-            $index = $this->scores->indexOf( $scores );
-            $rem = $this->scores->get( $index );
-            $rem->setField( NULL );
-            $this->scores->removeElement( $scores );
+    public function removeScore(\CiscoSystems\AuditBundle\Entity\Score $scores) {
+        if ($this->scores->contains($scores)) {
+            $index = $this->scores->indexOf($scores);
+            $rem = $this->scores->get($index);
+            $rem->setField(NULL);
+            $this->scores->removeElement($scores);
 
             return $this;
         }
@@ -193,11 +181,9 @@ class Field extends Element
      *
      * @return \CiscoSystems\AuditBundle\Entity\Field
      */
-    public function removeAllScores()
-    {
-        foreach ( $this->scores as $score )
-        {
-            $this->removeScore( $score );
+    public function removeAllScores() {
+        foreach ($this->scores as $score) {
+            $this->removeScore($score);
         }
 
         return $this;
@@ -208,8 +194,7 @@ class Field extends Element
      *
      * @return integer
      */
-    public function getWeight()
-    {
+    public function getWeight() {
         return $this->weight;
     }
 
@@ -220,11 +205,8 @@ class Field extends Element
      *
      * @return \CiscoSystems\AuditBundle\Entity\Field
      */
-    public function setWeight( $weight )
-    {
-        $this->weight = ( $this->flag === FALSE ) ?
-                        (( $weight >= 0 ) ? $weight : self::DEFAULTWEIGHTVALUE ) :
-                        self::DEFAULTWEIGHTVALUE ;
+    public function setWeight($weight) {
+        $this->weight = ( $weight >= 0 ) ? (is_null($weight) ? self::DEFAULTWEIGHTVALUE : $weight) : self::DEFAULTWEIGHTVALUE;
 
         return $this;
     }
@@ -234,8 +216,7 @@ class Field extends Element
      *
      * @return boolean
      */
-    public function getFlag()
-    {
+    public function getFlag() {
         return $this->flag;
     }
 
@@ -246,8 +227,7 @@ class Field extends Element
      *
      * @return \CiscoSystems\AuditBundle\Entity\Field
      */
-    public function setFlag( $flag )
-    {
+    public function setFlag($flag) {
         $this->flag = $flag;
 
         return $this;
@@ -258,8 +238,7 @@ class Field extends Element
      *
      * @return boolean
      */
-    public function getDisabled()
-    {
+    public function getDisabled() {
         return $this->disabled;
     }
 
@@ -270,8 +249,7 @@ class Field extends Element
      *
      * @return \CiscoSystems\AuditBundle\Entity\Field
      */
-    public function setDisabled( $boolean = FALSE )
-    {
+    public function setDisabled($boolean = FALSE) {
         $this->disabled = $boolean;
 
         return $this;
@@ -284,10 +262,8 @@ class Field extends Element
      *
      * @return integer|boolean
      */
-    public function getPosition( \CiscoSystems\AuditBundle\Entity\Section $section )
-    {
-        if( FALSE !== $relation = $this->getSectionRelation( $section ) )
-        {
+    public function getPosition(\CiscoSystems\AuditBundle\Entity\Section $section) {
+        if (FALSE !== $relation = $this->getSectionRelation($section)) {
             return $relation->getPosition();
         }
 
@@ -302,17 +278,12 @@ class Field extends Element
      *
      * @return array
      */
-    public function getSections( $archived = NULL )
-    {
+    public function getSections($archived = NULL) {
         $sections = array();
-        foreach( $this->sectionRelations as $relation )
-        {
-            if( NULL === $archived )
-            {
+        foreach ($this->sectionRelations as $relation) {
+            if (NULL === $archived) {
                 $sections[] = $relation->getSection();
-            }
-            elseif( $archived === $relation->getArchived() )
-            {
+            } elseif ($archived === $relation->getArchived()) {
                 $sections[] = $relation->getSection();
             }
         }
@@ -325,21 +296,17 @@ class Field extends Element
      *
      * @return \CiscoSystems\AuditBundle\Entity\Section
      */
-    public function getSection()
-    {
+    public function getSection() {
         $field = $this;
 
-        $relations = $this->sectionRelations->filter( function( $relation ) use ( $field )
-        {
-           if( $relation->getField() === $field && $relation->getArchived() === FALSE )
-           {
-               return $relation;
-           }
+        $relations = $this->sectionRelations->filter(function( $relation ) use ( $field ) {
+            if ($relation->getField() === $field && $relation->getArchived() === FALSE) {
+                return $relation;
+            }
         });
 
-        return $relations->count() > 0 ? $relations->first()->getSection() : NULL ;
+        return $relations->count() > 0 ? $relations->first()->getSection() : NULL;
     }
-
 
     /**
      * Add a section
@@ -348,17 +315,13 @@ class Field extends Element
      *
      * @return \CiscoSystems\AuditBundle\Entity\Field|boolean
      */
-    public function addSection( \CiscoSystems\AuditBundle\Entity\Section $section )
-    {
-        if( FALSE === array_search( $section, $this->getSections() ))
-        {
-            $this->addSectionRelation( new SectionField( $section, $this ) );
+    public function addSection(\CiscoSystems\AuditBundle\Entity\Section $section) {
+        if (FALSE === array_search($section, $this->getSections())) {
+            $this->addSectionRelation(new SectionField($section, $this));
 
             return $this;
-        }
-        elseif( TRUE === $this->getSectionRelation( $section )->getArchived() )
-        {
-            $this->getSectionRelation( $section )->setArchived( FALSE );
+        } elseif (TRUE === $this->getSectionRelation($section)->getArchived()) {
+            $this->getSectionRelation($section)->setArchived(FALSE);
 
             return $this;
         }
@@ -366,11 +329,9 @@ class Field extends Element
         return FALSE;
     }
 
-    public function addSections( $sections )
-    {
-        foreach( $sections as $section )
-        {
-            $this->addSection( $section );
+    public function addSections($sections) {
+        foreach ($sections as $section) {
+            $this->addSection($section);
         }
     }
 
@@ -381,13 +342,10 @@ class Field extends Element
      *
      * @return \CiscoSystems\AuditBundle\Entity\Field|boolean
      */
-    public function removeSection( \CiscoSystems\AuditBundle\Entity\Section $section )
-    {
-        if( FALSE !== array_search( $section, $this->getSections() ))
-        {
-            if( NULL !== $relation = $this->getSectionRelation( $section ))
-            {
-                $this->removeSectionRelation( $relation );
+    public function removeSection(\CiscoSystems\AuditBundle\Entity\Section $section) {
+        if (FALSE !== array_search($section, $this->getSections())) {
+            if (NULL !== $relation = $this->getSectionRelation($section)) {
+                $this->removeSectionRelation($relation);
 
                 return $this;
             }
@@ -401,8 +359,7 @@ class Field extends Element
      *
      * @return \Doctrine\Common\Collections\ArrayCollection
      */
-    public function getSectionRelations()
-    {
+    public function getSectionRelations() {
         return $this->sectionRelations;
     }
 
@@ -413,8 +370,7 @@ class Field extends Element
      *
      * @return \CiscoSystems\AuditBundle\Entity\Field
      */
-    public function setSectionRelations( ArrayCollection $relations )
-    {
+    public function setSectionRelations(ArrayCollection $relations) {
         $this->sectionRelations = $relations;
 
         return $this;
@@ -427,17 +383,14 @@ class Field extends Element
      *
      * @return \CiscoSystems\AuditBundle\Entity\SectionField
      */
-    public function getSectionRelation( \CiscoSystems\AuditBundle\Entity\Section $section )
-    {
+    public function getSectionRelation(\CiscoSystems\AuditBundle\Entity\Section $section) {
         $relation = array_filter(
-            $this->sectionRelations->toArray(),
-            function( $e ) use ( $section )
-            {
-                return $e->getSection() === $section;
-            }
+                $this->sectionRelations->toArray(), function( $e ) use ( $section ) {
+            return $e->getSection() === $section;
+        }
         );
 
-        return reset( $relation );
+        return reset($relation);
     }
 
     /**
@@ -447,11 +400,9 @@ class Field extends Element
      *
      * @return \CiscoSystems\AuditBundle\Entity\Field|boolean
      */
-    public function addSectionRelation( \CiscoSystems\AuditBundle\Entity\SectionField $relation )
-    {
-        if( !$this->sectionRelations->contains( $relation ))
-        {
-            $this->sectionRelations->add( $relation );
+    public function addSectionRelation(\CiscoSystems\AuditBundle\Entity\SectionField $relation) {
+        if (!$this->sectionRelations->contains($relation)) {
+            $this->sectionRelations->add($relation);
 
             return $this;
         }
@@ -466,11 +417,9 @@ class Field extends Element
      *
      * @return \CiscoSystems\AuditBundle\Entity\Field|boolean
      */
-    public function removeSectionRelation( \CiscoSystems\AuditBundle\Entity\SectionField $relation )
-    {
-        if( $this->sectionRelations->contains( $relation ))
-        {
-            $relation->setArchived( TRUE );
+    public function removeSectionRelation(\CiscoSystems\AuditBundle\Entity\SectionField $relation) {
+        if ($this->sectionRelations->contains($relation)) {
+            $relation->setArchived(TRUE);
 
             return $this;
         }
@@ -481,62 +430,52 @@ class Field extends Element
     /**
      * see http://stackoverflow.com/questions/9088603/symfony2-doctrine-how-to-re-save-an-entity-with-a-onetomany-as-a-cascading-new
      */
-    public function cloneSectionRelation()
-    {
+    public function cloneSectionRelation() {
         $relations = $this->sectionRelations;
         $this->sectionRelations = new ArrayCollection();
-        foreach( $relations as $relation )
-        {
+        foreach ($relations as $relation) {
             $clone = clone $relation->getSection();
-            $this->sectionRelations->add( new SectionField( $clone, $this ) );
-            $clone->setField( $this );
+            $this->sectionRelations->add(new SectionField($clone, $this));
+            $clone->setField($this);
         }
     }
 
-    public function cloneScores()
-    {
+    public function cloneScores() {
         $scores = $this->scores;
         $this->scores = new ArrayCollection();
-        foreach( $scores as $score )
-        {
+        foreach ($scores as $score) {
             $clone = clone $score;
-            $this->scores->add( $clone );
-            $clone->setField( $this );
+            $this->scores->add($clone);
+            $clone->setField($this);
         }
     }
 
-    public function compare( Field $field )
-    {
+    public function compare(Field $field) {
         $ret = array();
 
-        if( $field->getTitle() !== $this->title )
-        {
-            $ret['title'] = array( $field->getTitle(), $this->title );
+        if ($field->getTitle() !== $this->title) {
+            $ret['title'] = array($field->getTitle(), $this->title);
         }
-        if( $field->getDescription() !== $this->description )
-        {
-            $ret['description'] = array( $field->getDescription(), $this->description );
+        if ($field->getDescription() !== $this->description) {
+            $ret['description'] = array($field->getDescription(), $this->description);
         }
-        if( $field->getFlag() !== $this->flag )
-        {
-            $ret['flag'] = array( $field->getFlag(), $this->flag );
+        if ($field->getFlag() !== $this->flag) {
+            $ret['flag'] = array($field->getFlag(), $this->flag);
         }
-        if( $field->getChoices() !== $this->choices )
-        {
-            $ret['choices'] = array( $field->getChoices(), $this->choices );
+        if ($field->getChoices() !== $this->choices) {
+            $ret['choices'] = array($field->getChoices(), $this->choices);
         }
-        if( $field->getWeight() !== $this->weight )
-        {
-            $ret['weight'] = array( $field->getWeight(), $this->weight );
+        if ($field->getWeight() !== $this->weight) {
+            $ret['weight'] = array($field->getWeight(), $this->weight);
         }
 
-        return ( count( $ret ) > 0 ) ? $ret : NULL ;
+        return ( count($ret) > 0 ) ? $ret : NULL;
     }
 
-    public function isArchived()
-    {
-        return $this->getSection() > $this->getSections( TRUE ) ?
-               FALSE :
-               TRUE ;
+    public function isArchived() {
+        return $this->getSection() > $this->getSections(TRUE) ?
+                FALSE :
+                TRUE;
     }
+
 }
