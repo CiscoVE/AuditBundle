@@ -206,7 +206,7 @@ class Field extends Element {
      * @return \CiscoSystems\AuditBundle\Entity\Field
      */
     public function setWeight($weight) {
-        $this->weight = ( $weight >= 0 ) ? (is_null($weight) ? self::DEFAULTWEIGHTVALUE : $weight) : self::DEFAULTWEIGHTVALUE;
+        $this->weight = ( $weight >= 0 ) ? (is_null($weight) ? 0 : $weight) : self::DEFAULTWEIGHTVALUE;
 
         return $this;
     }
