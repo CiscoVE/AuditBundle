@@ -257,7 +257,7 @@ $( document ).on( 'click', '.cisco-audit-field-add', function()
  * variable for the next 2 functions
  * @type String
  */
-var viewIcon = '<span class="icon-eye-open" title="View"></span>';
+var viewIcon = '<span class="icon-eye" title="View"></span>';
 var hideIcon = '<span class="icon-eye-closed" title="Hide"></span>';
 
 /**
