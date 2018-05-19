@@ -257,8 +257,8 @@ $( document ).on( 'click', '.cisco-audit-field-add', function()
  * variable for the next 2 functions
  * @type String
  */
-var viewIcon = '<i class="icon-eye-open" title="View"></i>';
-var hideIcon = '<i class="icon-eye-close" title="Hide"></i>';
+var viewIcon = '<span class="icon-eye-open" title="View"></span>';
+var hideIcon = '<span class="icon-eye-closed" title="Hide"></span>';
 
 /**
  * Toggle show/hide single Field
