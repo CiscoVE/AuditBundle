@@ -4,14 +4,14 @@
  */
 $( document ).on( 'change', '.cisco-audit-score-selector', function()
 {
-    // var flagLabel declared in /views/Audit/add.html.twig
-    var url = $( this ).attr( 'href' );
-    var row = $( this ).closest( 'tr' );
 
-    var prevRows = $( row ).prevUntil( '.cisco-audit-section-row', '.cisco-audit-field-row' );
-    var nextRows = $( row ).nextUntil( '.cisco-audit-section-score-row', '.cisco-audit-field-row' );
-    var thisScoreRow = $( row ).nextUntil( '.cisco-audit-section-row', '.cisco-audit-section-score-row' );
-    var rows = $.merge( $.merge( prevRows, row ), nextRows );
+    var url         = $( this ).attr( 'href' );
+    var row         = $( this ).closest( 'tr' );
+
+    var prevRows        = $( row ).prevUntil( '.cisco-audit-section-row', '.cisco-audit-field-row' );
+    var nextRows        = $( row ).nextUntil( '.cisco-audit-section-score-row', '.cisco-audit-field-row' );
+    var thisScoreRow    = $( row ).nextUntil( '.cisco-audit-section-row', '.cisco-audit-section-score-row' );
+    var rows            = $.merge( $.merge( prevRows, row ), nextRows );
 
     var scores = [];
     var index = 0;
@@ -34,16 +34,17 @@ $( document ).on( 'change', '.cisco-audit-score-selector', function()
                 score[2] = $( this ).find( 'div' ).attr( 'data-value' );
                 if( $( this ).find( 'div' ).attr( 'data-field' ) === flagLabel)
                 {
+
                     flaggedArray.push( score[1] );
                     if( score[1] === 'N' )
                     {
-                        $( this ).find( 'div' ).text( flagLabel );
-                        $( this ).addClass( 'alert alert-error' );
+                        $( this ).find( 'div' ).addClass("label label--danger label--raised").html( flagLabel );
+                        
                     }
                     else
                     {
-                        $( this ).find( 'div' ).text( score[2] );
-                        $( this ).removeClass( 'alert alert-error' );
+                        $( this ).find( 'div' ).removeClass("label label--danger label--raised").text( score[2] );
+                        
                     }
                 }
             }
@@ -103,27 +104,23 @@ $( document ).on( 'change', '.cisco-audit-score-selector', function()
 
             $( sectionScore ).attr( 'value', newSectionScore );
             $( auditScore ).attr( 'value', newAuditScore );
-//            console.log( 'auditFlag: ' + auditFlag );
+  
             if( sectionFlag === 'true' )
             {
-                $( sectionScore ).text( flagLabel );
-                $( sectionScore ).addClass( 'alert alert-error' );
+                $( sectionScore ).addClass("label label--danger label--raised").html( flagLabel );                
             }
             else
             {
-                $( sectionScore ).text( newSectionScore + ' %' );
-                $( sectionScore ).removeClass( 'alert alert-error' );
+                $( sectionScore ).removeClass("label label--danger label--raised").html( newSectionScore + ' %' );                
             }
 
             if( auditFlag === true )
             {
-                $( auditScore ).text( flagLabel );
-                $( auditScore ).addClass( 'alert alert-error' );
+                $( auditScore ).addClass("label label--danger label--raised").html( flagLabel );                
             }
             else
             {
-                $( auditScore ).text( newAuditScore + ' %' );
-                $( auditScore ).removeClass( 'alert alert-error' );
+                $( auditScore ).removeClass("label label--danger label--raised").html( newAuditScore + ' %' );               
             }
         },
         error: function( response )
