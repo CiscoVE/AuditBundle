@@ -16,9 +16,8 @@ class SectionType extends AbstractType
         $builder->add( 'title', null, array(
             'attr' => array( 'placeholder' => 'Section\'s title',
                 'title'         => 'The field doesn\'t have to be unique but it is highly recommended never the less.',
-                'class'         => 'input-xxlarge',
+                'class'         => '',
                 'rows'          => 1,
-                'data-toggle'   => 'tooltip',
             ),
         ));
         $builder->add( 'form', 'entity', array(
@@ -35,7 +34,7 @@ class SectionType extends AbstractType
         $builder->add( 'description', 'textarea', array(
             'attr' => array(
                 'placeholder'   => 'Description of the Section. This should be as clear as possible',
-                'class'         => 'input-xxlarge',
+                'class'         => '',
                 'rows'          => 5,
             ),
         ));
