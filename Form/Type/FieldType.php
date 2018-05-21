@@ -46,8 +46,7 @@ class FieldType extends AbstractType
         ));
         $builder->add( 'weight', 'integer', array(
             'attr'          => array(
-                'title'                 => self::TOOLTIPWEIGHT,
-                'class'         => 'input-mini',
+                'title'     => self::TOOLTIPWEIGHT
             ),
         ));
         $builder->add( 'flag', 'checkbox', array(
@@ -61,7 +60,6 @@ class FieldType extends AbstractType
         $builder->add( 'description', 'textarea', array(
             'attr'          => array(
                 'placeholder'   => 'Description for the field. This should be as clear as possible',
-                'class'         => '',
                 'rows'          => 5,
             ),
         ));
@@ -71,7 +69,6 @@ class FieldType extends AbstractType
             'data'          => isset( $choices[Score::YES] ) ? $choices[Score::YES] : '',
             'attr'          => array(
                 'placeholder'   => 'Correct answer definition',
-                'class'         => '',
                 'rows'          => 2,
             ),
         ));
@@ -81,7 +78,6 @@ class FieldType extends AbstractType
             'data'          => isset( $choices[Score::NO] ) ? $choices[Score::NO] : '',
             'attr'          => array(
                 'placeholder'   => 'Incorrect answer definition',
-                'class'         => '',
                 'rows'          => 2,
             ),
         ));
@@ -92,7 +88,6 @@ class FieldType extends AbstractType
             'attr'          => array(
                 'placeholder'   => 'Partially correct answer definition',
                 'title'         => self::TOOLTIPOPTIONAL,
-                'class'         => '',
                 'rows'          => 2,
             ),
             'label'         => 'Acceptable',
@@ -104,7 +99,6 @@ class FieldType extends AbstractType
             'attr'          => array(
                 'placeholder'   => 'Answer not applicable',
                 'title'         => self::TOOLTIPOPTIONAL,
-                'class'         => '',
                 'rows'          => 2,
             ),
             'label'         => 'N/A',
