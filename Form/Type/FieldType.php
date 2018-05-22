@@ -17,7 +17,7 @@ class FieldType extends AbstractType
     const TOOLTIP = 'Always available.';
     const TOOLTIPFLAG = '!! If this is enable, some of the fields below will not be editable.';
     const TOOLTIPOPTIONAL = '!! Only available when the form is allowing for multiple answers and the field is not set to raise a flag.';
-    const TOOLTIPWEIGHT = '!! Only available when the field does not raise a flag.<br/>Increase|decrease value to reflect the importance of this field in calculating the section and final score (Default value is 5).';
+    const TOOLTIPWEIGHT = '!! Only available when the field does not raise a flag.  Increase|decrease value to reflect the importance of this field in calculating the section and final score (Default value is 5).';
 
     public function buildForm( FormBuilderInterface $builder, array $options )
     {
