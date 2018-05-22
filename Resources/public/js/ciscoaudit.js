@@ -410,47 +410,6 @@ function toggleBinaryAnswer( _check )
     }
 };
 
-/**
- * Inspired by http://jsfiddle.net/BbspX/1/
- *
- * create a DIV element on top of the disabled field and assign the same title
- * data-original-title attribute
- *
- * @returns {DOM}
- */
-function tooltipOnDisabled()
-{
-    $( 'textarea:disabled, input[type=number]:disabled' ).after( function( e )
-    {
-        if( $( this ).next( 'div' ).hasClass( 'shadow-element' ))
-        {
-            $( this ).next( 'div' ).remove();
-        }
-        var that = $( this );
-        var _top = that.position().top + 'px';
-        var _left = that.position().left + 'px';
-        var _title = that.attr( 'data-original-title' );
-        that.css({ top: _top, left: _left, position: 'absolute' });
-        var newElement = $( '<div>' );
-        newElement.addClass( 'shadow-element' );
-        newElement.css({
-            /**top: that.position().top + 'px',
-            left: that.position().left + 'px',**/
-            top: 0,
-            left: 0,
-            height: that.outerHeight(),
-            width: that.outerWidth(),
-            zIndex: 5000,
-            /**position: 'absolute'**/
-        });
-        newElement.css( that.offset());
-        newElement.attr( 'data-toggle', 'tooltip' );
-        newElement.attr( 'title', '' );
-        newElement.attr( 'data-original-title', _title );
-        newElement.tooltip({ trigger: 'hover', html: 'true', placement: 'right' });
-        return newElement;
-    });
-};
 
 /**
  * call the 3 above methord on checkbox
@@ -459,7 +418,6 @@ $( document ).on( 'click', '.cisco-audit-flag-ckbox', function()
 {
 //    toggleWeightAnswer();
     if(typeof multipleAllowed !== 'undefined') { toggleBinaryAnswer( multipleAllowed ); };
-    tooltipOnDisabled();
 });
 
 /**
@@ -474,36 +432,23 @@ $( document ).ready( function(){
 //    toggleWeightAnswer();
     if(typeof multipleAllowed !== 'undefined') { toggleBinaryAnswer( multipleAllowed ); };
 
-    $( '#field_flag' ).tooltip({ html: 'true', placement: 'right' });
-    $( '#field_weight' ).tooltip({ html: 'true', placement: 'right' });
-    $( '#field_answer_acceptable' ).tooltip({ html: 'true', placement: 'right' });
-    $( '#field_answer_not_applicable' ).tooltip({ html: 'true', placement: 'right' });
-    $( '#form_title' ).tooltip({ html: 'true', placement: 'right' });
-    $( '#form_flagLabel' ).tooltip({ html: 'true', placement: 'right' });
-    $( '#form_allowMultipleAnswer' ).tooltip({ html: 'true', placement: 'right' });
-    $( '#form_accessLevel' ).tooltip({ html: 'true', placement: 'right' });
-    $( '#audit-orphan-info' ).tooltip({ html: 'true', placement: 'right' });
-    $( '#audit-element-archived' ).tooltip({ html: 'true', placement: 'right' });
+    ciscoBalloon($( '#field_flag' ),"right");
+    ciscoBalloon($( '#field_weight' ),"right");
+    ciscoBalloon($( '#field_answer_acceptable' ),"right");
+    ciscoBalloon($( '#field_answer_not_applicable' ),"right");
+    ciscoBalloon($( '#form_title' ),"right");
+    ciscoBalloon($( '#form_flagLabel' ),"right");
+    ciscoBalloon($( '#form_allowMultipleAnswer' ),"right");
+    ciscoBalloon($( '#form_accessLevel' ),"right");
+    ciscoBalloon($( '#audit-orphan-info' ),"left");
+    ciscoBalloon($( '#audit-element-archived' ),"right");
 
-    tooltipOnDisabled();
 });
 
-//        'hover', '.btn', function()
-//{
-//    console.log( this );
-//    console.log( 'foo' );
-//});
-
-//    $( 'tr' ).hover( function()
-//$( document ).on( 'hover', 'tr', function()
-//{
-//    $( this ).children().find( '.btn-group' ).children().prop( 'disabled', false );
-//    $( this ).children().find( '.btn-group' ).children().removeClass( 'disabled' );
-////    alert( 'foo' );
-//},
-//function()
-//{
-//    $( this ).children().find( '.btn-group' ).children().prop( 'disabled', true );
-//    $( this ).children().find( '.btn-group' ).children().addClass( 'disabled' );
-////    alert( 'bar' );
-//});
+function ciscoBalloon(element,position){
+    var title =  element.attr("title");
+    element.parent().attr("data-balloon-length","large");
+    element.parent().attr("data-balloon-pos",position);
+    element.parent().attr("data-balloon",title);
+    element.attr("title","");   
+}
