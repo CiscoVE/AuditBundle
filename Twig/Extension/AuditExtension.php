@@ -3,7 +3,7 @@
 namespace CiscoSystems\AuditBundle\Twig\Extension;
 
 use Twig_Extension;
-use Twig_Function_Method;
+use Twig_SimpleFunction;
 use Twig_SimpleFilter;
 use Doctrine\Common\Persistence\ObjectManager;
 use CiscoSystems\AuditBundle\Worker\Scoring;
@@ -30,22 +30,22 @@ class AuditExtension extends Twig_Extension
     public function getFunctions()
     {
         return array(
-            'get_resultforsection'  => new Twig_Function_Method( $this, 'getResultForSection' ),
-            'get_weightforsection'  => new Twig_Function_Method( $this, 'getWeightForSection' ),
-            'get_resultforaudit'    => new Twig_Function_Method( $this, 'getResultForAudit' ),
-            'get_weightforaudit'    => new Twig_Function_Method( $this, 'getWeightForAudit' ),
-            'get_trigger'           => new Twig_Function_Method( $this, 'getTrigger' ),
-            'get_relation'          => new Twig_Function_Method( $this, 'getRelation' ),
+            new Twig_SimpleFunction('get_resultforsection', array($this, 'getResultForSection')),
+            new Twig_SimpleFunction('get_weightforsection', array($this, 'getWeightForSection')),
+            new Twig_SimpleFunction('get_resultforaudit', array($this, 'getResultForAudit')),            
+            new Twig_SimpleFunction('get_weightforaudit', array($this, 'getWeightForAudit')),
+            new Twig_SimpleFunction('get_trigger', array($this, 'getTrigger')),
+            new Twig_SimpleFunction('get_relation', array($this, 'getRelation'))
         );
     }
 
     public function getFilters()
     {
         return array(
-            'position'              => new \Twig_Filter_Method( $this, 'getPosition' ),
-            'archived'              => new \Twig_Filter_Method( $this, 'getArchived' ),
-            'sections'              => new \Twig_Filter_Method( $this, 'getSections' ),
-            'fields'                => new \Twig_Filter_Method( $this, 'getFields' ),
+            new Twig_SimpleFilter('position',array($this, 'getPosition')),
+            new Twig_SimpleFilter('archived',array($this, 'getArchived')),
+            new Twig_SimpleFilter('sections',array($this, 'getSections')),
+            new Twig_SimpleFilter('fields',array($this, 'getFields'))
         );
     }
 
