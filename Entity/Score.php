@@ -14,6 +14,12 @@ class Score
     const NO  = "N";
     const ACCEPTABLE = "A";
     const NOT_APPLICABLE = "N/A";
+    const ZERO = "0";
+    const ONE = "1";
+    const TWO = "2";
+    const THREE = "3";
+    const FOUR = "4";
+    const FIVE = "5";
 
     /**
      * @ORM\Id
@@ -61,9 +67,17 @@ class Score
         switch( $score )
         {
             case Score::YES:
-            case Score::NOT_APPLICABLE: return 100;
+            case Score::NOT_APPLICABLE:
+            case Score::FIVE:
+            return 100;
             case Score::ACCEPTABLE: return 50;
-            case Score::NO: break;
+            case Score::ONE: return 20;
+            case Score::TWO: return 40;
+            case Score::THREE: return 60;
+            case Score::FOUR: return 80;
+            case Score::NO: 
+            case Score::ZERO: 
+            break;
         }
         return 0;
     }

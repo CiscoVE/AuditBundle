@@ -50,6 +50,13 @@ class Field extends Element {
     protected $flag;
 
     /**
+     * @var boolean Numerical Score for the AuditField
+     *
+     * @ORM\Column(name="numerical_score",type="boolean")
+     */
+    protected $numericalScore;
+
+    /**
      * @var boolean enabled/diabled AuditField check
      *
      * @ORM\Column(name="disabled",type="boolean")
@@ -229,6 +236,30 @@ class Field extends Element {
      */
     public function setFlag($flag) {
         $this->flag = $flag;
+
+        return $this;
+    }
+
+    /**
+     * Get numericalScore
+     *
+     * @return boolean
+     */
+    public function getNumericalScore()
+    {
+        return $this->numericalScore;
+    }
+
+    /**
+     * Set numericalScore
+     *
+     * @param boolean $numericalScore
+     *
+     * @return \CiscoSystems\AuditBundle\Entity\Field
+     */
+    public function setNumericalScore($numericalScore)
+    {
+        $this->numericalScore = $numericalScore;
 
         return $this;
     }
