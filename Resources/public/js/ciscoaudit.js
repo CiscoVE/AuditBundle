@@ -463,10 +463,10 @@ $( document ).ready( function(){
     ciscoBalloon($( '#field_weight' ),"right");
     ciscoBalloon($( '#field_answer_acceptable' ),"right");
     ciscoBalloon($( '#field_answer_not_applicable' ),"right");
+    ciscoBalloon($( '#field_numericalScore' ),"right");
+    ciscoBalloon($( '#field_isWildCardQuestion' ),"right");
     ciscoBalloon($( '#form_title' ),"right");
     ciscoBalloon($( '#form_flagLabel' ),"right");
-    ciscoBalloon($( '#field_numericalScore' ),"right");
-    ciscoBalloon($( '#field_wildCardQuestion' ),"right");
     ciscoBalloon($( '#form_allowMultipleAnswer' ),"right");
     ciscoBalloon($( '#form_accessLevel' ),"right");
     ciscoBalloon($( '#audit-orphan-info' ),"left");
