@@ -18,7 +18,8 @@ class FieldType extends AbstractType
     const TOOLTIPFLAG = '!! If this is enable, some of the fields below will not be editable.';
     const TOOLTIPOPTIONAL = '!! Only available when the form is allowing for multiple answers and the field is not set to raise a flag.';
     const TOOLTIPWEIGHT = '!! Only available when the field does not raise a flag.  Increase|decrease value to reflect the importance of this field in calculating the section and final score (Default value is 5).';
-    const TOOLTIPNUMERICALSCORE = '!! If this is enable, changes the scoring Y/n to numerical.';
+    const TOOLTIPNUMERICALSCORE = '!! If this is enable, changes the scoring system Y/N to numerical.';
+    const TOOLTIPWILDCARDQUESTION = '!! If this is enable, this question will not be included in final score.';
 
     public function buildForm( FormBuilderInterface $builder, array $options )
     {
@@ -64,32 +65,20 @@ class FieldType extends AbstractType
                 'rows'          => 5,
             ),
         ));
-        // $builder->add('zero_to_five_score', 'choice', array(
-        //     'label'         => 'Score',
-        //     'mapped'        => FALSE,
-        //     'required'      => FALSE,
-        //     'choices'       => [
-        //         Score::ZERO,
-        //         Score::ONE,
-        //         Score::TWO,
-        //         Score::THREE,
-        //         Score::FOUR,
-        //         Score::FIVE,
-        //     ],
-        //     'choices_as_values' => true,
-        //     'empty_value' => 'Select a score',
-        //     'attr' => array(
-        //         'placeholder' => '',
-        //         'style' => '',
-        //     ),
-        //     'trim' => true,
-        // ));
         $builder->add('numericalScore', 'checkbox', array(
             'label'         => 'Use Numerical Score ?',
             'required'      => false,
             'attr'          => array(
-                'class'         => 'cisco-audit-flag-ckbox',
+                'class'         => 'cisco-audit-numerical-score-ckbox',
                 'title'         => self::TOOLTIPNUMERICALSCORE,
+            ),
+        ));
+        $builder->add('isWildCardQuestion', 'checkbox', array(
+            'label'         => 'Exclude question from audit final score calculation ?',
+            'required'      => false,
+            'attr'          => array(
+                'class'         => 'cisco-audit-wild-card-question-ckbox',
+                'title'         => self::TOOLTIPWILDCARDQUESTION,
             ),
         ));
         $builder->add( self::SCORE_YES, 'textarea', array(

@@ -57,6 +57,13 @@ class Field extends Element {
     protected $numericalScore;
 
     /**
+     * @var boolean Is Wild Card Question for the AuditField
+     *
+     * @ORM\Column(name="wild_card_question",type="boolean")
+     */
+    protected $isWildCardQuestion;
+
+    /**
      * @var boolean enabled/diabled AuditField check
      *
      * @ORM\Column(name="disabled",type="boolean")
@@ -260,6 +267,30 @@ class Field extends Element {
     public function setNumericalScore($numericalScore)
     {
         $this->numericalScore = $numericalScore;
+
+        return $this;
+    }
+
+    /**
+     * Get isWildCardQuestion
+     *
+     * @return boolean
+     */
+    public function getIsWildCardQuestion()
+    {
+        return $this->isWildCardQuestion;
+    }
+
+    /**
+     * Set numericawildCardQuestionlScore
+     *
+     * @param boolean $isWildCardQuestion
+     *
+     * @return \CiscoSystems\AuditBundle\Entity\Field
+     */
+    public function setIsWildCardQuestion($isWildCardQuestion)
+    {
+        $this->isWildCardQuestion = $isWildCardQuestion;
 
         return $this;
     }

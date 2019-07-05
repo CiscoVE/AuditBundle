@@ -387,6 +387,26 @@ function toggleWeightAnswer()
         $( '.controls' ).children().remove( '.shadow-element' );
     }
 }
+/**
+ * enable/disable edit of weight on formfield:edit template
+ */
+function toggleScoreAnswer()
+{
+    if( $( '.cisco-audit-numerical-score-ckbox' ).is( ':checked' ))
+    {
+        $( '#field_answer_yes' ).parent().parent().css( 'visibility', 'hidden' );
+        $( '#field_answer_no' ).parent().parent().css( 'visibility', 'hidden' );
+        $( '#field_answer_acceptable' ).parent().parent().css( 'visibility', 'hidden' );
+        $( '#field_answer_not_applicable' ).parent().parent().css( 'visibility', 'hidden' );
+    }
+    else
+    {
+        $( '#field_answer_yes' ).parent().parent().css( 'visibility', 'visible' );
+        $( '#field_answer_no' ).parent().parent().css( 'visibility', 'visible' );
+        $( '#field_answer_acceptable' ).parent().parent().css( 'visibility', 'visible' );
+        $( '#field_answer_not_applicable' ).parent().parent().css( 'visibility', 'visible' );
+    }
+}
 
 /**
  * enable/disable edit of answer_acceptable/answer_not_applicable on formfield:edit template
@@ -419,6 +439,13 @@ $( document ).on( 'click', '.cisco-audit-flag-ckbox', function()
 //    toggleWeightAnswer();
     if(typeof multipleAllowed !== 'undefined') { toggleBinaryAnswer( multipleAllowed ); };
 });
+/**
+ * call the toggleScoreAnswer function to show/hide the Y/N answer fields
+ */
+$( document ).on( 'click', '.cisco-audit-numerical-score-ckbox', function()
+{
+   toggleScoreAnswer();
+});
 
 /**
  * add Class disable to cisco-audit-options buttons
@@ -438,6 +465,8 @@ $( document ).ready( function(){
     ciscoBalloon($( '#field_answer_not_applicable' ),"right");
     ciscoBalloon($( '#form_title' ),"right");
     ciscoBalloon($( '#form_flagLabel' ),"right");
+    ciscoBalloon($( '#field_numericalScore' ),"right");
+    ciscoBalloon($( '#field_wildCardQuestion' ),"right");
     ciscoBalloon($( '#form_allowMultipleAnswer' ),"right");
     ciscoBalloon($( '#form_accessLevel' ),"right");
     ciscoBalloon($( '#audit-orphan-info' ),"left");

@@ -11,6 +11,7 @@ use CiscoSystems\AuditBundle\Entity\Section;
 use CiscoSystems\AuditBundle\Form\Type\FieldType;
 use CiscoSystems\AuditBundle\Entity\Score;
 use CiscoSystems\AuditBundle\Form\Type\SectionType;
+use Symfony\Component\VarDumper\VarDumper;
 
 class FieldController extends Controller
 {
@@ -251,6 +252,8 @@ class FieldController extends Controller
         {
             $repo = $em->getRepository( 'CiscoSystemsAuditBundle:Field' );
             $field = $repo->find( $score[0] );
+            if ($field->getIsWildCardQuestion())
+                continue;
             $value = Score::getWeightPercentageForScore( $score[1] );
             $weight = $field->getWeight();
             $tempScore += $value * $weight;
