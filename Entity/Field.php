@@ -57,11 +57,11 @@ class Field extends Element {
     protected $numericalScore;
 
     /**
-     * @var boolean Is Wild Card Question for the AuditField
+     * @var boolean Is Over Achievement Question for the AuditField
      *
      * @ORM\Column(name="wild_card_question",type="boolean")
      */
-    protected $isWildCardQuestion;
+    protected $isOverAchievementQuestion;
 
     /**
      * @var boolean enabled/diabled AuditField check
@@ -272,25 +272,25 @@ class Field extends Element {
     }
 
     /**
-     * Get isWildCardQuestion
+     * Get isOverAchievementQuestion
      *
      * @return boolean
      */
-    public function getIsWildCardQuestion()
+    public function getIsOverAchievementQuestion()
     {
-        return $this->isWildCardQuestion;
+        return $this->isOverAchievementQuestion;
     }
 
     /**
-     * Set numericawildCardQuestionlScore
+     * Set isOverAchievementQuestion
      *
-     * @param boolean $isWildCardQuestion
+     * @param boolean $isOverAchievementQuestion
      *
      * @return \CiscoSystems\AuditBundle\Entity\Field
      */
-    public function setIsWildCardQuestion($isWildCardQuestion)
+    public function setIsOverAchievementQuestion($isOverAchievementQuestion)
     {
-        $this->isWildCardQuestion = $isWildCardQuestion;
+        $this->isOverAchievementQuestion = $isOverAchievementQuestion;
 
         return $this;
     }

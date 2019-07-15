@@ -19,7 +19,7 @@ class FieldType extends AbstractType
     const TOOLTIPOPTIONAL = '!! Only available when the form is allowing for multiple answers and the field is not set to raise a flag.';
     const TOOLTIPWEIGHT = '!! Only available when the field does not raise a flag.  Increase|decrease value to reflect the importance of this field in calculating the section and final score (Default value is 5).';
     const TOOLTIPNUMERICALSCORE = '!! If this is enable, changes the scoring system Y/N to numerical.';
-    const TOOLTIPISWILDCARDQUESTION = '!! If this is enable, this question will not be included in final score.';
+    const TOOLTIPISOVERACHIEVEMENTQUESTION = '!! If this is enable, this question will not be included in final score.';
 
     public function buildForm( FormBuilderInterface $builder, array $options )
     {
@@ -73,12 +73,12 @@ class FieldType extends AbstractType
                 'title'         => self::TOOLTIPNUMERICALSCORE,
             ),
         ));
-        $builder->add('isWildCardQuestion', 'checkbox', array(
-            'label'         => 'Exclude question from audit final score calculation ?',
+        $builder->add('isOverAchievementQuestion', 'checkbox', array(
+            'label'         => 'Is this question for over achievement ?',
             'required'      => false,
             'attr'          => array(
-                'class'         => 'cisco-audit-wild-card-question-ckbox',
-                'title'         => self::TOOLTIPISWILDCARDQUESTION,
+                'class'         => 'cisco-audit-over-achievement-question-ckbox',
+                'title'         => self::TOOLTIPISOVERACHIEVEMENTQUESTION,
             ),
         ));
         $builder->add( self::SCORE_YES, 'textarea', array(

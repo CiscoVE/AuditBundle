@@ -464,7 +464,7 @@ $( document ).ready( function(){
     ciscoBalloon($( '#field_answer_acceptable' ),"right");
     ciscoBalloon($( '#field_answer_not_applicable' ),"right");
     ciscoBalloon($( '#field_numericalScore' ),"right");
-    ciscoBalloon($( '#field_isWildCardQuestion' ),"right");
+    ciscoBalloon($( '#field_isOverAchievementQuestion' ),"right");
     ciscoBalloon($( '#form_title' ),"right");
     ciscoBalloon($( '#form_flagLabel' ),"right");
     ciscoBalloon($( '#form_allowMultipleAnswer' ),"right");
@@ -472,6 +472,7 @@ $( document ).ready( function(){
     ciscoBalloon($( '#audit-orphan-info' ),"left");
     ciscoBalloon($( '#audit-element-archived' ),"right");
 
+    toggleScoreAnswer();
 });
 
 function ciscoBalloon(element,position){

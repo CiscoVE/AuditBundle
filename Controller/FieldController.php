@@ -252,7 +252,7 @@ class FieldController extends Controller
         {
             $repo = $em->getRepository( 'CiscoSystemsAuditBundle:Field' );
             $field = $repo->find( $score[0] );
-            if ($field->getIsWildCardQuestion())
+            if ($field->getIsOverAchievementQuestion())
                 continue;
             $value = Score::getWeightPercentageForScore( $score[1] );
             $weight = $field->getWeight();
