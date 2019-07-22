@@ -59,7 +59,7 @@ class Field extends Element {
     /**
      * @var boolean Is Over Achievement Question for the AuditField
      *
-     * @ORM\Column(name="wild_card_question",type="boolean")
+     * @ORM\Column(name="over_achievement",type="boolean")
      */
     protected $isOverAchievementQuestion;
 
