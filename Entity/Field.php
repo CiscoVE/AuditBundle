@@ -61,7 +61,7 @@ class Field extends Element {
      *
      * @ORM\Column(name="over_achievement",type="boolean")
      */
-    protected $isOverAchievementQuestion;
+    protected $isRemoveFromCalculations;
 
     /**
      * @var boolean enabled/diabled AuditField check
@@ -272,25 +272,25 @@ class Field extends Element {
     }
 
     /**
-     * Get isOverAchievementQuestion
+     * Get isRemoveFromCalculations
      *
      * @return boolean
      */
-    public function getIsOverAchievementQuestion()
+    public function getIsRemoveFromCalculations()
     {
-        return $this->isOverAchievementQuestion;
+        return $this->isRemoveFromCalculations;
     }
 
     /**
-     * Set isOverAchievementQuestion
+     * Set isRemoveFromCalculations
      *
-     * @param boolean $isOverAchievementQuestion
+     * @param boolean $isRemoveFromCalculations
      *
      * @return \CiscoSystems\AuditBundle\Entity\Field
      */
-    public function setIsOverAchievementQuestion($isOverAchievementQuestion)
+    public function setIsRemoveFromCalculations($isRemoveFromCalculations)
     {
-        $this->isOverAchievementQuestion = $isOverAchievementQuestion;
+        $this->isRemoveFromCalculations = $isRemoveFromCalculations;
 
         return $this;
     }

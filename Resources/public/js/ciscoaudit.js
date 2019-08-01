@@ -415,17 +415,32 @@ function toggleScoreAnswer()
  */
 function toggleBinaryAnswer( _check )
 {
-    if( $( '.cisco-audit-flag-ckbox' ).is( ':checked' ) &&  _check === false )
+    if( $( '.cisco-audit-flag-ckbox' ).is( ':checked' ) )
     {
-        $( '#field_answer_acceptable' ).attr( 'disabled', 'disabled' );
-        $( '#field_answer_not_applicable' ).attr( 'disabled', 'disabled' );
+        if (_check === false) {
+            $('#field_answer_acceptable').prop("disabled", true);
+            $('#field_answer_not_applicable').prop("disabled", true);
+        }
+
+        if ($('#field_numericalScore').is(':checked')) {
+            $('#field_numericalScore').removeAttr('checked');
+        }
+        $('#field_numericalScore').prop("disabled", true);
+
+        if ($('#field_isRemoveFromCalculations').is(':checked')) {
+            $('#field_isRemoveFromCalculations').removeAttr('checked');
+        }
+        $('#field_isRemoveFromCalculations').prop("disabled", true);
+        toggleScoreAnswer();
     }
     else
     {
-        $( '#field_answer_acceptable' ).removeAttr( 'disabled' );
+        $( '#field_answer_acceptable' ).prop( "disabled", false );
         $( '#field_answer_acceptable' ).removeAttr( 'style' );
-        $( '#field_answer_not_applicable' ).removeAttr('disabled' );
+        $( '#field_answer_not_applicable' ).prop( "disabled", false );
         $( '#field_answer_not_applicable' ).removeAttr( 'style' );
+        $( '#field_isRemoveFromCalculations' ).prop( "disabled", false );
+        $( '#field_numericalScore' ).prop( "disabled", false );
         $( '.controls' ).children().remove( '.shadow-element' );
     }
 };
@@ -464,7 +479,7 @@ $( document ).ready( function(){
     ciscoBalloon($( '#field_answer_acceptable' ),"right");
     ciscoBalloon($( '#field_answer_not_applicable' ),"right");
     ciscoBalloon($( '#field_numericalScore' ),"right");
-    ciscoBalloon($( '#field_isOverAchievementQuestion' ),"right");
+    ciscoBalloon($( '#field_isRemoveFromCalculations' ),"right");
     ciscoBalloon($( '#form_title' ),"right");
     ciscoBalloon($( '#form_flagLabel' ),"right");
     ciscoBalloon($( '#form_allowMultipleAnswer' ),"right");

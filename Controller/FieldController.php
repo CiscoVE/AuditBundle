@@ -85,6 +85,8 @@ class FieldController extends Controller
                              ->setWeight( $field->getWeight() )
                              ->setChoices( $field->getChoices() )
                              ->setFlag( $field->getFlag() )
+                             ->setNumericalScore( $field->getNumericalScore() )
+                             ->setIsRemoveFromCalculations( $field->getIsRemoveFromCalculations() )
                              ->addSections( $field->getSections() );
                     $em->persist( $newField );
                 }
@@ -252,7 +254,7 @@ class FieldController extends Controller
         {
             $repo = $em->getRepository( 'CiscoSystemsAuditBundle:Field' );
             $field = $repo->find( $score[0] );
-            if ($field->getIsOverAchievementQuestion())
+            if ($field->getIsRemoveFromCalculations())
                 continue;
             $value = Score::getWeightPercentageForScore( $score[1] );
             $weight = $field->getWeight();
