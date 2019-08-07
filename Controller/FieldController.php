@@ -85,6 +85,7 @@ class FieldController extends Controller
                              ->setWeight( $field->getWeight() )
                              ->setChoices( $field->getChoices() )
                              ->setFlag( $field->getFlag() )
+                             ->setCritical( $field->getCritical() )
                              ->setNumericalScore( $field->getNumericalScore() )
                              ->setIsRemoveFromCalculations( $field->getIsRemoveFromCalculations() )
                              ->addSections( $field->getSections() );
@@ -248,16 +249,20 @@ class FieldController extends Controller
         $scores[] = $request->request->get( 'scores' );
         $sectionWeight = 0;
         $tempScore = 0;
+        $nonCompliant = false;
         $em = $this->getDoctrine()->getEntityManager();
 
         foreach( $scores[0] as $score )
         {
             $repo = $em->getRepository( 'CiscoSystemsAuditBundle:Field' );
             $field = $repo->find( $score[0] );
+            
             if ($field->getIsRemoveFromCalculations())
                 continue;
             $value = Score::getWeightPercentageForScore( $score[1] );
             $weight = $field->getWeight();
+            if ($field->getCritical() && $value === 0)
+                return new Response(json_encode($value));
             $tempScore += $value * $weight;
             $sectionWeight += $weight;
         }

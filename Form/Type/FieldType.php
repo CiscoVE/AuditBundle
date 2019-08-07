@@ -16,6 +16,7 @@ class FieldType extends AbstractType
     const SCORE_NOT_APPLICABLE = 'answer_not_applicable';
     const TOOLTIP = 'Always available.';
     const TOOLTIPFLAG = '!! If this is enable, some of the fields below will not be editable.';
+    const TOOLTIPCRITICAL = '!! If this is enable, makes the field critical, meaning if answer is selected No, the whole review will become not compliant.';
     const TOOLTIPOPTIONAL = '!! Only available when the form is allowing for multiple answers and the field is not set to raise a flag.';
     const TOOLTIPWEIGHT = '!! Only available when the field does not raise a flag.  Increase|decrease value to reflect the importance of this field in calculating the section and final score (Default value is 5).';
     const TOOLTIPNUMERICALSCORE = '!! If this is enable, changes the scoring system Y/N to numerical.';
@@ -57,6 +58,14 @@ class FieldType extends AbstractType
             'attr'          => array(
                 'class'         => 'cisco-audit-flag-ckbox',
                 'title'         => self::TOOLTIPFLAG,
+            ),
+        ));
+        $builder->add( 'critical', 'checkbox', array(
+            'label'         => 'Should this field be critical?',
+            'required'      => FALSE,
+            'attr'          => array(
+                'class'         => 'cisco-audit-critical-ckbox',
+                'title'         => self::TOOLTIPCRITICAL,
             ),
         ));
         $builder->add( 'description', 'textarea', array(

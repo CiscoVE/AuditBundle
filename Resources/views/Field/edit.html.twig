@@ -62,6 +62,15 @@
                 </div>
                 <div class="control-group">
                     <div class="control-label">
+                        {{ form_label( form.critical ) }}
+                    </div>
+                    <div class="controls">
+                        {{ form_widget( form.critical ) }}
+                        {{ form_errors( form.critical ) }}
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="control-label">
                         {{ form_label( form.numericalScore ) }}
                     </div>
                     <div class="controls">
@@ -71,11 +80,11 @@
                 </div>
                 <div class="control-group">
                     <div class="control-label">
-                        {{ form_label( form.isOverAchievementQuestion ) }}
+                        {{ form_label( form.isRemoveFromCalculations ) }}
                     </div>
                     <div class="controls">
-                        {{ form_widget( form.isOverAchievementQuestion ) }}
-                        {{ form_errors( form.isOverAchievementQuestion ) }}
+                        {{ form_widget( form.isRemoveFromCalculations ) }}
+                        {{ form_errors( form.isRemoveFromCalculations ) }}
                     </div>
                 </div>
                 <div class="control-group">

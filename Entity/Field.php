@@ -50,6 +50,13 @@ class Field extends Element {
     protected $flag;
 
     /**
+     * @var boolean Critical for the AuditField
+     *
+     * @ORM\Column(name="critical",type="boolean")
+     */
+    protected $critical;
+
+    /**
      * @var boolean Numerical Score for the AuditField
      *
      * @ORM\Column(name="numerical_score",type="boolean")
@@ -57,9 +64,9 @@ class Field extends Element {
     protected $numericalScore;
 
     /**
-     * @var boolean Is Over Achievement Question for the AuditField
+     * @var boolean is RemoveFromCalculations for the AuditField
      *
-     * @ORM\Column(name="over_achievement",type="boolean")
+     * @ORM\Column(name="remove_from_calculations",type="boolean")
      */
     protected $isRemoveFromCalculations;
 
@@ -243,6 +250,28 @@ class Field extends Element {
      */
     public function setFlag($flag) {
         $this->flag = $flag;
+
+        return $this;
+    }
+
+    /**
+     * Get critical
+     *
+     * @return boolean
+     */
+    public function getCritical() {
+        return $this->critical;
+    }
+
+    /**
+     * Set critical
+     *
+     * @param boolean $critical
+     *
+     * @return \CiscoSystems\AuditBundle\Entity\Field
+     */
+    public function setCritical($critical) {
+        $this->critical = $critical;
 
         return $this;
     }
