@@ -35,7 +35,7 @@ class FieldType extends AbstractType
             'attr'          => array(
                 'placeholder'   => 'Title for this field',
                 'class'         => '',
-                'rows'          => 1,
+                'rows'          => 3,
             ),
             'required'      => TRUE,
         ));
@@ -96,7 +96,7 @@ class FieldType extends AbstractType
             'data'          => isset( $choices[Score::YES] ) ? $choices[Score::YES] : '',
             'attr'          => array(
                 'placeholder'   => 'Correct answer definition',
-                'rows'          => 2,
+                'rows'          => 5,
             ),
         ));
         $builder->add( self::SCORE_NO, 'textarea', array(
@@ -105,7 +105,7 @@ class FieldType extends AbstractType
             'data'          => isset( $choices[Score::NO] ) ? $choices[Score::NO] : '',
             'attr'          => array(
                 'placeholder'   => 'Incorrect answer definition',
-                'rows'          => 2,
+                'rows'          => 5,
             ),
         ));
         $builder->add( self::SCORE_ACCEPTABLE, 'textarea', array(
@@ -115,7 +115,7 @@ class FieldType extends AbstractType
             'attr'          => array(
                 'placeholder'   => 'Partially correct answer definition',
                 'title'         => self::TOOLTIPOPTIONAL,
-                'rows'          => 2,
+                'rows'          => 5,
             ),
             'label'         => 'Acceptable',
         ));
@@ -126,7 +126,7 @@ class FieldType extends AbstractType
             'attr'          => array(
                 'placeholder'   => 'Answer not applicable',
                 'title'         => self::TOOLTIPOPTIONAL,
-                'rows'          => 2,
+                'rows'          => 5,
             ),
             'label'         => 'N/A',
         ));

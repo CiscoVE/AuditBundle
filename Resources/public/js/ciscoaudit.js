@@ -397,10 +397,11 @@ function toggleScoreAnswer()
         if ($('#field_critical').is(':checked')) {
             $('#field_critical').removeAttr('checked');
         }
-        $( '#field_answer_yes' ).parent().parent().css( 'visibility', 'hidden' );
-        $( '#field_answer_no' ).parent().parent().css( 'visibility', 'hidden' );
-        $( '#field_answer_acceptable' ).parent().parent().css( 'visibility', 'hidden' );
-        $( '#field_answer_not_applicable' ).parent().parent().css( 'visibility', 'hidden' );
+        $( '#field_answer_yes' ).empty().parent().parent().css( 'visibility', 'hidden' );
+        $( '#field_answer_no' ).empty().parent().parent().css( 'visibility', 'hidden' );
+        $( '#field_answer_acceptable' ).empty().parent().parent().css( 'visibility', 'hidden' );
+        $( '#field_answer_not_applicable' ).empty().parent().parent().css( 'visibility', 'hidden' );
+        $( '.markdown-info-block' ).css( 'visibility', 'hidden' );
     }
     else
     {
@@ -409,6 +410,7 @@ function toggleScoreAnswer()
         $( '#field_answer_no' ).parent().parent().css( 'visibility', 'visible' );
         $( '#field_answer_acceptable' ).parent().parent().css( 'visibility', 'visible' );
         $( '#field_answer_not_applicable' ).parent().parent().css( 'visibility', 'visible' );
+        $( '.markdown-info-block' ).css( 'visibility', 'visible' );
     }
 }
 /**
