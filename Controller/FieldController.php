@@ -249,7 +249,7 @@ class FieldController extends Controller
         $scores[] = $request->request->get( 'scores' );
         $sectionWeight = 0;
         $tempScore = 0;
-        $nonCompliant = false;
+        
         $em = $this->getDoctrine()->getEntityManager();
 
         foreach( $scores[0] as $score )
@@ -261,13 +261,12 @@ class FieldController extends Controller
                 continue;
             $value = Score::getWeightPercentageForScore( $score[1] );
             $weight = $field->getWeight();
-            if ($field->getCritical() && $value === 0)
-                return new Response(json_encode($value));
+            
             $tempScore += $value * $weight;
             $sectionWeight += $weight;
         }
 
-        $sectionScore = $tempScore / $sectionWeight;
+        $sectionScore = $tempScore > 0 ? $tempScore / $sectionWeight : 0;
 
         return new Response( json_encode( $sectionScore ));
     }
