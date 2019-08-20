@@ -256,17 +256,19 @@ class FieldController extends Controller
         {
             $repo = $em->getRepository( 'CiscoSystemsAuditBundle:Field' );
             $field = $repo->find( $score[0] );
-            
-            if ($field->getIsRemoveFromCalculations())
-                continue;
-            $value = Score::getWeightPercentageForScore( $score[1] );
-            $weight = $field->getWeight();
-            
-            $tempScore += $value * $weight;
-            $sectionWeight += $weight;
+
+            if ($field->getIsRemoveFromCalculations()) {
+                $sectionScore = 100;
+            } else {
+                $value = Score::getWeightPercentageForScore($score[1]);
+                $weight = $field->getWeight();
+
+                $tempScore += $value * $weight;
+                $sectionWeight += $weight;
+                $sectionScore = $tempScore > 0 ? $tempScore / $sectionWeight : 0;
+            }
         }
 
-        $sectionScore = $tempScore > 0 ? $tempScore / $sectionWeight : 0;
 
         return new Response( json_encode( $sectionScore ));
     }
