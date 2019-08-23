@@ -6,6 +6,7 @@ use CiscoSystems\AuditBundle\Entity\Audit;
 use CiscoSystems\AuditBundle\Entity\Section;
 use CiscoSystems\AuditBundle\Entity\Field;
 use CiscoSystems\AuditBundle\Entity\Score;
+use Symfony\Component\VarDumper\VarDumper;
 
 class Scoring
 {
@@ -190,6 +191,65 @@ class Scoring
             }
 
             return number_format( $totalPercent, 2, '.', '' );
+        }
+        else
+            return 0;
+    }
+    /**
+     * Get final score for the audit 
+     * 
+     * Implemented in FY2020
+     *
+     * @param \CiscoSystems\AuditBundle\Entity\Audit $audit
+     *
+     * @return integer
+     */
+    public function getNewMethodFofResultForAudit( Audit $audit )
+    {
+        if ( null !== $auditform = $audit->getForm() )
+        {
+            $sections = $auditform->getSections();
+            $index = $audit->getFormIndexes();
+            $auditTotal = $auditScore = $totalWeights = 0;
+            $criticalNotFlagged = true;
+            $audit->setFlag( FALSE );
+            foreach ($sections as $section) {
+                $fields = $section->getFields();
+                $fieldCount = 0;
+
+                foreach ($fields as $field) {
+                    $weightPercentage = 0;
+                    if (FALSE === in_array($field->getId(), $index['fields'])) continue;
+                    
+                    if(!$criticalNotFlagged)
+                        continue;
+                    
+                    $score = $this->getScoreForField($audit, $field);
+
+                    $weightPercentage = $this->getWeightPercentageForScore($score);
+
+                    $fieldCount++;
+                    if (!$score) {
+                        $score = new Score();
+                        $score->setMark(Score::YES);
+                    }
+                    if ($field->getCritical() && $weightPercentage === 0) {
+                        $auditTotal = 0;
+                        $criticalNotFlagged = false;
+                        $audit->setFlag( TRUE );
+                        continue;
+                    }
+                    if (!$field->getIsRemoveFromCalculations()) {
+                        $weight = $field->getWeight();
+                        $auditTotal += ($weightPercentage / 100) * $weight;
+                        $totalWeights+= $weight;
+                    }
+                }
+            }
+            if ($auditTotal > 0)
+                $auditScore = number_format((($auditTotal / $totalWeights) * 100), 2, '.', '');
+
+            return $auditScore;
         }
         else
             return 0;

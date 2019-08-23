@@ -4,6 +4,7 @@ namespace CiscoSystems\AuditBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use CiscoSystems\AuditBundle\Form\Type\AuditType;
 use CiscoSystems\AuditBundle\Form\Type\ScoreType;
 use CiscoSystems\AuditBundle\Entity\Audit;
@@ -11,6 +12,7 @@ use CiscoSystems\AuditBundle\Entity\Form;
 use CiscoSystems\AuditBundle\Entity\Section;
 use CiscoSystems\AuditBundle\Entity\Field;
 use CiscoSystems\AuditBundle\Entity\Score;
+use Symfony\Component\VarDumper\VarDumper;
 
 class AuditController extends Controller
 {
@@ -87,6 +89,52 @@ class AuditController extends Controller
     }
 
     /**
+     * Get Audit percentage Score from $request
+     * Implemented in FY2020
+     *
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @throws type
+     */
+    public function calculateAuditScoreAction( Request $request )
+    {
+        $scores[] = $request->request->get( 'scores' );
+        $auditTotal = $auditScore = $totalWeights = 0;
+        $criticalNotFlagged = true;
+        
+        $em = $this->getDoctrine()->getEntityManager();
+
+        foreach( $scores[0] as $score )
+        {
+            if(!$criticalNotFlagged)
+                continue;
+
+            $repo = $em->getRepository( 'CiscoSystemsAuditBundle:Field' );
+            $field = $repo->find( $score[0] );
+
+            $value = Score::getWeightPercentageForScore($score[1]);
+            if ($field->getCritical() && $value === 0) {
+                $auditTotal = 0;
+                $criticalNotFlagged = false;
+                continue;
+            }
+            if (!$field->getIsRemoveFromCalculations()) {
+                $weight = $field->getWeight();
+                $totalWeights+= $field->getWeight();
+
+                $auditTotal += ($value/100) * $weight;
+            }
+        }
+
+        if ($auditTotal > 0)
+            $auditScore = number_format((($auditTotal / $totalWeights) * 100), 2, '.', '');
+
+        return new JsonResponse(  $auditScore );
+    }
+
+    /**
      * Set the user from the context
      *
      * @param type $audit
@@ -125,6 +173,7 @@ class AuditController extends Controller
             $entityMgr->persist( $score );
         }
     }
+
 
     /**
      * view a single Audit
