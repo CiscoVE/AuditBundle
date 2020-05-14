@@ -16,8 +16,8 @@
     ],
     "require": {
         "symfony/symfony": ">=2.1",
-        "stof/doctrine-extensions-bundle": "dev-master",
-        "craue/twigextensions-bundle": "dev-master",
+        "stof/doctrine-extensions-bundle": "v1.3.0",
+        "craue/twigextensions-bundle": "v2.3.1",
         "liuggio/excelbundle": ">=1.0.4"
     },
     "autoload": {
