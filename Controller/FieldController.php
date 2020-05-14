@@ -11,6 +11,7 @@ use CiscoSystems\AuditBundle\Entity\Section;
 use CiscoSystems\AuditBundle\Form\Type\FieldType;
 use CiscoSystems\AuditBundle\Entity\Score;
 use CiscoSystems\AuditBundle\Form\Type\SectionType;
+use Symfony\Component\VarDumper\VarDumper;
 
 class FieldController extends Controller
 {
@@ -84,6 +85,9 @@ class FieldController extends Controller
                              ->setWeight( $field->getWeight() )
                              ->setChoices( $field->getChoices() )
                              ->setFlag( $field->getFlag() )
+                             ->setCritical( $field->getCritical() )
+                             ->setNumericalScore( $field->getNumericalScore() )
+                             ->setIsRemoveFromCalculations( $field->getIsRemoveFromCalculations() )
                              ->addSections( $field->getSections() );
                     $em->persist( $newField );
                 }
@@ -245,19 +249,26 @@ class FieldController extends Controller
         $scores[] = $request->request->get( 'scores' );
         $sectionWeight = 0;
         $tempScore = 0;
+        
         $em = $this->getDoctrine()->getEntityManager();
 
         foreach( $scores[0] as $score )
         {
             $repo = $em->getRepository( 'CiscoSystemsAuditBundle:Field' );
             $field = $repo->find( $score[0] );
-            $value = Score::getWeightPercentageForScore( $score[1] );
-            $weight = $field->getWeight();
-            $tempScore += $value * $weight;
-            $sectionWeight += $weight;
+
+            if ($field->getIsRemoveFromCalculations()) {
+                $sectionScore = 100;
+            } else {
+                $value = Score::getWeightPercentageForScore($score[1]);
+                $weight = $field->getWeight();
+
+                $tempScore += $value * $weight;
+                $sectionWeight += $weight;
+                $sectionScore = $tempScore > 0 ? $tempScore / $sectionWeight : 0;
+            }
         }
 
-        $sectionScore = $tempScore / $sectionWeight;
 
         return new Response( json_encode( $sectionScore ));
     }

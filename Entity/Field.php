@@ -50,6 +50,27 @@ class Field extends Element {
     protected $flag;
 
     /**
+     * @var boolean Critical for the AuditField
+     *
+     * @ORM\Column(name="critical",type="boolean")
+     */
+    protected $critical;
+
+    /**
+     * @var boolean Numerical Score for the AuditField
+     *
+     * @ORM\Column(name="numerical_score",type="boolean")
+     */
+    protected $numericalScore;
+
+    /**
+     * @var boolean is RemoveFromCalculations for the AuditField
+     *
+     * @ORM\Column(name="remove_from_calculations",type="boolean")
+     */
+    protected $isRemoveFromCalculations;
+
+    /**
      * @var boolean enabled/diabled AuditField check
      *
      * @ORM\Column(name="disabled",type="boolean")
@@ -229,6 +250,76 @@ class Field extends Element {
      */
     public function setFlag($flag) {
         $this->flag = $flag;
+
+        return $this;
+    }
+
+    /**
+     * Get critical
+     *
+     * @return boolean
+     */
+    public function getCritical() {
+        return $this->critical;
+    }
+
+    /**
+     * Set critical
+     *
+     * @param boolean $critical
+     *
+     * @return \CiscoSystems\AuditBundle\Entity\Field
+     */
+    public function setCritical($critical) {
+        $this->critical = $critical;
+
+        return $this;
+    }
+
+    /**
+     * Get numericalScore
+     *
+     * @return boolean
+     */
+    public function getNumericalScore()
+    {
+        return $this->numericalScore;
+    }
+
+    /**
+     * Set numericalScore
+     *
+     * @param boolean $numericalScore
+     *
+     * @return \CiscoSystems\AuditBundle\Entity\Field
+     */
+    public function setNumericalScore($numericalScore)
+    {
+        $this->numericalScore = $numericalScore;
+
+        return $this;
+    }
+
+    /**
+     * Get isRemoveFromCalculations
+     *
+     * @return boolean
+     */
+    public function getIsRemoveFromCalculations()
+    {
+        return $this->isRemoveFromCalculations;
+    }
+
+    /**
+     * Set isRemoveFromCalculations
+     *
+     * @param boolean $isRemoveFromCalculations
+     *
+     * @return \CiscoSystems\AuditBundle\Entity\Field
+     */
+    public function setIsRemoveFromCalculations($isRemoveFromCalculations)
+    {
+        $this->isRemoveFromCalculations = $isRemoveFromCalculations;
 
         return $this;
     }

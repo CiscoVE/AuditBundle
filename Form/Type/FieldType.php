@@ -16,8 +16,11 @@ class FieldType extends AbstractType
     const SCORE_NOT_APPLICABLE = 'answer_not_applicable';
     const TOOLTIP = 'Always available.';
     const TOOLTIPFLAG = '!! If this is enable, some of the fields below will not be editable.';
+    const TOOLTIPCRITICAL = '!! If this is enable, makes the field critical, meaning if answer is selected No, the whole review will become not compliant.';
     const TOOLTIPOPTIONAL = '!! Only available when the form is allowing for multiple answers and the field is not set to raise a flag.';
     const TOOLTIPWEIGHT = '!! Only available when the field does not raise a flag.  Increase|decrease value to reflect the importance of this field in calculating the section and final score (Default value is 5).';
+    const TOOLTIPNUMERICALSCORE = '!! If this is enable, changes the scoring system Y/N to numerical.';
+    const TOOLTIPISREMOVEFROMCALCULATIONS = '!! If this is enable, this question will not be included in final score.';
 
     public function buildForm( FormBuilderInterface $builder, array $options )
     {
@@ -32,7 +35,7 @@ class FieldType extends AbstractType
             'attr'          => array(
                 'placeholder'   => 'Title for this field',
                 'class'         => '',
-                'rows'          => 1,
+                'rows'          => 3,
             ),
             'required'      => TRUE,
         ));
@@ -57,10 +60,34 @@ class FieldType extends AbstractType
                 'title'         => self::TOOLTIPFLAG,
             ),
         ));
+        $builder->add( 'critical', 'checkbox', array(
+            'label'         => 'Should this field be critical?',
+            'required'      => FALSE,
+            'attr'          => array(
+                'class'         => 'cisco-audit-critical-ckbox',
+                'title'         => self::TOOLTIPCRITICAL,
+            ),
+        ));
         $builder->add( 'description', 'textarea', array(
             'attr'          => array(
                 'placeholder'   => 'Description for the field. This should be as clear as possible',
                 'rows'          => 5,
+            ),
+        ));
+        $builder->add('numericalScore', 'checkbox', array(
+            'label'         => 'Use Numerical Score ?',
+            'required'      => false,
+            'attr'          => array(
+                'class'         => 'cisco-audit-numerical-score-ckbox',
+                'title'         => self::TOOLTIPNUMERICALSCORE,
+            ),
+        ));
+        $builder->add('isRemoveFromCalculations', 'checkbox', array(
+            'label'         => 'Remove this question from calculations ?',
+            'required'      => false,
+            'attr'          => array(
+                'class'         => 'cisco-audit-isRemoveFromCalculations-ckbox',
+                'title'         => self::TOOLTIPISREMOVEFROMCALCULATIONS,
             ),
         ));
         $builder->add( self::SCORE_YES, 'textarea', array(
@@ -69,7 +96,7 @@ class FieldType extends AbstractType
             'data'          => isset( $choices[Score::YES] ) ? $choices[Score::YES] : '',
             'attr'          => array(
                 'placeholder'   => 'Correct answer definition',
-                'rows'          => 2,
+                'rows'          => 5,
             ),
         ));
         $builder->add( self::SCORE_NO, 'textarea', array(
@@ -78,7 +105,7 @@ class FieldType extends AbstractType
             'data'          => isset( $choices[Score::NO] ) ? $choices[Score::NO] : '',
             'attr'          => array(
                 'placeholder'   => 'Incorrect answer definition',
-                'rows'          => 2,
+                'rows'          => 5,
             ),
         ));
         $builder->add( self::SCORE_ACCEPTABLE, 'textarea', array(
@@ -88,7 +115,7 @@ class FieldType extends AbstractType
             'attr'          => array(
                 'placeholder'   => 'Partially correct answer definition',
                 'title'         => self::TOOLTIPOPTIONAL,
-                'rows'          => 2,
+                'rows'          => 5,
             ),
             'label'         => 'Acceptable',
         ));
@@ -99,7 +126,7 @@ class FieldType extends AbstractType
             'attr'          => array(
                 'placeholder'   => 'Answer not applicable',
                 'title'         => self::TOOLTIPOPTIONAL,
-                'rows'          => 2,
+                'rows'          => 5,
             ),
             'label'         => 'N/A',
         ));

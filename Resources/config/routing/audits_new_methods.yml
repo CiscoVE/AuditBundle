@@ -1,0 +1,7 @@
+audit_calculate_score:
+    path:  /audit-calculate-score
+    defaults:
+        _controller: CiscoSystemsAuditBundle:Audit:calculateAuditScore
+    requirements:
+        method:  POST
+        format:  JSON

@@ -387,6 +387,63 @@ function toggleWeightAnswer()
         $( '.controls' ).children().remove( '.shadow-element' );
     }
 }
+/**
+ * enable/disable edit of weight on formfield:edit template
+ */
+function toggleScoreAnswer()
+{
+    if( $( '.cisco-audit-numerical-score-ckbox' ).is( ':checked' ))
+    {
+        if ($('#field_critical').is(':checked')) {
+            $('#field_critical').removeAttr('checked');
+        }
+        $( '#field_answer_yes' ).empty().parent().parent().css( 'visibility', 'hidden' );
+        $( '#field_answer_no' ).empty().parent().parent().css( 'visibility', 'hidden' );
+        $( '#field_answer_acceptable' ).empty().parent().parent().css( 'visibility', 'hidden' );
+        $( '#field_answer_not_applicable' ).empty().parent().parent().css( 'visibility', 'hidden' );
+        $( '.markdown-info-block' ).css( 'visibility', 'hidden' );
+    }
+    else
+    {
+        $('#field_critical').removeAttr('disabled');
+        $( '#field_answer_yes' ).parent().parent().css( 'visibility', 'visible' );
+        $( '#field_answer_no' ).parent().parent().css( 'visibility', 'visible' );
+        $( '#field_answer_acceptable' ).parent().parent().css( 'visibility', 'visible' );
+        $( '#field_answer_not_applicable' ).parent().parent().css( 'visibility', 'visible' );
+        $( '.markdown-info-block' ).css( 'visibility', 'visible' );
+    }
+}
+/**
+ * enable/disable edit of weight on formfield:edit template
+ */
+function toggleCritical()
+{
+    if( $( '.cisco-audit-critical-ckbox' ).is( ':checked' ) )
+    {
+        if ($('#field_numericalScore').is(':checked')) {
+            $('#field_numericalScore').removeAttr('checked');
+        }
+        
+        $('#field_flag').prop("checked", true);
+        $('#field_numericalScore').prop("disabled", true);
+
+        if ($('#field_isRemoveFromCalculations').is(':checked')) {
+            $('#field_isRemoveFromCalculations').removeAttr('checked');
+        }
+        $('#field_isRemoveFromCalculations').prop("disabled", true);
+        toggleScoreAnswer();
+    }
+    else
+    {
+        $( '#field_answer_acceptable' ).prop( "disabled", false );
+        $( '#field_answer_acceptable' ).removeAttr( 'style' );
+        $( '#field_answer_not_applicable' ).prop( "disabled", false );
+        $( '#field_answer_not_applicable' ).removeAttr( 'style' );
+        $( '#field_isRemoveFromCalculations' ).prop( "disabled", false );
+        $( '#field_numericalScore' ).prop( "disabled", false );
+        $( '.controls' ).children().remove( '.shadow-element' );
+    }
+}
 
 /**
  * enable/disable edit of answer_acceptable/answer_not_applicable on formfield:edit template
@@ -395,17 +452,32 @@ function toggleWeightAnswer()
  */
 function toggleBinaryAnswer( _check )
 {
-    if( $( '.cisco-audit-flag-ckbox' ).is( ':checked' ) &&  _check === false )
+    if( $( '.cisco-audit-flag-ckbox' ).is( ':checked' ) )
     {
-        $( '#field_answer_acceptable' ).attr( 'disabled', 'disabled' );
-        $( '#field_answer_not_applicable' ).attr( 'disabled', 'disabled' );
+        if (_check === false) {
+            $('#field_answer_acceptable').prop("disabled", true);
+            $('#field_answer_not_applicable').prop("disabled", true);
+        }
+
+        if ($('#field_numericalScore').is(':checked')) {
+            $('#field_numericalScore').removeAttr('checked');
+        }
+        $('#field_numericalScore').prop("disabled", true);
+
+        if ($('#field_isRemoveFromCalculations').is(':checked')) {
+            $('#field_isRemoveFromCalculations').removeAttr('checked');
+        }
+        $('#field_isRemoveFromCalculations').prop("disabled", true);
+        toggleScoreAnswer();
     }
     else
     {
-        $( '#field_answer_acceptable' ).removeAttr( 'disabled' );
+        $( '#field_answer_acceptable' ).prop( "disabled", false );
         $( '#field_answer_acceptable' ).removeAttr( 'style' );
-        $( '#field_answer_not_applicable' ).removeAttr('disabled' );
+        $( '#field_answer_not_applicable' ).prop( "disabled", false );
         $( '#field_answer_not_applicable' ).removeAttr( 'style' );
+        $( '#field_isRemoveFromCalculations' ).prop( "disabled", false );
+        $( '#field_numericalScore' ).prop( "disabled", false );
         $( '.controls' ).children().remove( '.shadow-element' );
     }
 };
@@ -418,6 +490,20 @@ $( document ).on( 'click', '.cisco-audit-flag-ckbox', function()
 {
 //    toggleWeightAnswer();
     if(typeof multipleAllowed !== 'undefined') { toggleBinaryAnswer( multipleAllowed ); };
+});
+/**
+ * call the toggleScoreAnswer function to show/hide the Y/N answer fields
+ */
+$( document ).on( 'click', '.cisco-audit-numerical-score-ckbox', function()
+{
+   toggleScoreAnswer();
+});
+/**
+ * call the toggleCritical function to show/hide the Y/N answer fields
+ */
+$( document ).on( 'click', '.cisco-audit-critical-ckbox', function()
+{
+    toggleCritical();
 });
 
 /**
@@ -433,9 +519,12 @@ $( document ).ready( function(){
     if(typeof multipleAllowed !== 'undefined') { toggleBinaryAnswer( multipleAllowed ); };
 
     ciscoBalloon($( '#field_flag' ),"right");
+    ciscoBalloon($( '#field_critical' ),"right");
     ciscoBalloon($( '#field_weight' ),"right");
     ciscoBalloon($( '#field_answer_acceptable' ),"right");
     ciscoBalloon($( '#field_answer_not_applicable' ),"right");
+    ciscoBalloon($( '#field_numericalScore' ),"right");
+    ciscoBalloon($( '#field_isRemoveFromCalculations' ),"right");
     ciscoBalloon($( '#form_title' ),"right");
     ciscoBalloon($( '#form_flagLabel' ),"right");
     ciscoBalloon($( '#form_allowMultipleAnswer' ),"right");
@@ -443,6 +532,8 @@ $( document ).ready( function(){
     ciscoBalloon($( '#audit-orphan-info' ),"left");
     ciscoBalloon($( '#audit-element-archived' ),"right");
 
+    toggleCritical();
+    toggleScoreAnswer();
 });
 
 function ciscoBalloon(element,position){

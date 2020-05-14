@@ -29,7 +29,7 @@ class SectionRepository extends SortableRepository
                 {
                     $array[$section->getForm()->getTitle()] = array();
                 }
-                $array[$section->getForm()->getTitle()][$section->getId()] = $section;
+                $array[$section->getForm()->getTitle()][$section->getTitle()] = $section;
             }
         }
 
